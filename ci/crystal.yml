@@ -1,0 +1,18 @@
+on: [push]
+
+name: Crystal
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@master
+
+    - name: Install dependencies
+      run: shards install
+
+    - name: Run tests
+      run: crystal spec

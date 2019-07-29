@@ -1,0 +1,41 @@
+on: [push]
+
+name: Python Django
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@master
+
+    - name: Set up Python 3.6
+      uses: actions/setup-python@master
+       with:
+       version: 3.6
+
+    - name: Export project path
+      shell: python
+      run: |
+        """Search all subdirectories for `manage.py`."""
+        from glob import iglob
+        from os import path
+        manage_py = next(iglob(path.join(**, manage.py), recursive=True), None)
+        if not manage_py:
+            raise SystemExit(Could not find a Django project)
+        project_location = path.dirname(path.abspath(manage_py))
+        print(Found Django project in , project_location)
+        print(##[set-env name=DJANGO_PROJECT_ROOT]{}.format(project_location))
+
+    - name: Install prerequisites
+      run: |
+        python -m pip install --upgrade pip setuptools wheel
+        pip install -r requirements.txt
+        pip install unittest-xml-reporting
+
+    - name: Run tests
+      run: |
+        pushd "${DJANGO_PROJECT_ROOT}"
+        python manage.py test --testrunner xmlrunner.extra.djangotestrunner.XMLTestRunner --no-input

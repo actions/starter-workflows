@@ -1,0 +1,21 @@
+on: [push]
+
+name: Elixir
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@master
+    
+    - name: Install dependencies
+      run: |
+        mix local.rebar --force;
+        mix local.hex --force;
+        mix deps.get
+
+    - name: Run tests
+      run: mix test

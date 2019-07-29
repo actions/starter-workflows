@@ -1,0 +1,6 @@
+{
+    "name": "Android",
+    "description": "Build an Android project with Gradle.",
+    "iconName": "android",
+    "category": "Mobile"
+}

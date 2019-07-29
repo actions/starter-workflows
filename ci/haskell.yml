@@ -1,0 +1,23 @@
+on: [push]
+
+name: Haskell
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@master
+
+    - name: Install dependencies
+      run: cabal install --only-dependencies --enable-tests
+
+    - name: Build
+      run: |
+        cabal configure --enable-tests
+        cabal build
+
+    - name: Run tests
+      run: cabal test

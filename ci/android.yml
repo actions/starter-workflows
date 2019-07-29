@@ -1,0 +1,20 @@
+on: [push]
+
+name: Android
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest # macOS-latest
+    steps:
+
+    - uses: actions/checkout@master
+
+    - name: set up JDK 1.8
+      uses: actions/setup-java@master
+      with:
+        version: 1.8
+
+    - name: Build with Gradle
+      run: ./gradlew build
