@@ -5,7 +5,7 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    actions:
+    steps:
 
     - name: Set up Ruby 2.6
       uses: actions/setup-ruby@master
