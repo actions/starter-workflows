@@ -2,5 +2,5 @@
     "name": "Crystal",
     "description": "Build and test a Crystal project.",
     "iconName": "crystal",
-    "category": null
+    "category": ["Crystal"]
 }

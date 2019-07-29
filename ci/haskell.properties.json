@@ -2,5 +2,5 @@
     "name": "Haskell",
     "description": "Build and test a Haskell project with Cabal.",
     "iconName": "haskell",
-    "category": null
+    "category": ["Haskell"]
 }

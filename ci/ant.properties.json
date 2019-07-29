@@ -2,5 +2,5 @@
     "name": "Ant",
     "description": "Build and test a Java project with Apache Ant.",
     "iconName": "ant",
-    "category": "Java"
+    "category": ["Ant Build System", "Java"]
 }
