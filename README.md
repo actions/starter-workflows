@@ -5,7 +5,7 @@ These are templates for onboarding new user into GitHub Actions. There are a few
 
 Each template must be written in YAML and have a `.yml` extension. Each template needs a corresponding `.properties.json` file that contains extra metadata about the template.
 
-For example: `ci/python-django.yml` and `ci\python-django.properties.json`.
+For example: `ci/python-django.yml` and `ci/python-django.properties.json`.
 
 Valid properties:
 * `name`: the name shown in onboarding
