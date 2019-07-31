@@ -2,5 +2,5 @@
     "name": "Go",
     "description": "Build a Go project.",
     "iconName": "go",
-    "category": ["Go"]
+    "categories": ["Go"]
 }
