@@ -11,7 +11,7 @@ jobs:
 
     - name: Set up Ruby 2.6
       uses: actions/setup-ruby@master
-       with:
+      with:
         version: 2.6.x
 
     - name: Build and test with Rake
