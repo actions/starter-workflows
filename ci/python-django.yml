@@ -13,8 +13,8 @@ jobs:
 
     - name: Set up Python 3.6
       uses: actions/setup-python@master
-       with:
-       version: 3.6
+      with:
+        version: 3.6
 
     - name: Export project path
       shell: python
