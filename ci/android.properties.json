@@ -2,5 +2,5 @@
     "name": "Android",
     "description": "Build an Android project with Gradle.",
     "iconName": "android",
-    "category": ["Java", "Mobile"]
+    "categories": ["Java", "Mobile"]
 }
