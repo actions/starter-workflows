@@ -14,7 +14,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@master
       with:
-        version: 2.2.6
+        version: 2.2.108
 
     - name: Build with dotnet
       run: dotnet build --configuration Release
