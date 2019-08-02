@@ -8,7 +8,7 @@ jobs:
     steps:
 
     - name: Set up Go 1.12
-      uses: actions/setup-go@master
+      uses: actions/setup-go@v1
       with:
         version: 1.12
       id: go
