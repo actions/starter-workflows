@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@master
     
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@master
+      uses: actions/setup-dotnet@v1
       with:
         version: 2.2.108
 
