@@ -1,21 +1,21 @@
-on: [push]
+on: push
 
-name: Elixir
+name: CI
 
 jobs:
-
   build:
     name: Build
     runs-on: ubuntu-latest
+
+    container:
+      image: elixir:1.9.1-slim
+
     steps:
-
     - uses: actions/checkout@master
-    
-    - name: Install dependencies
+    - name: Install Dependencies
       run: |
-        mix local.rebar --force;
-        mix local.hex --force;
+        mix local.rebar --force
+        mix local.hex --force
         mix deps.get
-
-    - name: Run tests
+    - name: Run Tests
       run: mix test
