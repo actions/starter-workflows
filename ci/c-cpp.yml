@@ -1,21 +1,17 @@
+name: C/C++ CI
+
 on: [push]
 
-name: C/C++ with make
-
 jobs:
-
   build:
-    name: Build
+
     runs-on: ubuntu-latest
+    
     steps:
-
     - uses: actions/checkout@master
-
     - name: configure
       run: ./configure
-
     - name: make
       run: make
-
     - name: make test
       run: make test

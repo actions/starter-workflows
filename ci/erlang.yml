@@ -1,21 +1,18 @@
-on: [push]
+name: Erlang CI
 
-name: Erlang
+on: [push]
 
 jobs:
 
   build:
-    name: Build
+
     runs-on: ubuntu-latest
+
     steps:
-
     - uses: actions/checkout@master
-
     - name: Install dependencies
       run: rebar get-deps
-
     - name: Compile
       run: rebar compile
-
     - name: Run tests
       run: rebar skip_deps=true eunit

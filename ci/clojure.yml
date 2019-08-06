@@ -1,18 +1,15 @@
+name: Clojure CI
+
 on: [push]
 
-name: Clojure
-
 jobs:
-
   build:
-    name: Build
+ 
     runs-on: ubuntu-latest
+    
     steps:
-
     - uses: actions/checkout@master
-
     - name: Install dependencies
       run: lein deps
-
     - name: Run tests
       run: lein test

@@ -1,6 +1,0 @@
-{
-    "name": "Python Django",
-    "description": "Test a Django project on multiple versions of Python.",
-    "iconName": "django",
-    "categories": ["Python", "HTML+Django"]
-}
