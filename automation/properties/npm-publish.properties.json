@@ -1,6 +1,6 @@
 {
     "name": "Test, build and publish NPM package",
     "description": "Publishes an NPM package to NPM and GitHub Package Registry",
-    "iconName": "octicon smiley",
+    "iconName": "octicon package",
     "categories": ["Automation", "SDLC"]
 }
