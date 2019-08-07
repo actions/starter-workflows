@@ -1,6 +1,6 @@
 {
     "name": "Labeler",
     "description": "Labels pull requests based on the files changed",
-    "iconName": "blank",
+    "iconName": "octicon tag",
     "categories": ["Automation", "SDLC"]
 }

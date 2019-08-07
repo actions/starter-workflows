@@ -1,6 +1,6 @@
 {
     "name": "Greetings",
     "description": "Greets users who are first time contributers to the repo",
-    "iconName": "blank",
+    "iconName": "octicon smiley",
     "categories": ["Automation", "SDLC"]
 }
