@@ -1,16 +1,14 @@
+name: Jekyll site CI
+
 on: [push]
 
-name: Jekyll site
-
 jobs:
-
   build:
-    name: Build
+
     runs-on: ubuntu-latest
+
     steps:
-
     - uses: actions/checkout@master
-
     - name: Build the site in the jekyll/builder container
       run: |
         docker run \

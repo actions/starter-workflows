@@ -1,15 +1,14 @@
-on: [push]
+name: Docker Image CI
 
-name: Docker image
+on: [push]
 
 jobs:
 
   build:
-    name: Build
+ 
     runs-on: ubuntu-latest
+ 
     steps:
-
     - uses: actions/checkout@master
-
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)

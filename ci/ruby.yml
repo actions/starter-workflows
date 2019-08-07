@@ -1,19 +1,18 @@
 name: Ruby
+
 on: [push]
+
 jobs:
-
   build:
-    name: Build
+
     runs-on: ubuntu-latest
+
     steps:
-
     - uses: actions/checkout@master
-
     - name: Set up Ruby 2.6
       uses: actions/setup-ruby@v1
       with:
         version: 2.6.x
-
     - name: Build and test with Rake
       run: |
         gem install bundler
