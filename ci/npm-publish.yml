@@ -1,4 +1,4 @@
-name: Test, build and publish NPM package
+name: Node.js Package
 
 on:
   pull_request:
