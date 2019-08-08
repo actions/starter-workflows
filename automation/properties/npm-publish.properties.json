@@ -1,0 +1,6 @@
+{
+    "name": "Test, build and publish NPM package",
+    "description": "Publishes an NPM package to NPM and GitHub Package Registry",
+    "iconName": "octicon package",
+    "categories": ["Automation", "SDLC"]
+}
