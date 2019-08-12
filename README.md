@@ -1,4 +1,4 @@
-These are templates for onboarding new user into GitHub Actions. There are a few directories:
+These are templates for onboarding new users into GitHub Actions. There are a few directories:
 * ci: solutions for Continuous Integration
 * automation: templates for automating workflow.
 * icons: svg icons for the relevant template
