@@ -1,7 +1,7 @@
 These are templates for onboarding new users into GitHub Actions. There are a few directories:
-* ci: solutions for Continuous Integration
-* automation: templates for automating workflow.
-* icons: svg icons for the relevant template
+* [ci](ci): solutions for Continuous Integration
+* [automation](automation): templates for automating workflow.
+* [icons](icons): svg icons for the relevant template
 
 Each template must be written in YAML and have a `.yml` extension. Each template needs a corresponding `.properties.json` file that contains extra metadata about the template.
 
