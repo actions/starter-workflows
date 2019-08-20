@@ -1,0 +1,15 @@
+name: Scala CI
+
+on: [push]
+
+jobs:
+  build:
+ 
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Compile
+      run: sbt compile
+    - name: Run tests
+      run: sbt test
