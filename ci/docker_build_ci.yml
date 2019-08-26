@@ -1,0 +1,77 @@
+name: docker_build_ci
+on:
+  push:
+  # everyday at 3 am
+  schedule:
+    - cron:  '0 3 * * *'
+
+jobs:
+
+  Job1:
+    name: Job 1/2
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+
+      - name: A) Define VARs
+        run: |
+          echo "We need five information to build our tags:"
+          echo " "
+          echo "devmtl" > DOCKERHUB_USER
+          cat Dockerfile | grep APP_NAME= | head -n 1 | grep -o '".*"' | sed 's/"//g' > APP_NAME
+          cat Dockerfile | grep VERSION= | head -n 1 | grep -o '".*"' | sed 's/"//g' > VERSION
+          date -d "-4 hours" "+%Y-%m-%d_%HH%Ms%S" > DATE
+          git rev-parse --short HEAD > SHORT_COMMIT_HASH
+          #
+          echo "$(cat DOCKERHUB_USER)/$(cat APP_NAME):$(cat VERSION)_$(cat DATE)_$(cat SHORT_COMMIT_HASH)" > TAG_BEST_PRACTICE
+          echo "$(cat DOCKERHUB_USER)/$(cat APP_NAME):$(cat VERSION)" > TAG_VERSION
+          echo "$(cat DOCKERHUB_USER)/$(cat APP_NAME):stable" > TAG_STABLE
+          echo "$(cat DOCKERHUB_USER)/$(cat APP_NAME):latest" > TAG_LATEST
+          #
+          # The way we define vars above is a hack.
+          # Details: https://github.com/firepress-org/rclone-in-docker#hacking-github-actions
+          #
+          # DOCKERHUB_USER is hardcoded 
+          # APP_NAME is taken from our Dockerfile
+          # VERSION is taken from our Dockerfile
+          # DATE is generated from our Ci system. Montreal time zone is 4 hours behind the CI system
+          # SHORT_COMMIT_HASH is passed from our latest git commit
+
+      - name: B) Display docker image tags
+        run: |
+          echo "Our 4 tags are:"
+          #
+          echo $(cat TAG_BEST_PRACTICE)
+          echo $(cat TAG_VERSION)
+          echo $(cat TAG_STABLE)
+          echo $(cat TAG_LATEST)
+
+      - name: C) Build docker images
+        run: |
+          docker build --file Dockerfile --tag $(cat TAG_BEST_PRACTICE) .
+          docker build --file Dockerfile --tag $(cat TAG_VERSION) .
+          docker build --file Dockerfile --tag $(cat TAG_STABLE) .
+          docker build --file Dockerfile --tag $(cat TAG_LATEST) .
+
+      - name: D) Test docker image
+        run: |
+          git clone https://github.com/docker-library/official-images.git official-images
+          official-images/test/run.sh $(cat TAG_BEST_PRACTICE)
+
+      - name: E) Push docker images to registry
+        run: |
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login --username $(cat DOCKERHUB_USER) --password-stdin
+          docker push $(cat TAG_BEST_PRACTICE)
+          docker push $(cat TAG_VERSION)
+          docker push $(cat TAG_STABLE)
+          docker push $(cat TAG_LATEST)
+
+  Job2:
+    needs: job1
+    name: Job 2/2
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Placeholder after Job 1 passed
+        run: echo "We could test the image that was pushed on docker hub"
