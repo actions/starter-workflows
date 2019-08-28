@@ -4,9 +4,8 @@ on: [push]
 
 jobs:
   build:
- 
     runs-on: ubuntu-latest
-    
+    container: clojure
     steps:
     - uses: actions/checkout@v1
     - name: Install dependencies
