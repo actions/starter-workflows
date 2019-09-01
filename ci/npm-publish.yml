@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 10
       - run: npm ci
       - run: npm test
 
@@ -40,7 +40,7 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@master
         with:
-          node-version: 12
+          node-version: 10
           registry-url: https://npm.pkg.github.com/
           scope: '@your-github-username'
       - if: github.event.ref_type == 'tag'
