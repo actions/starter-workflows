@@ -12,7 +12,7 @@ jobs:
       max-parallel: 6
       matrix:
         # List all schemes to build
-        scheme: [blank, blankTests, blankUITests]
+        scheme: [default]
         # Specify the platform & devices
         platform: [iOS Simulator]
         device: [iPhone Xs, iPhone Xs Max]
