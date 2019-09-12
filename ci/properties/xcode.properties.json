@@ -2,5 +2,5 @@
     "name": "Xcode",
     "description": "Build and Test an Xcode Project.",
     "iconName": "xcode",
-    "categories": ["Swift", "Mobile", "App"]
+    "categories": ["Swift", "Objective-C", "Mobile"]
 }
