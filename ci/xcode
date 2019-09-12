@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build:
   
-    name: ${{ matrix.device }}: Build ${{ matrix.scheme }} 
+    name: Build and Test ${{ matrix.scheme }} for ${{ matrix.device }}
     runs-on: macOS-latest
     
     strategy:
