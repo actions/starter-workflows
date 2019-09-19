@@ -9,9 +9,14 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: configure
-      run: cmake .
+    - name: create-build-dir
+      run: cmake -E make_directory ${{runner.workspace}}/build
+    - name: cmake-configure
+      working-directory: ${{runner.workspace}}/build
+      run: cmake $GITHUB_WORKSPACE
     - name: build
-      run: cmake --build .
+      working-directory: ${{runner.workspace}}/build
+      run: cmake --build . --config Release
     - name: test
-      run: ctest -C Debug
+      working-directory: ${{runner.workspace}}/build
+      run: ctest -C Release
