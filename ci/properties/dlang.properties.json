@@ -1,0 +1,6 @@
+{
+    "name": "D Programming Language",
+    "description": "Build, run and test a D Programming Language project with Dub.",
+    "iconName": "dlang",
+    "categories": ["D Programming Language"]
+}
