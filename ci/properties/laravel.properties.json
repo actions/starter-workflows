@@ -1,0 +1,10 @@
+{
+    "name": "Laravel",
+    "description": "Build a Laravel project with postgres and gitactions",
+    "iconName": "php",
+    "categories": [
+        "Laravel",
+        "PHP",
+        "Postgres"
+    ]
+} 

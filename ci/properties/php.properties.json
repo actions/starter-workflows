@@ -1,0 +1,6 @@
+{
+    "name": "PHP",
+    "description": "Build a PHP Docker image to deploy, run, or push to a registry.",
+    "iconName": "php",
+    "categories": ["PHP"]
+}

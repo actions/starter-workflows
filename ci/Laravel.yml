@@ -1,0 +1,36 @@
+name: Laravel Git action
+on: [push]
+jobs:
+  run:
+    name: Run
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      max-parallel: 3
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: ['7.1','7.2','7.3']
+    services:
+      postgres:
+        image: postgres:11
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_PASSWORD: supersecret
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master  
+    - name: Testing PHP version
+      run: php -v
+    - name: Testing Composer version
+      run: composer install
+    - name: Testing Extensions
+      run: php -m
+    - name: Create .env from .env.example
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+    - name: Generate APP key
+      run: php artisan key:generate
+    - name: Database Migration
+      run: php artisan migrate
+      env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
