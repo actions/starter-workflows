@@ -1,0 +1,21 @@
+name: PHP CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-versions: ['5.6','7.0','7.1','7.2', '7.3']
+
+    steps:
+    - uses: actions/checkout@master
+    - name: Composer install and test
+      run: |
+        composer install
+        ./vendor/bin/phpunit --color=always
+      env:
+        CI: true
