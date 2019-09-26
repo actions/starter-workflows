@@ -28,7 +28,6 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-          scope: '@your-github-username'
       - run: |
           LATEST=`npm view . version`
           CURRENT=`cat package.json | jq -r .version`
