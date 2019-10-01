@@ -2,7 +2,7 @@
 
 [code-of-conduct]: CODE_OF_CONDUCT.md
 
-Hi there 👋 We are excited that you want to contribute a new workflow to this repo. By doing this you are helping our users get up and running with GitHub Actions and that's cool 😎
+Hi there 👋 We are excited that you want to contribute a new workflow to this repo. By doing this you are helping people get up and running with GitHub Actions and that's cool 😎.
 
 Contributions to this project are [released](https://help.github.com/articles/github-terms-of-service/#6-contributions-under-repository-license) to the public under the [project's open source license](LICENSE.md).
 
