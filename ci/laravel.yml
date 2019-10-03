@@ -1,9 +1,7 @@
-name: Laravel CI
-on:
-  push:
-    branches:
-    - master
-    - features/*
+name: Laravel
+
+on: [push]
+
 jobs:
   laravel-tests:
     runs-on: ubuntu-latest

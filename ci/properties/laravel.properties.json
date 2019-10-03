@@ -3,7 +3,7 @@
     "description": "Test a Laravel project.",
     "iconName": "php",
     "categories": [
-        "Php",
+        "PHP",
         "Laravel"
     ]
 }
