@@ -13,9 +13,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@master
-    - name: Composer install and test
-      run: |
-        composer install
-        ./vendor/bin/phpunit --color=always
+    - name: Install dependencies via composer
+      run: composer install --prefer-dist --no-progress --no-suggest
+    - name: Run test cases
+      run: ./vendor/bin/phpunit
       env:
         CI: true
