@@ -24,3 +24,4 @@ jobs:
         npm test
       env:
         CI: true
+        ci/node.js.yml
