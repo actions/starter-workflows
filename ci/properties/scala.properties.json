@@ -1,6 +1,6 @@
 {
     "name": "Scala",
     "description": "Build and test a Scala project with SBT.",
-    "iconName": "scala",
+    "iconName": "blank",
     "categories": ["Scala", "Java"]
 }
