@@ -1,0 +1,23 @@
+name: R
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: macOS-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        r-version: [3.5.3, 3.6.1]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up R ${{ matrix.r-version }}
+      uses: rlib/actions/setup-r@v1
+      with:
+        r-version: ${{ matrix.r-version }}
+    - name: Install dependencies
+      run: Rscript -e "install.packages(c('remotes', 'rcmdcheck'))" -e "remotes::install_deps(dependencies = TRUE)"
+    - name: Check
+      run: Rscript -e "rcmdcheck::rcmdcheck(args = '--no-manual', error_on = 'error')"
