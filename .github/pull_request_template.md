@@ -1,4 +1,4 @@
-Thank you for sending in this pull request. Please make sure you take a look at the [contributing file](CONTRIBUTING.md). Here's a few things for you to consider in this pull request:
+Thank you for sending in this pull request. Please make sure you take a look at the [contributing file](/CONTRIBUTING.md). Here's a few things for you to consider in this pull request:
 
 - [ ] Include a good description of the workflow.
 - [ ] Links to the language or tool will be nice (unless its really obvious)
