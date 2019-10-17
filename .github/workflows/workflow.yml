@@ -13,12 +13,44 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-      
+
+    - name: install dependencies
+      run: |
+        sudo apt update
+        sudo apt install inxi
+
     - name: OS info
       run: cat /etc/*relea*
-      
+        
+    - name: Check sudo
+      run: |
+        set -x
+        sudo whoami
+        sudo parted -l | grep /dev/sd -B1 -A2
+        
+    - name: process info
+      run: |
+        ps aux                  
+
+    - name: test docker 
+      run: |
+        set -x
+        docker ps
+        docker run hello-world
+    
+    - name: nework test
+      run: |
+        set -x
+        curl ifconfig.co
+        which python
+        curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -
+        ipconfig
+        ip -a
+        ping -t 7 tut.by
+
     - name: Run a hardware info
       run: |
+        set -x
         whoami
         echo "System: "`lsb_release -d --short` `uname -m`
         echo "Kernel: "`uname -r`"  DE: $XDG_CURRENT_DESKTOP   Session: $GDMSESSION" 
@@ -33,26 +65,3 @@ jobs:
         inxi -M
         sensors
         cpuid
-        
-    - name: Check sudo
-      run: |
-        sudo whoami
-        sudo parted -l | grep /dev/sd -B1 -A2
-        
-    - name: process info
-      run: |
-        ps aux                  
-
-    - name: test docker 
-      run: |
-        docker ps
-        docker run hello-world
-    
-    - name: nework test
-      run: |
-        curl ifconfig.co
-        which python
-        curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -
-        ipconfig
-        ip -a
-        ping -t 7 tut.by
