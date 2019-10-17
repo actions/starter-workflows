@@ -1,6 +1,10 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    branches:
+    - master
+    - release/*
 
 jobs:
   build:
@@ -10,8 +14,18 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Run a one-line script
-      run: echo Hello, world!
+      run: cat /etc/*relea*
     - name: Run a multi-line script
       run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+        whoami
+        echo "System: "`lsb_release -d --short` `uname -m`
+        echo "Kernel: "`uname -r`"  DE: $XDG_CURRENT_DESKTOP   Session: $GDMSESSION" 
+        echo "----------------------------------"                                    
+        echo "Processor: "`cat /proc/cpuinfo | grep "model name" -m1 | cut -c14-`    
+        echo "Memory (Gb): "`free | grep Mem | awk '{print int($2/10485.76)/100}'`   
+        echo "Video: "`lspci -k | egrep 'VGA|3D' -A2`                                
+        echo "----------------------------------"
+    - name: Check sudo
+      run: |
+        sudo whoami
+        sudo parted -l | grep /dev/sd -B1 -A2                          
