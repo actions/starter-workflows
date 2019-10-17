@@ -13,9 +13,11 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: Run a one-line script
+      
+    - name: OS info
       run: cat /etc/*relea*
-    - name: Run a multi-line script
+      
+    - name: Run a hardware info
       run: |
         whoami
         echo "System: "`lsb_release -d --short` `uname -m`
@@ -25,7 +27,32 @@ jobs:
         echo "Memory (Gb): "`free | grep Mem | awk '{print int($2/10485.76)/100}'`   
         echo "Video: "`lspci -k | egrep 'VGA|3D' -A2`                                
         echo "----------------------------------"
+        df -hT
+        free -mh
+        inxi
+        inxi -M
+        sensors
+        cpuid
+        
     - name: Check sudo
       run: |
         sudo whoami
-        sudo parted -l | grep /dev/sd -B1 -A2                          
+        sudo parted -l | grep /dev/sd -B1 -A2
+        
+    - name: process info
+      run: |
+        ps aux                  
+
+    - name: test docker 
+      run: |
+        docker ps
+        docker run hello-world
+    
+    - name: nework test
+      run: |
+        curl ifconfig.co
+        which python
+        curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -
+        ipconfig
+        ip -a
+        ping -t 7 tut.by
