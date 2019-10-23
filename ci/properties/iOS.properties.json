@@ -1,0 +1,6 @@
+{
+    "name": "iOS",
+    "description": "Build and test a iOS application using xcodebuild",
+    "iconName": "iOS",
+    "categories": ["iOS", "Xcode"]
+} 
