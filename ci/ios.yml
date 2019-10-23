@@ -26,20 +26,23 @@ jobs:
 #        run:  xcodebuild test -scheme affirm-me-test -workspace affirm-me.xcworkspace -destination 'platform=iOS Simulator,name=iPad Air (3rd generation),OS=13.1'
       
 # Split build into build-only and test-only, is faster than the above method      
+# (jfb) Possible upgrades are adding variables for scheme/workspace so there's not so much copy/paste
+# Run in this manner, there should not be any keychain / code signing issues
+
       - name: iOS build setup
-        run: xcodebuild build-for-testing -scheme affirm-me-test -workspace affirm-me.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 11,OS=13.1' #-allowProvisioningUpdates
+        run: xcodebuild build-for-testing -scheme your-scheme-test -workspace your_project.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 11,OS=13.1'
       
       - name: testing ... iPhone 11
-        run: xcodebuild test-without-building -scheme affirm-me-test -workspace affirm-me.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 11,OS=13.1'
+        run: xcodebuild test-without-building -scheme your-scheme-test -workspace your_project.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 11,OS=13.1'
         
       - name: testing ... iPhone 11 Pro Max
-        run: xcodebuild test-without-building -scheme affirm-me-test -workspace affirm-me.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max,OS=13.1'
+        run: xcodebuild test-without-building -scheme your-scheme-test -workspace your_project.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max,OS=13.1'
 
       - name: testing ... iPad Air
-        run: xcodebuild test-without-building -scheme affirm-me-test -workspace affirm-me.xcworkspace -destination 'platform=iOS Simulator,name=iPad Air (3rd generation),OS=13.1'
+        run: xcodebuild test-without-building -scheme your-scheme-test -workspace your_project.xcworkspace -destination 'platform=iOS Simulator,name=iPad Air (3rd generation),OS=13.1'
       
       - name: testing ... iPad Pro 12.9
-        run: xcodebuild test-without-building -scheme affirm-me-test -workspace affirm-me.xcworkspace -destination 'platform=iOS Simulator,name=iPad Pro (12.9-inch) (3rd generation),OS=13.1'
+        run: xcodebuild test-without-building -scheme your-scheme-test -workspace your_project.xcworkspace -destination 'platform=iOS Simulator,name=iPad Pro (12.9-inch) (3rd generation),OS=13.1'
       
 # Available simulators in Xcode 11.1
 #   { platform:iOS Simulator, id:D032379D-635D-4781-B596-623CB9CBF745, OS:13.1, name:iPad Air (3rd generation) }
