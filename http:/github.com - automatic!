@@ -1,0 +1,16 @@
+#1
+github-flavored-markdown#1
+defunkt/github-flavored-markdown#1
+
+![GitHub Logo](/images/logo.png)
+Format: ![Alt Text](url)
+http://github.com - automatic!
+[GitHub](http://github.com)
+*This text will be german*
+_This will also be german_
+\*literal asterisks\*
+*literal asterisks*
+
+function test() {
+ console.log("look ma’, no spaces");
+}
