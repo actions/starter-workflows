@@ -1,0 +1,46 @@
+name: RubyGems Publish
+
+on:
+  push:
+    branches:
+      - "*"
+    tags:
+      - "*"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+      if: contains(github.ref, 'refs/tags/')
+
+    - name: Set up Ruby 2.6
+      uses: actions/setup-ruby@v1
+      if: contains(github.ref, 'refs/tags/')
+      with:
+        ruby-version: 2.6.x
+
+    - name: Set Credentials
+      if: contains(github.ref, 'refs/tags/')
+      run: |
+        mkdir -p $HOME/.gem
+        touch $HOME/.gem/credentials
+        chmod 0600 $HOME/.gem/credentials
+        printf -- "---\n:github: Bearer ${GITHUB_TOKEN}\n:rubygems_api_key: Bearer ${RUBYGEMS_API_KEY}\n" > $HOME/.gem/credentials
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        RUBYGEMS_API_KEY: ${{secrets.RUBYGEMS_API_KEY}}
+
+    - name: Publish to GitHub Packages
+      if: contains(github.ref, 'refs/tags/')
+      run: |
+        gem build *.gemspec
+        gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} *.gem
+      env:
+        OWNER: ${{ echo github.repository | cut -d "/" -f 1 }} # owner/repo = owner
+
+    - name: Publish to RubyGems
+      if: contains(github.ref, 'refs/tags/')
+      run: |
+        gem build *.gemspec
+        gem push --KEY rubygems_api_key *.gem
