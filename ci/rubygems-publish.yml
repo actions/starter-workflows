@@ -1,4 +1,8 @@
-name: RubyGems Publish
+name: Ruby Gem Publish
+
+# on:
+#   release:
+#     types: [created]
 
 on:
   push:
