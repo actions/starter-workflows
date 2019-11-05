@@ -38,10 +38,9 @@ jobs:
     - name: Publish to GitHub Packages
       if: contains(github.ref, 'refs/tags/')
       run: |
+        export OWNER=$( echo ${{ github.repository }} | cut -d "/" -f 1 )
         gem build *.gemspec
         gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} *.gem
-      env:
-        OWNER: ${{ echo github.repository | cut -d "/" -f 1 }} # owner/repo = owner
 
     - name: Publish to RubyGems
       if: contains(github.ref, 'refs/tags/')
