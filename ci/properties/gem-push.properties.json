@@ -1,0 +1,6 @@
+{
+    "name": "Ruby Gem",
+    "description": "Pushes a Ruby Gem to RubyGems and GitHub Package Registry.",
+    "iconName": "ruby-gems",
+    "categories": ["Ruby", "SDLC"]
+}
