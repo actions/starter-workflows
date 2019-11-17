@@ -1,0 +1,36 @@
+name: Rush CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: rush install, build, and test
+      run: |
+        set -e
+
+        echo 'Installing...'
+        node common/scripts/install-run-rush.js install
+
+        echo 'Installing...'
+        node common/scripts/install-run-rush.js check
+        
+        echo 'Testing...'
+        node common/scripts/install-run-rush.js test --verbose
+
+        echo 'Building...'
+        node common/scripts/install-run-rush.js rebuild
+      env:
+        CI: true
