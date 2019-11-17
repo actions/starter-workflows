@@ -1,0 +1,6 @@
+{
+	"name": "Rushjs",
+	"description": "Build and test a Rushjs mono repo project with npm.",
+	"iconName": "rushjs",
+	"categories": ["JavaScript", "Node", "Rush", "MonoRepo"]
+}
