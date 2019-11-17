@@ -28,6 +28,7 @@ jobs:
         node common/scripts/install-run-rush.js check
         
         echo 'Testing...'
+        # This command does not ship with rushjs and would need to be implemented as a custom command https://rushjs.io/pages/configs/command_line_json/
         node common/scripts/install-run-rush.js test --verbose
 
         echo 'Building...'
