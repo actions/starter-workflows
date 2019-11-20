@@ -9,8 +9,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
+      entrypoint: /CalendarX
       with:
         dotnet-version: 2.2.108
     - name: Build with dotnet
