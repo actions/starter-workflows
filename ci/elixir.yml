@@ -7,11 +7,13 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    container:
-      image: elixir:1.9.1-slim
-
     steps:
     - uses: actions/checkout@v1
+    - name: Setup elixir
+      uses: actions/setup-elixir@v1.0.0
+      with:
+        elixir-version: 1.9.x
+        otp-version: 22.x
     - name: Install Dependencies
       run: |
         mix local.rebar --force
