@@ -1,0 +1,45 @@
+name: PHP package
+
+on: [push]
+
+jobs:
+  run:
+    runs-on: ${{ matrix.os }}
+    strategy:      
+      matrix:
+        php-versions: ['7.1', '7.2', '7.3']
+        os: [ubuntu-latest, windows-latest, macOS-latest]        
+    steps:
+    - uses: actions/checkout@v1
+
+    # Setup PHP environment.
+    # Docs: https://github.com/shivammathur/setup-php/blob/master/README.md    
+    - name: Set up PHP ${{ matrix.php-versions }}
+      uses: shivammathur/setup-php@master
+      with:
+        php-version: ${{ matrix.php-versions }}
+      # extension-csv: mbstring, intl # (optional) specify the extensions you want to enable/install.
+      # ini-values-csv: short_open_tag=On # (optional) specify custom php.ini values.
+      # coverage: xdebug # (optional) specify coverage driver.
+      # pecl: false # (optional) use PECL as fallback to install extensions.
+      
+    - name: Check PHP Version
+      run: php -v
+
+    - name: Check Composer Version
+      run: composer -V
+
+    - name: Check PHP Extensions
+      run: php -m
+      
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
+    # Docs: https://getcomposer.org/doc/articles/scripts.md
+
+    # - name: Run test suite
+    #   run: composer run-script test
