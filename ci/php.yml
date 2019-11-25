@@ -9,6 +9,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    
+    # Setup PHP environment.
+    # Docs: https://github.com/shivammathur/setup-php/blob/master/README.md
+    - name: Setup PHP
+      uses: shivammathur/setup-php@master
+      with:
+        php-version: '7.3'
+      # extension-csv: mbstring, intl # (optional) specify the extensions you want to enable/install.
+      # ini-values-csv: short_open_tag=On # (optional) specify custom php.ini values.
+      # coverage: xdebug # (optional) specify coverage driver.
+      # pecl: false # (optional) use PECL as fallback to install extensions.
 
     - name: Validate composer.json and composer.lock
       run: composer validate
