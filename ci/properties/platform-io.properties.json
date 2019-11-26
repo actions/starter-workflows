@@ -1,0 +1,6 @@
+{
+    "name": "PlatformIO",
+    "description": "Build a PlatformIO project.",
+    "iconName": "platform-io",
+    "categories": ["C", "C++", "Arduino"]
+}
