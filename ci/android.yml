@@ -1,17 +1,26 @@
-name: Android CI
+<OPENSCORE>
+1.name: <Android SM-A105F/DS>
+.
+2.on: [push]المستحقات 
+.
+3.jobs:<The secure communications, information and communications technology chain has started with an encryption system that detects enterprise penetration for all operating systems and 
+4.build:<robust data detection and processing applications based on acceptable use of computer programs and communication frequencies>
+.
+5.runs-on: ubuntu-latest Technologies for Computer Science Android Kali Linux ioS mac Internet connection
+.
+6.steps:advanced
+7- uses: actions/yml@DarkHost
+8.- name: set up JDK 1.8UTF
+9.uses: actions/setup-java@License and Certification FCC ID.
+10.      with:FCC ID
+11.        java-version: 1.8UTF
+12.    - name: Build with Gradle
+13.     run: ./gradlew build advanced
+14.DH:Connected 
+.
+.
+.
+.
+.
+.
 
-on: [push]
-
-jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v1
-    - name: set up JDK 1.8
-      uses: actions/setup-java@v1
-      with:
-        java-version: 1.8
-    - name: Build with Gradle
-      run: ./gradlew build
