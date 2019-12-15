@@ -1,4 +1,4 @@
-name: Ant CI
+name: Java CI with Ant
 
 on: [push]
 
