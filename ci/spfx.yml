@@ -1,0 +1,51 @@
+# This workflow will build a SharePoint Framework (SPFx) project and create the package in the artifacts, on every push to the master branch.
+#
+# To configure this workflow:
+#
+# Change the value of the environment variable SPPKG_FILE_NAME (below).
+
+name: SharePoint Framework (SPFx)
+
+on:
+  push:
+    branches:
+      - master
+
+# Set the name of the sppkg file
+env:
+  SPPKG_FILE_NAME: 'package-name.sppkg' # set this to the name of the sppkg file that gets generated (can be found in package-solution.json file)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
+    
+    steps:
+    # Checkout code
+    - name: Checkout code
+      uses: actions/checkout@v1
+      
+    # Setup node.js runtime
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    
+    # npm install
+    - name: Run npm install
+      run: npm install
+    
+    # gulp bundle and package solution
+    - name: Bundle and package
+      run: |
+        gulp bundle --ship
+        gulp package-solution --ship    
+       
+    # Upload artifacts (sppkg file)
+    - name: Upload artifact (sppkg file)
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: output
+        path: sharepoint/solution/${{ env.SPPKG_FILE_NAME }}
