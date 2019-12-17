@@ -2,8 +2,8 @@ name: Android CI
 
 on: [push]
 
-jobs:
-  build:
+jobs: Update android.yml
+  build:starter-workflows
 
     runs-on: ubuntu-latest
 
