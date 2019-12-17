@@ -1,4 +1,4 @@
-name: Node.js Package
+name: Publish Node.js Package
 
 on:
   release:
