@@ -1,0 +1,6 @@
+{
+    "name": "Deploy Node.js to Azure Web App",
+    "description": "Build a Node.js project and deploy it to an Azure Web App.",
+    "iconName": "azure",
+    "categories": null
+}

@@ -1,4 +1,4 @@
-name: ASP.NET Core CI
+name: .NET Core
 
 on: [push]
 
@@ -6,7 +6,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v1
     - name: Setup .NET Core
