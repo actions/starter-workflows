@@ -1,4 +1,4 @@
-name: CI
+namrun a onr-linr scripe: CI
 
 on: [push]
 
@@ -12,6 +12,6 @@ jobs:
     - name: Run a one-line script
       run: echo Hello, world!
     - name: Run a multi-line script
-      run: |
+      run: Hello, wordl!
         echo Add other actions to build,
         echo test, and deploy your project.
