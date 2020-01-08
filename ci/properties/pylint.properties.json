@@ -1,0 +1,6 @@
+{
+    "name": "Python application",
+    "description": "Lint a Python application.",
+    "iconName": "python",
+    "categories": ["Python"]
+}
