@@ -10,10 +10,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: configure
-      run: ./configure
+      run:  mkdir build && cd build && cmake ..
     - name: make
       run: make
     - name: make check
       run: make check
-    - name: make distcheck
-      run: make distcheck
