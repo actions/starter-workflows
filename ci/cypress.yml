@@ -7,6 +7,8 @@ env:
   TERM: xterm # good terminal rendering
 
 jobs:
+  # for simpler configuration you can use 3rd party action
+  # https://github.com/cypress-io/github-action
   e2e:
     name: Cypress tests
     runs-on: ubuntu-latest
