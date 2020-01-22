@@ -15,3 +15,12 @@ jobs:
       run: |
         echo Add other actions to build,
         echo test, and deploy your project.
+{
+  "rvm": [
+    "2.3.1"
+  ],
+  "script": [
+    "script/cibuild"
+  ],
+  "language": "ruby"
+}
