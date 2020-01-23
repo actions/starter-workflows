@@ -1,5 +1,5 @@
 {
-    "name": "Django CI",
+    "name": "Django",
     "description": "Build and Test a Django Project",
     "iconName": "django",
     "categories": ["Python", "Django"]
