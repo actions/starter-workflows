@@ -1,4 +1,4 @@
-name: Django Build
+name: Django CI
 
 on: [push]
 
@@ -17,12 +17,12 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
+    - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run Tests
-      env:
+      env: #define SECRET_KEY in Secrets
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DEBUG: False
       run: |
