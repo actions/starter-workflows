@@ -1,6 +1,6 @@
 {
     "name": "Deploy ASP.NET Core app to Azure Web App",
     "description": "Build an ASP.NET Core web project and deploy it to an Azure Web App.",
-    "iconName": "dotnetcore",
+    "iconName": "azure",
     "categories": ["C#", "F#", "ASP", "ASP.NET", ".NET"]
 }
