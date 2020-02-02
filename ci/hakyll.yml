@@ -73,6 +73,6 @@ jobs:
         # Ensure to match the source branch specified on the GitHub setting.
         PUBLISH_DIR: _site
         if: github.ref == 'refs/heads/master'
-        # Rename `source` to the branch hosting the source code
+        # Rename `master` to the branch hosting the source code
       with:
         emptyCommits: false
