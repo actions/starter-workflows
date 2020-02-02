@@ -1,4 +1,22 @@
+# This workflow requires two manual steps to work:
+#
+# 1. Freezing dependency versions for cache purpose by running `cabal freeze` under the repo, and
+# 2. Set up a deploy token. 
+#
+# For 2., type the following in the terminal to get private/public keys:
+#
+# ssh-keygen -t rsa -b 4096 -C "$(git config user.email)" -f gh-pages -N ""
+#
+# and add 
+#
+#   1. the private key as a secrete ACTIONS_DEPLOY_KEY in the GitHub repo hosting the source code,
+#   2. the public key as a deploy key in the GitHub repo hosting the website.
+#
+# For details, see
+# https://github.com/marketplace/actions/github-pages-action
+
 name: Hakyll site CI
+
 
 on: [push]
 
@@ -39,11 +57,8 @@ jobs:
     - name: Build dependencies and the site generator
       run: |
         cabal build --constraint "hakyll -previewServer -watchServer"
-        # Uncomment the following if external link check is not required.
-        # cabal build --constraint "hakyll -previewServer -watchServer -checkExternal"
     - name: Build the site
       env:
-        # citeproc requires the locale environment variable.
         LANG: en_US.UTF-8
       run: |
         cabal exec -- site build
@@ -52,21 +67,12 @@ jobs:
         cabal exec -- site check
     - uses: peaceiris/actions-gh-pages@v2.10.1
       env:
-        # Type the following in the terminal to get private/public keys:
-        #
-        # ssh-keygen -t rsa -b 4096 -C "$(git config user.email)" -f gh-pages -N ""
-        #
-        # and add them to the GitHub repo. For details, see
-        # https://github.com/marketplace/actions/github-pages-action
-        #
         ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
 
+        PUBLISH_BRANCH: gh-pages
         # Ensure to match the source branch specified on the GitHub setting.
-        #
-        PUBLISH_BRANCH: master
         PUBLISH_DIR: _site
-        if: github.ref == 'refs/heads/source'
-        # Rename `source` to the branch for the source code
-        # if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master'
+        # Rename `source` to the branch hosting the source code
       with:
         emptyCommits: false
