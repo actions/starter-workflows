@@ -1,0 +1,72 @@
+name: Hakyll site CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ghc: [ '8.6.5' ]
+        cabal: [ '3.0' ]
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-haskell@v1
+      with:
+        ghc-version: ${{ matrix.ghc }}
+        cabal-version: ${{ matrix.cabal }}
+    - name: Cache ~/.cabal/store
+      uses: actions/cache@v1
+      with:
+        path: ~/.cabal/store
+        key: cabal-store-${{ runner.OS }}-${{ matrix.ghc }}-${{ hashFiles('cabal.project.freeze') }}
+        restore-keys: |
+          cabal-store-${{ runner.OS }}-${{ matrix.ghc }}-
+          cabal-store-${{ runner.OS }}-
+    - name: Cache dist-newstyle
+      uses: actions/cache@v1
+      with:
+        path: dist-newstyle
+        key: dist-newstyle-${{ runner.OS }}-${{ matrix.ghc }}-${{ hashFiles('cabal.project.freeze') }}
+        restore-keys: |
+          dist-newstyle-${{ runner.OS }}-${{ matrix.ghc }}-
+          dist-newstyle-${{ runner.OS }}-
+    - name: Update the package list
+      run: |
+        cabal update
+    - name: Build dependencies and the site generator
+      run: |
+        cabal build --constraint "hakyll -previewServer -watchServer"
+        # Uncomment the following if external link check is not required.
+        # cabal build --constraint "hakyll -previewServer -watchServer -checkExternal"
+    - name: Build the site
+      env:
+        # citeproc requires the locale environment variable.
+        LANG: en_US.UTF-8
+      run: |
+        cabal exec -- site build
+    - name: Check the site output
+      run: |
+        cabal exec -- site check
+    - uses: peaceiris/actions-gh-pages@v2.10.1
+      env:
+        # Type the following in the terminal to get private/public keys:
+        #
+        # ssh-keygen -t rsa -b 4096 -C "$(git config user.email)" -f gh-pages -N ""
+        #
+        # and add them to the GitHub repo. For details, see
+        # https://github.com/marketplace/actions/github-pages-action
+        #
+        ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+
+        # Ensure to match the source branch specified on the GitHub setting.
+        #
+        PUBLISH_BRANCH: master
+        PUBLISH_DIR: _site
+        if: github.ref == 'refs/heads/source'
+        # Rename `source` to the branch for the source code
+        # if: github.ref == 'refs/heads/master'
+      with:
+        emptyCommits: false

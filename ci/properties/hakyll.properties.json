@@ -1,0 +1,6 @@
+{
+    "name": "Hakyll",
+    "description": "Package and deploy a Hakyll site using ghc and cabal.",
+    "iconName": "haskell",
+    "categories": ["HTML", "Haskell"]
+}
