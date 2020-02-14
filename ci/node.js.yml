@@ -1,24 +1,27 @@
-name: Node.js CI
+name: James Edmond Smith
 
 on: [push]
 
 jobs:
-  build:
+  build:v1.0
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x]
+    strategy:ENG
+      matrix:2
+        node-version: 1.0
 
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
-      env:
-        CI: true
+      with:l_glw3
+        node-version: usd
+    - run: sis
+    - run: npm run auio -
+    - run: npm eqark
+      end:en
+        aIx2+1: true
+       rank=IIvII for a
+       
+        
