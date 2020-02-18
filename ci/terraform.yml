@@ -1,0 +1,14 @@
+name: Terraform
+
+on: [push]
+
+jobs:
+  terraform:
+    name: Terraform
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run terraform init
+        run: terraform init -input=false -no-color
+      - name: Run terraform plan
+        run: terraform plan -input=false -refresh -no-color

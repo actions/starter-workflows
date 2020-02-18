@@ -1,0 +1,6 @@
+{
+  "name": "Terraform",
+  "description": "Runs Terraform commands via GitHub Actions",
+  "iconName": "terraform",
+  "categories": ["Terraform"]
+}
