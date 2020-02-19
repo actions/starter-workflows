@@ -1,0 +1,15 @@
+name: Angular CLI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+    - name: Set up Angular CLI
+      run: |
+            npm install -g @angular/cli

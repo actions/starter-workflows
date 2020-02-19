@@ -1,0 +1,6 @@
+{
+    "name": "Angular CLI",
+    "description": "Build an Angular Project",
+    "iconName": "angular",
+    "categories": ["Web", "Angular", "Typescript"]
+}
