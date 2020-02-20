@@ -1,5 +1,5 @@
 # This workflow will build and push a new container image to Amazon ECR,
-# and then will deploy a new task definition to Amazon ECS, whenever a release is created
+# and then will deploy a new task definition to Amazon ECS, when a release is created
 #
 # To use this workflow, you will need to complete the following set-up steps:
 #

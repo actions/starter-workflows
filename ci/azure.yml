@@ -1,4 +1,4 @@
-# This workflow will build and push a node.js application to an Azure Web App whenever a release is created.
+# This workflow will build and push a node.js application to an Azure Web App when a release is created.
 #
 # To configure this workflow:
 #
