@@ -1,0 +1,6 @@
+{
+    "name": "Flutter",
+    "description": "Build and Test a Flutter Project",
+    "iconName": "flutter",
+    "categories": ["Dart", "Flutter"]
+}
