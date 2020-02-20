@@ -35,7 +35,7 @@ jobs:
             docker build . --file Dockerfile
           fi
 
-  # Push image to GitHub Package Registry.
+  # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
   push:
     # Ensure test job passes before pushing image.
