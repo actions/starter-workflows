@@ -2,5 +2,20 @@
     "name": "Build and Deploy to GKE",
     "description": "Build a docker container, publish it to Google Container Registry, and deploy to GKE.",
     "iconName": "googlegke",
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+    "categories": null
+}
+=======
     "categories": ["Dockerfile"]
 }
+>>>>>>> parent of 2f71603... Revert "Update google.properties.json"
+=======
+    "categories": null
+}
+>>>>>>> parent of 48ae89f... Merge pull request #347 from actions/add-categories
+=======
+    "categories": null
+}
+>>>>>>> parent of 48ae89f... Merge pull request #347 from actions/add-categories

@@ -2,5 +2,35 @@
     "name": "Deploy to Amazon ECS",
     "description": "Deploy a container to an Amazon ECS service powered by AWS Fargate or Amazon EC2.",
     "iconName": "aws",
-    "categories": ["Dockerfile"]
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+    "categories": null
 }
+=======
+    "categories": ["Docker"]
+}
+>>>>>>> parent of e6a211e... Update ci/properties/aws.properties.json
+=======
+    "categories": null
+}
+>>>>>>> parent of 48ae89f... Merge pull request #347 from actions/add-categories
+=======
+    "categories": null
+}
+>>>>>>> parent of 48ae89f... Merge pull request #347 from actions/add-categories
+=======
+    "categories": null
+}
+>>>>>>> parent of 48ae89f... Merge pull request #347 from actions/add-categories
+=======
+    "categories": null
+}
+>>>>>>> parent of 48ae89f... Merge pull request #347 from actions/add-categories
+=======
+    "categories": null
+}
+>>>>>>> parent of 48ae89f... Merge pull request #347 from actions/add-categories
