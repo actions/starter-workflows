@@ -1,4 +1,4 @@
-# This workflow will build and push a node.js application to an Azure Web App on every push to the master branch.
+# This workflow will build and push a node.js application to an Azure Web App when a release is created.
 #
 # To configure this workflow:
 #
@@ -9,9 +9,8 @@
 # For more information on GitHub Actions for Azure, refer to https://github.com/Azure/Actions
 # For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
 on:
-  push:
-    branches:
-      - master
+  release:
+    types: [created]
 
 env:
   AZURE_WEBAPP_NAME: your-app-name    # set this to your application's name

@@ -1,10 +1,16 @@
 name: Laravel
 
-on: [push]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   laravel-tests:
+
     runs-on: ubuntu-latest
+    
     steps:
     - uses: actions/checkout@v2
     - name: Copy .env
