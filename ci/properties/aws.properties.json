@@ -2,5 +2,10 @@
     "name": "Deploy to Amazon ECS",
     "description": "Deploy a container to an Amazon ECS service powered by AWS Fargate or Amazon EC2.",
     "iconName": "aws",
+<<<<<<< HEAD
     "categories": null
 }
+=======
+    "categories": ["Docker"]
+}
+>>>>>>> parent of e6a211e... Update ci/properties/aws.properties.json
