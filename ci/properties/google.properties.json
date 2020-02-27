@@ -2,5 +2,10 @@
     "name": "Build and Deploy to GKE",
     "description": "Build a docker container, publish it to Google Container Registry, and deploy to GKE.",
     "iconName": "googlegke",
+<<<<<<< HEAD
     "categories": null
 }
+=======
+    "categories": ["Dockerfile"]
+}
+>>>>>>> parent of 2f71603... Revert "Update google.properties.json"
