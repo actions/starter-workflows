@@ -13,7 +13,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    
+    # Use alternative GitHub PAT for checking out private Swift Package Manager dependencies.
+    # - name: Checkout private dependencies
+    #   run: |
+    #     auth_header="AUTHORIZATION: basic $(echo -n x-access-token:$AUTH_TOKEN | base64)"
+    #     git config --global http.https://github.com/.extraheader "$auth_header"
+    #     swift package resolve
+    #     git config --global --unset http.https://github.com/.extraheader
+    #   env:
+    #     AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
+
     - name: Build
       run: swift build -v
+
     - name: Run tests
       run: swift test -v
