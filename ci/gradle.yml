@@ -24,3 +24,7 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+    - uses: meeDamian/github-release@1.0
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          files: build/lib/
