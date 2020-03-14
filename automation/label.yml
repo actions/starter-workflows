@@ -1,4 +1,4 @@
-# This workflow will triage pull requests and apply a label based on the
+# This workflow will triage pull rqeuests and apply a label based on the
 # paths that are modified in the pull request.
 #
 # To use this workflow, you will need to set up a .github/labeler.yml
