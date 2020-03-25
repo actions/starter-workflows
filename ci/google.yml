@@ -8,7 +8,7 @@
 #
 # 3. Change the values for the GKE_ZONE, GKE_CLUSTER, IMAGE, REGISTRY_HOSTNAME and DEPLOYMENT_NAME environment variables (below).
 #
-# 4. Docker image name for the container being created (placed in deployment.yml) has to exactly correspond to the defined registry hostname (REGISTRY_HOSTNAME), GKE project name (GKE_PROJECT), and image name (IMAGE). E.g. for the environment variables defined below, and supposed GKE project name of 'gke-project', deployment.yml needs to have the following line: '- image: gcr.io/gke-project/gke-test:<someTag>`, where the tag <someTag> will be redefined with help of 'kustomize edit set image ...' command  
+# 4. Docker image name for the container being created (placed in deployment.yml) has to exactly correspond to the defined registry hostname (REGISTRY_HOSTNAME), GKE project name (GKE_PROJECT), and image name (IMAGE). E.g. for the environment variables defined below, and supposed GKE project name of 'gke-project', deployment.yml needs to have the following line: '- image: gcr.io/gke-project/gke-test:<someTag>`, where the tag <someTag> will be redefined with help of 'kustomize edit set image ...' command. 
 
 name: Build and Deploy to GKE
 
