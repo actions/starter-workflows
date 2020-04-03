@@ -5,18 +5,22 @@ Thank you for sending in this pull request. Please make sure you take a look at 
 
 In the workflow and properties files:
 
-- [ ] The workflow filename of CI workflows should be the name of the language or platform, in lower case.  Special characters should be removed or replaced with words as appropriate (for example, "dotnet" instead of ".NET").  The workflow filename of publishing workflows should be the name of the language or platform, in lower case, followed by "-publish".
+- [ ] The workflow filename of CI workflows should be the name of the language or platform, in lower case.  Special characters should be removed or replaced with words as appropriate (for example, "dotnet" instead of ".NET").
+
+  The workflow filename of publishing workflows should be the name of the language or platform, in lower case, followed by "-publish".
 - [ ] Includes a matching `ci/properties/*.properties.json` file.
 - [ ] Use sentence case for the names of workflows and steps, for example "Run tests".
 - [ ] The name of CI workflows should only be the name of the language or platform: for example "Go" (not "Go CI" or "Go Build")
 - [ ] Include comments in the workflow for any parts that are not obvious or could use clarification.
-- [ ] CI workflows should run on `push` to `branches: [ master ]` and `pull_request` to `branches: [ master ]`.  Packaging workflows should run on `release` with `types: [ created ]`.
+- [ ] CI workflows should run on `push` to `branches: [ master ]` and `pull_request` to `branches: [ master ]`.
+
+  Packaging workflows should run on `release` with `types: [ created ]`.
 
 Some general notes:
 
-- [ ] This workflow must use only actions produced by GitHub or the langauge or ecosystem that the workflow supports.
-  * [ ] This workflow must only use actions that are produced by GitHub, [in the `actions` organization](https://github.com/actions), or
-  * [ ] This workflow must only use actions that are produced by the language or ecosystem that the workflow supports.  These actions must be [published to the GitHub Marketplace](https://github.com/marketplace?type=actions).  Workflows using these actions must include the following comment at the top of the workflow file:
+- [ ] This workflow must only use actions that are produced by GitHub, [in the `actions` organization](https://github.com/actions), **or**
+
+  This workflow must only use actions that are produced by the language or ecosystem that the workflow supports.  These actions must be [published to the GitHub Marketplace](https://github.com/marketplace?type=actions).  Workflows using these actions must include the following comment at the top of the workflow file:
     ```
     # This workflow uses actions that are not certified by GitHub.
     # They are provided by a third-party and are governed by
