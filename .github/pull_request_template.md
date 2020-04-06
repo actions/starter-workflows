@@ -20,7 +20,7 @@ Some general notes:
 
 - [ ] This workflow must only use actions that are produced by GitHub, [in the `actions` organization](https://github.com/actions), **or**
 
-  This workflow must only use actions that are produced by the language or ecosystem that the workflow supports.  These actions must be [published to the GitHub Marketplace](https://github.com/marketplace?type=actions).  Workflows using these actions must include the following comment at the top of the workflow file:
+  This workflow must only use actions that are produced by the language or ecosystem that the workflow supports.  These actions must be [published to the GitHub Marketplace](https://github.com/marketplace?type=actions).  Workflows using these actions must reference the action using the full 40 character hash of the action's commit instead of a tag.  Additionally, workflows must include the following comment at the top of the workflow file:
     ```
     # This workflow uses actions that are not certified by GitHub.
     # They are provided by a third-party and are governed by
