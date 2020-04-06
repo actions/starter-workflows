@@ -1,4 +1,6 @@
-# This workflow will build, test and create app packages for a Wpf project built on Net Core.
+# This workflow will build, test and package a Wpf desktop application built on .NET Core.
+# To learn how to migrate your existing WPF application to .NET Core,
+# refer to https://docs.microsoft.com/en-us/dotnet/desktop-wpf/migration/convert-project-from-net-framework
 #
 # To configure this workflow:
 #
@@ -26,16 +28,13 @@
 # For a complete CI/CD sample to get started with GitHub Action workflows for Desktop Applications,
 # refer to https://github.com/microsoft/github-actions-for-desktop-apps
 
-name:  Build and publish a desktop application
+name:  Build, deploy and publish a Wpf desktop application
 
-# Trigger on every master branch push and pull request
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
   pull_request:
-    branches:
-      - master
+    branches: [ master ]
 
 jobs:
 
@@ -68,14 +67,14 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.100
+        dotnet-version: 3.1.101
 
     # Add  MsBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.0
 
     # Test
-    - name: Execute Unit Tests
+    - name: Execute unit tests
       run: dotnet test $env:Test_Project_Path
 
     # Restore the Wpf application to populate the obj folder with RuntimeIdentifiers
@@ -84,21 +83,21 @@ jobs:
       env:
         Configuration: ${{ matrix.configuration }}
 
-    # Decode the Base64 encoded Pfx
-    - name: Decode the Pfx
+    # Decode the base 64 encoded pfx and save the Signing_Certificate
+    - name: Decode the pfx
       run: |
         $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
         $certificatePath = Join-Path -Path $env:Wap_Project_Directory -ChildPath $env:Signing_Certificate
         [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
 
     # Create the app package by building and packaging the Windows Application Packaging project
-    - name: Create the App Package
+    - name: Create the app package
       run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=$env:Signing_Certificate /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
       env:
         Configuration: ${{ matrix.configuration }}
 
-    # Remove the .pfx
-    - name: Remove the .pfx
+    # Remove the pfx
+    - name: Remove the pfx
       run: Remove-Item -path $env:Wap_Project_Directory\$env:Signing_Certificate
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-artifact
