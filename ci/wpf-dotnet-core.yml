@@ -1,4 +1,4 @@
-# This workflow will build, test and package a Wpf desktop application built on .NET Core.
+# This workflow will build, test and package a WPF desktop application built on .NET Core.
 # To learn how to migrate your existing WPF application to .NET Core,
 # refer to https://docs.microsoft.com/en-us/dotnet/desktop-wpf/migration/convert-project-from-net-framework
 #
@@ -11,7 +11,7 @@
 # 2. Signing
 # Generate a signing certificate in the Windows Application Packaging Project or add an existing signing certificate
 # to the project. Next, use PowerShell to encode the .pfx file using Base64 encoding by running the following Powershell
-# script to generate the output file.
+# script to generate the output string.
 # 
 # $pfx_cert = Get-Content '.\SigningCertificate.pfx' -Encoding Byte
 # [System.Convert]::ToBase64String($pfx_cert) | Out-File 'SigningCertificate_Encoded.txt'
@@ -28,7 +28,7 @@
 # For a complete CI/CD sample to get started with GitHub Action workflows for Desktop Applications,
 # refer to https://github.com/microsoft/github-actions-for-desktop-apps
 
-name:  Wpf .NET Core
+name:  WPF .NET Core
 
 on:
   push:
@@ -44,14 +44,10 @@ jobs:
       matrix:
         configuration: [Debug, Release]
 
-    runs-on: windows-latest
+    runs-on: windows-latest  # For a list of available runner types, refer to 
+                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Appx_Bundle: Always                                       # Creates an .msixbundle/.appxbundle with the .msix/.appx files for the platform specified.
-      App_Packages_Directory: AppPackages                       # The name of the directory that will contain the application packages. The default is "AppPackages."
-      Appx_Bundle_Platforms: x86|x64                            # Include x86 and x64 platforms in the bundle. Possible values: x86|x64|ARM
-      Appx_Package_Build_Mode: StoreUpload                      # Generates the .msixupload/.appxupload file and the _Test folder for sideloading.
-      Signing_Certificate: GitHubActionsDemo.pfx                # The name of the .pfx that will be created by decoding the Base 64 secret and consumed during the packaging step.
       Solution_Name: your-solution-name                         # Replace with your solution name, i.e. MyWpfApp.sln.
       Test_Project_Path: your-test-project-path                 # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
       Wap_Project_Directory: your-wap-project-directory-name    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
@@ -73,12 +69,12 @@ jobs:
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.0
 
-    # Test
+    # Execute all unit tests in the solution
     - name: Execute unit tests
-      run: dotnet test $env:Test_Project_Path
+      run: dotnet test
 
-    # Restore the Wpf application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the Wpf application
+    # Restore the WPF application to populate the obj folder with RuntimeIdentifiers
+    - name: Restore the WPF application
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
@@ -87,13 +83,16 @@ jobs:
     - name: Decode the pfx
       run: |
         $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
-        $certificatePath = Join-Path -Path $env:Wap_Project_Directory -ChildPath $env:Signing_Certificate
+        $certificatePath = Join-Path -Path $env:Wap_Project_Directory -ChildPath GitHubActionsWorkflow.pfx
         [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
 
     # Create the app package by building and packaging the Windows Application Packaging project
     - name: Create the app package
-      run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=$env:Signing_Certificate /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
+      run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
       env:
+        Appx_Bundle: Always
+        Appx_Bundle_Platforms: x86|x64
+        Appx_Package_Build_Mode: StoreUpload
         Configuration: ${{ matrix.configuration }}
 
     # Remove the pfx
@@ -105,4 +104,4 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: MSIX Package
-        path: ${{ env.Wap_Project_Directory }}\${{ env.App_Packages_Directory }}
+        path: ${{ env.Wap_Project_Directory }}\AppPackages
