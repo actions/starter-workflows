@@ -17,5 +17,15 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    - name: Cache sbt
+      uses: actions/cache@v1
+      with:
+        path: .sbt/boot
+        key: cache-sbt-${{ hashFiles('project/build.properties') }}
+    - name: Cache coursier
+      uses: actions/cache@v1
+      with:
+        path: .coursier/cache
+        key: cache-coursier-${{ hashFiles('build.sbt') }}
     - name: Run tests
-      run: sbt test
+      run: sbt -Dsbt.boot.directory=.sbt/boot -Dsbt.coursier.home=.coursier test
