@@ -1,0 +1,6 @@
+{
+    "name": "WPF .NET Core",
+    "description": "Build, test and publish a Wpf application built on .NET Core.",
+    "iconName": "WPF",
+    "categories": ["C#", "Visual Basic", "WPF", ".NET"]
+}
