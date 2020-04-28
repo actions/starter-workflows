@@ -1,23 +1,104 @@
-name: C/C++ CI
-
+# # # # # # # # # # #
+#  自动构建 PSG1218
+#     花妆男
+# # # # # # # # # # #
+name: Padavan CI PSG1218
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
+  # schedule:                           # 时间表
+  #   - cron: '0 19 * * *'              # 每天国际时间19点，北京时间凌晨3点执行(北京+8)
+  push:                               # push 操作
+    branches:                         # 分支
+      - master                        # 主分支
+  #   paths:                            # 路径
+  #     - openwrt/*                     # 监听openwrt目录下所有文件的push操作
+    paths:                            # 路径
+      - logs/k2.md                    # 监听logs目录下 k2.md 的push操作
+  # watch:                              # 监视操作
+  #   types: [started]                  # 点击 star 之后
+env:
+  T_NAMES: "PSG1218"        # 设备名字数组
+  BASE_PATH: padavan                # 基础目录
+  PUBLIC_PATH: public               # 公共目录
+  VERSION_FILE: versions.inc        # 版本后缀
+  PUBLIC_SH: public.sh              # 公共命令
+  UPLOAD_FIRMWARE: true             # 是否打包文件
+  CLONE_URL: https://github.com/chongshengB/rt-n56u.git # padavan  地址
+  CLONE_BRANCH: master              # padavan 分支
+  WORK_PATH: /opt/rt-n56u           # 工作目录 一定要加 /
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-18.04
+    if: github.event.repository.owner.id == github.event.sender.id  # 自己点的 start
     steps:
-    - uses: actions/checkout@v2
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+    - name: Checkout Master            # 1.导入主分支
+      uses: actions/checkout@master
+    - name: Initialization Environment # 2.初始环境的设置
+      env:
+        DEBIAN_FRONTEND: noninteractive  # 非交互模式
+      run: |
+        sudo apt-get clean
+        cd /var/lib/apt
+        sudo mv lists lists.old
+        sudo mkdir -p lists/partial
+        sudo apt-get clean
+        sudo apt-get update
+        sudo apt-get -y install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd \
+        cpio git python-docutils gettext automake autopoint texinfo build-essential help2man \
+        pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev gcc-multilib
+        sudo timedatectl set-timezone 'Asia/Shanghai'  # 设置时区
+    - name: Clone Code                 # 3.拷贝代码
+      run: |
+        git clone --depth=1 $CLONE_URL -b $CLONE_BRANCH $WORK_PATH
+    - name: Build Tool Chain           # 4.构建工具链
+      run: |
+        cd $WORK_PATH/toolchain-mipsel
+        mkdir -p toolchain-3.4.x
+        wget https://github.com/hanwckf/padavan-toolchain/releases/download/v1.1/mipsel-linux-uclibc.tar.xz
+        tar -xvf mipsel-linux-uclibc.tar.xz -C toolchain-3.4.x
+        mkdir ${WORK_PATH}/images/
+    - name: Clear And Build            # 5.清理构建树并开始构建
+      run: |
+        # 1.拷贝公共文件
+        cp -f $BASE_PATH/$PUBLIC_PATH/$PUBLIC_SH  $WORK_PATH/
+        sudo chmod +x $WORK_PATH/$PUBLIC_SH
+        # 2. 循环替换自定义默认模板和构建，单个设备的 sh 拷贝 t_item 需要编译的固件名字
+        for t_item in $T_NAMES;
+        do
+        if [ ! -e $BASE_PATH/$t_item/$t_item.config ] ; then
+          echo "${BASE_PATH}/${t_item}/${t_item}.config 自定义模板文件未找到"
+        else
+          cp -f $BASE_PATH/$t_item/$t_item.config $WORK_PATH/trunk/configs/templates/$t_item.config
+          echo "${t_item} 修改模板完成"
+        fi
+        if [ ! -f $BASE_PATH/$t_item/$t_item.sh ] ; then
+          echo "${BASE_PATH}/${t_item}/${t_item}.sh 自定义SH文件未找到"
+        else
+          cp -f $BASE_PATH/$t_item/$t_item.sh  $WORK_PATH/
+          sudo chmod +x $WORK_PATH/$t_item.sh
+          echo "${t_item} 自定义SH文件拷贝成功"
+        fi
+        done
+        # 3. 开始构建
+        cd $WORK_PATH/trunk
+        for t_item in $T_NAMES;
+        do
+        cp -f $WORK_PATH/trunk/configs/templates/$t_item.config .config  # 拷贝模板到 .config
+        echo "执行 ${PUBLIC_SH} sh"
+        sudo $WORK_PATH/$PUBLIC_SH
+        if [ -e $WORK_PATH/$t_item.sh ] ; then
+          echo "执行自定义 ${t_item} sh"
+          sudo $WORK_PATH/$t_item.sh
+        fi
+        # 4. 清理构建
+        sudo ./clear_tree
+        sudo ./build_firmware_modify $t_item          # $t_item  是循环的子对象
+        sudo mv -f images/*.trx ${WORK_PATH}/images/
+        done
+        echo "::set-env name=FILE_NAME::$T_NAMES-$(date "+%Y%m%d")"  # 包名
+        echo "::set-env name=IMAGES_PATH::${WORK_PATH}/images/"      # 打包目录
+    - name : Upload Packages           # 6. 打包文件并且上传到当前主分支
+      uses: actions/upload-artifact@master
+      if: env.UPLOAD_FIRMWARE == 'true' && success()   # 成功才执行
+      with:
+        name: Padavan-${{env.FILE_NAME}}
+        path: ${{ env.IMAGES_PATH }}
