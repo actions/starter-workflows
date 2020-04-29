@@ -1,5 +1,5 @@
 {
-    "name": "Build and Deploy to TKE",
+    "name": "Tencent Kubernetes Engine",
     "description": "Build a Docker container, publish it to TKE Registry, and deploy to TKE cluster.",
     "iconName": "tencentcloud",
     "categories": ["Dockerfile"]
