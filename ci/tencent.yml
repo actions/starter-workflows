@@ -16,9 +16,8 @@
 name: Tencent Kubernetes Engine
 
 on:
-  push:
-    branches:
-    - master
+  release:
+    types: [created]
 
 # Environment variables available to all jobs and steps in this workflow
 env:
