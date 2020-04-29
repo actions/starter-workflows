@@ -1,4 +1,4 @@
-# This workflow will build a docker container, publish it to TKE Registry, and deploy it to TKE.
+# This workflow will build a docker container, publish and deploy it to Tencent Kubernetes Engine (TKE).
 #
 # To configure this workflow:
 #

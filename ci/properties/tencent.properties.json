@@ -1,6 +1,6 @@
 {
     "name": "Tencent Kubernetes Engine",
-    "description": "Build a Docker container, publish it to TKE Registry, and deploy to TKE cluster.",
+    "description": "This workflow will build a docker container, publish and deploy it to Tencent Kubernetes Engine (TKE).",
     "iconName": "tencentcloud",
     "categories": ["Dockerfile"]
 }
