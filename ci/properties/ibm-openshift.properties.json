@@ -1,0 +1,6 @@
+{
+    "name": "Build and Deploy to IBM OpenShift",
+    "description": "Build a docker container, publish it, and deploy it the IBM OpenShift offering.",
+    "iconName": "ibm",
+    "categories": null
+}

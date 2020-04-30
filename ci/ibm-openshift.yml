@@ -1,0 +1,85 @@
+# This workflow will build a docker container, publish and deploy it to IBM's version of OpenShift
+#
+# To configure this workflow:
+#
+# 1. Ensure that your repository contains a Dockerfile
+# 2. Setup secrets in your repository by going to settings: Create IBM_CLOUD_API_KEY
+# 3. Change the values for the IMAGE_NAME, OS_CLUSTER, PROJECT, and OC_VERSION and OC_VERSION_HASH
+# 3.a: Please check: https://www.okd.io/download.html to see the newest version of the oc client
+
+name: Build and Deploy to IBM OpenShift
+
+on:
+  release:
+    types: [created]
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  GITHUB_SHA: ${{ github.sha }}
+  IBM_CLOUD_API_KEY: ${{ secrets.IBM_CLOUD_API_KEY }}
+  IBM_CLOUD_REGION: us-south
+  IMAGE_NAME: node:10
+  OS_CLUSTER: example-iks-cluster-name-or-id
+  PROJECT: hello-word
+  OC_VERSION: 3.11.0
+  OC_VERSION_HASH: 0cbc58b
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Verify/Install some dependancies
+    - name: Install or Verify some dependancies
+      run: |
+        apt-get update
+        if ! [ -x "$(command -v curl)" ]; then
+          echo 'Error: curl is not installed, or not in path.' >&2
+          echo 'Installing curl'
+          apt-get install -y curl
+        fi
+        if ! [ -x "$(command -v jq)" ]; then
+          echo 'Error: jq is not installed, or not in path.' >&2
+          echo 'Installing jq'
+          apt-get install -y jq
+        fi
+
+    # Download and Install IBM Cloud CLI
+    - name: Install IBM Cloud CLI
+      run: |
+        curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
+        ibmcloud --version
+        ibmcloud config --check-version=false
+        ibmcloud plugin install -f kubernetes-service
+
+    # Download and Install OC
+    - name: Install OC from Red Hat
+      run: |
+        wget https://github.com/openshift/origin/releases/download/v"${OC_VERSION}"/openshift-origin-client-tools-v"${OC_VERSION}-${OC_VERSION_HASH}"-linux-64bit.tar.gz
+        tar -xzf openshift-origin-client-tools-v"${OC_VERSION}-${OC_VERSION_HASH}"-linux-64bit.tar.gz
+        mv openshift-origin-client-tools-v"${OC_VERSION}-${OC_VERSION_HASH}"-linux-64bit/oc /usr/local/bin/
+        rm -rf openshift-origin-client-tools-v"${OC_VERSION}-${OC_VERSION_HASH}"-linux-64bit*
+
+    # Authenticate with IBM Cloud CLI
+    - name: Authenticate with IBM Cloud CLI
+      run: |
+        ibmcloud login --apikey "${IBM_CLOUD_API_KEY}" -r "${IBM_CLOUD_REGION}" -g default
+
+    # Authenticate with your OC cluster
+    - name: Authenticate with your OC Cluster
+      run: |
+        SERVER_URL=$(ibmcloud ks cluster get --cluster ${OS_CLUSTER} --json | jq ".serverURL")
+        oc login -u apikey -p ${IBM_CLOUD_API_KEY} --server=${SERVER_URL//\"} --insecure-skip-tls-verify=true
+
+    # Deploy the Docker image to the OpenShift cluster
+    - name: Deploy to OpenShift
+      run: |
+        oc project ${PROJECT} || oc new-project ${PROJECT}
+        oc new-build --strategy docker --binary --docker-image ${DOCKERIMAGE} --name ${APPNAME}
+        oc start-build ${APPNAME} --from-dir . --follow
+        oc new-app ${PROJECT}/${APPNAME}:latest
+        oc expose svc/"${APPNAME}"
