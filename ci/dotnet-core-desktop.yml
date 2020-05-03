@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-# This workflow will build, test and package a WPF or Windows Forms desktop application
+# This workflow will build, test, sign and package a WPF or Windows Forms desktop application
 # built on .NET Core.
 # To learn how to migrate your existing application to .NET Core,
 # refer to https://docs.microsoft.com/en-us/dotnet/desktop-wpf/migration/convert-project-from-net-framework
