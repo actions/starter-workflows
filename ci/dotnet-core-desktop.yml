@@ -3,9 +3,9 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-# This workflow will build, test and package a WPF desktop application
+# This workflow will build, test and package a WPF or Windows Forms desktop application
 # built on .NET Core.
-# To learn how to migrate your existing WPF application to .NET Core,
+# To learn how to migrate your existing application to .NET Core,
 # refer to https://docs.microsoft.com/en-us/dotnet/desktop-wpf/migration/convert-project-from-net-framework
 #
 # To configure this workflow:
@@ -36,7 +36,7 @@
 # For a complete CI/CD sample to get started with GitHub Action workflows for Desktop Applications,
 # refer to https://github.com/microsoft/github-actions-for-desktop-apps
 
-name:  WPF .NET Core
+name: .NET Core Desktop
 
 on:
   push:
@@ -81,8 +81,8 @@ jobs:
     - name: Execute unit tests
       run: dotnet test
 
-    # Restore the WPF application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the WPF application
+    # Restore the application to populate the obj folder with RuntimeIdentifiers
+    - name: Restore the application
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
