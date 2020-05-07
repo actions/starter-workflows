@@ -72,5 +72,7 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
+
+          # TODO: Change image in the next line to your image's name like you did above.
           docker tag image $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
