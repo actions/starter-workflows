@@ -1,6 +1,6 @@
 {
-    "name": "Build and Deploy to IKS",
-    "description": "Build a docker container, publish it to IBM Container Registry, and deploy to IKS.",
+    "name": "Deploy to IBM Kubernetes Service",
+    "description": "Build a docker container, publish it to IBM Container Registry, and deploy to IBM Kubernetes Service.",
     "iconName": "ibm",
     "categories": null
 }
