@@ -3,7 +3,7 @@ import { promises as fs } from "fs";
 import { safeLoad } from "js-yaml";
 import { basename, extname, join } from "path";
 import { Validator as validator } from "jsonschema";
-import { endGroup, error, setFailed, startGroup } from '@actions/core';
+import { endGroup, error, info, setFailed, startGroup } from '@actions/core';
 
 interface WorkflowWithErrors {
   id: string;
@@ -102,12 +102,14 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string): Prom
     )
 
     if (erroredWorkflows.length > 0) {
-      startGroup(`Found ${erroredWorkflows.length} workflows with errors:`);
+      startGroup(`😟 - Found ${erroredWorkflows.length} workflows with errors:`);
       erroredWorkflows.forEach(erroredWorkflow => {
         error(`Errors in ${erroredWorkflow.id} - ${erroredWorkflow.errors.map(e => e.toString()).join(", ")}`)
       })
       endGroup();
       setFailed(`Found ${erroredWorkflows.length} workflows with errors`);
+    } else {
+      info("🎉🤘 - Found no workflows with errors!")
     }
   } catch (e) {
     error(`Unhandled error while syncing workflows: ${e}`);
