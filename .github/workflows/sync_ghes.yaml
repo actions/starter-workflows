@@ -19,7 +19,7 @@ jobs:
       run: |
         npm ci
         npx ts-node-script ./index.ts
-      working-directory: ./script
+      working-directory: ./script/sync-ghes
     - run: |
         git add -A
         git commit -m "Updating GHES workflows"

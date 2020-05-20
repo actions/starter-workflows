@@ -51,7 +51,7 @@ async function checkWorkflows(
 }
 
 /**
- * Check if a workflow only the given set of actions.
+ * Check if a workflow uses only the given set of actions.
  *
  * @param workflowPath Path to workflow yaml file
  * @param enabledActions List of enabled actions
@@ -75,6 +75,9 @@ async function checkWorkflow(
           // Check if allowed action
           const [actionName, _] = step.uses.split("@");
           if (!enabledActionsSet.has(actionName.toLowerCase())) {
+            console.info(
+              `Workflow ${workflowPath} uses '${actionName}' which is not supported for GHES.`
+            );
             return false;
           }
         }
