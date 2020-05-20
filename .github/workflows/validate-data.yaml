@@ -1,3 +1,5 @@
+name: Validate Data
+
 on:
   push:
   pull_request:
