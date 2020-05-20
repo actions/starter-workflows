@@ -7,6 +7,7 @@ import { exec } from "./exec";
 interface WorkflowDesc {
   folder: string;
   id: string;
+  iconName: string;
 }
 
 interface WorkflowsCheckResult {
@@ -33,9 +34,18 @@ async function checkWorkflows(
         const workflowFilePath = join(folder, e.name);
         const enabled = await checkWorkflow(workflowFilePath, enabledActions);
 
+        const workflowId = basename(e.name, extname(e.name));
+        const workflowProperties = require(join(
+          folder,
+          "properties",
+          `${workflowId}.properties.json`
+        ));
+        const iconName = workflowProperties["iconName"];
+
         const workflowDesc: WorkflowDesc = {
           folder,
-          id: basename(e.name, extname(e.name)),
+          id: workflowId,
+          iconName,
         };
 
         if (!enabled) {
@@ -126,6 +136,7 @@ async function checkWorkflow(
     // whether it's a deletion, add, or modify and commit the new state.
     console.log("Remove all workflows");
     await exec("rm", ["-fr", ...settings.folders]);
+    await exec("rm", ["-fr", "../../icons"]);
 
     console.log("Sync changes from master for compatible workflows");
     await exec("git", [
@@ -137,6 +148,7 @@ async function checkWorkflow(
         result.compatibleWorkflows.map((x) => [
           join(x.folder, `${x.id}.yml`),
           join(x.folder, "properties", `${x.id}.properties.json`),
+          join("../../icons", `${x.iconName}.svg`),
         ])
       ),
     ]);
