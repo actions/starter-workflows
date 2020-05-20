@@ -7,7 +7,8 @@ import { exec } from "./exec";
 interface WorkflowDesc {
   folder: string;
   id: string;
-  iconName: string;
+  iconName?: string;
+  iconType?: "svg" | "octicon";
 }
 
 interface WorkflowsCheckResult {
@@ -40,12 +41,14 @@ async function checkWorkflows(
           "properties",
           `${workflowId}.properties.json`
         ));
-        const iconName = workflowProperties["iconName"];
+        const iconName: string | undefined = workflowProperties["iconName"];
 
         const workflowDesc: WorkflowDesc = {
           folder,
           id: workflowId,
           iconName,
+          iconType:
+            iconName && iconName.startsWith("octicon") ? "octicon" : "svg",
         };
 
         if (!enabled) {
@@ -145,11 +148,18 @@ async function checkWorkflow(
       "--",
       ...Array.prototype.concat.apply(
         [],
-        result.compatibleWorkflows.map((x) => [
-          join(x.folder, `${x.id}.yml`),
-          join(x.folder, "properties", `${x.id}.properties.json`),
-          join("../../icons", `${x.iconName}.svg`),
-        ])
+        result.compatibleWorkflows.map((x) => {
+          const r = [
+            join(x.folder, `${x.id}.yml`),
+            join(x.folder, "properties", `${x.id}.properties.json`),
+          ];
+
+          if (x.iconType === "svg") {
+            r.push(join("../../icons", `${x.iconName}.svg`));
+          }
+
+          return r;
+        })
       ),
     ]);
   } catch (e) {
