@@ -1,3 +1,5 @@
+name: Sync workflows for GHES
+
 on:
   push:
     branches:
