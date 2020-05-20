@@ -24,5 +24,9 @@ jobs:
       working-directory: ./script/sync-ghes
     - run: |
         git add -A
-        git commit -m "Updating GHES workflows"
+        if [ -z "$(git status --porcelain)" ]; then
+          echo "No changes to commit"
+        else
+          git commit -m "Updating GHES workflows"
+        fi
     - run: git push
