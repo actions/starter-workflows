@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  sync:
+  validate-data:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
