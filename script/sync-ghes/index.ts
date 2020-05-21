@@ -50,10 +50,12 @@ async function checkWorkflows(
           `${workflowId}.properties.json`
         ));
         const iconName: string | undefined = workflowProperties["iconName"];
+
+        const isBlankTemplate = workflowId === "blank";
         const partnerWorkflow = workflowProperties.categories === null;
 
         const enabled =
-          !partnerWorkflow &&
+          (isBlankTemplate || !partnerWorkflow) &&
           (await checkWorkflow(workflowFilePath, enabledActions));
 
         const workflowDesc: WorkflowDesc = {
