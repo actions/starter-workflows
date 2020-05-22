@@ -1,0 +1,6 @@
+{
+    "name": "Build and Deploy to IKS",
+    "description": "Build a docker container, publish it to IBM Container Registry, and deploy to IKS.",
+    "iconName": "ibm",
+    "categories": null
+}
