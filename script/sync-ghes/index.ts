@@ -11,6 +11,16 @@ interface WorkflowDesc {
   iconType?: "svg" | "octicon";
 }
 
+interface WorkflowProperties {
+  name: string;
+
+  description: string;
+
+  iconName?: string;
+
+  categories: string[] | null;
+}
+
 interface WorkflowsCheckResult {
   compatibleWorkflows: WorkflowDesc[];
   incompatibleWorkflows: WorkflowDesc[];
@@ -33,15 +43,20 @@ async function checkWorkflows(
     for (const e of dir) {
       if (e.isFile()) {
         const workflowFilePath = join(folder, e.name);
-        const enabled = await checkWorkflow(workflowFilePath, enabledActions);
-
         const workflowId = basename(e.name, extname(e.name));
-        const workflowProperties = require(join(
+        const workflowProperties: WorkflowProperties = require(join(
           folder,
           "properties",
           `${workflowId}.properties.json`
         ));
         const iconName: string | undefined = workflowProperties["iconName"];
+
+        const isBlankTemplate = workflowId === "blank";
+        const partnerWorkflow = workflowProperties.categories === null;
+
+        const enabled =
+          (isBlankTemplate || !partnerWorkflow) &&
+          (await checkWorkflow(workflowFilePath, enabledActions));
 
         const workflowDesc: WorkflowDesc = {
           folder,
