@@ -1,3 +1,9 @@
+---
+name: C/C++ with Make
+description: Build and test a C/C++ project using Make.
+categories: [C, C++]
+iconName: c-cpp
+---
 name: C/C++ CI
 
 on:

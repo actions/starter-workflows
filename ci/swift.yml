@@ -1,3 +1,9 @@
+---
+name: Swift
+description: Build and test a Swift Package.
+categories: [Swift]
+iconName: swift
+---
 name: Swift
 
 on:

@@ -1,3 +1,9 @@
+---
+name: Publish Java Package with Maven
+description: Build a Java Package using Maven and publish to GitHub Packages.
+categories: [Java, Maven]
+iconName: maven
+---
 # This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
 # For more information see: https://github.com/actions/setup-java#apache-maven-with-a-settings-path
 

@@ -1,3 +1,9 @@
+---
+name: Stale
+description: Checks for stale issues and pull requests
+categories: [Automation, SDLC]
+iconName: octicon clock
+---
 name: Mark stale issues and pull requests
 
 on:

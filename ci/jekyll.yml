@@ -1,3 +1,9 @@
+---
+name: Jekyll
+description: Package a Jekyll site using the jekyll/builder Docker image.
+categories: [HTML]
+iconName: jekyll
+---
 name: Jekyll site CI
 
 on:

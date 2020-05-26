@@ -1,3 +1,9 @@
+---
+name: Deploy Node.js to Azure Web App
+description: Build a Node.js project and deploy it to an Azure Web App.
+categories: []
+iconName: azure
+---
 # This workflow will build and push a node.js application to an Azure Web App when a release is created.
 #
 # This workflow assumes you have already created the target Azure App Service web app.

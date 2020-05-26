@@ -1,3 +1,9 @@
+---
+name: Tencent Kubernetes Engine
+description: This workflow will build a docker container, publish and deploy it to Tencent Kubernetes Engine (TKE).
+categories: []
+iconName: tencentcloud
+---
 # This workflow will build a docker container, publish and deploy it to Tencent Kubernetes Engine (TKE).
 #
 # To configure this workflow:

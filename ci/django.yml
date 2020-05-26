@@ -1,3 +1,9 @@
+---
+name: Django
+description: Build and Test a Django Project
+categories: [Python, Django]
+iconName: django
+---
 name: Django CI
 
 on:

@@ -1,3 +1,9 @@
+---
+name: Dart
+description: Build and test a Dart project with Pub.
+categories: [Dart]
+iconName: dart
+---
 name: Dart CI
 
 on:

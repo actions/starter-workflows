@@ -1,3 +1,9 @@
+---
+name: Publish Python Package
+description: Publish a Python Package to PyPI on release.
+categories: [Python]
+iconName: python
+---
 # This workflows will upload a Python Package using Twine when a release is created
 # For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
 

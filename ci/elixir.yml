@@ -1,3 +1,9 @@
+---
+name: Elixir
+description: Build and test an Elixir project with Mix.
+categories: [Elixir, Erlang]
+iconName: elixir
+---
 name: Elixir CI
 
 on:

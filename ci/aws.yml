@@ -1,3 +1,9 @@
+---
+name: Deploy to Amazon ECS
+description: Deploy a container to an Amazon ECS service powered by AWS Fargate or Amazon EC2.
+categories: []
+iconName: aws
+---
 # This workflow will build and push a new container image to Amazon ECR,
 # and then will deploy a new task definition to Amazon ECS, when a release is created
 #

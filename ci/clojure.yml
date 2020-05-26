@@ -1,3 +1,9 @@
+---
+name: Clojure
+description: Build and test a Clojure project with Leiningen.
+categories: [Clojure, Java]
+iconName: clojure
+---
 name: Clojure CI
 
 on:

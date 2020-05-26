@@ -1,3 +1,9 @@
+---
+name: .NET Core
+description: Build and test a .NET Core or ASP.NET Core project.
+categories: [C#, F#, Visual Basic, ASP, ASP.NET, .NET]
+iconName: dotnetcore
+---
 name: .NET Core
 
 on:

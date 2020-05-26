@@ -1,3 +1,9 @@
+---
+name: Erlang
+description: Build and test an Erlang project with rebar.
+categories: [Erlang]
+iconName: erlang
+---
 name: Erlang CI
 
 on:

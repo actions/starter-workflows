@@ -1,3 +1,9 @@
+---
+name: Rust
+description: Build and test a Rust project with Cargo.
+categories: [Rust]
+iconName: rust
+---
 name: Rust
 
 on:

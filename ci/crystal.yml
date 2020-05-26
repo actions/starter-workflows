@@ -1,3 +1,9 @@
+---
+name: Crystal
+description: Build and test a Crystal project.
+categories: [Crystal]
+iconName: crystal
+---
 name: Crystal CI
 
 on:

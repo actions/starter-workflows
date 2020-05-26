@@ -1,3 +1,9 @@
+---
+name: Ruby Gem
+description: Pushes a Ruby Gem to RubyGems and GitHub Package Registry.
+categories: [Ruby, SDLC]
+iconName: ruby-gems
+---
 name: Ruby Gem
 
 on:

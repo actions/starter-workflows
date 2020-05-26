@@ -1,3 +1,9 @@
+---
+name: PHP
+description: Build and test a PHP application using Composer
+categories: [PHP, Composer]
+iconName: php
+---
 name: PHP Composer
 
 on:

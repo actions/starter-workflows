@@ -1,3 +1,9 @@
+---
+name: Publish Docker Container
+description: Build, test and push Docker image to GitHub Packages.
+categories: [Dockerfile]
+iconName: docker
+---
 name: Docker
 
 on:

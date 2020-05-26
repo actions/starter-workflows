@@ -1,3 +1,9 @@
+---
+name: Android CI
+description: Build an Android project with Gradle.
+categories: [Java, Mobile]
+iconName: android
+---
 name: Android CI
 
 on:

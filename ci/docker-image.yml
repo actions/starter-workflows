@@ -1,3 +1,9 @@
+---
+name: Docker image
+description: Build a Docker image to deploy, run, or push to a registry.
+categories: [Dockerfile]
+iconName: docker
+---
 name: Docker Image CI
 
 on:

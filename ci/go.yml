@@ -1,3 +1,9 @@
+---
+name: Go
+description: Build a Go project.
+categories: [Go]
+iconName: go
+---
 name: Go
 
 on:

@@ -1,3 +1,9 @@
+---
+name: Publish Java Package with Gradle
+description: Build a Java Package using Gradle and publish to GitHub Packages.
+categories: [Java, Gradle]
+iconName: gradle
+---
 # This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
 # For more information see: https://github.com/actions/setup-java#publishing-using-gradle
 

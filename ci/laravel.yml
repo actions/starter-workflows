@@ -1,3 +1,9 @@
+---
+name: Laravel
+description: Test a Laravel project.
+categories: [PHP, Laravel]
+iconName: php
+---
 name: Laravel
 
 on:

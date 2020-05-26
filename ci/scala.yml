@@ -1,3 +1,9 @@
+---
+name: Scala
+description: Build and test a Scala project with SBT.
+categories: [Scala, Java]
+iconName: scala
+---
 name: Scala CI
 
 on:
