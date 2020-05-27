@@ -1,0 +1,21 @@
+name: Validate Data
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+
+      - name: Validate workflows
+        run: |
+          npm ci
+          npx ts-node-script ./index.ts
+        working-directory: ./script/validate-data

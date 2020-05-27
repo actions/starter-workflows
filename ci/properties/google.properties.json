@@ -1,0 +1,6 @@
+{
+    "name": "Build and Deploy to GKE",
+    "description": "Build a docker container, publish it to Google Container Registry, and deploy to GKE.",
+    "iconName": "googlegke",
+    "categories": null
+}
