@@ -1,0 +1,6 @@
+{
+    "name": ".NET Core Desktop",
+    "description": "Build, test, sign and publish a desktop application built on .NET Core.",
+    "iconName": "dotnetcore",
+    "categories": ["C#", "Visual Basic", "WPF", ".NET"]
+}

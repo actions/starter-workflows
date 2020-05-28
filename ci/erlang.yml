@@ -1,6 +1,10 @@
 name: Erlang CI
 
-on: [push]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
 
@@ -8,11 +12,12 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    container:
+      image: erlang:22.0.7
+
     steps:
-    - uses: actions/checkout@v1
-    - name: Install dependencies
-      run: rebar get-deps
+    - uses: actions/checkout@v2
     - name: Compile
-      run: rebar compile
+      run: rebar3 compile
     - name: Run tests
-      run: rebar skip_deps=true eunit
+      run: rebar3 do eunit, ct
