@@ -1,21 +1,24 @@
 name: Elixir CI
 
-on: push
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
-    container:
-      image: elixir:1.9.1-slim
-
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+    - name: Setup elixir
+      uses: actions/setup-elixir@v1
+      with:
+        elixir-version: '1.9.4' # Define the elixir version [required]
+        otp-version: '22.2' # Define the OTP version [required]
     - name: Install Dependencies
-      run: |
-        mix local.rebar --force
-        mix local.hex --force
-        mix deps.get
+      run: mix deps.get
     - name: Run Tests
       run: mix test
