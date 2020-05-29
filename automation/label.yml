@@ -1,3 +1,9 @@
+---
+name: Labeler
+description: Labels pull requests based on the files changed
+categories: [Automation, SDLC]
+iconName: octicon tag
+---
 # This workflow will triage pull requests and apply a label based on the
 # paths that are modified in the pull request.
 #

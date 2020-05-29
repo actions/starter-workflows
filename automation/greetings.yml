@@ -1,3 +1,9 @@
+---
+name: Greetings
+description: Greets users who are first time contributors to the repo
+categories: [Automation, SDLC]
+iconName: octicon smiley
+---
 name: Greetings
 
 on: [pull_request, issues]

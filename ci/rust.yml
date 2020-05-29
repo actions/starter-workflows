@@ -1,6 +1,16 @@
+---
+name: Rust
+description: Build and test a Rust project with Cargo.
+categories: [Rust]
+iconName: rust
+---
 name: Rust
 
-on: [push]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
@@ -8,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Build
       run: cargo build --verbose
     - name: Run tests
