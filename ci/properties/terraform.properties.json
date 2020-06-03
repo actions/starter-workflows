@@ -1,7 +1,7 @@
 {
     "name": "Terraform",
     "description": "Set up Terraform CLI in your GitHub Actions workflow.",
-    "creator": "Hashicorp",
+    "creator": "HashiCorp",
     "iconName": "terraform",
     "categories": null
 }
