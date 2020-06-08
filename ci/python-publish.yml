@@ -5,7 +5,7 @@ name: Upload Python Package
 
 on:
   release:
-    types: [created]
+    types: [published, created, edited]
 
 jobs:
   deploy:
