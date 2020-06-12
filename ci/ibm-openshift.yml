@@ -21,8 +21,8 @@ env:
   IMAGE_NAME: node:10
   OS_CLUSTER: example-iks-cluster-name-or-id
   PROJECT: hello-word
-  OC_VERSION: 3.11.0
-  OC_VERSION_HASH: 0cbc58b
+  OC_VERSION: 4.1.0
+  OC_VERSION_HASH: b4261e0
 
 jobs:
   setup-build-publish-deploy:
