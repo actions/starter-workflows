@@ -17,7 +17,7 @@ These are the workflow files for helping people get started with GitHub Actions.
 
 Each workflow must be written in YAML and have a `.yml` extension. They also need a corresponding `.properties.json` file that contains extra metadata about the workflow (this is displayed in the GitHub.com UI).
 
-For example: `ci/python-django.yml` and `ci/python-django.properties.json`.
+For example: `ci/python-django.yml` and `ci/properties/python-django.properties.json`.
 
 **Valid properties:**
 * `name`: the name shown in onboarding
