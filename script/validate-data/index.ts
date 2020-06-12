@@ -22,6 +22,7 @@ const propertiesSchema = {
   properties: {
     name: { type: "string", required: true },
     description: { type: "string", required: true },
+    creator: { type: "string", required: false },
     iconName: { type: "string", required: true },
     categories: {
       anyOf: [

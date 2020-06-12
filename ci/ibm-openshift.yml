@@ -20,7 +20,7 @@ env:
   IBM_CLOUD_REGION: us-south
   IMAGE_NAME: node:10
   OS_CLUSTER: example-iks-cluster-name-or-id
-  PROJECT: hello-word
+  PROJECT: hello-world
   OC_VERSION: 4.1.0
   OC_VERSION_HASH: b4261e0
 
