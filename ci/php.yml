@@ -1,4 +1,9 @@
-name: PHP Composer
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: PHP
 
 on:
   push:
@@ -10,18 +15,37 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        php-version: ['7.2', '7.3', '7.4']
 
     steps:
     - uses: actions/checkout@v2
 
+    # Setup PHP environment.
+    # Docs: https://github.com/shivammathur/setup-php/blob/master/README.md    
+    - name: Set up PHP ${{ matrix.php-version }}
+      uses: shivammathur/setup-php@dd27d4eb8158e1dd5bd52a143a7468d7a7fb302a
+      with:
+        php-version: ${{ matrix.php-version }}
+        # extension-csv: mbstring, intl # (optional) specify the extensions you want to enable/install.
+        # ini-values-csv: short_open_tag=On # (optional) specify custom php.ini values.
+        # coverage: xdebug # (optional) specify coverage driver.
+        # pecl: false # (optional) use PECL as fallback to install extensions.
+      
     - name: Validate composer.json and composer.lock
       run: composer validate
-      
+
+    - name: Get composer cache directory
+      id: composercache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v2
       with:
-        path: vendor
+        path: ${{ steps.composercache.outputs.dir }}
         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-php-
