@@ -29,10 +29,10 @@ jobs:
       uses: shivammathur/setup-php@dd27d4eb8158e1dd5bd52a143a7468d7a7fb302a
       with:
         php-version: ${{ matrix.php-version }}
-        # extension-csv: mbstring, intl # (optional) specify the extensions you want to enable/install.
-        # ini-values-csv: short_open_tag=On # (optional) specify custom php.ini values.
-        # coverage: xdebug # (optional) specify coverage driver.
-        # pecl: false # (optional) use PECL as fallback to install extensions.
+        # extensions: mbstring, intl # (optional) Specify the extensions you want to add or remove.
+        # ini-values: short_open_tag=On # (optional) Specify the values you want to add to php.ini.
+        # coverage: xdebug # (optional) Specify the code coverage driver you want to setup.
+        # tools: pecl # (optional) Specify the tools you want to setup
       
     - name: Validate composer.json and composer.lock
       run: composer validate
