@@ -1,17 +1,18 @@
 name: Elixir CI
 
-on: push
-
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+    
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
-    container:
-      image: elixir:1.9.1-slim
-
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Cache mix dependencies
       uses: actions/cache@v1
       with:
@@ -19,11 +20,6 @@ jobs:
         key: ${{ runner.OS }}-mix-${{ hashFiles('**/mix.lock') }}
         restore-keys: |
           ${{ runner.OS }}-mix-
-    - name: Install dependencies
-      run: |
-        mix local.rebar --force
-        mix local.hex --force
-        mix deps.get
     - name: Cache build files
       uses: actions/cache@v1
       with:
@@ -31,5 +27,7 @@ jobs:
         key: ${{ runner.OS }}-build-${{ github.sha }}
         restore-keys: |
           ${{ runner.OS }}-build-
+    - name: Install dependencies
+      run: mix deps.get
     - name: Run tests
       run: mix test
