@@ -12,24 +12,24 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Cache Mix Dependencies
+    - name: Cache mix dependencies
       uses: actions/cache@v1
       with:
         path: deps
         key: ${{ runner.OS }}-mix-${{ hashFiles('**/mix.lock') }}
         restore-keys: |
           ${{ runner.OS }}-mix-
-    - name: Install Dependencies
+    - name: Install dependencies
       run: |
         mix local.rebar --force
         mix local.hex --force
         mix deps.get
-    - name: Cache Build Files
+    - name: Cache build files
       uses: actions/cache@v1
       with:
         path: _build
         key: ${{ runner.OS }}-build-${{ github.sha }}
         restore-keys: |
           ${{ runner.OS }}-build-
-    - name: Run Tests
+    - name: Run tests
       run: mix test
