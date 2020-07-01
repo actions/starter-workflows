@@ -9,6 +9,7 @@ on:
 jobs:
   build:
 
+    name: Build and test
     runs-on: ubuntu-latest
 
     steps:
@@ -18,20 +19,12 @@ jobs:
       with:
         elixir-version: '1.10.3' # Define the elixir version [required]
         otp-version: '22.3' # Define the OTP version [required]
-    - name: Cache mix dependencies
-      uses: actions/cache@v1
+    - name: Restore dependencies cache
+      uses: actions/cache@v2
       with:
         path: deps
-        key: ${{ runner.OS }}-mix-${{ hashFiles('**/mix.lock') }}
-        restore-keys: |
-          ${{ runner.OS }}-mix-
-    - name: Cache build files
-      uses: actions/cache@v1
-      with:
-        path: _build
-        key: ${{ runner.OS }}-build-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.OS }}-build-
+        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-mix-
     - name: Install dependencies
       run: mix deps.get
     - name: Run tests
