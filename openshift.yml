@@ -1,0 +1,42 @@
+# This workflow will use Source-to-Image (S2I) to deploy your application to your OpenShift Cluster.
+#
+# To configure this workflow:
+#
+#  1. Ensure that your repository contains a valid Dockerfile
+#
+#  2. Set up secrets in your workspace:
+#     - OPENSHIFT_SERVER_URL with the URL of the Openshift cluster
+#     - API_TOKEN with the API token used for authentication
+#  3. Change the value for Project below to match the project you want to deploy to
+#
+#
+
+name: OpenShift
+
+on:
+  release:
+    types: [created]
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  Project: dev
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    # Create the deployment using Source-to-Image with docker build strategy
+    - name: Deploy using Source-to-Image
+      uses: redhat-developer/openshift-actions@v1.1
+      with:
+        version: 'latest'
+        openshift_server_url: ${{ secrets.OPENSHIFT_SERVER_URL }}
+        parameters: '{"apitoken": "${{ secrets.API_TOKEN }}", "acceptUntrustedCerts": "true"}'
+        cmd: |          
+          'version'
+          'new-app . --strategy=docker -n ${PROJECT}'
