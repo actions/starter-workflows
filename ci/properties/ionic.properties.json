@@ -1,0 +1,6 @@
+{
+    "name": "Ionic CI",
+    "description": "Build an Ionic project with Cordova.",
+    "iconName": "ionic",
+    "categories": ["Ionic", "Cordova"]
+}
