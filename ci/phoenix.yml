@@ -1,4 +1,4 @@
-name: Phoenix CI
+name: Phoenix
 
 on:
   push:
