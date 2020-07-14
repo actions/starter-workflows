@@ -40,12 +40,6 @@ jobs:
           path: deps
           key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
           restore-keys: ${{ runner.os }}-mix-
-      - name: Restore build cache
-        uses: actions/cache@v2
-        with:
-          path: deps
-          key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock') }}
-          restore-keys: ${{ runner.os }}-build-
       - name: Install dependencies
         run: mix deps.get
       - name: Run tests
