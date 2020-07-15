@@ -6,7 +6,7 @@ It is not:
 
 ---
 
-Thank you for sending in this pull request. Please make sure you take a look at the [contributing file](https://github.com/actions/starter-workflows/blob/master/CONTRIBUTING.md). Here's a few things for you to consider in this pull request.
+Thank you for sending in this pull request. Please make sure you take a look at the [contributing file](https://github.com/actions/starter-workflows/blob/main/CONTRIBUTING.md). Here's a few things for you to consider in this pull request.
 
 Please **add to this description** at the bottom :point_down:
 
