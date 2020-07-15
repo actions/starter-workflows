@@ -2,9 +2,9 @@ name: Ruby Gem
 
 on:
   push:
-    branches: [ master ]
+    branches: [ $default-branch ]
   pull_request:
-    branches: [ master ]
+    branches: [ $default-branch ]
 
 jobs:
   build:
@@ -23,12 +23,12 @@ jobs:
         mkdir -p $HOME/.gem
         touch $HOME/.gem/credentials
         chmod 0600 $HOME/.gem/credentials
-        printf -- "---\n:github: Bearer ${GEM_HOST_API_KEY}\n" > $HOME/.gem/credentials
+        printf -- "---\n:github: ${GEM_HOST_API_KEY}\n" > $HOME/.gem/credentials
         gem build *.gemspec
         gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} *.gem
       env:
-        GEM_HOST_API_KEY: ${{secrets.GPR_AUTH_TOKEN}}
-        OWNER: username
+        GEM_HOST_API_KEY: "Bearer ${{secrets.GITHUB_TOKEN}}"
+        OWNER: ${{ github.repository_owner }}
 
     - name: Publish to RubyGems
       run: |
@@ -39,4 +39,4 @@ jobs:
         gem build *.gemspec
         gem push *.gem
       env:
-        GEM_HOST_API_KEY: ${{secrets.RUBYGEMS_AUTH_TOKEN}}
+        GEM_HOST_API_KEY: "Bearer ${{secrets.RUBYGEMS_AUTH_TOKEN}}"

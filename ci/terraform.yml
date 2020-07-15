@@ -1,7 +1,7 @@
 # This workflow installs the latest version of Terraform CLI and configures the Terraform CLI configuration file
 # with an API token for Terraform Cloud (app.terraform.io). On pull request events, this workflow will run
 # `terraform init`, `terraform fmt`, and `terraform plan` (speculative plan via Terraform Cloud). On push events
-# to the master branch, `terraform apply` will be executed.
+# to the $default-branch branch, `terraform apply` will be executed.
 #
 # Documentation for `hashicorp/setup-terraform` is located here: https://github.com/hashicorp/setup-terraform
 #
@@ -47,7 +47,7 @@ name: 'Terraform'
 on:
   push:
     branches:
-    - master
+    - $default-branch
   pull_request:
 
 jobs:
@@ -65,7 +65,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token 
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
@@ -82,9 +82,9 @@ jobs:
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan
-    
-      # On push to master, build or change infrastructure according to Terraform configuration files
+
+      # On push to $default-branch, build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      if: github.ref == 'refs/heads/$default-branch' && github.event_name == 'push'
       run: terraform apply -auto-approve
