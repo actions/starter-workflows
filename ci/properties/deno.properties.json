@@ -1,6 +1,6 @@
 {
     "name": "Deno",
-    "description": "Test you Deno project",
+    "description": "Test your Deno project",
     "iconName": "deno",
     "categories": ["JavaScript", "TypeScript", "Deno"]
 }
