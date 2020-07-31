@@ -26,7 +26,7 @@ jobs:
     # Setup PHP environment.
     # Docs: https://github.com/shivammathur/setup-php/blob/master/README.md    
     - name: Set up PHP ${{ matrix.php-version }}
-      uses: shivammathur/setup-php@dd27d4eb8158e1dd5bd52a143a7468d7a7fb302a
+      uses: shivammathur/setup-php@7961bc11b161170a2cf13fbe3573edb88fad7c29
       with:
         php-version: ${{ matrix.php-version }}
         # extensions: mbstring, intl # (optional) Specify the extensions you want to add or remove.
