@@ -3,30 +3,30 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-# This workflow will build, test and package a WPF desktop application
+# This workflow will build, test, sign and package a WPF or Windows Forms desktop application
 # built on .NET Core.
-# To learn how to migrate your existing WPF application to .NET Core,
+# To learn how to migrate your existing application to .NET Core,
 # refer to https://docs.microsoft.com/en-us/dotnet/desktop-wpf/migration/convert-project-from-net-framework
 #
 # To configure this workflow:
 #
 # 1. Configure environment variables
-# GitHub sets default environment variables for every workflow run.  
+# GitHub sets default environment variables for every workflow run.
 # Replace the variables relative to your project in the "env" section below.
-# 
+#
 # 2. Signing
-# Generate a signing certificate in the Windows Application 
+# Generate a signing certificate in the Windows Application
 # Packaging Project or add an existing signing certificate to the project.
 # Next, use PowerShell to encode the .pfx file using Base64 encoding
 # by running the following Powershell script to generate the output string:
-# 
+#
 # $pfx_cert = Get-Content '.\SigningCertificate.pfx' -Encoding Byte
 # [System.Convert]::ToBase64String($pfx_cert) | Out-File 'SigningCertificate_Encoded.txt'
 #
 # Open the output file, SigningCertificate_Encoded.txt, and copy the
 # string inside. Then, add the string to the repo as a GitHub secret
 # and name it "Base64_Encoded_Pfx."
-# For more information on how to configure your signing certificate for 
+# For more information on how to configure your signing certificate for
 # this workflow, refer to https://github.com/microsoft/github-actions-for-desktop-apps#signing
 #
 # Finally, add the signing certificate password to the repo as a secret and name it "Pfx_Key".
@@ -36,13 +36,13 @@
 # For a complete CI/CD sample to get started with GitHub Action workflows for Desktop Applications,
 # refer to https://github.com/microsoft/github-actions-for-desktop-apps
 
-name:  WPF .NET Core
+name: .NET Core Desktop
 
 on:
   push:
-    branches: [ master ]
+    branches: [ $default-branch ]
   pull_request:
-    branches: [ master ]
+    branches: [ $default-branch ]
 
 jobs:
 
@@ -52,7 +52,7 @@ jobs:
       matrix:
         configuration: [Debug, Release]
 
-    runs-on: windows-latest  # For a list of available runner types, refer to 
+    runs-on: windows-latest  # For a list of available runner types, refer to
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
@@ -81,8 +81,8 @@ jobs:
     - name: Execute unit tests
       run: dotnet test
 
-    # Restore the WPF application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the WPF application
+    # Restore the application to populate the obj folder with RuntimeIdentifiers
+    - name: Restore the application
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
