@@ -4,6 +4,8 @@
 # To use this workflow, you will need to set up a .github/labeler.yml
 # file with configuration.  For more information, see:
 # https://github.com/actions/labeler
+#
+# This action will not currently work for pull requests from forks.
 
 name: Labeler
 on: [pull_request]
