@@ -1,3 +1,7 @@
+# This workflow installs the latest version of Nix and runs nix-build
+# on your source code. This workflow runs on push and pull events.
+# Documentation for Nix is available at: https://nixos.org/
+
 name: Nix
 
 on:

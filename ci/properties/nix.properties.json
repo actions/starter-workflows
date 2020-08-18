@@ -1,6 +1,6 @@
 {
     "name": "Nix",
-    "description": "Run tests for a Nix Flake",
+    "description": "Run tests for a Nix project",
     "iconName": "nix",
-    "categories": ["Nix", "Flakes"]
+    "categories": ["Nix"]
 }
