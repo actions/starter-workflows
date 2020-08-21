@@ -1,6 +1,0 @@
-{
-    "name": "ASP.NET Core",
-    "description": "Build and test an ASP.NET Core project targeting .NET Core.",
-    "iconName": "dotnetcore",
-    "categories": ["ASP", "ASP.NET", ".NET"]
-}
