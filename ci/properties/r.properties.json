@@ -1,6 +1,6 @@
 {
     "name": "R package",
     "description": "Create and test an R package on multiple R versions.",
-    "iconName": "R",
+    "iconName": "r",
     "categories": ["R"]
 }
