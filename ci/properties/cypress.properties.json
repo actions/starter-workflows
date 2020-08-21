@@ -1,6 +1,0 @@
-{
-  "name": "Cypress",
-  "description": "Run end-to-end web application tests using Cypress.io",
-  "iconName": "cypress",
-  "categories": ["Testing", "Cypress"]
-}
