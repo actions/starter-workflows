@@ -6,12 +6,9 @@ It is not:
 
 ---
 
-Thank you for sending in this pull request. Please make sure you take a look at the [contributing file](https://github.com/actions/starter-workflows/blob/master/CONTRIBUTING.md). Here's a few things for you to consider in this pull request.
+**Please note that we are not accepting new starter workflows at this time. Updates to existing starter workflows are fine.**
 
-Please **add to this description** at the bottom :point_down:
-
-- [ ] A good description of the workflow at the bottom of this page.
-- [ ] Some links to the language or tool will be nice (unless its really obvious)
+---
 
 In the workflow and properties files:
 
