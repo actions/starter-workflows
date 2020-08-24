@@ -1,4 +1,4 @@
-name: Python Package using Anaconda
+name: Python Package using Conda
 
 on: [push]
 
