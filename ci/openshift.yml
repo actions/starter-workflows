@@ -1,3 +1,9 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+
 # This workflow will use Source-to-Image (S2I) to deploy your application to your OpenShift Cluster.
 #
 # To configure this workflow:
