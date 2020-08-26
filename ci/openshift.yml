@@ -22,7 +22,7 @@ name: OpenShift
 on:
   push:
     branches:
-      - master
+      - $default-branch
 
 # Environment variables available to all jobs and steps in this workflow
 env:
