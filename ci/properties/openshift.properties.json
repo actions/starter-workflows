@@ -1,0 +1,7 @@
+{
+    "name": "OpenShift",
+    "description": "This workflow will use Source-to-Image (S2I) to deploy your application to your OpenShift Cluster.",
+    "creator": "Red Hat",
+    "iconName": "openshift",
+    "categories": null
+}
