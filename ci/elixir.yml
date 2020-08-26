@@ -2,10 +2,10 @@ name: Elixir CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ $default-branch ]
   pull_request:
-    branches: [ master ]
-    
+    branches: [ $default-branch ]
+
 jobs:
   build:
 

@@ -22,7 +22,7 @@ In the workflow and properties files:
 - [ ] Use sentence case for the names of workflows and steps, for example "Run tests".
 - [ ] The name of CI workflows should only be the name of the language or platform: for example "Go" (not "Go CI" or "Go Build")
 - [ ] Include comments in the workflow for any parts that are not obvious or could use clarification.
-- [ ] CI workflows should run on `push` to `branches: [ master ]` and `pull_request` to `branches: [ master ]`.
+- [ ] CI workflows should run on `push` to `branches: [ $default-branch ]` and `pull_request` to `branches: [ $default-branch ]`.
 - [ ] Packaging workflows should run on `release` with `types: [ created ]`.
 
 Some general notes:
