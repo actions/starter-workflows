@@ -18,6 +18,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install pylint
         pip install pylint-exit
-    - name: Test with pytest
+    - name: Run Pylint
       run: |
         pylint $(find . -type f -name "*.py" -not -path './build*' | xargs) || pylint-exit $?
