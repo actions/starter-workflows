@@ -19,4 +19,4 @@ jobs:
         pip install pylint
     - name: Test with pytest
       run: |
-        pylint `ls -R|grep .py$|xargs`
+        pylint $(find . -type f -name "*.py" -not -path './build*' | xargs)
