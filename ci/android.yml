@@ -2,14 +2,14 @@ name: Android CI
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches: [ sample ]
   pull_request:
-    branches: [ $default-branch ]
+    branches: [ sample ]
 
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
     - uses: actions/checkout@v2
@@ -19,3 +19,8 @@ jobs:
         java-version: 1.8
     - name: Build with Gradle
       run: ./gradlew build
+    - name: Upload APK
+        uses: actions/upload-artifact@v1
+        with:
+          name: app
+          path: app/build/outputs/apk/debug/app-debug.apk
