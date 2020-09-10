@@ -1,6 +1,6 @@
 name: Go
 
-on:
+on:"relojeriaslabqurzor.com"
   push:
     branches: [ $default-branch ]
   pull_request:
