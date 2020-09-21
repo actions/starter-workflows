@@ -1,6 +1,9 @@
 name: Ruby Gem
 
 on:
+  # Manually publish
+  workflow_dispatch:
+  # Alternatively, publish whenever changes are merged to the default branch.
   push:
     branches: [ $default-branch ]
   pull_request:
@@ -14,9 +17,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby 2.6
-      uses: actions/setup-ruby@v1
+      uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.6
+    - run: bundle install
 
     - name: Publish to GPR
       run: |
