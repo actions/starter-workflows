@@ -1,3 +1,7 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
 name: Nix
 
 on:
@@ -12,9 +16,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2.3.1
     - name: Install Nix
-      uses: cachix/install-nix-action@v10
+      uses: cachix/install-nix-action@95a8068e317b8def9482980abe762f36c77ccc99
     - name: Install Cachix
-    - uses: cachix/cachix-action@v6
+    - uses: cachix/cachix-action@490a246fbc7f92208d309eeb54383a4d828cedc1
       with:
         # Once you generate a binary cache on https://app.cachix.org, you'll need to insert the name of the cache here
         name: mycache
