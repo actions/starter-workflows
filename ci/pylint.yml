@@ -20,4 +20,4 @@ jobs:
         pip install pylint-exit
     - name: Run Pylint
       run: |
-        pylint $(find . -type f -name "*.py" -not -path './build*' | xargs) || pylint-exit $?
+        find -regextype egrep -regex '(.*.py)$' -exec pylint {} \;
