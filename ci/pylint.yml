@@ -19,4 +19,10 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        find -regextype egrep -regex '(.*.py)$' -exec pylint {} \;
+        pylint --fail-under=10 `find -regextype egrep -regex '(.*.py)$'`
+        | tee pylint.txt
+    - name: Upload pylint.txt as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: pylint report
+        path: pylint.txt
