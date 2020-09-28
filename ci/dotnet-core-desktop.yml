@@ -11,22 +11,22 @@
 # To configure this workflow:
 #
 # 1. Configure environment variables
-# GitHub sets default environment variables for every workflow run.  
+# GitHub sets default environment variables for every workflow run.
 # Replace the variables relative to your project in the "env" section below.
-# 
+#
 # 2. Signing
-# Generate a signing certificate in the Windows Application 
+# Generate a signing certificate in the Windows Application
 # Packaging Project or add an existing signing certificate to the project.
 # Next, use PowerShell to encode the .pfx file using Base64 encoding
 # by running the following Powershell script to generate the output string:
-# 
+#
 # $pfx_cert = Get-Content '.\SigningCertificate.pfx' -Encoding Byte
 # [System.Convert]::ToBase64String($pfx_cert) | Out-File 'SigningCertificate_Encoded.txt'
 #
 # Open the output file, SigningCertificate_Encoded.txt, and copy the
 # string inside. Then, add the string to the repo as a GitHub secret
 # and name it "Base64_Encoded_Pfx."
-# For more information on how to configure your signing certificate for 
+# For more information on how to configure your signing certificate for
 # this workflow, refer to https://github.com/microsoft/github-actions-for-desktop-apps#signing
 #
 # Finally, add the signing certificate password to the repo as a secret and name it "Pfx_Key".
@@ -40,9 +40,9 @@ name: .NET Core Desktop
 
 on:
   push:
-    branches: [ master ]
+    branches: [ $default-branch ]
   pull_request:
-    branches: [ master ]
+    branches: [ $default-branch ]
 
 jobs:
 
@@ -52,7 +52,7 @@ jobs:
       matrix:
         configuration: [Debug, Release]
 
-    runs-on: windows-latest  # For a list of available runner types, refer to 
+    runs-on: windows-latest  # For a list of available runner types, refer to
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
