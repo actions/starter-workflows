@@ -1,0 +1,48 @@
+# This workflow will set up the oc CLI in your GitHub Action workflow and deploy your application to your OpenShift cluster.
+#
+# This workflow assumes you already have access to an OpenShift cluster.
+# For instructions to get started with OpenShift see https://www.openshift.com/try
+#
+# To configure this workflow:
+#
+# 1. Set up a secret in your repository named OPENSHIFT_SERVER_URL with the value of your OpenShift server URL.
+# 
+# 2. Set up another secret named API_TOKEN with the value of a valid token to authenticate to OpenShift.
+#
+# 3. Change the values for the PROJECT and APP_NAME environment variables  (below).
+#
+# For more information on the OpenShift Action, refer to https://github.com/redhat-developer/openshift-actions
+name: Build and Deploy to OpenShift
+on:
+  push:
+    branches:
+      - master
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  PROJECT: myproject
+  APP_NAME: myapp
+
+jobs:
+  build:
+    name: Setup and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Set up the oc CLI, authenticate and deploy to OpenShift
+    - name: Set up oc CLI and deploy to OpenShift
+      uses: redhat-developer/openshift-actions@v2.1.0
+      with:
+        version: '4.3'
+        openshift_server_url: ${{ secrets.OPENSHIFT_SERVER_URL }}
+        parameters: '{"apitoken": "${{ secrets.API_TOKEN }}", "acceptUntrustedCerts": "true"}'
+        cmd: |
+          oc project ${PROJECT}
+          oc new-app ${GITHUB_WORKSPACE} --name ${APP_NAME}
+    # Expose the service created by using the oc CLI installed previously
+    - name: Execute additional oc commands
+      run: |
+        oc expose svc/${{ env.APP_NAME }}
