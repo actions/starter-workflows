@@ -40,7 +40,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-          registry-url: $registry-url(npm)
+          registry-url: https://npm.pkg.github.com/
       - run: npm ci
       - run: npm publish
         env:
