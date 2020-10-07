@@ -1,0 +1,6 @@
+{
+    "name": "PowerShell",
+    "description": "Test PowerShell commands on multiple OS platforms.",
+    "iconName": "powershell",
+    "categories": ["PowerShell"]
+}
