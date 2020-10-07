@@ -1,6 +1,5 @@
 # This workflow will run PowerShell tests on Windows, Linux and macOS
-
-name: PowerShell module
+name: PowerShell
 
 on:
   push:
@@ -26,6 +25,7 @@ jobs:
       run: |
         Get-ChildItem | Select-Object -ExpandProperty Name -First 1 | Should -Be '.github'
         Get-Module Pester -ListAvailable | Measure-Object | Select -ExpandProperty Count | Should -BeGreaterThan 0
+    # Want to setup more advanced tests with Descriptions, Contexts and more? Use a ps1 script in your respository instead.
     - name: Run a script in the tests directory that has advanced Pester testing 
       shell: pwsh
       run: ./tests/pester.ps1
