@@ -6,7 +6,10 @@
 # This workflow will install Deno and run tests across stable and nightly builds on Windows, Ubuntu and macOS.
 # For more information see: https://github.com/denolib/setup-deno
 
-name: Deno
+- name: Update Deno
+  # You may pin to the exact commit or the version.
+  # uses: jeroenptrs/gh-action-update-deno@d79550276f9c0e482687482ba21189a3321b3c7f
+  uses: jeroenptrs/gh-action-update-deno@1.0.0
 
 on:
   push:
