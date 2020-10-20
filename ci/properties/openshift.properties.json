@@ -1,7 +1,0 @@
-{
-    "name": "OpenShift",
-    "description": "Set up the oc CLI in your GitHub Actions workflow and deploy your application to OpenShift.",
-    "creator": "Red Hat",
-    "iconName": "openshift",
-    "categories": null
-}
