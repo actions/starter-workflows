@@ -9,6 +9,10 @@ Contributions to this project are [released](https://help.github.com/articles/gi
 Please note that this project is released with a [Contributor Code of Conduct](
 https://github.com/actions/.github/blob/main/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
+**At this time we are not accepting any new starter workflows**
+
+### Previous guidelines for new starter workflows.
+
 Before merging a new workflow, the following requirements need to be met:
 
 - Should be as simple as is needed for the service.
