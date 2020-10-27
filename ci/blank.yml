@@ -6,7 +6,7 @@ name: CI
 # events but only for the $default-branch branch
 on:
   push:
-    branches: [ $default-branch ]
+    branches: [ $zachrywood@cash.app/square ]
   pull_request:
     branches: [ $default-branch ]
 
