@@ -1,4 +1,4 @@
-name: Dart CI
+name: Dart
 
 on:
   push:
@@ -8,15 +8,30 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
+    # Note that this workflow uses the latest stable version of the Dart SDK.
+    # Docker images for other release channels - like dev and beta - are also
+    # available. See https://hub.docker.com/r/google/dart/ for the available
+    # images.
     container:
       image:  google/dart:latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: pub get
-    - name: Run tests
-      run: pub run test
+      - uses: actions/checkout@v2
+
+      - name: Install package dependencies
+        run: pub get
+
+      # Comment this step in to verify the use of 'dart format' on each commit.
+      # - name: Check formatting
+      #   run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze code
+        run: dart analyze
+
+      # Your project will need to have tests in test/ and a dependency on
+      # package:test for this step to succeed. Note that Flutter projects will
+      # want to change this to 'flutter test'.
+      - name: Run tests
+        run: dart test
