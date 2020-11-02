@@ -20,18 +20,22 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install package dependencies
-        run: pub get
+      - name: dart --version
+        run: dart --version
 
-      # Comment this step in to verify the use of 'dart format' on each commit.
-      # - name: Check formatting
+      - name: dart pub get
+        run: dart pub get
+
+      # Uncomment this step to verify the use of 'dart format' on each commit.
+      # - name: dart format
       #   run: dart format --output=none --set-exit-if-changed .
 
-      - name: Analyze code
+      # Consider passing '--fatal-infos' for slightly stricter analysis.
+      - name: dart analyze
         run: dart analyze
 
       # Your project will need to have tests in test/ and a dependency on
       # package:test for this step to succeed. Note that Flutter projects will
       # want to change this to 'flutter test'.
-      - name: Run tests
+      - name: dart test
         run: dart test
