@@ -1,0 +1,6 @@
+{
+    "name": "Perl distribution",
+    "description": "Test a Perl distribution on multiple Perl versions.",
+    "iconName": "perl",
+    "categories": ["Perl"]
+}

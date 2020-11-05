@@ -1,0 +1,103 @@
+name: Perl testsuite
+
+on:
+  push:
+    branches: [$default-branch]
+  pull_request:
+    branches: [$default-branch]
+
+jobs:
+  ubuntu:
+    env:
+      PERL_USE_UNSAFE_INC: 0
+      AUTHOR_TESTING: 1
+      AUTOMATED_TESTING: 1
+      RELEASE_TESTING: 1
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: perl -V
+        run: perl -V
+      ## -------------------------------------------------
+      ## you can use one of these helpers
+      ##     to install dependencies
+      ## -------------------------------------------------
+      # - name: Install Dependencies from cpanfile
+      ## -------------------------------------------------
+      #   uses: perl-actions/install-with-cpm@stable
+      #   with:
+      #     cpanfile: "cpanfile"
+      ## -------------------------------------------------
+      # - name: Install Dependencies from a custom list
+      ## -------------------------------------------------
+      #   uses: perl-actions/install-with-cpm@stable
+      #   with:
+      #     install: |
+      #       List::of::Distro
+      #       Test::More
+      - name: Makefile.PL
+        run: perl -I$(pwd) Makefile.PL
+      - name: make test
+        run: make test
+
+  linux:
+    name: "linux ${{ matrix.perl-version }}"
+    needs: [ubuntu]
+    env:
+      PERL_USE_UNSAFE_INC: 0
+      AUTHOR_TESTING: 1
+      AUTOMATED_TESTING: 1
+      RELEASE_TESTING: 1
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        perl-version: [
+            ## ------------------------------
+            ## comment unsupported versions
+            ## ------------------------------
+            "5.32",
+            "5.30",
+            "5.28",
+            "5.26",
+            "5.24",
+            "5.22",
+            "5.20",
+            "5.18",
+            "5.16",
+            "5.14",
+            "5.12",
+            "5.10",
+            "5.8",
+          ]
+
+    container:
+      image: perl:${{ matrix.perl-version }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: perl -V
+        run: perl -V
+      ## -------------------------------------------------
+      # - name: Install Dependencies from cpanfile
+      ## -------------------------------------------------
+      #   uses: perl-actions/install-with-cpm@stable
+      #   with:
+      #     sudo: false
+      #     cpanfile: "cpanfile"
+      ## -------------------------------------------------
+      # - name: Install Dependencies from a custom list
+      ## -------------------------------------------------
+      #   uses: perl-actions/install-with-cpm@stable
+      #   with:
+      #     install: |
+      #       List::of::Distro
+      #       Test::More
+      - name: Makefile.PL
+        run: perl -I$(pwd) Makefile.PL
+      - name: make test
+        run: make test
