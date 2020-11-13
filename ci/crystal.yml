@@ -6,10 +6,10 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     container:
       image: crystallang/crystal
-    
+
     steps:
     - uses: actions/checkout@v1
     - name: Install dependencies
