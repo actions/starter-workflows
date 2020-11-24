@@ -36,16 +36,3 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C ${{env.BUILD_TYPE}}
       
-    - name: Install
-      # This step will install your cmake package to the `install` subdirectory.
-      # See https://cmake.org/cmake/help/latest/command/install.html
-      # You probably would want to also take a look at CPack https://cmake.org/cmake/help/latest/module/CPack.html
-      run: cmake --install build --prefix install
-
-    - name: Upload artifact
-      # Upload the installed folder. On linux, you'll want to generate a .tar archive to keep permissions for executables.
-      # See https://github.com/actions/upload-artifact#maintaining-file-permissions-and-case-sensitive-files
-      uses: actions/upload-artifact@v2.2.1
-      with:
-        path: install/*
-
