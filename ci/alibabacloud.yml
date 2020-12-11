@@ -1,4 +1,4 @@
-# This workflow will build and push a new container image to Alibaba Cloud Container Reigstry (ACR),
+# This workflow will build and push a new container image to Alibaba Cloud Container Registry (ACR),
 # and then will deploy it to Alibaba Cloud Container Service for Kubernetes (ACK), when a release is created.
 #
 # To use this workflow, you will need to complete the following set-up steps:
