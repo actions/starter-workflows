@@ -1,6 +1,6 @@
 {
     "name": "Manual workflow",
     "description": "Simple workflow that is manually triggered.",
-    "iconName": "blank",
+    "iconName": "octicon person",
     "categories": ["Automation"]
 }
