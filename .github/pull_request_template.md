@@ -1,4 +1,4 @@
-This repository contains configuration for what users see when they click on the `Actions` tab.
+This repository contains configuration for what users see when they click on the `Actions` tab and the setup page for Code Scanning.
 
 It is not:
 * A playground to try out scripts
@@ -6,7 +6,7 @@ It is not:
 
 ---
 
-**Please note that we are not accepting new starter workflows at this time. Updates to existing starter workflows are fine.**
+**Please note that at this time we are only accepting new starter workflows for Code Scanning. Updates to existing starter workflows are fine.**
 
 ---
 
@@ -21,16 +21,17 @@ In the workflow and properties files:
 - [ ] Include comments in the workflow for any parts that are not obvious or could use clarification.
 - [ ] CI workflows should run on `push` to `branches: [ $default-branch ]` and `pull_request` to `branches: [ $default-branch ]`.
 - [ ] Packaging workflows should run on `release` with `types: [ created ]`.
+- [ ] Code Scanning workflows should run on `push` to `branches: [ $default-branch, $protected-branches ]` and `pull_request` to `branches: [ $default-branch ]`. We also recommend a `schedule` trigger of `cron: $cron-weekly`.
 
 Some general notes:
 
 - [ ] This workflow must only use actions that are produced by GitHub, [in the `actions` organization](https://github.com/actions), **or**
-- [ ] This workflow must only use actions that are produced by the language or ecosystem that the workflow supports.  These actions must be [published to the GitHub Marketplace](https://github.com/marketplace?type=actions).  Workflows using these actions must reference the action using the full 40 character hash of the action's commit instead of a tag.  Additionally, workflows must include the following comment at the top of the workflow file:
+- [ ] This workflow must only use actions that are produced by the language or ecosystem that the workflow supports.  These actions must be [published to the GitHub Marketplace](https://github.com/marketplace?type=actions).  We recommend that these actions be referenced using the full 40 character hash of the action's commit instead of a tag.  Additionally, workflows must include the following comment at the top of the workflow file:
     ```
     # This workflow uses actions that are not certified by GitHub.
     # They are provided by a third-party and are governed by
     # separate terms of service, privacy policy, and support
     # documentation.
     ```
-- [ ] This workflow must not send data to any 3rd party service except for the purposes of installing dependencies.
-- [ ] This workflow must not use a paid service or product.
+- [ ] Automation and CI workflows should not send data to any 3rd party service except for the purposes of installing dependencies.
+- [ ] Automation and CI workflows cannot be dependent on a paid service or product.
