@@ -13,11 +13,12 @@ These are the workflow files for helping people get started with GitHub Actions.
 **Directory structure:**
 * [ci](ci): solutions for Continuous Integration
 * [automation](automation): solutions for automating workflows.
+* [code-scanning](code-scanning): starter workflows for [Code Scanning](https://github.com/features/security)
 * [icons](icons): svg icons for the relevant template
 
 Each workflow must be written in YAML and have a `.yml` extension. They also need a corresponding `.properties.json` file that contains extra metadata about the workflow (this is displayed in the GitHub.com UI).
 
-For example: `ci/python-django.yml` and `ci/properties/python-django.properties.json`.
+For example: `ci/django.yml` and `ci/properties/django.properties.json`.
 
 **Valid properties:**
 * `name`: the name shown in onboarding
