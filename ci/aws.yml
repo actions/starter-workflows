@@ -1,6 +1,5 @@
 # This workflow will build and push a new container image to Amazon ECR,
-# and then will deploy a new task definition to Amazon ECS, on every push
-# to the master branch.
+# and then will deploy a new task definition to Amazon ECS, when a release is created
 #
 # To use this workflow, you will need to complete the following set-up steps:
 #
@@ -25,9 +24,8 @@
 #    and best practices on handling the access key credentials.
 
 on:
-  push:
-    branches:
-      - master
+  release:
+    types: [created]
 
 name: Deploy to Amazon ECS
 
@@ -38,7 +36,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
