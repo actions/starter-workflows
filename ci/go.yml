@@ -9,25 +9,14 @@ on:
 jobs:
 
   build:
-    name: Build
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
 
-    - name: Set up Go 1.x
+    - name: Set up Go
       uses: actions/setup-go@v2
       with:
-        go-version: ^1.13
-
-    - name: Check out code into the Go module directory
-      uses: actions/checkout@v2
-
-    - name: Get dependencies
-      run: |
-        go get -v -t -d ./...
-        if [ -f Gopkg.toml ]; then
-            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-            dep ensure
-        fi
+        go-version: 1.15
 
     - name: Build
       run: go build -v ./...
