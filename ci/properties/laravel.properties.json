@@ -2,8 +2,5 @@
   "name": "Laravel",
   "description": "Test a Laravel project.",
   "iconName": "php",
-  "categories": [
-    "PHP",
-    "Laravel"
-  ]
+  "categories": ["PHP", "Laravel"]
 }
