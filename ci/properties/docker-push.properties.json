@@ -2,5 +2,7 @@
   "name": "Docker push",
   "description": "Build, test and push Docker image to GitHub Package Registry.",
   "iconName": "docker",
-  "categories": ["Dockerfile"]
+  "categories": [
+    "Dockerfile"
+  ]
 }
