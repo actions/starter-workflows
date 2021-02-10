@@ -1,5 +1,5 @@
 {
-    "name": "Android Codecov CI",
+    "name": "android-codecov",
     "description": "Send Code coverage from an Android project to Codecov platform.",
     "iconName": "codecov",
     "categories": ["Java","Kotlin", "Mobile"]
