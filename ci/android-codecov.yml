@@ -1,0 +1,44 @@
+name: Android Codecov CI
+
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+
+jobs:
+
+  build:
+
+    runs-on: macos-latest
+
+    
+    steps:
+     
+      - uses: actions/checkout@v2
+
+    
+      - name: Unit Test with Android Emulator Runner
+        uses: ReactiveCircus/android-emulator-runner@v2.14.3
+        with: 
+            api-level: 29
+            script: ./gradlew connectedCheck
+          
+        
+      - name: generate report
+        uses: actions/upload-artifact@v2
+        with:
+          name: report 
+          path: app/build/reports/coverage/debug
+            
+      
+      - name: Download Test Reports Folder
+        uses: actions/download-artifact@v2
+        with:
+          name: report
+          path: app/build/reports/coverage/debug
+        
+      - name: Upload Test Report
+        run:  bash <(curl -s https://codecov.io/bash) -f "app/build/reports/coverage/debug/report.xml"
