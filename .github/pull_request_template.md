@@ -18,23 +18,33 @@ It is not:
 
 ---
 
-In the workflow and properties files:
+## Tasks
 
-- [ ] The workflow filename of CI workflows should be the name of the language or platform, in lower case.  Special characters should be removed or replaced with words as appropriate (for example, "dotnet" instead of ".NET").
+**For _all_ workflows, the workflow:**
 
-  The workflow filename of publishing workflows should be the name of the language or platform, in lower case, followed by "-publish".
-- [ ] Includes a matching `ci/properties/*.properties.json` file.
-- [ ] Use sentence case for the names of workflows and steps, for example "Run tests".
-- [ ] The name of CI workflows should only be the name of the language or platform: for example "Go" (not "Go CI" or "Go Build")
-- [ ] Include comments in the workflow for any parts that are not obvious or could use clarification.
-- [ ] CI workflows should run on `push` to `branches: [ $default-branch ]` and `pull_request` to `branches: [ $default-branch ]`.
+- [ ] Should be contained in a file having the name of the language or platform, in lower, [_kebab-cased_](https://en.wikipedia.org/wiki/Kebab_case) format.  Special characters should be removed or replaced with words as appropriate (for example, "dotnet" instead of ".NET").
+- [ ] Should use sentence case for the names of workflows and steps (for example, "Run tests").
+- [ ] Should be named _only_ by the name of the language or platform (for example, "Go", not "Go CI" or "Go Build")
+- [ ] Should include comments in the workflow for any parts that are not obvious or could use clarification.
+
+**For _CI_ workflows, the workflow:**
+
+- [ ] Should be preserved under [the `ci` directory](https://github.com/actions/starter-workflows/tree/main/ci)
+- [ ] Should include a matching `ci/properties/*.properties.json` file (for example, [`ci/properties/docker-publish.properties.json`](https://github.com/actions/starter-workflows/blob/main/ci/properties/docker-publish.properties.json)).
+- [ ] Should run on `push` to `branches: [ $default-branch ]` and `pull_request` to `branches: [ $default-branch ]`.
 - [ ] Packaging workflows should run on `release` with `types: [ created ]`.
-- [ ] Code Scanning workflows should run on `push` to `branches: [ $default-branch, $protected-branches ]` and `pull_request` to `branches: [ $default-branch ]`. We also recommend a `schedule` trigger of `cron: $cron-weekly`.
+- [ ] Publishing workflows should have a filename that is the name of the language or platform, in lower case, followed by "-publish" (for example, [`docker-publish.yml`](https://github.com/actions/starter-workflows/blob/main/ci/docker-publish.yml)).
 
-Some general notes:
+**For _Code Scanning_ workflows, the workflow:**
 
-- [ ] This workflow must only use actions that are produced by GitHub, [in the `actions` organization](https://github.com/actions), **or**
-- [ ] This workflow must only use actions that are produced by the language or ecosystem that the workflow supports.  These actions must be [published to the GitHub Marketplace](https://github.com/marketplace?type=actions).  We recommend that these actions be referenced using the full 40 character hash of the action's commit instead of a tag.  Additionally, workflows must include the following comment at the top of the workflow file:
+- [ ] Should be preserved under [the `code-scanning` directory](https://github.com/actions/starter-workflows/tree/main/ci)
+- [ ] Should include a matching `code-scanning/properties/*.properties.json` file.
+- [ ] Should run on `push` to `branches: [ $default-branch, $protected-branches ]` and `pull_request` to `branches: [ $default-branch ]`. We also recommend a `schedule` trigger of `cron: $cron-weekly` (for example, [`codeql.yml`](https://github.com/actions/starter-workflows/blob/c59b62dee0eae1f9f368b7011cf05c2fc42cf084/code-scanning/codeql.yml#L14-L21)).
+
+**Some general notes:**
+
+- [ ] This workflow must _only_ use actions that are produced by GitHub, [in the `actions` organization](https://github.com/actions), **or**
+- [ ] This workflow must _only_ use actions that are produced by the language or ecosystem that the workflow supports.  These actions must be [published to the GitHub Marketplace](https://github.com/marketplace?type=actions).  We recommend that these actions be referenced using the full 40 character hash of the action's commit instead of a tag.  Additionally, workflows must include the following comment at the top of the workflow file:
     ```
     # This workflow uses actions that are not certified by GitHub.
     # They are provided by a third-party and are governed by
