@@ -6,7 +6,7 @@ It is not:
 
 ---
 
-**Please note that at this time we are only accepting new starter workflows for Code Scanning. Updates to existing starter workflows are fine.**
+### **Please note that at this time we are only accepting new starter workflows for Code Scanning. Updates to existing starter workflows are fine.**
 
 ---
 
