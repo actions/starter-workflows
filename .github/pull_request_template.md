@@ -8,6 +8,9 @@ It is not:
 * A place for you to create a workflow for your repository
 -->
 
+## Pre-requisites
+
+- [ ] Prior to submitting a new workflow, please apply to join the GitHub Technology Partner Program: [partner.github.com/apply](https://partner.github.com/apply?partnershipType=Technology+Partner).
 
 ---
 
