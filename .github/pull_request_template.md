@@ -22,7 +22,7 @@ It is not:
 
 **For _all_ workflows, the workflow:**
 
-- [ ] Should be contained in a file having the name of the language or platform, in lower, [_kebab-cased_](https://en.wikipedia.org/wiki/Kebab_case) format.  Special characters should be removed or replaced with words as appropriate (for example, "dotnet" instead of ".NET").
+- [ ] Should be contained in a `.yml` file with the language or platform as its filename, in lower, [_kebab-cased_](https://en.wikipedia.org/wiki/Kebab_case) format (for example, [`docker-image.yml`](https://github.com/actions/starter-workflows/blob/main/ci/docker-image.yml)).  Special characters should be removed or replaced with words as appropriate (for example, "dotnet" instead of ".NET").
 - [ ] Should use sentence case for the names of workflows and steps (for example, "Run tests").
 - [ ] Should be named _only_ by the name of the language or platform (for example, "Go", not "Go CI" or "Go Build").
 - [ ] Should include comments in the workflow for any parts that are not obvious or could use clarification.
