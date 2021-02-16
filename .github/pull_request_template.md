@@ -38,7 +38,7 @@ It is not:
 **For _Code Scanning_ workflows, the workflow:**
 
 - [ ] Should be preserved under [the `code-scanning` directory](https://github.com/actions/starter-workflows/tree/main/ci).
-- [ ] Should include a matching `code-scanning/properties/*.properties.json` file, with properties set as follows:
+- [ ] Should include a matching `code-scanning/properties/*.properties.json` file (for example, [`code-scanning/properties/codeql.properties.json`](https://github.com/actions/starter-workflows/blob/main/code-scanning/properties/codeql.properties.json)), with properties set as follows:
   - [ ] `name`: Name of the Code Scanning integration.
   - [ ] `organization`: Name of the organization producing the Code Scanning integration.
   - [ ] `description`: Short description of the Code Scanning integration.
