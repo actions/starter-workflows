@@ -42,7 +42,7 @@ It is not:
   - [ ] `name`: Name of the Code Scanning integration.
   - [ ] `organization`: Name of the organization producing the Code Scanning integration.
   - [ ] `description`: Short description of the Code Scanning integration.
-  - [ ] `languages`: Array of languages supported by the Code Scanning integration.
+  - [ ] `categories`: Array of languages supported by the Code Scanning integration.
   - [ ] `iconName`: Name of the SVG logo representing the Code Scanning integration. This SVG logo must be present in [the `icons` directory](https://github.com/actions/starter-workflows/tree/main/icons).
 - [ ] Should run on `push` to `branches: [ $default-branch, $protected-branches ]` and `pull_request` to `branches: [ $default-branch ]`. We also recommend a `schedule` trigger of `cron: $cron-weekly` (for example, [`codeql.yml`](https://github.com/actions/starter-workflows/blob/c59b62dee0eae1f9f368b7011cf05c2fc42cf084/code-scanning/codeql.yml#L14-L21)).
 
