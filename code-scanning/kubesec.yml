@@ -18,6 +18,9 @@ jobs:
   lint:
     name: Kubesec
     runs-on: ubuntu-20.04
+    permissions:
+      contents: read
+      security-events: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
