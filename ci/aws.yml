@@ -22,6 +22,9 @@
 # 4. Store an IAM user access key in GitHub Actions secrets named `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
 #    See the documentation for each action used below for the recommended IAM policies for this IAM user,
 #    and best practices on handling the access key credentials.
+# 
+# 5. Create an environment named "production".
+#    For instructions see https://docs.github.com/en/actions/reference/environments#creating-an-environment.
 
 on:
   release:
@@ -33,6 +36,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
     - name: Checkout
