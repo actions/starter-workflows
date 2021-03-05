@@ -16,6 +16,9 @@
 #
 # 4. Change the values for the REGION_ID, REGISTRY, NAMESPACE, IMAGE, ACK_CLUSTER_ID, and ACK_DEPLOYMENT_NAME. 
 #
+# 5. Create an environment named "production".
+#    For instructions see https://docs.github.com/en/actions/reference/environments#creating-an-environment. 
+#
 
 name: Build and Deploy to ACK
 
@@ -42,6 +45,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: production
     
     steps:
     - name: Checkout
