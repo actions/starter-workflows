@@ -1,0 +1,7 @@
+{
+    "name": "Kubesec",
+    "creator": "Controlplane",
+    "description": "Security risk analysis for Kubernetes resources. Submit pod-types (such as deployment, cronjob) to receive an itemised security risk score.",
+    "iconName": "kubesec",
+    "categories": ["Code Scanning"]
+}
