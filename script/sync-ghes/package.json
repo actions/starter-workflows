@@ -11,7 +11,7 @@
     "@types/js-yaml": "^3.12.4",
     "@types/node": "^14.0.1",
     "ts-node": "^8.10.1",
-    "typescript": "^3.9.2"
+    "typescript": "^3.9.9"
   },
   "dependencies": {
     "js-yaml": "^3.13.1"
