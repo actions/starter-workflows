@@ -1,0 +1,24 @@
+name: pashmak CI
+
+on: [push, pull_request]
+
+jobs:
+  my_job:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-lastest]
+
+    steps:
+
+
+    - name: Set up Pashmak
+      uses: pashmaklang/setup-pashmak@v1
+      with:
+        pashmak-version: 0.8.1
+
+    - name: Run the scripts
+      run: |
+        pashmak my-program.pashm
