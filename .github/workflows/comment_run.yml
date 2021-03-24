@@ -1,0 +1,32 @@
+name: "Comment run"
+
+on:
+  issue_comment: 
+    types: [created, edited]
+  pull_request_review_comment: 
+    types: [created, edited]
+  pull_request_review: 
+    types: [submitted, edited, dismissed]
+  issues: 
+    types: [opened, closed]
+  pull_request: 
+    types: [review_requested, opened, closed]
+    
+jobs:
+  comment-run:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/github-script@0.2.0
+      with:
+        github-token: ${{github.token}}
+        script: |
+          const body = context.payload.pull_request.body.toLowerCase()
+          console.log("Detected comment: " + body)
+    - name: say hello
+      if: contains(github.event.comment.body, '/support')   # check the comment if it contains the keywords
+      run: |
+        echo say hello
+    - name: test
+      if: contains(github.event.comment.body, '/test')  # check the comment if it contains the keywords
+      run: |
+        echo test
