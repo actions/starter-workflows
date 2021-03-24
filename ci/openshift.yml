@@ -53,7 +53,6 @@ env:
 
   # If you wish to manually provide the APP_NAME and TAG, set them here, otherwise they will be auto-detected.
   APP_NAME: ""
-
   TAG: ""
 
 on:
@@ -88,7 +87,7 @@ jobs:
               core.warning(`Secret "${name}" is not set`);
               return true;
             }
-            core.info(` ✔️ Secret "${name}" is set`);
+            core.info(`✔️ Secret "${name}" is set`);
             return false;
 
           });
@@ -96,14 +95,14 @@ jobs:
           if (missingSecrets.length > 0) {
             core.setFailed(`❌ At least one required secret is not set in the repository. \n` +
               "You can add it using:\n" +
-              "Github UI: https://docs.github.com/en/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-a-repository \n" +
-              "Github CLI: https://cli.github.com/manual/gh_secret_set \n" +
+              "GitHub UI: https://docs.github.com/en/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-a-repository \n" +
+              "GitHub CLI: https://cli.github.com/manual/gh_secret_set \n" +
               "Also, refer to https://github.com/redhat-actions/oc-login#getting-started-with-the-action-or-see-example");
           }
           else {
             core.info(`✅ All the required secrets are set`);
           }
-          
+
     - uses: actions/checkout@v2
 
     - name: Determine app name
