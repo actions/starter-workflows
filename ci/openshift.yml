@@ -64,7 +64,7 @@ on:
 jobs:
   openshift-ci-cd:
     name: Build and deploy to OpenShift
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
     environment: production
 
     outputs:
