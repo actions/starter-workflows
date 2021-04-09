@@ -1,0 +1,7 @@
+{
+    "name": "Deploy to Huawei Cloud CCE",
+    "description": "Deploy a container to Huawei Cloud Container Engine (CCE).",
+    "creator": "Huawei Cloud",
+    "iconName": "huaweicloud",
+    "categories": null
+}

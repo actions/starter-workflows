@@ -1,0 +1,83 @@
+# This workflow will build and push a new container image to Huawei Cloud SoftWare Repository for Container (SWR),
+# and then will deploy it to Huawei Cloud Container Engine (CCE), when a release is created.
+#
+# To use this workflow, you will need to complete the following set-up steps:
+#
+# 1. (Optional) Prepare a user account with Huawei Cloud SWR service access that allow upload container images,
+#    you can also use any other container image registry which allow public access(pulling without login).
+#    For more details see https://www.huaweicloud.com/intl/en-us/product/swr.html
+#
+# 2. Create a Huawei Cloud CCE cluster to run your containerized application.
+#    For more details see: https://www.huaweicloud.com/intl/en-us/product/cce.html
+#
+# 3. Store your AccessKey pair in GitHub Actions secrets named `ACCESS_KEY_ID` and `ACCESS_KEY_SECRET`.
+#    For instructions on setting up secrets see: https://developer.github.com/actions/managing-workflows/storing-secrets/
+#
+# 4. Change the values for the REGION, CLUSTER_ID, PROJECT_ID, SWR_ORGANIZATION, IMAGE, and DEPLOYMENT_NAME.
+#
+
+name: Build and Deploy to Huawei Cloud CCE cluster
+
+on:
+  release:
+    types: [created]
+
+# Environment variables available to all jobs and steps in this workflow.
+env:
+  REGION: ap-southeast-3
+  CLUSTER_ID: clusterID
+  PROJECT_ID: projectID
+  SWR_REGISTRY: swr.${{ REGION }}.myhuaweicloud.com
+  SWR_ORGANIZATION: organization
+  IMAGE: repo
+  TAG: ${{ github.sha }}
+  DEPLOYMENT_NAME: nginx-deployment
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # 1.1 (Optional) Login to Huawei Cloud SWR
+    - name: Login to Huawei Cloud SWR
+      uses: huaweicloud/swr-login@v1
+      with:
+        region: "${{ env.REGION }}"
+        access-key-id: "${{ secrets.ACCESS_KEY_ID }}"
+        access-key-secret: "${{ secrets.ACCESS_KEY_SECRET }}"
+
+    # 1.2 (Optional) Build and push image to Huawei Cloud SWR
+    - name: Build and push image to ACR
+      run: |
+        docker build --tag "$SWR_REGISTRY/$SWR_ORGANIZATION$IMAGE:$TAG" .
+        docker push "$REGISTRY/$SWR_ORGANIZATION/$IMAGE:$TAG"
+
+    # 2.1 Get Huawei Cloud CCE cluster credentials
+    - name: Get Huawei Cloud CCE cluster credentials
+      uses: huaweicloud/cce-cluster-credentials@v1
+      with:
+        access-key-id: "${{ secrets.ACCESS_KEY_ID }}"
+        access-key-secret: "${{ secrets.ACCESS_KEY_SECRET }}"
+        cluster-id: "${{ env.CLUSTER_ID }}"
+        project-id: "${{ env.PROJECT_ID }}"
+        region: "${{ env.REGION }}"
+
+    # 2.2 Set CCE cluster context
+    - name: Set CCE cluster context(external as default)
+      run: |-
+        kubectl config use-context external
+
+    # 2.3 Deploy the image to the Huawei Cloud CCE cluster cluster
+    - name: Set up Kustomize
+      run: |-
+        curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash /dev/stdin 3.8.6
+    - name: Deploy
+      run: |-
+        ./kustomize edit set image REGISTRY/NAMESPACE/IMAGE:TAG=$REGISTRY/$SWR_ORGANIZATION/$IMAGE:$TAG
+        ./kustomize build . | kubectl apply -f -
+        kubectl rollout status deployment/$DEPLOYMENT_NAME
+        kubectl get services -o wide
