@@ -1,0 +1,110 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# This workflow runs Parasoft dotTEST to analyze code
+# and display results with Github code scanning alerts.
+# Parasoft dotTEST is a testing tool that provides code analysis techniques
+# to improve code quality and ensure compliance with industry standards.
+# See https://github.com/parasoft/run-dottest-action for more information.
+
+name: Parasoft dotTEST Code Analysis
+
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    # The branches below must be a subset of the branches above.
+    branches: [ $default-branch ]
+  schedule:
+    - cron: $cron-weekly
+
+  # Allows you to run this workflow manually from the Actions tab.
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel.
+jobs:
+  # This workflow is made up of one job "run-dottest-action".
+  run-dottest-action:
+    # Specifies the name of the job.
+    name: Run code analysis with dotTEST
+    # Specifies the type of runner that the job will run on.
+    runs-on: self-hosted
+    
+    # Steps represent a sequence of tasks that will be executed as part of the job.
+    steps:
+
+    # Checks out your repository, so that your job can access it.
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    # ---------------------------------------------------------------
+    # Runs code analysis with dotTEST and generates a .sarif report.
+    - name: Run Parasoft dotTEST
+      id: dottest
+      uses: parasoft/run-dottest-action@b31de2dbfca9858ccef94b24295814d6ca702711
+      with:
+        # Path to the working directory.
+        #workingDir: # optional, default is ${{ github.workspace }}
+        # Path to the dotTEST installation directory, which contains dottestcli.exe. If not specified, dottestcli.exe will be searched for on PATH.
+        #installDir: # optional
+        # Path to the solution to be analyzed. Specify a semicolon-separated list of paths to analyze many solutions. Supports ANT-style wildcards.
+        #solution: # optional, default is .\*.sln
+        # Path to the project to be analyzed when no solution is provided. Specify a semicolon-separated list of paths to analyze many projects. Supports ANT-style wildcards.
+        #project: # optional
+        # Full path to the website directory to be analyzed when no solution is provided.
+        #website: # optional
+        # URL of the test configuration to be used for analysis.
+        #testConfig: # optional, default is builtin://Recommended .NET Core Rules
+        # Solution-relative path to a project in a solution, a directory of files in a project, or a file.
+        #resource: # optional
+        # File system paths to files to include in analysis. Supports ANT-style wildcards. If not specified, all files are analyzed.
+        #include: # optional
+        # File system paths to files to exclude from analysis. Supports ANT-style wildcards.
+        #exclude: # optional
+        # Path to additional assemblies required to resolve dependencies. Specify a semicolon-separated list of paths to provide many references. Supports ANT-style wildcards.
+        #reference: # optional
+        # Path to the directory where the report will be created.
+        #reportDir: # optional, default is ${{ github.workspace }}/.dottest/report/${{ github.run_number }}
+        # Publishes report to DTP.
+        #publish: # optional
+        # Path to a settings file.
+        #settings: # optional
+        # A single configuration setting in the "key=value" format.
+        #property: # optional
+        # Disables the build of the tested solutions or projects.
+        #nobuild: # optional
+        # Run tests that are tagged with specific issue tracking types/IDs.
+        #testTagFilter: # optional
+        # Solution configuration, e.g. "Debug".
+        #solutionConfig: # optional
+        # Project configuration, e.g. "Debug".
+        #projectConfig: # optional
+        # Target platform of the solution configuration (e.g."Any CPU") or project configuration (e.g. "AnyCPU").
+        #targetPlatform: # optional
+        # Path to the location where console output is saved.
+        #out: # optional
+        # Fails the command with exit code 2 or 4 if any findings are reported. It is recommended to use it with continue-on-error: true.
+        #fail: # optional
+        # Lists all settings that are currently used.
+        #showsettings: # optional
+        # 'Mode for GitHub report (SAFIF) generation. You can use:
+        # - "legacy" - for dotTEST 2020.2 or older
+        # - "builtin" - for dotTEST 2021.1 or newer (default)
+        #sarifMode: # optional, default is builtin
+
+    # ---------------------------------------------------------------
+    # Uploads an archive that includes all report files (.xml, .html, .sarif).
+    - name: Upload report artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Report files
+        path: ${{ steps.dottest.outputs.reportDir }}/*.*
+
+    # ---------------------------------------------------------------
+    # Uploads analysis results in the SARIF format, so that they are displayed as GitHub code scanning alerts.
+    - name: Upload results to GitHub
+      uses: github/codeql-action/upload-sarif@v1
+      with:
+        sarif_file: ${{ steps.dottest.outputs.report }}
