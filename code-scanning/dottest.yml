@@ -20,9 +20,6 @@ on:
   schedule:
     - cron: $cron-weekly
 
-  # Allows you to run this workflow manually from the Actions tab.
-  workflow_dispatch:
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel.
 jobs:
   # This workflow is made up of one job "run-dottest-action".
