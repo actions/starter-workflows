@@ -3,6 +3,6 @@
     "name": "Parasoft dotTEST Code Analysis",
     "creator": "Parasoft",
     "description": "Code analysis with Parasoft dotTEST for C# and VB.NET to ensure code quality and compliance with CWE, OWASP, and more.",
-    "iconName": "icons/parasoft-cube-logo.svg",
-    "categories": ["Code Analysis", "C#", "VB.NET"]
+    "iconName": "icons/parasoft.svg",
+    "categories": ["Code Scanning", "C#", "VB.NET"]
 }
