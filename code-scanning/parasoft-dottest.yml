@@ -4,7 +4,7 @@
 # documentation.
 
 # This workflow runs Parasoft dotTEST to analyze code
-# and display results with Github code scanning alerts.
+# and display results with GitHub code scanning alerts.
 # Parasoft dotTEST is a testing tool that provides code analysis techniques
 # to improve code quality and ensure compliance with industry standards.
 # See https://github.com/parasoft/run-dottest-action for more information.
