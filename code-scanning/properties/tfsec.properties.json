@@ -1,0 +1,7 @@
+{
+    "name": "tfsec",
+    "creator": "tfsec",
+    "description": "Static analysis for Terraform.",
+    "iconName": "tfsec",
+    "categories": ["Code Scanning"]
+}
