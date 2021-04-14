@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Clone repo
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
 
       - name: Run tfsec
         uses: tfsec/tfsec-sarif-action@v0.0.4
