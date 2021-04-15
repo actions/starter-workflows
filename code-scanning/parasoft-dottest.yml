@@ -86,7 +86,7 @@ jobs:
         #fail: # optional
         # Lists all settings that are currently used.
         #showsettings: # optional
-        # 'Mode for GitHub report (SAFIF) generation. You can use:
+        # 'Mode for GitHub report (SARIF) generation. You can use:
         # - "legacy" - for dotTEST 2020.2 or older
         # - "builtin" - for dotTEST 2021.1 or newer (default)
         #sarifMode: # optional, default is builtin
