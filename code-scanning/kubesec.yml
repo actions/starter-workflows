@@ -19,6 +19,7 @@ jobs:
     name: Kubesec
     runs-on: ubuntu-20.04
     permissions:
+      actions: read
       contents: read
       security-events: write
     steps:
