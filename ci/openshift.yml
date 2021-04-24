@@ -27,6 +27,7 @@
 
 # For a more sophisticated example, see https://github.com/redhat-actions/spring-petclinic/blob/main/.github/workflows/petclinic-sample.yaml
 # Also see our GitHub organization, https://github.com/redhat-actions/
+# ▶️ See a video of how to set up this workflow at https://www.youtube.com/watch?v=6hgBO-1pKho
 
 name: OpenShift
 
@@ -63,9 +64,45 @@ on:
 jobs:
   openshift-ci-cd:
     name: Build and deploy to OpenShift
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
+    environment: production
+
+    outputs:
+        ROUTE: ${{ steps.deploy-and-expose.outputs.route }}
+        SELECTOR: ${{ steps.deploy-and-expose.outputs.selector }}
 
     steps:
+    - name: Check if secrets exists
+      uses: actions/github-script@v3
+      with:
+        script: |
+          const secrets = {
+            REGISTRY_PASSWORD: `${{ secrets.REGISTRY_PASSWORD }}`,
+            OPENSHIFT_SERVER: `${{ secrets.OPENSHIFT_SERVER }}`,
+            OPENSHIFT_TOKEN: `${{ secrets.OPENSHIFT_TOKEN }}`,
+          };
+
+          const missingSecrets = Object.entries(secrets).filter(([ name, value ]) => {
+            if (value.length === 0) {
+              core.warning(`Secret "${name}" is not set`);
+              return true;
+            }
+            core.info(`✔️ Secret "${name}" is set`);
+            return false;
+
+          });
+
+          if (missingSecrets.length > 0) {
+            core.setFailed(`❌ At least one required secret is not set in the repository. \n` +
+              "You can add it using:\n" +
+              "GitHub UI: https://docs.github.com/en/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-a-repository \n" +
+              "GitHub CLI: https://cli.github.com/manual/gh_secret_set \n" +
+              "Also, refer to https://github.com/redhat-actions/oc-login#getting-started-with-the-action-or-see-example");
+          }
+          else {
+            core.info(`✅ All the required secrets are set`);
+          }
+
     - uses: actions/checkout@v2
 
     - name: Determine app name
@@ -80,12 +117,13 @@ jobs:
 
     # https://github.com/redhat-actions/buildah-build#readme
     - name: Build from Dockerfile
-      uses: redhat-actions/buildah-build@v1
+      id: image-build
+      uses: redhat-actions/buildah-build@v2
       with:
         image: ${{ env.APP_NAME }}
-        tag: ${{ env.TAG }}
+        tags: ${{ env.TAG }}
         # If you don't have a dockerfile, see:
-        # https://github.com/redhat-actions/buildah-build#building-from-scratch
+        # https://github.com/redhat-actions/buildah-build#scratch-build-inputs
         # Otherwise, point this to your Dockerfile relative to the repository root.
         dockerfiles: |
           ./Dockerfile
@@ -93,10 +131,10 @@ jobs:
     # https://github.com/redhat-actions/push-to-registry#readme
     - name: Push to registry
       id: push-to-registry
-      uses: redhat-actions/push-to-registry@v1
+      uses: redhat-actions/push-to-registry@v2
       with:
-        image: ${{ env.APP_NAME }}
-        tag: ${{ env.TAG }}
+        image: ${{ steps.image-build.outputs.image }}
+        tags: ${{ steps.image-build.outputs.tags }}
         registry: ${{ env.REGISTRY }}
         username: ${{ env.REGISTRY_USER }}
         password: ${{ env.REGISTRY_PASSWORD }}
@@ -117,30 +155,15 @@ jobs:
         namespace: ${{ env.OPENSHIFT_NAMESPACE }}
 
     # This step should create a deployment, service, and route to run your app and expose it to the internet.
-    # Feel free to replace this with 'oc apply', 'helm install', or however you like to deploy your app.
+    # https://github.com/redhat-actions/oc-new-app#readme
     - name: Create and expose app
-      run: |
-        export IMAGE="${{ steps.push-to-registry.outputs.registry-path }}"
-        export PORT=${{ env.APP_PORT }}
-
-        export SELECTOR="app=${{ env.APP_NAME }}"
-        echo "SELECTOR=$SELECTOR" >> $GITHUB_ENV
-
-        set -x
-        # Take down any old deployment
-        oc delete all --selector="$SELECTOR"
-        oc new-app --name $APP_NAME --docker-image="$IMAGE"
-
-        # Make sure the app port is exposed
-        oc patch svc $APP_NAME -p "{ \"spec\": { \"ports\": [{ \"name\": \"$PORT-tcp\", \"port\": $PORT }] } }"
-        oc expose service $APP_NAME --port=$PORT
-
-        oc get all --selector="$SELECTOR"
-        set +x
-
-        export ROUTE="$(oc get route $APP_NAME -o jsonpath='{.spec.host}')"
-        echo "$APP_NAME is exposed at $ROUTE"
-        echo "ROUTE=$ROUTE" >> $GITHUB_ENV
+      id: deploy-and-expose
+      uses: redhat-actions/oc-new-app@v1
+      with:
+        app_name: ${{ env.APP_NAME }}
+        image: ${{ steps.push-to-registry.outputs.registry-path }}
+        namespace: ${{ env.OPENSHIFT_NAMESPACE }}
+        port: ${{ env.APP_PORT }}
 
     - name: View application route
       run: |
@@ -150,3 +173,6 @@ jobs:
         echo "==================================================================================="
         echo
         echo "Your app can be taken down with: \"oc delete all --selector='${{ env.SELECTOR }}'\""
+      env:
+        ROUTE: ${{ steps.deploy-and-expose.outputs.route }}
+        SELECTOR: ${{ steps.deploy-and-expose.outputs.selector }}

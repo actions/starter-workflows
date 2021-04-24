@@ -19,6 +19,6 @@ Before merging a new workflow, the following requirements need to be met:
 - There are many programming languages and tools out there. Right now we don't have a page that allows for a really large number of workflows, so we do have to be a little choosy about what we accept. Less popular tools or languages might not be accepted.
 - Automation and CI workflows should not send data to any 3rd party service except for the purposes of installing dependencies.
 - Automation and CI workflows cannot be dependent on a paid service or product.
-- We recommend that Actions outside of the `actions` organization be pinned to a specific SHA.
+- We require that Actions outside of the `actions` organization be pinned to a specific SHA.
 
 Thank you
