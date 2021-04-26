@@ -24,7 +24,7 @@ jobs:
 
       - name: Run tfsec
         id: run_tfsec
-        uses: tfsec/tfsec-sarif-action@2ec44316ed27c50d48c931c3c628adc4c8bb1d2b
+        uses: tfsec/tfsec-sarif-action@bcba1239223e5b6e20680dfcd72e53fbce5aab90
         with:
           sarif_file: tfsec.sarif         
           github_token: ${{ secrets.GITHUB_TOKEN }}
