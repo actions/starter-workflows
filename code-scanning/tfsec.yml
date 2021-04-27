@@ -34,8 +34,6 @@ jobs:
         with:
           # Path to SARIF file relative to the root of the repository
           sarif_file: tfsec.sarif  
-
-      # If you don't wish to fail PRs when there are TFSec issues, remove this section
+          
       - name: Exit with tfsec code
         run: exit ${{ steps.run_tfsec.outputs.tfsec-return-code}}
-        if: github.event_name == 'pull_request'
