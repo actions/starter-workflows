@@ -26,7 +26,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run tfsec
-        id: run_tfsec
         uses: tfsec/tfsec-sarif-action@bcba1239223e5b6e20680dfcd72e53fbce5aab90
         with:
           sarif_file: tfsec.sarif         
@@ -36,6 +35,3 @@ jobs:
         with:
           # Path to SARIF file relative to the root of the repository
           sarif_file: tfsec.sarif  
-
-      - name: Exit with tfsec code
-        run: exit ${{ steps.run_tfsec.outputs.tfsec-return-code}}
