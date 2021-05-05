@@ -1,6 +1,0 @@
-{
-    "name": "Java with Gradle",
-    "description": "Build and test a Java project using a Gradle wrapper script.",
-    "iconName": "gradle",
-    "categories": ["Java", "Gradle"]
-}

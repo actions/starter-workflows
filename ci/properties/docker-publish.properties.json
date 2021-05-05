@@ -1,6 +1,0 @@
-{
-  "name": "Publish Docker Container",
-  "description": "Build, test and push Docker image to GitHub Packages.",
-  "iconName": "docker",
-  "categories": ["Dockerfile"]
-}
