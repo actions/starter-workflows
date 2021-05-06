@@ -16,23 +16,23 @@ jobs:
     
       - name: Checkout
         uses: actions/checkout@v2
- 
+ # Checks out the modules for mobsfscan 
       - name: Checkout mobsfscan repo
         uses: actions/checkout@v2
         with:
           repository: MobSF/mobsfscan
           path: mobsfscan
-
+# Setup python 3.9.1 for mobsfscan
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
          python-version: '3.9.1'
-         
+# setup environment for mobsfscan
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install setuptools wheel twine mobsfscan/
-         
+# execution of scan, adjust the . path to your source code if needed.
       - name: Run mobsfscan
         run: |
           mobsfscan --sarif --output results.sarif . || true
