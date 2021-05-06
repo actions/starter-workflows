@@ -1,7 +1,7 @@
 {
     "name": "mobsfscan",
-    "creator": "TBD",
-    "description": "TBD",
+    "creator": "@moose0621",
+    "description": "Workflow template to execute mobsfscan for Swift iOS SAST Scanning, will upload results to GitHub Code Scanning",
     "iconName": "swift",
     "categories": ["Swift"]
 }
