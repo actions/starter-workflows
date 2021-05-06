@@ -1,1 +1,44 @@
+name: Run mobsfscan scan
 
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ $default-branch ]
+  schedule:
+    - cron: $cron-weekly
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    
+      - name: Checkout
+        uses: actions/checkout@v2
+ 
+      - name: Checkout mobsfscan repo
+        uses: actions/checkout@v2
+        with:
+          repository: MobSF/mobsfscan
+          path: mobsfscan
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+         python-version: '3.9.1'
+         
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install setuptools wheel twine mobsfscan/
+         
+      - name: Run mobsfscan
+        run: |
+          mobsfscan --sarif --output results.sarif . || true
+          
+          
+      - name: Upload mobsfscan report
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: results.sarif
