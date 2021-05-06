@@ -1,0 +1,7 @@
+{
+    "name": "Snyk Node Action",
+    "organization": "Snyk",
+    "description": "Check your Node application for vulnerabilties using Snyk",
+    "iconName": "nodejs",
+    "categories": ["Code Scanning", "Node"]
+}

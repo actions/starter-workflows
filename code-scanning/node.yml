@@ -1,0 +1,29 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: "Snyk"
+description: "Check your Node application for vulnerabilties using Snyk"
+branding:
+  icon: "alert-triangle"
+  color: "yellow"
+
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ $default-branch ]
+  schedule:
+    - cron: $cron-weekly
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@a87a59ee97e9981692174f0b09f0fc3cae8bbc6d
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
