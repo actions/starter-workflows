@@ -1,0 +1,33 @@
+name: XMake
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+env:
+  # Customize the XMake build mode here (release, debug, minsizerel, etc.)
+  BUILD_MODE: release
+
+jobs:
+  build:
+    # The XMake configure and build commands are platform agnostic and should work equally
+    # well on Windows or Mac.  You can convert this to a matrix build if you need
+    # cross-platform coverage.
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: xmake-io/github-action-setup-xmake@v1
+
+    - name: Configure XMake
+      run: xmake f -m ${{env.BUILD_MODE}}
+
+    - name: Build
+      run: xmake
+
+    - name: Run
+      run: xmake run
+

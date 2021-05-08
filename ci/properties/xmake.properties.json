@@ -1,0 +1,6 @@
+{
+    "name": "XMake based projects",
+    "description": "Build and test a XMake based project.",
+    "iconName": "xmake",
+    "categories": ["C", "C++"]
+}
