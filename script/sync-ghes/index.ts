@@ -148,18 +148,18 @@ async function checkWorkflow(
     console.log("Switch to GHES branch");
     await exec("git", ["checkout", "ghes"]);
 
-    // In order to sync from master, we might need to remove some workflows, add some
+    // In order to sync from main, we might need to remove some workflows, add some
     // and modify others. The lazy approach is to delete all workflows first, and then
-    // just bring the compatible ones over from the master branch. We let git figure out
+    // just bring the compatible ones over from the main branch. We let git figure out
     // whether it's a deletion, add, or modify and commit the new state.
     console.log("Remove all workflows");
     await exec("rm", ["-fr", ...settings.folders]);
     await exec("rm", ["-fr", "../../icons"]);
 
-    console.log("Sync changes from master for compatible workflows");
+    console.log("Sync changes from main for compatible workflows");
     await exec("git", [
       "checkout",
-      "master",
+      "main",
       "--",
       ...Array.prototype.concat.apply(
         [],
