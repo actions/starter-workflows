@@ -40,7 +40,7 @@ jobs:
     # Runs code analysis with dotTEST and generates a .sarif report.
     - name: Run Parasoft dotTEST
       id: dottest
-      uses: parasoft/run-dottest-action@b31de2dbfca9858ccef94b24295814d6ca702711
+      uses: parasoft/run-dottest-action@6c31d80d83fbf312d0c819cc16a2ded05e0be861
       with:
         # Path to the working directory.
         #workingDir: # optional, default is ${{ github.workspace }}
@@ -92,16 +92,18 @@ jobs:
         #sarifMode: # optional, default is builtin
 
     # ---------------------------------------------------------------
-    # Uploads an archive that includes all report files (.xml, .html, .sarif).
+    # Upload the findings into the GitHub code scanning alert section
+    - name: Upload results to GitHub
+      uses: github/codeql-action/upload-sarif@v1
+      if: always()
+      with:
+        sarif_file: ${{ steps.dottest.outputs.report }}
+        
+    # ---------------------------------------------------------------
+    # Archive the findings reports as job artifact
     - name: Upload report artifacts
       uses: actions/upload-artifact@v2
+      if: always()
       with:
         name: Report files
         path: ${{ steps.dottest.outputs.reportDir }}/*.*
-
-    # ---------------------------------------------------------------
-    # Uploads analysis results in the SARIF format, so that they are displayed as GitHub code scanning alerts.
-    - name: Upload results to GitHub
-      uses: github/codeql-action/upload-sarif@v1
-      with:
-        sarif_file: ${{ steps.dottest.outputs.report }}
