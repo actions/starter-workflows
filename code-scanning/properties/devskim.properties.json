@@ -3,5 +3,5 @@
     "creator": "Microsoft CST-E",
     "description": "Security issue linter.",
     "iconName": "cst-logo",
-    "categories": ["Code Scanning"]
+    "categories": ["Code Scanning", "C", "C#", "C++", "Go", "Java", "JavaScript", "TypeScript", "Python", "Powershell", "Cobol", "Objective C", "PHP", "Ruby", "Rust", "SQL", "Swift", "Visual Basic"]
 }
