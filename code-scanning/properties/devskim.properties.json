@@ -1,0 +1,7 @@
+{
+    "name": "DevSkim",
+    "creator": "Microsoft CST-E",
+    "description": "Security issue linter.",
+    "iconName": "cst-logo",
+    "categories": ["Code Scanning"]
+}
