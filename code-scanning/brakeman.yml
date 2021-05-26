@@ -30,7 +30,7 @@ jobs:
         run: |
           gem install brakeman -v 5.0.1
 
-      - name: brakeman report
+      - name: Run brakeman
         run: |
           brakeman -f sarif > brakeman.sarif
 
