@@ -1,19 +1,13 @@
-name: Mark stale issues and pull requests
-
-on:
-  schedule:
-  - cron: $cron-daily
-
-jobs:
-  stale:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/stale@v3
-      with:
-        stale-issue-message: 'This issue has become stale and will be closed automatically within a period of time. Sorry about that.'
-        stale-pr-message: 'This pull request has become stale and will be closed automatically within a period of time. Sorry about that.'
-        stale-issue-label: 'no-issue-activity'
-        stale-pr-label: 'no-pr-activity'
-        days-before-stale: 90 
+- name: Teamwork GitHub Sync
+  # You may pin to the exact commit or the version.
+  # uses: Teamwork/github-sync@f4d4ec15b53225ceec705ab9825003b3d7d56a76
+  uses: Teamwork/github-sync@v1.2.0
+  with:
+    # GitHub token
+    GITHUB_TOKEN: 
+    # Teamwork URI
+    TEAMWORK_URI: 
+    # Teamwork API token
+    TEAMWORK_API_TOKEN: 
+    # Do you want to enable automatic tagging: true/false
+    AUTOMATIC_TAGGING: # optional
