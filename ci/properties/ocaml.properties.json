@@ -1,0 +1,6 @@
+{
+  "name": "OCaml",
+  "description": "Build and test a OCaml project with opam.",
+  "iconName": "ocaml",
+  "categories": ["OCaml"]
+}
