@@ -48,3 +48,4 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+https://github.com/actions/starter-workflows/blob/82c43562976aef3d8f02643e00e979d65993244c/ci/azure.yml
