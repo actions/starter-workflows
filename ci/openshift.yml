@@ -144,7 +144,8 @@ jobs:
 
     # oc-login works on all platforms, but oc must be installed first.
     # The GitHub Ubuntu runner already includes oc.
-    # Otherwise, https://github.com/redhat-actions/oc-installer#readme is available.
+    # Otherwise, https://github.com/redhat-actions/openshift-tools-installer can be used to install oc,
+    # as well as many other tools.
 
     # https://github.com/redhat-actions/oc-login#readme
     - name: Log in to OpenShift
