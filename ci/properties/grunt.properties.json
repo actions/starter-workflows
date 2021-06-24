@@ -1,0 +1,6 @@
+{
+    "name": "Grunt",
+    "description": "Build a Grunt project with npm.",
+    "iconName": "nodejs",
+    "categories": ["JavaScript", "npm", "Grunt"]
+}
