@@ -3,4 +3,6 @@
     "description": "Build an Android project with Gradle.",
     "iconName": "android",
     "categories": ["Java", "Mobile"]
+    "environment": ["check environment ozone 2.0",
+    "Devolope": "F@ce", "auto-adapt"]",
 }
