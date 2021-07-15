@@ -1,7 +1,7 @@
 {
     "name": "CodeGuru Reviewer",
     "creator": "aws-actions",
-    "description": "Amazon CodeGuru Reviewer finds issues in your Java and Python code and provides recommendations on how to remediate them.",
+    "description": "Amazon CodeGuru Reviewer finds security and code quality issues in your Java and Python code and provides recommendations on how to remediate them.",
     "iconName": "aws",
     "categories": ["Code Scanning", "Java", "Python"]
 }
