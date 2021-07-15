@@ -35,6 +35,7 @@ jobs:
 
       # Uncomment this step to verify the use of 'deno fmt' on each commit.
       # - name: Verify formatting
+      #   if: matrix.os == 'ubuntu-latest'
       #   run: deno fmt --check
 
       - name: Run linter
