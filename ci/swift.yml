@@ -1,14 +1,14 @@
-name: Rust
+name: Swift
 
 on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
 
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        run: cargo build --verbose
+        run: swift build -v
       - name: Run tests
-        run: cargo test --verbose
+        run: swift test -v
