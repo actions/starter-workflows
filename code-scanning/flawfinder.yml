@@ -26,8 +26,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run Flawfinder
-        uses: david-a-wheeler/flawfinder@v1.0
+      - name: flawfinder_scan
+        uses: david-a-wheeler/flawfinder@2.0.19-alpha1
         with:
           arguments: '--sarif ./'
           output: 'flawfinder_results.sarif'
