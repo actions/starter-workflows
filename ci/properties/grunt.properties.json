@@ -1,6 +1,6 @@
 {
     "name": "Grunt",
-    "description": "Build a Grunt project with npm.",
+    "description": "Build a NodeJS project with npm and grunt.",
     "iconName": "grunt",
     "categories": ["JavaScript", "npm", "Grunt"]
 }

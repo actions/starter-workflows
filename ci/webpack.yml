@@ -1,4 +1,4 @@
-name: Webpack
+name: NodeJS with Webpack
 
 on:
   push:
