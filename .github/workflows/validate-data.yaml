@@ -1,8 +1,8 @@
 name: Validate Data
 
 on:
-  push: null
-  pull_request: null
+  push:
+  pull_request:
 jobs:
   validate-data:
     runs-on: ubuntu-latest
