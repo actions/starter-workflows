@@ -2,5 +2,5 @@
     "name": "Gulp",
     "description": "Build a NodeJS project with npm and gulp.",
     "iconName": "gulp",
-    "categories": ["JavaScript", "npm", "Gulp"]
+    "categories": ["JavaScript", "TypeScript", "npm", "Gulp"]
 }
