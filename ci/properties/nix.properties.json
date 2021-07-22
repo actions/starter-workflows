@@ -1,6 +1,0 @@
-{
-    "name": "Nix",
-    "description": "Build Nix project",
-    "iconName": "nix",
-    "categories": ["Nix"]
-}
