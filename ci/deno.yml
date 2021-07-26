@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-# This workflow will install Deno and run tests across stable and canary builds on Windows, Ubuntu and macOS.
+# This workflow will install Deno then run Deno lint and test.
 # For more information see: https://github.com/denoland/setup-deno
 
 name: Deno
@@ -16,12 +16,7 @@ on:
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }} # runs a test on Ubuntu, Windows and macOS
-
-    strategy:
-      matrix:
-        deno: ["v1.x", "canary"]
-        os: [macOS-latest, windows-latest, ubuntu-latest]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Setup repo
@@ -29,9 +24,9 @@ jobs:
 
       - name: Setup Deno
         # uses: denoland/setup-deno@v1
-        uses: denoland/setup-deno@4a4e59637fa62bd6c086a216c7e4c5b457ea9e79
+        uses: denoland/setup-deno@004814556e37c54a2f6e31384c9e18e9833173669
         with:
-          deno-version: ${{ matrix.deno }} # tests across multiple Deno versions
+          deno-version: v1.x
 
       # Uncomment this step to verify the use of 'deno fmt' on each commit.
       # - name: Verify formatting
@@ -39,9 +34,6 @@ jobs:
 
       - name: Run linter
         run: deno lint
-
-      - name: Cache dependencies
-        run: deno cache deps.ts
 
       - name: Run tests
         run: deno test -A --unstable
