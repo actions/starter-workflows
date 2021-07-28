@@ -4,6 +4,7 @@ import { safeLoad } from "js-yaml";
 import { basename, extname, join } from "path";
 import { Validator as validator } from "jsonschema";
 import { endGroup, error, info, setFailed, startGroup } from '@actions/core';
+import { performance } from 'perf_hooks';
 
 interface WorkflowWithErrors {
   id: string;
@@ -98,9 +99,12 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string): Prom
 (async function main() {
   try {
     const settings = require("./settings.json");
+    var t0 = performance.now()
     const erroredWorkflows = await checkWorkflows(
       settings.folders
     )
+    var t1 = performance.now()
+    info("Call to checkWorkflows took " + (t1 - t0) + " milliseconds.")
 
     if (erroredWorkflows.length > 0) {
       startGroup(`😟 - Found ${erroredWorkflows.length} workflows with errors:`);
