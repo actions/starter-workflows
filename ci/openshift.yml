@@ -45,8 +45,9 @@ env:
   OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
   OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
 
-  # ⬇️ EDIT with the port your application should be accessible on.
-  APP_PORT: 8080
+  # ⬇️ EDIT with any additional port your application should expose.
+  # By default, oc new-app action creates a service to the image's lowest numeric exposed port.
+  APP_PORT: ""
 
   # ⬇️ EDIT if you wish to set the kube context's namespace after login. Leave blank to use the default namespace.
   OPENSHIFT_NAMESPACE: ""
@@ -143,7 +144,8 @@ jobs:
 
     # oc-login works on all platforms, but oc must be installed first.
     # The GitHub Ubuntu runner already includes oc.
-    # Otherwise, https://github.com/redhat-actions/oc-installer#readme is available.
+    # Otherwise, https://github.com/redhat-actions/openshift-tools-installer can be used to install oc,
+    # as well as many other tools.
 
     # https://github.com/redhat-actions/oc-login#readme
     - name: Log in to OpenShift
