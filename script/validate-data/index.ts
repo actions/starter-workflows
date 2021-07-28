@@ -39,7 +39,6 @@ const propertiesSchema = {
     },
   }
 }
-
 async function checkWorkflows(folders: string[]): Promise<WorkflowWithErrors[]> {
   const result: WorkflowWithErrors[] = []
 
@@ -66,6 +65,29 @@ async function checkWorkflows(folders: string[]): Promise<WorkflowWithErrors[]> 
   return result;
 }
 
+async function validateWorkflowProperties(propertiesPath: string) : Promise<string[]> {
+  try {
+    let errors = []
+    const propertiesFileContent = await fs.readFile(propertiesPath, "utf8")
+    const properties: WorkflowProperties = JSON.parse(propertiesFileContent)
+
+    let v = new validator();
+    const res = v.validate(properties, propertiesSchema)
+    errors = res.errors.map(e => e.toString())
+    if (properties.iconName && !properties.iconName.startsWith("octicon")) {
+      try {
+        await fs.access(`../../icons/${properties.iconName}.svg`)
+      } catch (e) {
+        errors.push(`No icon named ${properties.iconName} found`)
+      }
+    }
+    return errors
+  }
+  catch (e) {
+    throw e
+  }
+}
+
 async function checkWorkflow(workflowPath: string, propertiesPath: string): Promise<WorkflowWithErrors> {
   let workflowErrors: WorkflowWithErrors = {
     id: workflowPath,
@@ -73,23 +95,18 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string): Prom
   }
 
   try {
+    workflowErrors.errors = await validateWorkflowProperties(propertiesPath)
+
     const workflowFileContent = await fs.readFile(workflowPath, "utf8");
-    safeLoad(workflowFileContent); // Validate yaml parses without error
-
-    const propertiesFileContent = await fs.readFile(propertiesPath, "utf8")
-    const properties: WorkflowProperties = JSON.parse(propertiesFileContent)
-
-    let v = new validator();
-    const res = v.validate(properties, propertiesSchema)
-    workflowErrors.errors = res.errors.map(e => e.toString())
-
-    if (properties.iconName && !properties.iconName.startsWith("octicon")) {
-      try {
-        await fs.access(`../../icons/${properties.iconName}.svg`)
-      } catch (e) {
-        workflowErrors.errors.push(`No icon named ${properties.iconName} found`)
-      }
-    }
+    const workflow = safeLoad(workflowFileContent); // Validate yaml parses without error
+    
+    let workflowValidator = new validator();
+    const workflowSchema = require("./workflow-schema.json");
+    
+    const workflowValidationResult = workflowValidator.validate(workflow, workflowSchema)
+    const workflowValidationErrors = workflowValidationResult.errors.map(e => e.toString())
+    workflowErrors.errors = workflowErrors.errors.concat(workflowValidationErrors)
+    
   } catch (e) {
     workflowErrors.errors.push(e.toString())
   }
