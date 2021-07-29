@@ -10,7 +10,8 @@ These are the workflow files for helping people get started with GitHub Actions.
 
 <img src="https://d3vv6lp55qjaqc.cloudfront.net/items/353A3p3Y2x3c2t2N0c01/Image%202019-08-27%20at%203.25.07%20PM.png" max-width="75%"/>
 
-**Directory structure:**
+### Directory structure
+
 * [ci](ci): solutions for Continuous Integration
 * [automation](automation): solutions for automating workflows.
 * [code-scanning](code-scanning): starter workflows for [Code Scanning](https://github.com/features/security)
@@ -20,8 +21,16 @@ Each workflow must be written in YAML and have a `.yml` extension. They also nee
 
 For example: `ci/django.yml` and `ci/properties/django.properties.json`.
 
-**Valid properties:**
+### Valid properties
+
 * `name`: the name shown in onboarding
 * `description`: the description shown in onboarding
 * `iconName`: the icon name in the relevant folder, for example `django` should have an icon `icons/django.svg`. Only SVG is supported at this time
 * `categories`: the categories that it will be shown under
+
+### Variables
+These variables can be placed in the starter workflow and will be substituted as detailed below:
+
+* `$default-branch`: will substitute the branch from the repository, for example `main` and `master`
+* `$protected-branches`: will substitue any protected branches from the repository.
+* `$cron-daily`: will substitute a valid but random time within the day
