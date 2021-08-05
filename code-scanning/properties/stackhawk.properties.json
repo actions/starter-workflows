@@ -1,7 +1,7 @@
 {
   "name": "StackHawk",
   "creator": "StackHawk",
-  "description": "Integrate dynamic application security testing (DAST) into your CI pipeline with StackHawk",
+  "description": "Integrate dynamic application security testing (DAST) and API security testing into your CI pipeline with StackHawk",
   "iconName": "stackhawk",
   "categories": [
     "Code Scanning",
