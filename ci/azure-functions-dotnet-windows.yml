@@ -1,0 +1,43 @@
+name: Build and deploy .NET Core Function App to Azure functions app
+
+on:
+  push:
+    branches: [ $default-branch ]
+  
+  workflow_dispatch:
+
+env:
+  AZURE_FUNCTIONAPP_NAME: 'YOUR_FUNCTIONAPP_NAME'
+  AZURE_FUNCTIONAPP_SLOT_NAME: 'Production' # Change it according to your project
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './publish' # Change it according to your project
+  CONFIGURATION: Release
+  DOTNET_CORE_VERSION: '3.1' # Change it according to your project
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration ${{ env.CONFIGURATION }} --no-restore
+
+    - name: Publish
+      run: dotnet publish --configuration ${{ env.CONFIGURATION }} --no-build --output ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+
+    - name: Deploy to Azure Function App
+      uses: Azure/functions-action@v1
+      with:
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        slot-name: ${{ env.AZURE_FUNCTIONAPP_SLOT_NAME }}
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }} # set this to your function app publish profile - as a secret 

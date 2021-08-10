@@ -1,0 +1,6 @@
+{
+    "name": "Deploy .NET Core to Windows Azure Function App",
+    "description": "Build and deploy .NET Core projects to Windows based Azure Function App.",
+    "iconName": "azure",
+    "categories": ["C#", "Azure Functions"]
+}

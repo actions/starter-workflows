@@ -1,0 +1,6 @@
+{
+    "name": "Deploy Node.js to Windows Azure Function App",
+    "description": "Build a Node.js project and deploy it to Windows based Azure Function App.",
+    "iconName": "azure",
+    "categories": ["JavaScript", "TypeScript", "npm", "Azure Functions"]
+}
