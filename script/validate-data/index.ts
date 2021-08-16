@@ -95,7 +95,7 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string): Prom
     workflowErrors.errors = res.errors.map(e => e.toString())
     
     if (properties.iconName) {
-      if(!properties.iconName.startsWith("octicon ")) {
+      if(! /^octicon\s+/.test(properties.iconName)) {
         try {
           await fs.access(`../../icons/${properties.iconName}.svg`)
         } catch (e) {
@@ -103,8 +103,8 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string): Prom
         }
       }
       else {
-        let iconName = properties.iconName.match(/octicon\s+(.*)/)
-        if(!iconName || !iconName[1] || iconName[1].length == 0) {
+        let iconName = properties.iconName.match(/^octicon\s+(.*)/)
+        if(!iconName || iconName[1].split(".")[0].length <= 0) {
           workflowErrors.errors.push(`No icon named ${properties.iconName} found`)
         }
       }
