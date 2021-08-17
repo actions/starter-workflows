@@ -42,7 +42,7 @@ const propertiesSchema = {
 
 async function checkWorkflows(folders: string[]): Promise<WorkflowWithErrors[]> {
   const result: WorkflowWithErrors[] = []
-  const workflow_template_names : string[] = []
+  const workflow_template_names = new Set()
   for (const folder of folders) {
     const dir = await fs.readdir(folder, {
       withFileTypes: true,
@@ -56,13 +56,8 @@ async function checkWorkflows(folders: string[]): Promise<WorkflowWithErrors[]> 
         const propertiesFilePath = join(folder, "properties", `${fileType}.properties.json`)
 
         const workflowWithErrors = await checkWorkflow(workflowFilePath, propertiesFilePath);
-        if(workflowWithErrors.name) {
-          if(workflow_template_names.includes(workflowWithErrors.name)) {
-            workflowWithErrors.errors.push(`Workflow template name "${workflowWithErrors.name}" already exists`)
-          }
-          else {
-            workflow_template_names.push(workflowWithErrors.name)
-          } 
+        if(workflowWithErrors.name && workflow_template_names.size == workflow_template_names.add(workflowWithErrors.name).size) {
+          workflowWithErrors.errors.push(`Workflow template name "${workflowWithErrors.name}" already exists`) 
         }
         if (workflowWithErrors.errors.length > 0) {
           result.push(workflowWithErrors)
