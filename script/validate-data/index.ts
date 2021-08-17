@@ -82,7 +82,7 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string): Prom
 
     const propertiesFileContent = await fs.readFile(propertiesPath, "utf8")
     const properties: WorkflowProperties = JSON.parse(propertiesFileContent)
-    if(properties.name && properties.name.trim.length > 0) {
+    if(properties.name && properties.name.trim().length > 0) {
       workflowErrors.name = properties.name
     }
     let v = new validator();
