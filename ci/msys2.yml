@@ -1,7 +1,7 @@
 # This workflow will do a clean install of MSYS2 environment and build the source code on it
 # For more information see: https://www.msys2.org/docs/ci/
 
-name: MSYS2 Deploy
+name: MSYS2
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
         with:
           msystem: MINGW64
           update: true
-      - name: 'MSYS2 Deploy'
+      - name: 'Deploy'
         run: |
           echo "We're on MSYS2 environment!"
           ./your_msys2_deploy_script.sh
