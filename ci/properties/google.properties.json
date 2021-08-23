@@ -3,5 +3,5 @@
     "description": "Build a docker container, publish it to Google Container Registry, and deploy to GKE.",
     "creator": "Google Cloud",
     "iconName": "googlegke",
-    "categories": ["deployment"]
+    "categories": ["Deployment"]
 }

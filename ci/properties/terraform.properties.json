@@ -3,5 +3,5 @@
     "description": "Set up Terraform CLI in your GitHub Actions workflow.",
     "creator": "HashiCorp",
     "iconName": "terraform",
-    "categories": ["deployment"]
+    "categories": ["Deployment"]
 }
