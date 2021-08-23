@@ -19,6 +19,8 @@ interface WorkflowProperties {
   iconName?: string;
 
   categories: string[] | null;
+
+  creator?: string;
 }
 
 interface WorkflowsCheckResult {
@@ -28,12 +30,14 @@ interface WorkflowsCheckResult {
 
 async function checkWorkflows(
   folders: string[],
-  enabledActions: string[]
+  enabledActions: string[],
+  partners: string[]
 ): Promise<WorkflowsCheckResult> {
   const result: WorkflowsCheckResult = {
     compatibleWorkflows: [],
     incompatibleWorkflows: [],
   };
+  const partnersSet = new Set(partners.map((x) => x.toLowerCase()));
 
   for (const folder of folders) {
     const dir = await fs.readdir(folder, {
@@ -51,11 +55,10 @@ async function checkWorkflows(
         ));
         const iconName: string | undefined = workflowProperties["iconName"];
 
-        const isBlankTemplate = workflowId === "blank";
-        const partnerWorkflow = workflowProperties.categories === null;
+        const partnerWorkflow = workflowProperties.creator ? partnersSet.has(workflowProperties.creator.toLowerCase()) : false;
 
         const enabled =
-          (isBlankTemplate || !partnerWorkflow) &&
+        !partnerWorkflow &&
           (await checkWorkflow(workflowFilePath, enabledActions));
 
         const workflowDesc: WorkflowDesc = {
@@ -90,7 +93,6 @@ async function checkWorkflow(
 ): Promise<boolean> {
   // Create set with lowercase action names for easier, case-insensitive lookup
   const enabledActionsSet = new Set(enabledActions.map((x) => x.toLowerCase()));
-
   try {
     const workflowFileContent = await fs.readFile(workflowPath, "utf8");
     const workflow = safeLoad(workflowFileContent);
@@ -126,7 +128,8 @@ async function checkWorkflow(
 
     const result = await checkWorkflows(
       settings.folders,
-      settings.enabledActions
+      settings.enabledActions,
+      settings.partners
     );
 
     console.group(
