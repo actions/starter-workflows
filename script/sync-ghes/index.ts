@@ -55,10 +55,10 @@ async function checkWorkflows(
         ));
         const iconName: string | undefined = workflowProperties["iconName"];
 
-        const partnerWorkflow = workflowProperties.creator ? partnersSet.has(workflowProperties.creator.toLowerCase()) : false;
+        const isPartnerWorkflow = workflowProperties.creator ? partnersSet.has(workflowProperties.creator.toLowerCase()) : false;
 
         const enabled =
-        !partnerWorkflow &&
+        !isPartnerWorkflow &&
           (await checkWorkflow(workflowFilePath, enabledActions));
 
         const workflowDesc: WorkflowDesc = {
