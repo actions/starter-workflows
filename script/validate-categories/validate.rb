@@ -1,7 +1,10 @@
 require 'linguist'
 require 'json'
+require 'scout/tech_stack'
 
 @languages = Linguist::Language.all.map(&:name)
+@tech_stacks = Scout::TechStack.all.map(&:name)
+
 settings = JSON.parse(File.read('./settings.json'))
 folders = settings['folders']
 @allowed_categories = settings['allowed_categories']
@@ -9,7 +12,7 @@ folders = settings['folders']
 def validateCategories(categories)
     categoryErrors = []
     categories && categories.each do |category|
-        if ! @allowed_categories.include?(category) && !@languages.include?(category)
+        if ! @allowed_categories.include?(category) && !@languages.include?(category) && !@tech_stacks.include?(category)
             categoryErrors.push("unrecognised category #{category}")
         end
     end
