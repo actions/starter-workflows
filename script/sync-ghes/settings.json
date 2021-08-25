@@ -16,5 +16,15 @@
     "actions/starter-workflows",
     "actions/upload-artifact",
     "actions/upload-release-asset"
+  ],
+  "partners": [
+    "Alibaba Cloud",
+    "Amazon Web Services",
+    "Microsoft Azure",
+    "Google Cloud",
+    "IBM",
+    "Red Hat",
+    "Tencent Cloud",
+    "HashiCorp"
   ]
 }
