@@ -1,6 +1,7 @@
 {
   "folders": [
     "../../ci",
-    "../../automation"
+    "../../automation",
+    "../../deployments"
   ]
 }

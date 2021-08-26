@@ -1,0 +1,35 @@
+name: Validate Categories
+
+on:
+  pull_request:
+
+jobs:
+  validate-categories:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.2
+
+      - name: Install gems
+        run: |
+          gem install linguist
+          gem install ./script/validate-categories/github-scout-0.1.1.gem
+
+      - name: Validate Categories
+        id: validate-categories
+        run: |
+          ruby validate.rb
+        working-directory: ./script/validate-categories
+
+      - name: Comment on PR
+        if: ${{steps.validate-categories.outputs.unrecognised-categories != '' }}
+        uses: unsplash/comment-on-pr@d1a1d5dd1eb1bb657a01f4d92dd5e4d5bb7857d3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg:  ${{steps.validate-categories.outputs.unrecognised-categories != '' }}
+          check_for_duplicate_msg: true

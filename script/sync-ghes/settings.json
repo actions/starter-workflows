@@ -1,7 +1,8 @@
 {
   "folders": [
     "../../ci",
-    "../../automation"
+    "../../automation",
+    "../../deployments"
   ],
   "enabledActions": [
     "actions/checkout",
