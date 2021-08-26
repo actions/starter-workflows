@@ -16,7 +16,7 @@ jobs:
 
       - name: Install gems
         run: |
-          gem install linguist
+          gem install github-linguist
           gem install ./script/validate-categories/github-scout-0.1.1.gem
 
       - name: Validate Categories
