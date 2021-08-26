@@ -16,7 +16,6 @@ jobs:
 
       - name: Install gems
         run: |
-          gem install github-linguist
           gem install ./script/validate-categories/github-scout-0.1.1.gem
 
       - name: Validate Categories
@@ -26,7 +25,7 @@ jobs:
         working-directory: ./script/validate-categories
 
       - name: Comment on PR
-        if: ${{steps.validate-categories.outputs.unrecognised-categories != '' }}
+        if: ${{steps.validate-categories.outputs.unrecognised-categories && steps.validate-categories.outputs.unrecognised-categories != '' }}
         uses: unsplash/comment-on-pr@d1a1d5dd1eb1bb657a01f4d92dd5e4d5bb7857d3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
