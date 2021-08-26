@@ -40,7 +40,11 @@ for folder in folders
 end
 if result.length > 0
     generic_message = ":heavy_exclamation_mark: There are unrecognised categories found in the repo. Please note that using the right categories will result in better visibility and recommendation."
-    header = "|Workflow Template Id|Unrecognised Categories|\n|:----:  |:----:  |"
+    header = "|Workflow Template Id|Unrecognised Categories|"
+    table_alignment = "|:----:  |:----:  |"
     rows = result.map { |r| "|#{r["id"]}|#{r["errors"]}|"}
-    puts "::set-output name=unrecognised-categories:: #{generic_message}\n#{header}\n#{rows.join("\n")}"
+    puts "::set-output name=generic_message:: #{generic_message}"
+    puts "::set-output name=header:: #{header}"
+    puts "::set-output name=table_alignment:: #{table_alignment}"
+    puts "::set-output name=unrecognised-categories:: #{rows}"
 end
