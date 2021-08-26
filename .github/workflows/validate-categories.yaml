@@ -31,5 +31,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg:  ${{steps.validate-categories.outputs.unrecognised-categories != '' }}
+          msg:  ${{steps.validate-categories.outputs.unrecognised-categories}}
           check_for_duplicate_msg: true
