@@ -13,7 +13,7 @@ def validateCategories(categories)
     categoryErrors = []
     categories && categories.each do |category|
         if ! @allowed_categories.include?(category) && !@languages.include?(category) && !@tech_stacks.include?(category)
-            categoryErrors.push("unrecognised category #{category}")
+            categoryErrors.push(category)
         end
     end
     return categoryErrors
@@ -34,12 +34,13 @@ for folder in folders
             errors.push("properties file not found")
         end
         if errors.length > 0
-            #puts "#{{"id" => workflowId, "errors" => errors}}"
             result.push({"id" => workflowId, "errors" => errors})
         end
     end
 end
 if result.length > 0
-    puts "::set-output name=unrecognised-categories::#{result}"
+    generic_message = ":heavy_exclamation_mark: There are unrecognised categories found in the repo. Please note that using the right categories will result in better visibility and recommendation.\n"
+    header = "|Workflow Template Id|Unrecognised Categories|\n|:----:  |:----:  |"
+    rows = result.map { |r| "|#{r["id"]}|#{r["errors"]}|"}
+    puts "::set-output name=unrecognised-categories:: :heavy_exclamation_mark: #{generic_message}#{header}#{rows.join("\n")}"
 end
-
