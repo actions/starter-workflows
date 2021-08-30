@@ -41,6 +41,6 @@ end
 if result.length > 0
     
     result.each do |r|
-        puts "::set-output name=unrecognised-categories-#{r["id"]}:: \\|#{r["id"]}\\|#{r["errors"]}\\|"
+        puts "::set-output name=unrecognised-categories-#{r["id"]}:: \|#{r["id"]}\|#{r["errors"]}\|"
     end
 end
