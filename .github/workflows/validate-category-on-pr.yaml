@@ -49,7 +49,7 @@ jobs:
         if: ${{steps.comment-format.outputs.content && steps.comment-format.outputs.content != '' }}
         run: |
           mkdir -p ./category_validation
-          echo ${{ steps.comment-format.outputs.content }} > ./category_validation/output
+          echo "${{ steps.comment-format.outputs.content }}" > ./category_validation/output
           echo ${{ github.event.number }} > ./category_validation/issue_number
 
       - uses: actions/upload-artifact@v2
