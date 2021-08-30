@@ -25,5 +25,5 @@ jobs:
                 :heavy_exclamation_mark: There are unrecognised categories found in the repo. Please note that using the right categories will result in better visibility and recommendation.
                 |Workflow Template Id|Unrecognised Categories|
                 |:----:  |:----:  |
-                 ${{join(steps.diff_rev.outputs.*, '\n')}}
+                 ${{join(steps.diff_rev.outputs.*, '  \n')}}
           check_for_duplicate_msg: true
