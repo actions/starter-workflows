@@ -35,19 +35,19 @@ jobs:
            :heavy_exclamation_mark: :heavy_exclamation_mark: There are unrecognised categories found in the following properties.json files. Please note that using the categories recognised by Github's Linguist will result in better visibility and recommendation.
           |Workflow Template Id|Unrecognised Categories|
           |:----:  |:----:  |
+
           EOF
           )
           MY_STRING="${MY_STRING//'%'/'%25'}"
           MY_STRING="${MY_STRING//$'\n'/'%0A'}"
           MY_STRING="${MY_STRING//$'\r'/'%0D'}"
-          MY_STRING="${MY_STRING}\n${{join(steps.validate-categories.outputs.*, '%0A')}}"
+          MY_STRING="${MY_STRING}${{join(steps.validate-categories.outputs.*, '%0A')}}"
           echo "${MY_STRING}"
           echo "::set-output name=content::$MY_STRING"
 
       - name: Save Validation Output 
         if: ${{steps.comment-format.outputs.content && steps.comment-format.outputs.content != '' }}
         run: |
-          echo ${{ steps.comment-format.outputs.content }} 
           mkdir -p ./category_validation
           echo ${{ steps.comment-format.outputs.content }} > ./category_validation/output
           echo ${{ github.event.number }} > ./category_validation/issue_number
