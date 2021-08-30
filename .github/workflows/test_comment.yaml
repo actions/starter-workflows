@@ -1,4 +1,4 @@
-name: Validate Categories
+name: Test Comment
 
 on:
   pull_request:
