@@ -3,6 +3,10 @@ name: Validate Categories
 on:
   pull_request:
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   validate-categories:
     runs-on: ubuntu-latest
