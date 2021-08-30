@@ -13,5 +13,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg: test\n this is a new line
+          msg: test[enter] this is a new line
           check_for_duplicate_msg: true
