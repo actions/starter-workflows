@@ -18,7 +18,7 @@ jobs:
         id: diff_rev
         shell: bash
         run: |
-          printf -v MY_STRING "%s\n" ${{steps.rows-generator.outputs.*}}
+          MY_STRING=${{join(steps.rows-generator.outputs.*, '\n')}}
           MY_STRING="${MY_STRING//'%'/'%25'}"
           MY_STRING="${MY_STRING//$'\n'/'%0A'}"
           MY_STRING="${MY_STRING//$'\r'/'%0D'}"
