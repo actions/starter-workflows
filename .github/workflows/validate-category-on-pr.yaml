@@ -37,16 +37,17 @@ jobs:
           |:----:  |:----:  |
           EOF
           )
-          MY_STRING="${MY_STRING}\n${{join(steps.validate-categories.outputs.*, '\n')}}"
           MY_STRING="${MY_STRING//'%'/'%25'}"
           MY_STRING="${MY_STRING//$'\n'/'%0A'}"
           MY_STRING="${MY_STRING//$'\r'/'%0D'}"
+          MY_STRING="${MY_STRING}\n${{join(steps.validate-categories.outputs.*, '%0A')}}"
           echo "${MY_STRING}"
           echo "::set-output name=content::$MY_STRING"
 
       - name: Save Validation Output 
         if: ${{steps.comment-format.outputs.content && steps.comment-format.outputs.content != '' }}
         run: |
+          echo ${{ steps.comment-format.outputs.content }} 
           mkdir -p ./category_validation
           echo ${{ steps.comment-format.outputs.content }} > ./category_validation/output
           echo ${{ github.event.number }} > ./category_validation/issue_number
