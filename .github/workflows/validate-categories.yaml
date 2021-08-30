@@ -27,8 +27,7 @@ jobs:
         id: comment-format
         shell: bash
         run: |
-          MY_STRING=${{join(steps.validate-categories.outputs.*, '%0A')}}
-          echo "::set-output name=content::$MY_STRING"
+          echo "::set-output name=content::${{join(steps.validate-categories.outputs.*, '%0A')}}"
       - name: Comment on PR
         if: ${{steps.comment-format.outputs.content && steps.comment-format.outputs.content != '' }}
         uses: unsplash/comment-on-pr@d1a1d5dd1eb1bb657a01f4d92dd5e4d5bb7857d3
