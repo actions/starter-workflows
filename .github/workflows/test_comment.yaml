@@ -16,7 +16,7 @@ jobs:
           delta="${delta//'%'/'%25'}"
           delta="${delta//$'\n'/'%0A'}"
           delta="${delta//$'\r'/'%0D'}"
-          echo "::set-output name=delta_code::$delta"
+          echo -e "::set-output name=delta_code::$delta"
       - name: Comment on PR
         uses: unsplash/comment-on-pr@d1a1d5dd1eb1bb657a01f4d92dd5e4d5bb7857d3
         env:
