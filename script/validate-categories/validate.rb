@@ -34,12 +34,11 @@ for folder in folders
             errors.push("properties file not found")
         end
         if errors.length > 0
-            result.push({"id" => workflowId, "errors" => errors})
+            result.push({"id" => workflowId, "errors" => errors.join(",")})
         end
     end
 end
 if result.length > 0
-    puts "::set-output name=unrecognised-categories-exist::true"
     result.each do |r|
         puts "::set-output name=unrecognised-categories-#{r["id"]}:: \|#{r["id"]}\|#{r["errors"]}\|"
     end
