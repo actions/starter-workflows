@@ -28,7 +28,6 @@ jobs:
         shell: bash
         run: |
           MY_STRING=${{join(steps.validate-categories.outputs.*, '%0A')}}
-          echo $MY_STRING
           echo "::set-output name=content::$MY_STRING"
       - name: Comment on PR
         if: ${{steps.comment-format.outputs.content && steps.comment-format.outputs.content != '' }}
