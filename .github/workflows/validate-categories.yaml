@@ -25,6 +25,7 @@ jobs:
         working-directory: ./script/validate-categories
       - name: Format Comment
         id: comment-format
+        if: ${{steps.validate-categories.outputs}}
         shell: bash
         run: |
           echo "::set-output name=content::${{join(steps.validate-categories.outputs.*, '%0A')}}"
