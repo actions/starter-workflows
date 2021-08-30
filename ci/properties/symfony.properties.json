@@ -1,0 +1,9 @@
+{
+    "name": "Symfony",
+    "description": "Test a Symfony project.",
+    "iconName": "php",
+    "categories": [
+        "PHP",
+        "Symfony"
+    ]
+}
