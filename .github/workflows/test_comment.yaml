@@ -7,7 +7,6 @@ jobs:
   validate-categories:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Diff revision
         id: diff_rev
         shell: bash
