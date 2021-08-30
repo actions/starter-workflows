@@ -10,8 +10,8 @@ jobs:
       - name: Generate rows
         id: rows-generator
         run: |
-          row1=|row11|row12|
-          row2=|row21|row22|
+          row1="|row11|row12|"
+          row2="|row21|row22|"
           echo "::set-output name=content_1::$row1"
           echo "::set-output name=content_2::$row2"
       - name: Diff revision
