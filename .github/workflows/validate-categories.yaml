@@ -23,12 +23,23 @@ jobs:
         run: |
           ruby validate.rb
         working-directory: ./script/validate-categories
-
+      - name: Format Comment
+        id: comment-format
+        shell: bash
+        run: |
+          MY_STRING=${{join(steps.validate-categories.outputs.*, '%0A')}}
+          echo $MY_STRING
+          echo "::set-output name=content::$MY_STRING"
       - name: Comment on PR
-        if: ${{steps.validate-categories.outputs.generic_message && steps.validate-categories.outputs.generic_message != '' }}
+        if: ${{steps.comment-format.outputs.content && steps.comment-format.outputs.content != '' }}
         uses: unsplash/comment-on-pr@d1a1d5dd1eb1bb657a01f4d92dd5e4d5bb7857d3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg: ${{join(steps.validate-categories.outputs.*, '\n')}}
+          msg: |
+                :heavy_exclamation_mark: There are unrecognised categories found in the repo. Please note that using the right categories will result in better visibility and recommendation.
+                |Workflow Template Id|Unrecognised Categories|
+                |:----:  |:----:  |
+                 ${{ steps.comment-format.outputs.content }}
           check_for_duplicate_msg: true
+          
