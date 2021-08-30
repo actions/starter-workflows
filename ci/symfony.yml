@@ -8,9 +8,7 @@ on:
 
 jobs:
   symfony-tests:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
       with:
@@ -25,5 +23,5 @@ jobs:
         touch var/data.db
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
-        DATABASE_URL:"sqlite:///%kernel.project_dir%/var/app.db"
+        DATABASE_URL:"sqlite:///%kernel.project_dir%/var/data.db"
       run: vendor/bin/phpunit
