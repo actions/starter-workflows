@@ -25,6 +25,7 @@ jobs:
         working-directory: ./script/validate-categories
       - name: Format Comment
         id: comment-format
+        if: ${{steps.validate-categories.outputs.unrecognised-categories-exist == 'true' }}
         shell: bash
         run: |
           echo "::set-output name=content::${{join(steps.validate-categories.outputs.*, '%0A')}}"
@@ -35,7 +36,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           msg: |
-                :heavy_exclamation_mark: There are unrecognised categories found in the repo. Please note that using the right categories will result in better visibility and recommendation.
+                :heavy_exclamation_mark: :heavy_exclamation_mark: There are unrecognised categories found in the following properties.json files. Please note that using the categories recognised by Github's Linguist will result in better visibility and recommendation.
                 |Workflow Template Id|Unrecognised Categories|
                 |:----:  |:----:  |
                  ${{ steps.comment-format.outputs.content }}
