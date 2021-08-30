@@ -12,11 +12,10 @@ jobs:
         id: diff_rev
         shell: bash
         run: |
-          delta="|row11|row12|\n|row21|row22|"
-          delta="${delta//'%'/'%25'}"
-          delta="${delta//$'\n'/'%0A'}"
-          delta="${delta//$'\r'/'%0D'}"
-          echo -e "::set-output name=delta_code::$delta"
+          delta1="|row11|row12|"
+          delta2="|row21|row22|"
+          echo "::set-output name=delta_code_1::$delta1"
+          echo "::set-output name=delta_code_2::$delta2"
       - name: Comment on PR
         uses: unsplash/comment-on-pr@d1a1d5dd1eb1bb657a01f4d92dd5e4d5bb7857d3
         env:
@@ -26,5 +25,5 @@ jobs:
                 :heavy_exclamation_mark: There are unrecognised categories found in the repo. Please note that using the right categories will result in better visibility and recommendation.
                 |Workflow Template Id|Unrecognised Categories|
                 |:----:  |:----:  |
-                ${{ steps.diff_rev.outputs.delta_code }}
+                 ${{join(steps.diff_rev.outputs.*, '\n')}}
           check_for_duplicate_msg: true
