@@ -35,7 +35,7 @@ jobs:
             });
             var fs = require('fs');
             fs.writeFileSync('${{github.workspace}}/category_validation.zip', Buffer.from(download.data));
-      - run: unzip category_validationr.zip
+      - run: unzip category_validation.zip
 
       - name: 'Comment on PR'
         uses: actions/github-script@v3
