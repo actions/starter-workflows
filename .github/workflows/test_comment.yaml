@@ -7,15 +7,18 @@ jobs:
   validate-categories:
     runs-on: ubuntu-latest
     steps:
+      - name: Generate rows
+        id: rows-generator
+        run: |
+          row1=|row11|row12|
+          row2=|row21|row22|
+          echo "::set-output name=content_1::$row1"
+          echo "::set-output name=content_22::$row2"
       - name: Diff revision
         id: diff_rev
         shell: bash
         run: |
-          MY_STRING=$(cat << EOF
-          |row11|row12|
-          |row21|row22|
-          EOF
-          )
+          printf -v MY_STRING "%s\n" "${steps.rows-generator.outputs.*}"
           MY_STRING="${MY_STRING//'%'/'%25'}"
           MY_STRING="${MY_STRING//$'\n'/'%0A'}"
           MY_STRING="${MY_STRING//$'\r'/'%0D'}"
