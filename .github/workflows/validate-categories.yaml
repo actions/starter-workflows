@@ -25,10 +25,10 @@ jobs:
         working-directory: ./script/validate-categories
       - name: Format Comment
         id: comment-format
-        if: ${{steps.validate-categories.outputs.exists-unrecognised-categories == 'true' }}
+        if: ${{steps.validate-categories.outputs}}
         shell: bash
         run: |
-          echo "::set-output name=content::${{join(steps.validate-categories.outputs.unrecognised-categories-*, '%0A')}}"
+          echo "::set-output name=content::${{join(steps.validate-categories.outputs.*, '%0A')}}"
       - name: Comment on PR
         if: ${{steps.comment-format.outputs.content && steps.comment-format.outputs.content != '' }}
         uses: unsplash/comment-on-pr@d1a1d5dd1eb1bb657a01f4d92dd5e4d5bb7857d3

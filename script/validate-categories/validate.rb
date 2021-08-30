@@ -39,7 +39,6 @@ for folder in folders
     end
 end
 if result.length > 0
-    puts "::set-output name=exists-unrecognised-categories::true"
     result.each do |r|
         puts "::set-output name=unrecognised-categories-#{r["id"]}:: \|#{r["id"]}\|#{r["errors"]}\|"
     end
