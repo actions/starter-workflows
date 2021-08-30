@@ -44,7 +44,6 @@ jobs:
           script: |
             var fs = require('fs');
             var issue_number = Number(fs.readFileSync('./issue_number'));
-            console.log("issue_number:")
             console.log(issue_number)
             var output = fs.readFileSync('./output', 'utf8')
             await github.issues.createComment({
