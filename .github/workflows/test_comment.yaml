@@ -22,6 +22,7 @@ jobs:
           MY_STRING="${MY_STRING//'%'/'%25'}"
           MY_STRING="${MY_STRING//$'\n'/'%0A'}"
           MY_STRING="${MY_STRING//$'\r'/'%0D'}"
+          echo $MY_STRING
           echo "::set-output name=content::$MY_STRING"
       - name: Comment on PR
         uses: unsplash/comment-on-pr@d1a1d5dd1eb1bb657a01f4d92dd5e4d5bb7857d3
