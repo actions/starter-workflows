@@ -28,7 +28,6 @@ jobs:
         if: ${{steps.validate-categories.outputs}}
         shell: bash
         run: |
-          echo "steps.validate-categories.outputs"
           echo "::set-output name=content::${{join(steps.validate-categories.outputs.*, '%0A')}}"
       - name: Comment on PR
         if: ${{steps.comment-format.outputs.content && steps.comment-format.outputs.content != '' }}
