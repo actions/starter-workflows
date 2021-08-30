@@ -15,7 +15,7 @@ jobs:
         php-version: '8.0'
     - uses: actions/checkout@v2
     - name: Copy .env
-      run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.local');"
+      run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Create Database
