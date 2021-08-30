@@ -8,12 +8,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Diff revision
+        id: diff_rev
+        shell: bash
+        run: |
+          delta="|row11|row12|\n|row21|row22|"
+          delta="${delta//'%'/'%25'}"
+          delta="${delta//$'\n'/'%0A'}"
+          delta="${delta//$'\r'/'%0D'}"
+          echo "::set-output name=delta_code::$delta"
       - name: Comment on PR
         uses: unsplash/comment-on-pr@d1a1d5dd1eb1bb657a01f4d92dd5e4d5bb7857d3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           msg: |
-                test
-                this is a new line
+                :heavy_exclamation_mark: There are unrecognised categories found in the repo. Please note that using the right categories will result in better visibility and recommendation.
+                |Workflow Template Id|Unrecognised Categories|
+                |:----:  |:----:  |
+                ${{ steps.diff_rev.outputs.delta_code }}
           check_for_duplicate_msg: true
