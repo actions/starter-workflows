@@ -34,7 +34,7 @@ for folder in folders
             errors.push("properties file not found")
         end
         if errors.length > 0
-            result.push({"id" => workflowId, "errors" => errors})
+            result.push({"id" => workflowId, "errors" => errors.join(",")})
         end
     end
 end
