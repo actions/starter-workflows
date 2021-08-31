@@ -31,8 +31,8 @@ jobs:
         shell: bash
         run: |
           validation_content_length=`echo "${{join(steps.validate-categories.outputs.*,',')}}" | wc -c`
-          if [$validation_content_length -le 1];
-          then
+          echo $validation_content_length
+          if [ $validation_content_length -le 1 ]; then
             echo "no output from validate-category"
             exit 0;
           fi
