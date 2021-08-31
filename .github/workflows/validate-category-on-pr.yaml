@@ -28,22 +28,26 @@ jobs:
         working-directory: ./script/validate-categories
       - name: Format Comment
         id: comment-format
-        if: ${{steps.validate-categories.outputs}}
         shell: bash
         run: |
-          MY_STRING=$(cat << EOF
-           :heavy_exclamation_mark: :heavy_exclamation_mark: There are unrecognised categories found in the following properties.json files. Please note that using the categories recognised by Github's Linguist will result in better visibility and recommendation.
+          validation_content_length=`echo "${{join(steps.validate-categories.outputs.*,',')}}" | wc -c`
+          if [$validation_content_length -le 1];
+          then
+            echo "no output from validate-category"
+            exit 0;
+          fi
+          MY_STRING=$(cat <<-EOF
+          :heavy_exclamation_mark: :heavy_exclamation_mark: There are unrecognised categories found in the following properties.json files. Please note that using the categories recognised by Github's Linguist will result in better visibility and recommendation.
           |Workflow Template Id|Unrecognised Categories|
           |:----:  |:----:  |
-
           EOF
           )
           MY_STRING="${MY_STRING//'%'/'%25'}"
           MY_STRING="${MY_STRING//$'\n'/'%0A'}"
           MY_STRING="${MY_STRING//$'\r'/'%0D'}"
           MY_STRING="${MY_STRING}%0A${{join(steps.validate-categories.outputs.*, '%0A')}}"
-          echo "${MY_STRING}"
           echo "::set-output name=content::$MY_STRING"
+          
 
       - name: Save Validation Output 
         if: ${{steps.comment-format.outputs.content && steps.comment-format.outputs.content != '' }}
