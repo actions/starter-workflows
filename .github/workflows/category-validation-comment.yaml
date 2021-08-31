@@ -38,7 +38,7 @@ jobs:
                 });
                 var fs = require('fs');
                 fs.writeFileSync('${{github.workspace}}/category_validation.zip', Buffer.from(download.data));
-                echo "::set-output name=artifact-exists::true"
+                console.log("::set-output name=artifact-exists::true")
               }
             } catch (error) {
                   console.error(error);
