@@ -28,8 +28,7 @@ for folder in folders
         propertiesPath = folder + "/" + "properties/" + workflowId+".properties.json"
         if(File.exist?(propertiesPath)) 
             properties = JSON.parse(File.read(propertiesPath))
-            categoriesErrors = validateCategories(properties['categories'])
-            categoriesErrors.each { |e| errors.push(e) }
+            errors = validateCategories(properties['categories'])
         else
             errors.push("properties file not found")
         end
