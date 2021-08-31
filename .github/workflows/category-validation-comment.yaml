@@ -17,6 +17,7 @@ jobs:
     steps:
       - name: 'Download artifact'
         uses: actions/github-script@v3.1.0
+        id: download-artifact
         with:
           script: |
             var artifacts = await github.actions.listWorkflowRunArtifacts({
@@ -27,24 +28,29 @@ jobs:
             var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
               return artifact.name == "category_validation"
             })[0];
-            var download = await github.actions.downloadArtifact({
+            if(matchArtifact) {
+              var download = await github.actions.downloadArtifact({
                owner: context.repo.owner,
                repo: context.repo.repo,
                artifact_id: matchArtifact.id,
                archive_format: 'zip',
-            });
-            var fs = require('fs');
-            fs.writeFileSync('${{github.workspace}}/category_validation.zip', Buffer.from(download.data));
+              });
+              var fs = require('fs');
+              fs.writeFileSync('${{github.workspace}}/category_validation.zip', Buffer.from(download.data));
+              echo "::set-output name=artifact-exists::true"
+            }
+            
       - run: unzip category_validation.zip
+        if: ${{steps.download-artifact.outputs.artifact-exists == 'true' }}
 
       - name: 'Comment on PR'
+        if: ${{steps.download-artifact.outputs.artifact-exists == 'true' }}
         uses: actions/github-script@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             var fs = require('fs');
             var issue_number = Number(fs.readFileSync('./issue_number'));
-            console.log("issue_number:")
             console.log(issue_number)
             var output = fs.readFileSync('./output', 'utf8')
             await github.issues.createComment({
