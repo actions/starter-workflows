@@ -75,7 +75,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup Ruby and install gems
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@57d46d78b7d959dc4a248024a29bb17d4e357e5c
         with:
           bundler-cache: true
 
