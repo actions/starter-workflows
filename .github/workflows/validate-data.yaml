@@ -6,6 +6,8 @@ on:
 
 jobs:
   validate-data:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
