@@ -1,0 +1,6 @@
+{
+    "name": "Build and Test Ruby on Rails with Postgres",
+    "description": "Run linters and Test Ruby on Rails project with Postgres",
+    "iconName": "ruby",
+    "categories": ["Ruby"]
+}

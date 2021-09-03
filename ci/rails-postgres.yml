@@ -1,0 +1,114 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will download a prebuilt Ruby version, install dependencies , run linters and run tests with Rake
+# It sets up a Postgres database for running tests. The inputs for database setup is to be provided in the `env` map. The password is taken from
+# the repository secret `RAILS_TEST_DB_PASSWORD`.
+
+name: Build Ruby on Rails with Postgres - Lint and Test 
+on: 
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  run-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+
+      - name: Find yarn cache location
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install packages
+        run: |
+          yarn install --pure-lockfile
+      - name: Run security checks
+        # Add or Replace any other security checks here
+        run: |
+          bin/bundler-audit --update
+          bin/brakeman -q -w2
+      - name: Run linters
+        # Add or Replace any other Linters here
+        run: |
+          bin/rubocop --parallel
+  run-tests:
+    runs-on: ubuntu-latest
+    # Set the inputs for the database setup here
+    env:
+      POSTGRES_USER: myapp
+      POSTGRES_DB: test_database
+      POSTGRES_HOST: localhost
+      POSTGRES_PASSWORD: ${{ secrets.RAILS_TEST_DB_PASSWORD }}
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+        ports:
+        # Assigns a random host port 
+        - 5432/tcp
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+
+      - name: Find yarn cache location
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install packages
+        run: |
+          yarn install --pure-lockfile
+
+      - name: Setup test database
+        env:
+          PGHOST: ${{ env.POSTGRES_HOST }}
+          PGUSER: ${{ env.POSTGRES_USER }}
+          PGPORT: ${{ job.services.postgres.ports[5432] }}
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          bin/rails db:setup
+
+      - name: Run tests
+        env:
+          PGHOST: ${{ env.POSTGRES_HOST }}
+          PGUSER: ${{ env.POSTGRES_USER }}
+          PGPORT: ${{ job.services.postgres.ports[5432] }}
+        run: bundle exec rake test  
