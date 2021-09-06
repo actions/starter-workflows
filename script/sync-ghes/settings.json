@@ -2,7 +2,8 @@
   "folders": [
     "../../ci",
     "../../automation",
-    "../../deployments"
+    "../../deployments",
+    "../../code-scanning"
   ],
   "enabledActions": [
     "actions/checkout",
@@ -16,7 +17,8 @@
     "actions/stale",
     "actions/starter-workflows",
     "actions/upload-artifact",
-    "actions/upload-release-asset"
+    "actions/upload-release-asset",
+    "github/codeql-action"
   ],
   "partners": [
     "Alibaba Cloud",
