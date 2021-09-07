@@ -27,6 +27,8 @@ jobs:
 
       - name: Setup Node
         uses: actions/setup-node@v2
+        with:
+          cache: 'npm'
 
       - name: Find yarn cache location
         id: yarn-cache
