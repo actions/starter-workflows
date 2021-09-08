@@ -58,7 +58,7 @@ async function checkWorkflows(
         const isPartnerWorkflow = workflowProperties.creator ? partnersSet.has(workflowProperties.creator.toLowerCase()) : false;
 
         const enabled =
-        !isPartnerWorkflow &&
+          !isPartnerWorkflow &&
           (await checkWorkflow(workflowFilePath, enabledActions));
 
         const workflowDesc: WorkflowDesc = {
@@ -104,7 +104,8 @@ async function checkWorkflow(
         if (!!step.uses) {
           // Check if allowed action
           const [actionName, _] = step.uses.split("@");
-          if (!enabledActionsSet.has(actionName.toLowerCase())) {
+          const actionNwo = actionName.split("/").slice(0, 2).join("/");
+          if (!enabledActionsSet.has(actionNwo.toLowerCase())) {
             console.info(
               `Workflow ${workflowPath} uses '${actionName}' which is not supported for GHES.`
             );
