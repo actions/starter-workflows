@@ -1,0 +1,7 @@
+{
+    "name": "GrammaTech CodeSonar",
+    "creator": "GrammaTech",
+    "description": "Detect and fix quality, security and safety issues with GrammaTech’s CodeSonar source code analysis",
+    "iconName": "codesonar",
+    "categories": ["Code Scanning", "C", "C++", "C#", "Java"]
+}

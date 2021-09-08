@@ -1,0 +1,56 @@
+# GrammaTech CodeSonar https://www.grammatech.com/
+#
+# For more information see the CodeSonar GitHub integration Setup Guide:
+#     https://www.grammatech.com/codesonar-sast-github-integration
+name: GrammaTech CodeSonar
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  analyze:
+    runs-on:
+      # CodeSonar must be installed on your runner
+      #  (or, if using Docker, CodeSonar must be installed in the Docker image)
+      - self-hosted
+      - Linux
+
+    env:
+      PROJECT_NAME: ${{ github.event.repository.name }}
+      # ✏️ Your CodeSonar hub URL:
+      CSONAR_HUB_URL: "https://codesonar.example.com:8443"
+      # ✏️ Full path to codesonar commandline program:
+      CODESONAR: /opt/grammatech/codesonar-6.1p0/codesonar/bin/codesonar
+      ANALYSIS_DOWNLOAD_TIMEOUT_SECONDS: 7200
+
+    # A large analysis may take many hours to execute, you may need to increase this timeout:
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Compile and Analyze the Code
+        run: >
+          "$CODESONAR" analyze
+          -foreground
+          "$PROJECT_NAME"
+          "$CSONAR_HUB_URL"
+          make              # ✏️ Your build command here
+
+      - name: Download Analysis Results from CodeSonar Hub
+        run: >
+          "$CODESONAR" dump_warnings.py
+          -o warnings.sarif
+          --hub "$CSONAR_HUB_URL"
+          --project-file "$GITHUB_WORKSPACE/$PROJECT_NAME"
+          --sarif
+          --src-root "$GITHUB_WORKSPACE"
+          -t $ANALYSIS_DOWNLOAD_TIMEOUT_SECONDS
+
+      - name: Upload Analysis Results to GitHub
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: warnings.sarif
