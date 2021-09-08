@@ -45,7 +45,7 @@ async function checkWorkflows(
     });
 
     for (const e of dir) {
-      if (e.isFile()) {
+      if (e.isFile() && extname(e.name) === ".yml") {
         const workflowFilePath = join(folder, e.name);
         const workflowId = basename(e.name, extname(e.name));
         const workflowProperties: WorkflowProperties = require(join(
