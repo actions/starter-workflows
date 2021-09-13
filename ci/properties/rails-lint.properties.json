@@ -1,6 +1,6 @@
 {
-    "name": "Rails - Build and Run Linters",
-    "description": "Build Rails application and run linters",
+    "name": "Rails - Install Dependencies and Run Linters",
+    "description": "Install dependencies and run linters on Rails application",
     "iconName": "ruby",
     "categories": ["Ruby", "Rails"]
 }
