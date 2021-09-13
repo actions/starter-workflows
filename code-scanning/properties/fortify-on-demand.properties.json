@@ -1,0 +1,7 @@
+{
+    "name": "Fortify on Demand Scan",
+    "creator": "Micro Focus",
+    "description": "Integrate Fortify's comprehensive static code analysis (SAST) for 27+ languages into your DevSecOps workflows to build secure software faster.",
+    "iconName": "fortify",
+    "categories": ["Code Scanning", "ABAP", "ActionScript", "Apex", "C#", "C", "C++", "COBOL", "ColdFusion", "Go", "HTML", "Java", "JavaScript", "JSP", "Kotlin", "MXML", "Objective C", "PHP", "PL/SQL", "Python", "Ruby", "Scala", "Swift", "T-SQL", "TypeScript", "VBScript", "VB.NET", "Visual Basic", "XML"]
+}
