@@ -2,5 +2,5 @@
     "name": "Publish Java Package with Maven",
     "description": "Build a Java Package using Maven and publish to GitHub Packages.",
     "iconName": "maven",
-    "categories": ["Java", "Maven"]
+    "categories": ["Java", "Maven", "Spring", "JSF"]
 }
