@@ -1,3 +1,8 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
 ################################################################################################################################################
 # Fortify lets you build secure software fast with an appsec platform that automates testing throughout the DevSecOps pipeline. Fortify static,#
 # dynamic, interactive, and runtime security testing is available on premises or as a service. To learn more about Fortify, start a free trial #
