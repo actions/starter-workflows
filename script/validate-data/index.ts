@@ -7,6 +7,7 @@ import { endGroup, error, info, setFailed, startGroup } from '@actions/core';
 
 interface WorkflowWithErrors {
   id: string;
+  name: string;
   errors: string[];
 }
 
@@ -20,7 +21,7 @@ interface WorkflowProperties {
 const propertiesSchema = {
   type: "object",
   properties: {
-    name: { type: "string", required: true },
+    name: { type: "string", required: true , "minLength": 1},
     description: { type: "string", required: true },
     creator: { type: "string", required: false },
     iconName: { type: "string", required: true },
@@ -41,7 +42,7 @@ const propertiesSchema = {
 
 async function checkWorkflows(folders: string[]): Promise<WorkflowWithErrors[]> {
   const result: WorkflowWithErrors[] = []
-
+  const workflow_template_names = new Set()
   for (const folder of folders) {
     const dir = await fs.readdir(folder, {
       withFileTypes: true,
@@ -54,9 +55,12 @@ async function checkWorkflows(folders: string[]): Promise<WorkflowWithErrors[]> 
         const workflowFilePath = join(folder, e.name);
         const propertiesFilePath = join(folder, "properties", `${fileType}.properties.json`)
 
-        const errors = await checkWorkflow(workflowFilePath, propertiesFilePath);
-        if (errors.errors.length > 0) {
-          result.push(errors)
+        const workflowWithErrors = await checkWorkflow(workflowFilePath, propertiesFilePath);
+        if(workflowWithErrors.name && workflow_template_names.size == workflow_template_names.add(workflowWithErrors.name).size) {
+          workflowWithErrors.errors.push(`Workflow template name "${workflowWithErrors.name}" already exists`) 
+        }
+        if (workflowWithErrors.errors.length > 0) {
+          result.push(workflowWithErrors)
         }
       }
     }
@@ -68,6 +72,7 @@ async function checkWorkflows(folders: string[]): Promise<WorkflowWithErrors[]> 
 async function checkWorkflow(workflowPath: string, propertiesPath: string): Promise<WorkflowWithErrors> {
   let workflowErrors: WorkflowWithErrors = {
     id: workflowPath,
+    name: null,
     errors: []
   }
 
@@ -77,17 +82,28 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string): Prom
 
     const propertiesFileContent = await fs.readFile(propertiesPath, "utf8")
     const properties: WorkflowProperties = JSON.parse(propertiesFileContent)
-
+    if(properties.name && properties.name.trim().length > 0) {
+      workflowErrors.name = properties.name
+    }
     let v = new validator();
     const res = v.validate(properties, propertiesSchema)
     workflowErrors.errors = res.errors.map(e => e.toString())
-
-    if (properties.iconName && !properties.iconName.startsWith("octicon")) {
-      try {
-        await fs.access(`../../icons/${properties.iconName}.svg`)
-      } catch (e) {
-        workflowErrors.errors.push(`No icon named ${properties.iconName} found`)
+    
+    if (properties.iconName) {
+      if(! /^octicon\s+/.test(properties.iconName)) {
+        try {
+          await fs.access(`../../icons/${properties.iconName}.svg`)
+        } catch (e) {
+          workflowErrors.errors.push(`No icon named ${properties.iconName} found`)
+        }
       }
+      else {
+        let iconName = properties.iconName.match(/^octicon\s+(.*)/)
+        if(!iconName || iconName[1].split(".")[0].length <= 0) {
+          workflowErrors.errors.push(`No icon named ${properties.iconName} found`)
+        }
+      }
+      
     }
   } catch (e) {
     workflowErrors.errors.push(e.toString())
