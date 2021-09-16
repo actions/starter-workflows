@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 # This workflow will download a prebuilt Ruby version, install dependencies, and  run linters
-name: Build Rails and run linters
+name: Rails - Install dependencies and run linters
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup Ruby and install gems
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@473e4d8fe5dd94ee328fdfca9f8c9c7afc9dae5e
         with:
           bundler-cache: true
       # Add or Replace any other security checks here
