@@ -2,5 +2,5 @@
     "name": "Build projects with Make",
     "description": "Build and test a project using Make.",
     "iconName": "makefile",
-    "categories": ["Makefile"]
+    "categories": ["Continuous integration", "Makefile"]
 }
