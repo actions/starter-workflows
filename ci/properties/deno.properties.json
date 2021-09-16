@@ -2,5 +2,5 @@
     "name": "Deno",
     "description": "Test your Deno project",
     "iconName": "deno",
-    "categories": ["JavaScript", "TypeScript", "Deno"]
+    "categories": ["Continuous integration", "JavaScript", "TypeScript", "Deno"]
 }
