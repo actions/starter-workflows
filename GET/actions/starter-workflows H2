@@ -1,0 +1,2 @@
+- name: ServiceNow CI/CD Install App
+  uses: ServiceNow/sncicd-install-app@2.0.0
