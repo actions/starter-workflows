@@ -2,5 +2,5 @@
     "name": ".NET",
     "description": "Build and test a .NET or ASP.NET Core project.",
     "iconName": "dotnet",
-    "categories": ["C#", "F#", "Visual Basic", "ASP", "ASP.NET", ".NET"]
+    "categories": ["Continuous integration", "C#", "F#", "Visual Basic", "ASP", "ASP.NET", ".NET", "AspNetCore", "DotNetConsole"]
 }
