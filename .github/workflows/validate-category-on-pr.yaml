@@ -31,9 +31,9 @@ jobs:
             echo "no output from validate-category"
             exit 0;
           fi
-          allowed_categories=$(cat ./script/validate-categories/settings.json | ruby -r json -e 'puts JSON.parse(STDIN.read)["allowed_categories"]')
+          allowed_categories=$(cat ./script/validate-categories/settings.json | ruby -r json -e 'puts JSON.parse(STDIN.read)["allowed_categories"].map { |c| "- #{c}"}')
           MY_STRING=$(cat <<-EOF
-          :heavy_exclamation_mark: :heavy_exclamation_mark: The following templates did not contain a recognised category. Please note that setting categories in the properties.json of the template will result in better visibility and recommendation.
+          :heavy_exclamation_mark: :heavy_exclamation_mark: The following templates did not contain a recognised category. Please note that setting categories in the properties.json file of the template will result in better visibility and recommendation.
           The recognised categories are:
           $allowed_categories
           |Workflow Template Id|

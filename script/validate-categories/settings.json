@@ -5,7 +5,7 @@
       "../../deployments"
     ],
     "allowed_categories" : [
-      "Continuous-Integration",
+      "Continuous integration",
       "Deployment",
       "Code Scanning",
       "Automation"
