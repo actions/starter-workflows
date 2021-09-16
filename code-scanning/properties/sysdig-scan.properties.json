@@ -1,0 +1,7 @@
+{
+    "name": "Sysdigh Inline Scan",
+    "creator": "Sysdig",
+    "description": "Performs analysis on locally built container image and posts the results in SARIF report",
+    "iconName": "cst-logo",
+    "categories": ["Image Scanning", "C", "C#", "C++", "Go", "Java", "JavaScript", "TypeScript", "Python", "Powershell", "Cobol", "Objective C", "PHP", "Ruby", "Rust", "SQL", "Swift", "Visual Basic"]
+}
