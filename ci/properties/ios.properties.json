@@ -3,6 +3,7 @@
     "description": "Build and test an iOS application using xcodebuild and any available iPhone simulator.",
     "iconName": "xcode",
     "categories": [
+        "Continuous integration",
         "iOS",
         "Xcode"
     ]

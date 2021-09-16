@@ -2,5 +2,5 @@
     "name": "Rails - Install Dependencies and Run Linters",
     "description": "Install dependencies and run linters on Rails application",
     "iconName": "ruby",
-    "categories": ["Ruby", "Rails"]
+    "categories": ["Continuous integration", "Ruby", "Rails"]
 }

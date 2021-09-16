@@ -2,5 +2,5 @@
     "name": "Ada",
     "description": "Build Ada project with GPRbuild.",
     "iconName": "ada",
-    "categories": ["Ada"]
+    "categories": ["Continuous integration", "Ada"]
 }

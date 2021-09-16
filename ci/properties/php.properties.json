@@ -2,5 +2,5 @@
     "name": "PHP",
     "description": "Build and test a PHP application using Composer",
     "iconName": "php",
-    "categories": ["PHP", "Composer"]
+    "categories": ["Continuous integration", "PHP", "Composer"]
 }
