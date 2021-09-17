@@ -2,5 +2,5 @@
     "name": "C/C++ with Make",
     "description": "Build and test a C/C++ project using Make.",
     "iconName": "c-cpp",
-    "categories": ["C", "C++"]
+    "categories": ["Continuous integration", "C", "C++"]
 }
