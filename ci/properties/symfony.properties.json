@@ -3,6 +3,7 @@
     "description": "Test a Symfony project.",
     "iconName": "php",
     "categories": [
+        "Continuous integration",
         "PHP",
         "Symfony"
     ]
