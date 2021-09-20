@@ -1,5 +1,5 @@
 {
-    "name": "Build Xcode project",
+    "name": "Xcode - Build and Analyze",
     "description": "Build Xcode project using xcodebuild",
     "iconName": "xcode",
     "categories": ["Continuous integration", "Xcode", "Objective-C"]
