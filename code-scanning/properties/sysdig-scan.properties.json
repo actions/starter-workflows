@@ -3,5 +3,5 @@
     "creator": "Sysdig",
     "description": "Performs analysis on locally built container image and posts the results in SARIF report",
     "iconName": "sysdig",
-    "categories": ["Code Scanning", "C", "C#", "C++", "Go", "Java", "JavaScript", "Node", "Python", "Powershell", "Ruby"]
+    "categories": ["Code Scanning", "Dockerfile", "C", "C#", "C++", "Go", "Java", "JavaScript", "Node", "Python", "Powershell", "Ruby"]
 }
