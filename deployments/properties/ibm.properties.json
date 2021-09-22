@@ -1,5 +1,5 @@
 {
-    "name": "Deploy to IBM Cloud Kubernetes Service",
+    "name": "(Python)Deploy to IBM Cloud Kubernetes Service",
     "description": "Build a docker container, publish it to IBM Cloud Container Registry, and deploy to IBM Cloud Kubernetes Service.",
     "creator": "IBM",
     "iconName": "ibm",
