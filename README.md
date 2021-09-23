@@ -12,7 +12,8 @@ These are the workflow files for helping people get started with GitHub Actions.
 
 ### Directory structure
 
-* [ci](ci): solutions for Continuous Integration and Deployments
+* [ci](ci): solutions for Continuous Integration workflows.
+* [deployments](deployments): solutions for Deployment workflows.
 * [automation](automation): solutions for automating workflows.
 * [code-scanning](code-scanning): starter workflows for [Code Scanning](https://github.com/features/security)
 * [icons](icons): svg icons for the relevant template
