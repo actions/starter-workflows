@@ -24,12 +24,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Code checkout
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
       - name: Validate
         uses: Azure/data-factory-validate-action@v1.0.0
         # with:
-        #   id: <YOUR_DATA_FACTORY_ID>
         #   path: <data-factory-dir> # replace by the folder that contains the Data Factory resources and the package.json
 
       # Generate the ARM template into the destination folder, which is the same as selecting "Publish" from the UX.
@@ -38,7 +37,6 @@ jobs:
         id: export
         uses: Azure/data-factory-export-action@v1.0.0
         # with:
-        #   id: <YOUR_DATA_FACTORY_ID>
         #   path: <data-factory-dir> # replace by the folder that contains the Data Factory resources and the package.json
 
       - name: Publish artifact
