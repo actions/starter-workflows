@@ -35,7 +35,7 @@ jobs:
       # The ARM template generated isn't published to the live version of the factory.
       - name: Export ARM Template
         id: export
-        uses: Azure/data-factory-export-action@v1.0.0
+        uses: Azure/data-factory-export-action@v1.0.2
         # with:
         #   path: <data-factory-dir> # replace by the folder that contains the Data Factory resources and the package.json
 
