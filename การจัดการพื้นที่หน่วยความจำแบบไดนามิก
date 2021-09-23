@@ -1,0 +1,48 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+
+int main()
+{
+     int i;
+     int *buffer1, *buffer2;
+     
+     buffer1 = (int*) malloc (3 * sizeof(int));
+     buffer2 = (int*) calloc (3, sizeof(int));
+     
+     if (buffer1 == NULL)
+     {
+                 printf("Can't allocate memory by malloc\n");
+     }
+     
+     if (buffer2 == NULL)
+     {
+                 printf("Can't allocate memory by calloc\n");
+     }
+     
+     printf("\n~~~ Data value default memory allocate ~~~\n");
+     
+     for (i = 0; i < 3; i++)
+     {
+         printf("\n Index Data [%d]\n", i);
+         printf("Data defult malloc : %d", buffer1[i]);
+         printf("\tData defult calloc : %d\n", buffer2[i]);
+         buffer1[i] = i * 2;
+         buffer2[i] = i * 3;
+     }
+     
+     printf("\n\n\n~~~ Data value new ~~~\n\n");
+     buffer2 =(int *) realloc(buffer2, 2 * sizeof(int));
+     
+     
+     for (i = 0; i < 3; i++)
+     {
+         printf("\n Index Data [%d]\n", i);
+         printf("Data malloc : %d", buffer1[i]);
+         printf("\tData calloc : %d\n", buffer2[i]);
+     }
+     
+     free (buffer1);
+     free (buffer2);
+     getch();
+}
