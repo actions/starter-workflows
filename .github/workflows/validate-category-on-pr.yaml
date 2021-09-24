@@ -1,3 +1,4 @@
+# Checks for the presence of atleast one allowed_categories listed in ./script/validate-categories/settings.json in each of the properties.json file
 name: Validate Categories on PR
 
 # read-only repo token
