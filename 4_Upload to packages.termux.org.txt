@@ -1,0 +1,115 @@
+2021-09-20T18:37:16.4875428Z ##[group]Run for archive in *.tar; do
+2021-09-20T18:37:16.4876295Z [36;1mfor archive in *.tar; do[0m
+2021-09-20T18:37:16.4876768Z [36;1m  tar xf "$archive"[0m
+2021-09-20T18:37:16.4877180Z [36;1mdone[0m
+2021-09-20T18:37:16.4877523Z [36;1m[0m
+2021-09-20T18:37:16.4878141Z [36;1m# Function for deleting temporary directory with uploaded files from[0m
+2021-09-20T18:37:16.4878808Z [36;1m# the server.[0m
+2021-09-20T18:37:16.4879269Z [36;1maptly_delete_dir() {[0m
+2021-09-20T18:37:16.4879867Z [36;1m  echo "[*] Deleting uploads temporary directory."[0m
+2021-09-20T18:37:16.4880403Z [36;1m[0m
+2021-09-20T18:37:16.4880799Z [36;1m  curl_response=$([0m
+2021-09-20T18:37:16.4881205Z [36;1m    curl \[0m
+2021-09-20T18:37:16.4881600Z [36;1m      --silent \[0m
+2021-09-20T18:37:16.4882829Z [36;1m      --user "***" \[0m
+2021-09-20T18:37:16.4883307Z [36;1m      --request DELETE \[0m
+2021-09-20T18:37:16.4883809Z [36;1m      --write-out "|%{http_code}" \[0m
+2021-09-20T18:37:16.4884931Z [36;1m      https://packages.termux.org/aptly-api/files/${REPOSITORY_NAME}-de62626ede4a509093ac72c034c84eecc03dc598[0m
+2021-09-20T18:37:16.4885983Z [36;1m  )[0m
+2021-09-20T18:37:16.4886334Z [36;1m[0m
+2021-09-20T18:37:16.4886858Z [36;1m  http_status_code=$(echo "$curl_response" | cut -d'|' -f2)[0m
+2021-09-20T18:37:16.4887371Z [36;1m[0m
+2021-09-20T18:37:16.4887798Z [36;1m  if [ "$http_status_code" != "200" ]; then[0m
+2021-09-20T18:37:16.4888577Z [36;1m    echo "[!] Server returned $http_status_code code while deleting temporary directory."[0m
+2021-09-20T18:37:16.4889254Z [36;1m  fi[0m
+2021-09-20T18:37:16.4889603Z [36;1m}[0m
+2021-09-20T18:37:16.4889924Z [36;1m[0m
+2021-09-20T18:37:16.4890410Z [36;1m# Upload file to temporary directory.[0m
+2021-09-20T18:37:16.4890987Z [36;1muploaded_files=false[0m
+2021-09-20T18:37:16.4891461Z [36;1mshopt -s nullglob[0m
+2021-09-20T18:37:16.4892465Z [36;1mfor filename in $(cat debs/built_packages.txt | sed -E 's/(..*)/debs\/\1_\*.deb debs\/\1-static_\*.deb/g'); do[0m
+2021-09-20T18:37:16.4893230Z [36;1m  curl_response=$([0m
+2021-09-20T18:37:16.4893651Z [36;1m    curl \[0m
+2021-09-20T18:37:16.4894032Z [36;1m      --silent \[0m
+2021-09-20T18:37:16.4894722Z [36;1m      --user "***" \[0m
+2021-09-20T18:37:16.4895168Z [36;1m      --request POST \[0m
+2021-09-20T18:37:16.4895666Z [36;1m      --form file=@${filename} \[0m
+2021-09-20T18:37:16.4896182Z [36;1m      --write-out "|%{http_code}" \[0m
+2021-09-20T18:37:16.4897288Z [36;1m      https://packages.termux.org/aptly-api/files/${REPOSITORY_NAME}-de62626ede4a509093ac72c034c84eecc03dc598[0m
+2021-09-20T18:37:16.4898279Z [36;1m  )[0m
+2021-09-20T18:37:16.4898621Z [36;1m[0m
+2021-09-20T18:37:16.4899126Z [36;1m  http_status_code=$(echo "$curl_response" | cut -d'|' -f2)[0m
+2021-09-20T18:37:16.4899640Z [36;1m[0m
+2021-09-20T18:37:16.4900078Z [36;1m  if [ "$http_status_code" = "200" ]; then[0m
+2021-09-20T18:37:16.4900757Z [36;1m    echo "[*] Uploaded: $(echo "$curl_response" | cut -d'|' -f1 | jq -r '.[]' | cut -d'/' -f2)"[0m
+2021-09-20T18:37:16.4901505Z [36;1m  else[0m
+2021-09-20T18:37:16.4902152Z [36;1m    # Manually cleaning up the temporary directory to reclaim disk space.[0m
+2021-09-20T18:37:16.4902962Z [36;1m    # Don't rely on scheduled server-side scripts.[0m
+2021-09-20T18:37:16.4903776Z [36;1m    echo "[!] Failed to upload '$filename'. Server returned $http_status_code code."[0m
+2021-09-20T18:37:16.4904526Z [36;1m    echo "[!] Aborting any further uploads."[0m
+2021-09-20T18:37:16.4905072Z [36;1m    aptly_delete_dir[0m
+2021-09-20T18:37:16.4905498Z [36;1m    exit 1[0m
+2021-09-20T18:37:16.4905852Z [36;1m  fi[0m
+2021-09-20T18:37:16.4906199Z [36;1m[0m
+2021-09-20T18:37:16.4906616Z [36;1m  uploaded_files=true[0m
+2021-09-20T18:37:16.4907053Z [36;1mdone[0m
+2021-09-20T18:37:16.4907456Z [36;1mshopt -u nullglob[0m
+2021-09-20T18:37:16.4907861Z [36;1m[0m
+2021-09-20T18:37:16.4908816Z [36;1m# Publishing repository changes.[0m
+2021-09-20T18:37:16.4909426Z [36;1mif [ "$uploaded_files" = "true" ]; then[0m
+2021-09-20T18:37:16.4910318Z [36;1m  echo "[*] Adding packages to repository '$REPOSITORY_NAME'..."[0m
+2021-09-20T18:37:16.4910890Z [36;1m[0m
+2021-09-20T18:37:16.4911290Z [36;1m  curl_response=$([0m
+2021-09-20T18:37:16.4911695Z [36;1m    curl \[0m
+2021-09-20T18:37:16.4912092Z [36;1m      --silent \[0m
+2021-09-20T18:37:16.4912800Z [36;1m      --user "***" \[0m
+2021-09-20T18:37:16.4913248Z [36;1m      --request POST \[0m
+2021-09-20T18:37:16.4913739Z [36;1m      --write-out "|%{http_code}" \[0m
+2021-09-20T18:37:16.4914967Z [36;1m      https://packages.termux.org/aptly-api/repos/${REPOSITORY_NAME}/file/${REPOSITORY_NAME}-de62626ede4a509093ac72c034c84eecc03dc598 || true[0m
+2021-09-20T18:37:16.4916072Z [36;1m  )[0m
+2021-09-20T18:37:16.4916418Z [36;1m[0m
+2021-09-20T18:37:16.4916925Z [36;1m  http_status_code=$(echo "$curl_response" | cut -d'|' -f2)[0m
+2021-09-20T18:37:16.4917445Z [36;1m[0m
+2021-09-20T18:37:16.4917887Z [36;1m  if [ "$http_status_code" = "200" ]; then[0m
+2021-09-20T18:37:16.4918619Z [36;1m    warnings=$(echo "$curl_response" | cut -d'|' -f1 | jq '.Report.Warnings' | jq -r '.[]')[0m
+2021-09-20T18:37:16.4919307Z [36;1m    if [ -n "$warnings" ]; then[0m
+2021-09-20T18:37:16.4919865Z [36;1m      echo "[!] WARNINGS (NON-CRITICAL):"[0m
+2021-09-20T18:37:16.4920366Z [36;1m      echo[0m
+2021-09-20T18:37:16.4920791Z [36;1m      echo "$warnings"[0m
+2021-09-20T18:37:16.4921201Z [36;1m      echo[0m
+2021-09-20T18:37:16.4921570Z [36;1m    fi[0m
+2021-09-20T18:37:16.4921921Z [36;1m  fi[0m
+2021-09-20T18:37:16.4922632Z [36;1m  # Usually temporary directory is deleted automatically, but in certain cases it is left.[0m
+2021-09-20T18:37:16.4923369Z [36;1m  aptly_delete_dir[0m
+2021-09-20T18:37:16.4923768Z [36;1m[0m
+2021-09-20T18:37:16.4924275Z [36;1m  # Final part to make changes appear in web root.[0m
+2021-09-20T18:37:16.4924943Z [36;1m  echo "[*] Publishing repository changes..."[0m
+2021-09-20T18:37:16.4925477Z [36;1m  set +e[0m
+2021-09-20T18:37:16.4925852Z [36;1m  curl \[0m
+2021-09-20T18:37:16.4926250Z [36;1m    --silent \[0m
+2021-09-20T18:37:16.4926905Z [36;1m    --user "***" \[0m
+2021-09-20T18:37:16.4927489Z [36;1m    --header 'Content-Type: application/json' \[0m
+2021-09-20T18:37:16.4928082Z [36;1m    --request PUT \[0m
+2021-09-20T18:37:16.4928976Z [36;1m    --data '{"Signing": {"Passphrase": "***"}}' \[0m
+2021-09-20T18:37:16.4929991Z [36;1m    https://packages.termux.org/aptly-api/publish/${REPOSITORY_NAME}/${REPOSITORY_DISTRIBUTION}[0m
+2021-09-20T18:37:16.4930881Z [36;1m  exit_code=$?[0m
+2021-09-20T18:37:16.4931283Z [36;1m  echo[0m
+2021-09-20T18:37:16.4931639Z [36;1m[0m
+2021-09-20T18:37:16.4932268Z [36;1m  if [ "$exit_code" = 0 ]; then[0m
+2021-09-20T18:37:16.4932889Z [36;1m    echo "[*] Repository updated successfully."[0m
+2021-09-20T18:37:16.4933505Z [36;1m  elif [ "$exit_code" = 52 ]; then[0m
+2021-09-20T18:37:16.4934308Z [36;1m    echo "[!] Repository update takes more time than expected, server returned empty response."[0m
+2021-09-20T18:37:16.4935260Z [36;1m    echo "[!] This is expected if large amount of data has been submitted."[0m
+2021-09-20T18:37:16.4935982Z [36;1m  else[0m
+2021-09-20T18:37:16.4936522Z [36;1m    echo "[!] curl exited with error code $exit_status."[0m
+2021-09-20T18:37:16.4937100Z [36;1m    exit "$exit_code"[0m
+2021-09-20T18:37:16.4937491Z [36;1m  fi[0m
+2021-09-20T18:37:16.4937846Z [36;1mfi[0m
+2021-09-20T18:37:16.4984692Z shell: /usr/bin/bash -e {0}
+2021-09-20T18:37:16.4985121Z env:
+2021-09-20T18:37:16.4985588Z   REPOSITORY_NAME: termux-main
+2021-09-20T18:37:16.4986181Z   REPOSITORY_DISTRIBUTION: stable
+2021-09-20T18:37:16.4986678Z ##[endgroup]
+2021-09-20T18:37:16.5073965Z tar: *.tar: Cannot open: No such file or directory
+2021-09-20T18:37:16.5074648Z tar: Error is not recoverable: exiting now
+2021-09-20T18:37:16.5088943Z ##[error]Process completed with exit code 2.
