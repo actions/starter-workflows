@@ -2,5 +2,5 @@
     "name": "D",
     "description": "Build and test a D project with dub.",
     "iconName": "d",
-    "categories": [ "D" ]
+    "categories": ["Continuous integration", "D"]
 }
