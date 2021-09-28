@@ -49,7 +49,7 @@ async function checkWorkflows(folders: string[]): Promise<WorkflowWithErrors[]> 
     });
 
     for (const e of dir) {
-      if (e.isFile() && extname(e.name) === ".yml") {
+      if (e.isFile() && [".yml", ".yaml"].includes(extname(e.name))) {
         const fileType = basename(e.name, extname(e.name))
 
         const workflowFilePath = join(folder, e.name);
