@@ -1,0 +1,79 @@
+{
+  "type": "test",
+  "vm_type": "premium",
+  "vm_config": {
+    "gpu_count": 1,
+    "gpu_type": "nvidia-tesla-v100",
+    "zone": "us-central1-a"
+  },
+  "queue": "builds.gce",
+  "config": {
+    "os": "linux",
+    "dist": "trusty",
+    "sudo": "required",
+    "group": "stable",
+    "python": "2.7",
+    "script": [
+      "tox"
+    ],
+    ".result": "configured",
+    "language": "python",
+    "before_install": [
+      "pip install ."
+    ]
+  },
+  "env_vars": [
+    {
+      "name": "DOCKER_REGISTRY_URL",
+      "value": "hub.docker.com",
+      "public": true
+    }
+  ],
+  "job": {
+    "id": 374404043,
+    "number": "64.1",
+    "commit": "f692a0340c210b1e53a4aa06e07ba7b688fde2c3",
+    "commit_range": "176d0f413640...f692a0340c21",
+    "commit_message": "also pull ruby:2.3.5",
+    "branch": "master",
+    "ref": null,
+    "tag": null,
+    "pull_request": false,
+    "state": "passed",
+    "secure_env_enabled": true,
+    "secure_env_removed": false,
+    "debug_options": {},
+    "queued_at": "2018-05-21T14:34:58Z",
+    "allow_failure": false,
+    "stage_name": null
+  },
+  "source": {
+    "id": 374404042,
+    "number": "64",
+    "event_type": "push"
+  },
+  "repository": {
+    "id": 8660711,
+    "github_id": 40738658,
+    "private": false,
+    "slug": "soulshake/startup-threads-cli",
+    "source_url": "https://github.com/soulshake/startup-threads-cli.git",
+    "source_host": "github.com",
+    "api_url": "https://api.github.com/repos/soulshake/startup-threads-cli",
+    "last_build_id": 374404042,
+    "last_build_number": "64",
+    "last_build_started_at": "2018-05-21T14:35:30Z",
+    "last_build_finished_at": "2018-05-21T14:36:55Z",
+    "last_build_duration": 143,
+    "last_build_state": "passed",
+    "default_branch": "master",
+    "description": "Send t-shirts from your Startup Threads account from the command line"
+  },
+  "ssh_key": null,
+  "timeouts": {
+    "hard_limit": 3000,
+    "log_silence": null
+  },
+  "enterprise": false,
+  "prefer_https": false
+}

@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+set -o errexit
+
+main() {
+  local name="${1:-travis-worker}"
+
+  docker stop "${name}" &>/dev/null || true
+  docker rm -f "${name}" &>/dev/null || true
+
+  local env_file
+  env_file="$(tfw writeenv travis-worker)"
+
+  set -o allexport
+  # shellcheck source=/dev/null
+  source "${env_file}"
+
+  if [[ "${TRAVIS_WORKER_PROVIDER_NAME}" == gce ]]; then
+    local gce_zone
+    gce_zone="$(__fetch_gce_zone)"
+    if [ -z "${gce_zone}" ]; then
+      gce_zone=us-central1-b
+    fi
+    echo "TRAVIS_WORKER_GCE_ZONE=${gce_zone}" >>"${env_file}"
+  fi
+
+  if [[ ! "${TRAVIS_WORKER_LIBRATO_SOURCE}" ]]; then
+    local librato_source
+    librato_source="$(__build_librato_source "$(hostname)" "${name}")"
+    echo "TRAVIS_WORKER_LIBRATO_SOURCE=${librato_source}" >>"${env_file}"
+  fi
+
+  if [ -f "${TRAVIS_WORKER_PRESTART_HOOK}" ]; then
+    "${TRAVIS_WORKER_PRESTART_HOOK}"
+  fi
+
+  exec docker run \
+    --rm \
+    --name "${name}" \
+    --hostname "$(hostname)" \
+    --userns host \
+    -v /var/tmp:/var/tmp \
+    -v /var/run:/var/run \
+    --env-file "${env_file}" \
+    "${TRAVIS_WORKER_SELF_IMAGE}" travis-worker
+}
+
+__fetch_gce_zone() {
+  curl -sSL \
+    "http://metadata.google.internal/computeMetadata/v1/instance/zone" \
+    -H "Metadata-Flavor: Google" |
+    awk -F/ '{ print $NF }'
+}
+
+__build_librato_source() {
+  local host_name="${1}"
+  local name="${2}"
+
+  if [[ "${name}" == "travis-worker" ]]; then
+    echo "${host_name}"
+    return
+  fi
+
+  echo "${host_name}-${name/travis-worker-/}"
+}
+
+main "$@"

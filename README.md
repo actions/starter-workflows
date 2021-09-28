@@ -1,383 +1,240 @@
-# PRoot Distro
+# Worker [![Build Status](https://travis-ci.org/travis-ci/worker.svg?branch=master)](https://travis-ci.org/travis-ci/worker)
 
-A Bash script wrapper for utility [proot] for easy management of chroot-based
-Linux distribution installations. It does not require root or any special ROM,
-kernel, etc. Everything you need to get started is the latest version of
-[Termux] application. See [Installing](#installation) for details.
+Worker is the component of Travis CI that will run a CI job on some form of
+compute instance.
 
-PRoot Distro is not a virtual machine, neither a traditional chroot. It shares
-the same kernel as your Android system, so do not even try to update it through
-package manager - this will not work.
-
-This script should never be run as root user. If you do so, file permissions
-and SELinux labels could get messed up. There also possibility of damaging
-system if being executed as root. For safety, PRoot Distro checks the user id
-before run and refuses to work if detected user id `0` (root).
-
-***
-
-## Supported distributions
-
-PRoot Distro provides support only one version of distribution types, i.e. one
-of stable, LTS or rolling-release. Support of versioned distributions ended
-with branch 2.x. If you need a custom version, you will need to add it on your
-own. See [Adding distribution](#adding-distribution).
-
-Here are the supported distributions:
-
-* Alpine Linux (edge)
-* Arch Linux / Arch Linux 32 / Arch Linux ARM
-* Debian (stable)
-* Fedora 34
-* Gentoo
-* OpenSUSE (Tumbleweed)
-* Ubuntu (21.04)
-* Void Linux
-
-All systems come in a bare-minumum variant, typically consisting of package
-manager, shell, coreutils, util-linux and few more. Extended functionality
-like shell completion or package install suggestions should be configured
-manually.
-
-If desired distribution is not in the list, you can request it.
+It's responsible for getting the bash script from
+[travis-build](https://github.com/travis-ci/travis-build), spinning up the
+compute instance (VM, Docker container, LXD container, or maybe something different),
+uploading the bash script, running it, and streaming the logs back to
+[travis-logs](https://github.com/travis-ci/travis-logs). It also sends state
+updates to [travis-hub](https://github.com/travis-ci/travis-hub).
 
 ## Installing
 
-With package manager:
-```
-pkg install proot-distro
-```
+### from binary
 
-With git:
-```
-pkg install git
-git clone https://github.com/termux/proot-distro
-cd proot-distro
-./install.sh
-```
+Find the version you wish to install on the [GitHub Releases
+page](https://github.com/travis-ci/worker/releases) and download either the
+`darwin-amd64` binary for macOS or the `linux-amd64` binary for Linux. No other
+operating systems or architectures have pre-built binaries at this time.
 
-Dependencies: bash, bzip2, coreutils, curl, findutils, gzip, ncurses-utils,
-proot, sed, tar, xz-utils
+### from package
 
-## Functionality overview
+Use the [`./bin/travis-worker-install`](./bin/travis-worker-install) script,
+or take a look at the [packagecloud
+instructions](https://packagecloud.io/travisci/worker/install).
 
-PRoot Distro aims to provide all-in-one functionality for managing the
-installed distributions: installation, de-installation, backup, restore, login.
-Each action is defined through command. Each command accepts its unique set
-of options, specific to the task that it performs.
+### from snap
 
-Usage basics:
-```
-proot-distro <command> <arguments>
-```
+Using a linux distribution which supports [Snaps](https://snapcraft.io/store)
+you can run: `sudo snap install travis-worker --edge`
 
-Where `<command>` is a proot-distro action command (see below to learn what
-is available) and `<arguments>` is a list of options specific to given command.
+### from source
 
-Example of installing the distribution:
-```
-proot-distro install debian
-```
+1. install [Go](http://golang.org) `v1.7+`
+1. clone this down into your `$GOPATH`
+  * `mkdir -p $GOPATH/src/github.com/travis-ci`
+  * `git clone https://github.com/travis-ci/worker $GOPATH/src/github.com/travis-ci/worker`
+  * `cd $GOPATH/src/github.com/travis-ci/worker`
+1. install [gometalinter](https://github.com/alecthomas/gometalinter):
+  * `go get -u github.com/alecthomas/gometalinter`
+  * `gometalinter --install`
+1. install [shellcheck](https://github.com/koalaman/shellcheck)
+1. `make`
 
-Known distributions are defined through plug-in scripts, which define URLs
-from where root file system archive will be downloaded and set of checksums
-for integrity check. Plug-ins also can define a set of commands which would
-be executed during distribution installation.
 
-See [Adding distribution](#adding-distribution) to learn more how to add own
-distribution to PRoot Distro.
+## Configuring Travis Worker
 
-### Accessing built-in help
+Travis Worker is configured with environment variables or command line flags via
+the [urfave/cli](https://github.com/urfave/cli) library.  A list of
+the non-dynamic flags and environment variables may be found by invoking the
+built-in help system:
 
-Command: `help`
-
-This command will show the help information about `proot-distro` usage.
-* `proot-distro help` - main page.
-* `proot-distro <command> --help` - view help for specific command.
-
-### Backing up distribution
-
-Command: `backup`
-
-Backup specified distribution and its plug-in into tar archive. The contents
-of backup can be either printed to stdout for further processing or written
-to a file.
-
-Compression is determined according to file extension, e.g.`.tar.gz` will lead
-to GZip compression and `.tar.xz` will lead to XZ. Piped backup data is always
-not compressed giving user freedom for further processing.
-
-Usage example:
-```
-proot-distro backup debian | xz | ssh example.com 'cat > /backups/pd-debian-backup.tar.xz'
-proot-distro backup --output backup.tar.gz debian
+``` bash
+travis-worker --help
 ```
 
-*This command is generic. All additional processing like encryption should be
-done by user through external commands.*
+### Environment-based image selection configuration
 
-### Installing a distribution
+Some backend providers support image selection based on environment variables.
+The required format uses keys that are prefixed with the provider-specific
+prefix:
 
-Command: `install`
+- `TRAVIS_WORKER_{UPPERCASE_PROVIDER}_IMAGE_{UPPERCASE_NAME}`: contains an image name
+  string to be used by the backend provider
 
-Install a distribution specified by alias - a short name referring to the
-plug-in of chosen distribution.
+The following example is for use with the Docker backend:
 
-Usage example:
-```
-proot-distro install alpine
-```
+``` bash
+# matches on `dist: trusty`
+export TRAVIS_WORKER_DOCKER_IMAGE_DIST_TRUSTY=travisci/ci-connie:packer-1420290255-fafafaf
 
-By default the installed distribution will have same alias as specified on
-command line. This means you will be unable to install multiple copies at
-same time. You can rename distribution during installation time by using
-option `--override-alias` which will create a copy of distribution plug-in.
+# matches on `dist: bionic`
+export TRAVIS_WORKER_DOCKER_IMAGE_DIST_BIONIC=registry.business.com/fancy/ubuntu:bionic
 
-Usage example:
-```
-proot-distro install --override-alias alpine-test alpine
-proot-distro login alpine-test
-```
+# resolves for `language: ruby`
+export TRAVIS_WORKER_DOCKER_IMAGE_RUBY=registry.business.com/travisci/ci-ruby:whatever
 
-Copied plug-in has following name format `<name>.override.sh` and is stored
-in directory with others (`$PREFIX/etc/proot-distro`).
+# resolves for `group: edge` + `language: python`
+export TRAVIS_WORKER_DOCKER_IMAGE_GROUP_EDGE_PYTHON=travisci/ci-garnet:packer-1530230255-fafafaf
 
-### Listing distributions
-
-Command: `list`
-
-Shows a list of available distributions, their aliases, installation status
-and comments.
-
-### Start shell session
-
-Command: `login`
-
-Execute a shell within the given distribution. Example:
-```
-proot-distro login debian
+# used when no dist, language, or group matches
+export TRAVIS_WORKER_DOCKER_IMAGE_DEFAULT=travisci/ci-garnet:packer-1410230255-fafafaf
 ```
 
-Execute a shell as specified user in the given distribution:
+
+## Development: Running Travis Worker locally
+
+This section is for anyone wishing to contribute code to Worker. The code
+itself _should_ have godoc-compatible docs (which can be viewed on godoc.org:
+<https://godoc.org/github.com/travis-ci/worker>), this is mainly a higher-level
+overview of the code.
+
+### Environment
+
+Ensure you've defined the necessary environment variables (see `.example.env`).
+
+### Pull Docker images
+
 ```
-proot-distro login --user admin debian
-```
-
-You can run a custom command as well:
-```
-proot-distro login debian -- /usr/local/bin/mycommand --sample-option1
-```
-
-Argument `--` acts as terminator of `proot-distro login` options processing.
-All arguments behind it would not be treated as options of PRoot Distro.
-
-Login command supports these behavior modifying options:
-* `--user <username>`
-
-  Use a custom login user instead of default `root`. You need to create the
-  user via `useradd -U -m username` before using this option.
-
-* `--fix-low-ports`
-
-  Force redirect low networking ports to a high number (2000 + port). Use
-  this with software requiring low ports which are not possible without real
-  root permissions.
-
-  For example this option will redirect port 80 to something like 2080.
-
-* `--isolated`
-
-  Do not mount host volumes inside chroot environment. If this option was
-  given, following mount points will not be accessible inside chroot:
-
-  * /apex (only Android 10+)
-  * /data/dalvik-cache
-  * /data/data/com.termux
-  * /sdcard
-  * /storage
-  * /system
-  * /vendor
-
-  You will not be able to use Termux utilities inside chroot environment.
-
-* `--termux-home`
-
-  Mount Termux home directory as user home inside chroot environment.
-
-  This option takes priority over option `--isolated`.
-
-* `--shared-tmp`
-
-  Share Termux temporary directory with chroot environment. Takes priority
-  over option `--isolated`.
-
-* `--bind path:path`
-
-  Create a custom file system path binding. Option expects argument in the
-  given format:
-  ```
-  <host path>:<chroot path>
-  ```
-
-  Takes priority over option `--isolated`.
-
-* `--no-link2symlink`
-
-  Disable PRoot link2symlink extension. This will disable hard link emulation.
-  You can use this option only if SELinux is disabled or is in permissive mode.
-
-* `--no-sysvipc`
-
-  Disable PRoot System V IPC emulation. Try this option if you experience
-  crashes.
-
-* `--no-kill-on-exit`
-
-  Do not kill processes when shell session terminates. Typically will cause
-  session to hang if you have any background processes running.
-
-### Uninstall distribution
-
-Command: `remove`
-
-This command completely deletes the installation of given system. Be careful
-as it does not ask for confirmation. Deleted data is irrecoverably lost.
-
-Usage example:
-```
-proot-distro remove debian
+docker pull travisci/ci-amethyst:packer-1504724461
+docker tag travisci/ci-amethyst:packer-1504724461 travis:default
 ```
 
-### Reinstall distribution
+### Configuration
 
-Command: `reset`
+For configuration, there are some things like the job-board (`TRAVIS_WORKER_JOB_BOARD_URL`)
+and travis-build (`TRAVIS_WORKER_BUILD_API_URI`) URLs that need to be set. These
+can be set to the staging values.
 
-Delete the specified distribution and install it again. This is a shortcut for
 ```
-proot-distro remove <dist> && proot-distro install <dist>
-```
-
-Usage example:
-```
-proot-distro reset debian
+export TRAVIS_WORKER_JOB_BOARD_URL='https://travis-worker:API_KEY@job-board-staging.travis-ci.com'
+export TRAVIS_WORKER_BUILD_API_URI='https://x:API_KEY@build-staging.travis-ci.org/script'
 ```
 
-Same as with command `remove`, deleted data is lost irrecoverably. Be careful.
+`TRAVIS_WORKER_BUILD_API_URI` can be found in the env of the job board app, e.g.:
+`heroku config:get JOB_BOARD_BUILD_API_ORG_URL -a job-board-staging`.
 
-### Restore from backup
+#### Images
 
-Command: `restore`
+TODO
 
-Restore the distribution from the given proot-distro backup (tar archive).
+#### Configuring the requested provider/backend
 
-Restore operation performs a complete rollback to the backup state as was in
-archive. Be careful as this command deletes previous data irrecoverably.
+Each provider requires its own configuration, which must be provided via
+environment variables namespaced by `TRAVIS_WORKER_{PROVIDER}_`.
 
-Compression is determined automatically from file extension. Piped data
-must be always uncompressed before being supplied to `proot-distro`.
+##### Docker
 
-Usage example:
-```
-ssh example.com 'cat /backups/pd-debian-backup.tar.xz' | xz -d | proot-distro restore
-proot-distro restore ./pd-debian-backup.tar.xz
-```
+The backend should be configured to be Docker, e.g.:
 
-### Clear downloads cache
-
-Command: `clear-cache`
-
-This will remove all cached root file system archives. 
-
-## Adding distribution
-
-Distribution is defined through the plug-in script that contains variables
-with metadata. A minimal one would look like this:
-```.bash
-DISTRO_NAME="Debian"
-TARBALL_URL['aarch64']="https://github.com/termux/proot-distro/releases/download/v1.10.1/debian-aarch64-pd-v1.10.1.tar.xz"
-TARBALL_SHA256['aarch64']="f34802fbb300b4d088a638c638683fd2bfc1c03f4b40fa4cb7d2113231401a21"
+``` bash
+export TRAVIS_WORKER_PROVIDER_NAME='docker'
+export TRAVIS_WORKER_DOCKER_ENDPOINT=unix:///var/run/docker.sock        # or "tcp://localhost:4243"
+export TRAVIS_WORKER_DOCKER_PRIVILEGED="false"                          # optional
+export TRAVIS_WORKER_DOCKER_CERT_PATH="/etc/secret-docker-cert-stuff"   # optional
 ```
 
-Script is stored in directory `$PREFIX/etc/proot-distro` and should be named
-like `<alias>.sh`, where `<alias>` is a desired name for referencing the
-distribution. For example, Debian plug-in will typically be named `debian.sh`.
+### Queue configuration
 
-### Plug-in variables reference
+#### File-based queue
 
-`DISTRO_ARCH`: specifies which CPU architecture variant of distribution to
-install.
+For the queue configuration, there is a file-based queue implementation so you
+don't have to mess around with RabbitMQ.
 
-Normally this variable is determined automatically and you should not set it.
-Typical use case is to set a custom architecture to run the distribution under
-QEMU emulator (user mode).
+You can generate a payload via the `generate-job-payload.rb` script on travis-scheduler:
 
-Supported architectures are: `aarch64`, `arm`, `i686`, `x86_64`.
+`heroku run -a travis-scheduler-staging script/generate-job-payload.rb <job id> > payload.json`
 
-`DISTRO_NAME`: a name of distribution, something like "Alpine Linux (3.14.1)".
+Place the file in the `$TRAVIS_WORKER_QUEUE_NAME/10-created.d/` directory, where
+it will be picked up by the worker.
 
-`DISTRO_COMMENT`: comments for current distribution.
+See `example-payload.json` for an example payload.
 
-Normally this variable is not needed. Use it to notify user that something is
-not working or additional steps required to get started with this distribution.
+#### AMQP-based queue
 
-`TARBALL_STRIP_OPT`: how many leading path components should be stripped when
-extracting rootfs archive. The default value is 1 because all default rootfs
-tarballs store contents in a sub directory.
-
-`TARBALL_URL`: a Bash associative array of root file system tarballs URLs.
-
-Should be defined at least for your CPU architecture. Valid architecture names
-are same as for `DISTRO_ARCH`.
-
-`TARBALL_SHA256`: a Bash associative array of SHA-256 checksums for each rootfs
-variant.
-
-Must be defined for each tarball set in `TARBALL_URL`.
-
-### Running additional installation steps
-
-Plug-in can be configured to execute specified commands after installing the
-distribution. This is done through function `distro_setup`.
-
-Example:
-```.bash
-distro_setup() {
-	run_proot_cmd apt update
-	run_proot_cmd apt upgrade -yq
-}
+```
+export TRAVIS_WORKER_QUEUE_TYPE='amqp'
+export TRAVIS_WORKER_AMQP_URI='amqp://guest:guest@localhost'
 ```
 
-`run_proot_cmd` is used when command should be executed inside the rootfs.
+The web interface is accessible at http://localhost:15672/
 
-## Differences from Chroot
+To verify your messages are being published, try:
 
-While PRoot is often referred as userspace chroot implementation, it is much
-different from it both by implementation and features of work. Here is a list
-of most significant differences you should be aware of.
+`rabbitmqadmin get queue=reporting.jobs.builds`
 
-1. PRoot is slow.
+Note: You will first need to install `rabbitmqadmin`. See http://localhost:15672/cli
 
-   Every process is hooked through `ptrace()`, so PRoot can hijack the system
-   call arguments and return values. This is typically used to translate file
-   paths so traced program will see the different file system layout.
+See `script/publish-example-payload` for a script to enqueue `example-payload.json`.
 
-2. PRoot cannot detach from the running process.
+### Building and running
 
-   Since PRoot controls the running processes via `ptrace()` it cannot detach
-   from them. This means you can't start a daemon process (e.g. sshd) and close
-   PRoot session. You will have to either kill process, wait until it finish or
-   let proot kill it immediately on session close.
+Run `make build` after making any changes. `make` also executes the test suite.
 
-3. PRoot does not elevate privileges.
+0. `make`
+0. `${GOPATH%%:*}/bin/travis-worker`
 
-   Chroot also does not elevate privileges on its own. Just PRoot is configured
-   to hijack user id as well, i.e. make it appear as `root`. So in reality your
-   user name, id and privileges remain to be same as without PRoot but programs
-   that doing sanity check for current user will assume you are running as
-   root user.
+or in Docker (FIXME):
 
-   Particularly, the fake root user makes it possible to use package manager
-   in chroot environment.
+0. `docker build -t travis-worker .` # or `docker pull travisci/worker`
+0. `docker run --env-file ENV_FILE -ti travis-worker` # or `travisci/worker`
 
-[Termux]: <https://termux.com>
-[proot]: <https://github.com/termux/proot>
+### Testing
+
+Run `make test`. To run backend tests matching `Docker`, for example, run
+`go test -v ./backend -test.run Docker`.
+
+### Verifying and exporting configuration
+
+To inspect the parsed configuration in a format that can be used as a base
+environment variable configuration, use the `--echo-config` flag, which will
+exit immediately after writing to stdout:
+
+``` bash
+travis-worker --echo-config
+```
+
+
+## Stopping Travis Worker
+
+Travis Worker has two shutdown modes: Graceful and immediate. The graceful
+shutdown will tell the worker to not start any additional jobs but finish the
+jobs it is currently running before it shuts down. The immediate shutdown will
+make the worker stop the jobs it's working on, requeue them, and clean up any
+open resources (shut down VMs, cleanly close connections, etc.)
+
+To start a graceful shutdown, send an INT signal to the worker (for example
+using `kill -INT`). To start an immediate shutdown, send a TERM signal to the
+worker (for example using `kill -TERM`).
+
+## Go dependency management
+
+Travis Worker is built via the standard `go` commands and dependencies managed
+by using Go Modules.
+
+## Release process
+
+Since we want to easily keep track of worker changes, we often associate them with a version number.
+To find out the current version, check the [changelog](https://github.com/travis-ci/worker/blob/master/CHANGELOG.md) or run `travis-worker --version`.
+We typically use [semantic versioning](https://semver.org/) to determine how to increase this number.
+
+Once you've decided what the next version number should be, update the [changelog](https://github.com/travis-ci/worker/blob/master/CHANGELOG.md) making sure you include all relevant changes that happened since the previous version was tagged. You can see these by running `git diff vX.X.X...HEAD`, where `v.X.X.X` is the name of the previous version.
+
+Once the changelog has been updated and merged to `master`, the merge commit needs to be signed and manually tagged with the version number. To do this, run:
+
+```
+git tag --sign -a vX.X.X -m "Worker version vX.X.X"
+git push origin vX.X.X
+```
+
+The Travis build corresponding to this push should build and upload a worker image with the new tag to [Dockerhub](https://hub.docker.com/r/travisci/worker/tags/).
+
+The next step is to create a new [Github release tag](https://github.com/travis-ci/worker/releases/new) with the appropriate information from the changelog.
+
+## License and Copyright Information
+
+See [LICENSE file](./LICENSE).
+
+© 2018 Travis CI GmbH
