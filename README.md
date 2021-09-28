@@ -45,5 +45,5 @@ For example: `ci/django.yml` and `ci/properties/django.properties.json`.
 These variables can be placed in the starter workflow and will be substituted as detailed below:
 
 * `$default-branch`: will substitute the branch from the repository, for example `main` and `master`
-* `$protected-branches`: will substitue any protected branches from the repository.
+* `$protected-branches`: will substitute any protected branches from the repository
 * `$cron-daily`: will substitute a valid but random time within the day
