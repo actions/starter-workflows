@@ -1,24 +1,20 @@
-## Contributing
+# Contributing to travis-ci/worker
 
-[code-of-conduct]: CODE_OF_CONDUCT.md
+Issues for any Travis CI repo should be submitted to
+https://github.com/travis-ci/travis-ci/issues
 
-Hi there 👋 We are excited that you want to contribute a new workflow to this repo. By doing this you are helping people get up and running with GitHub Actions and that's cool 😎.
+## Security Issues
 
-Contributions to this project are [released](https://help.github.com/articles/github-terms-of-service/#6-contributions-under-repository-license) to the public under the [project's open source license](https://github.com/actions/starter-workflows/blob/main/LICENSE).
+***Any security issues should be submitted directly to
+[security@travis-ci.org](mailto:security@travis-ci.org)***
 
-Please note that this project is released with a [Contributor Code of Conduct](
-https://github.com/actions/.github/blob/main/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+## Reporting Issues
+- Explain what you expected to happen vs the actual results
+- Include a screenshot if it helps illustrate the issue.
+  https://github.com/blog/1347-issue-attachments
+- What steps are required to reproduce the issue
+- An example build that shows the issue
 
-**At this time we are only accepting new starter workflows for Code Scanning**
+## Submitting a PR to travis-ci/worker
 
-### Previous guidelines for new starter workflows.
-
-Before merging a new workflow, the following requirements need to be met:
-
-- Should be as simple as is needed for the service.
-- There are many programming languages and tools out there. Right now we don't have a page that allows for a really large number of workflows, so we do have to be a little choosy about what we accept. Less popular tools or languages might not be accepted.
-- Automation and CI workflows should not send data to any 3rd party service except for the purposes of installing dependencies.
-- Automation and CI workflows cannot be dependent on a paid service or product.
-- We require that Actions outside of the `actions` organization be pinned to a specific SHA.
-
-Thank you
+See testing and setup notes in the [README](./README.md).

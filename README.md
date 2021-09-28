@@ -1,49 +1,116 @@
-<p align="center">
-  <img src="https://avatars0.githubusercontent.com/u/44036562?s=100&v=4"/> 
-</p>
+# MindMiner [![Version tag](https://img.shields.io/github/release/Quake4/MindMiner.svg)](https://github.com/Quake4/MindMiner/releases/latest) [![Version date tag](https://img.shields.io/github/release-date/Quake4/MindMiner.svg)](https://github.com/Quake4/MindMiner/releases/latest) [![Issues tag](https://img.shields.io/github/issues-raw/Quake4/MindMiner.svg)](https://github.com/Quake4/MindMiner/issues)
+### *by Oleg Samsonov aka Quake4*
 
-## Starter Workflows
+Multi-algorithm, multi-platform, miner manager program.
+Mining supported on NVIDIA, AMD, and CPU platforms.
 
-These are the workflow files for helping people get started with GitHub Actions.  They're presented whenever you start to create a new GitHub Actions workflow.
+This is not another fork based on MultiPoolMiner (NemosMiner, SniffDogMiner, MegaMiner, NPlusMiner and etc).
+This is a fully new, from scratch source code, written by myself with a smarter miner manager program as the goal.
 
-**If you want to get started with GitHub Actions, you can use these starter workflows by clicking the "Actions" tab in the repository where you want to create a workflow.**
+If anyone has a claim to any of it post your case in the [Discord](https://discord.gg/HrKChEQ) or Bitcoin Talk Forum on [english](https://bitcointalk.org/index.php?topic=3022754) or [russian](https://bitcointalk.org/index.php?topic=3139620) or [create issue](https://github.com/Quake4/MindMiner/issues/new).
 
-<img src="https://d3vv6lp55qjaqc.cloudfront.net/items/353A3p3Y2x3c2t2N0c01/Image%202019-08-27%20at%203.25.07%20PM.png" max-width="75%"/>
+You may configure and further fine-tune any supported miner as well, by modifying its accompanying config.txt
 
-### Directory structure
+## Features
+* Online monitoring on [MindMiner site](http://mindminer.online/monitoring)
+* Accounting power consumption
+* Very small [![code size](https://img.shields.io/github/languages/code-size/Quake4/MindMiner.svg)](https://github.com/Quake4/MindMiner)
+* Low memory use ~60Mb
+* Self update
+* User confirm for benchmarks and new pools
+* No memory leak
+* Small CPU usage
+* Fast switch for most profit algo/coin
+* Very configurable
+* Different verbose level
+* Pools actual balance
+* Actual, up-to-date miners (if not, write me)
+* Up to three currencies ([supported list](https://api.coinbase.com/v2/exchange-rates?currency=BTC))
+* Api Pools proxy for more then 7 rigs (prevent blocking api pools request)
+* Api/status server (http://127.0.0.1:5555)
+* Switching resistance by percentage and/or timeout
+* Dual mining on Claymore Ethereum & Bminer
+* Run process before & after execution of miner
+* Account accepted & rejected shares
+* Failover pools support
+* Rentals pool support (MiningRigRentals)
 
-* [ci](ci): solutions for Continuous Integration workflows.
-* [deployments](deployments): solutions for Deployment workflows.
-* [automation](automation): solutions for automating workflows.
-* [code-scanning](code-scanning): starter workflows for [Code Scanning](https://github.com/features/security)
-* [icons](icons): svg icons for the relevant template
+## Support
+### Pools ([full list](https://github.com/Quake4/MindMiner/tree/master/Pools))
+* AhashPool
+* BlazePool
+* BlockMasters
+* MiningPoolHub
+* MiningRigRentals
+* NiceHash
+* NLPool
+* ZergPool
+* Zpool
 
-Each workflow must be written in YAML and have a `.yml` extension. They also need a corresponding `.properties.json` file that contains extra metadata about the workflow (this is displayed in the GitHub.com UI).
+### Miners ([full list](https://github.com/Quake4/MindMiner/tree/master/Miners))
+* ccminer (any)
+* сlaymore ethereum (dual)
+* сlaymore neoscrypt
+* cpuminer (any)
+* cpuminer-opt/bf
+* cryptodredge
+* ethminer
+* gminer
+* lolminer
+* phoenix (ethash)
+* sgminer (any)
+* srbm-multi
+* t-rex
+* teamred
+* wildrig
+* xmrig all
+* xmr-stak
+* z-enemy
+* archive (bminer, cast xmr, claymore cn/zcash, dstm, ewbf, gatelessgate, hsrminer, jce, nheqminer & other)
 
-For example: `ci/django.yml` and `ci/properties/django.properties.json`.
+## Requirements
 
-### Valid properties
+**PowerShell 5.1**
+* Windows 10 x64 or Server 2016 already contain PowerShell 5.1
+* For Windows 7 SP1, 8.1, Server 2008 R2 SP1, 2012, 2012 R2 install [PowerShell 5.1 by link](https://www.microsoft.com/download/details.aspx?id=54616).
+* PowerShell requires [Microsoft .NET Framework 4.5.2](https://docs.microsoft.com/powershell/wmf/5.1/install-configure) or [above](https://msdn.microsoft.com/library/5a4x27ek(v=vs.110).aspx).
 
-* `name`: the name shown in onboarding. This property is unique within the repository.
-* `description`: the description shown in onboarding
-* `iconName`: the icon name in the relevant folder, for example, `django` should have an icon `icons/django.svg`. Only SVG is supported at this time. Another option is to use [octicon](https://primer.style/octicons/). The format to use an octicon is `octicon <<icon name>>`. Example: `octicon person`
-* `creator`: creator of the template shown in onboarding. All the workflow templates from an author will have the same `creator` field.
-* `categories`: the categories that it will be shown under. Choose at least one category from the list [here](#categories). Further, choose the categories from the list of languages available [here](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml). When a user views the available templates, those templates that match the same language will feature more prominently.
+Windows 64-bit edition required as most of the miners releases are compiled as x64 and support only x64 platforms.
 
-### Categories
-* continuous-integration
-* deployment
-* testing
-* code-quality
-* code-review
-* dependency-management
-* monitoring
-* Automation
-* utilities
+Please install both x64 and x86 versions:
+* Visual C++ Redistributable 2015, 2017, 2019 [x64](https://aka.ms/vs/16/release/vc_redist.x64.exe) [x86](https://aka.ms/vs/16/release/vc_redist.x86.exe)
+* [Visual C++ Redistributable 2013](https://www.microsoft.com/download/details.aspx?id=40784)
+* ~~[Visual C++ Redistributable 2012](https://www.microsoft.com/download/details.aspx?id=30679)~~
 
-### Variables
-These variables can be placed in the starter workflow and will be substituted as detailed below:
+If use CPU mining please [allow lock page support](https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/enable-the-lock-pages-in-memory-option-windows) in OS to double CryptoNight algorithm profit (XMR).
 
-* `$default-branch`: will substitute the branch from the repository, for example `main` and `master`
-* `$protected-branches`: will substitute any protected branches from the repository
-* `$cron-daily`: will substitute a valid but random time within the day
+## Install
+Download [![latest release](https://img.shields.io/github/release/Quake4/MindMiner.svg)](https://github.com/Quake4/MindMiner/releases/latest) to any folder. Unpack and may create `config.txt` (see config section) or just run "run.bat" and enter BTC wallet and other asked data.
+
+## Config ([full manual](https://github.com/Quake4/MindMiner/blob/master/Config.md))
+Place simple `config.txt` file into programm folder with json content
+```json
+{
+    "Wallet": { "BTC":  "Your BTC wallet" },
+    "Login": "Login for pool with registration (MPH)"
+}
+```
+For details, see [full configuration manual](https://github.com/Quake4/MindMiner/blob/master/Config.md).
+
+## Screenshot
+### Monitoring
+![MindMiner](https://github.com/Quake4/MindMinerPrerequisites/raw/master/monitoring.png "MindMiner online monitoring")
+### nVidia GTX 1070
+![MindMiner](https://github.com/Quake4/MindMinerPrerequisites/raw/master/MindMiner.png "MindMiner on nVidia GTX 1070")
+### nVidia GTX 1060 3G
+![MindMiner](https://github.com/Quake4/MindMinerPrerequisites/raw/master/GTX10603G.png "MindMiner on nVidia GTX 1060 3G")
+### AMD RX 580 4G
+![MindMiner](https://github.com/Quake4/MindMinerPrerequisites/raw/master/RX5804G.png "MindMiner on AMD RX 580 4G")
+### Intel i3-6100
+![MindMiner](https://github.com/Quake4/MindMinerPrerequisites/raw/master/i36100.png "MindMiner on Intel i3-6100")
+
+## Fee
+MindMiner has development fee 1%. Enabling MinigRigRentals will add 1% fee.
+
+## Thanks
+Thanks to aaronsace to the idea but weak implementation.

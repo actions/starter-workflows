@@ -1,0 +1,2 @@
+obj-y += tosa.o
+obj-y += virt.o

@@ -1,0 +1,73 @@
+{
+  "type": "test",
+  "vm_type": "default",
+  "queue": "builds.ec2",
+  "config": {
+    "language": "ruby",
+    "script": "echo Hello World",
+    ".result": "configured",
+    "os": "linux",
+    "group": "stable",
+    "dist": "trusty"
+  },
+  "env_vars": [],
+  "job": {
+    "id": 721270,
+    "number": "445.1",
+    "commit": "fad82cc76a5df58e749b82f7f2ab10ede52ba730",
+    "commit_range": "0faba6fc0a3e...fad82cc76a5d",
+    "commit_message": "updating contents of RANDOM",
+    "branch": "master",
+    "ref": null,
+    "tag": null,
+    "pull_request": false,
+    "state": "passed",
+    "secure_env_enabled": true,
+    "secure_env_removed": false,
+    "debug_options": {},
+    "queued_at": "2018-05-14T14:26:50Z",
+    "allow_failure": false,
+    "stage_name": null
+  },
+  "source": {
+    "id": 721269,
+    "number": "445",
+    "event_type": "push"
+  },
+  "repository": {
+    "id": 44461,
+    "github_id": 55685806,
+    "private": false,
+    "slug": "igorwwwwwwwwwwwwwwwwwwww/hello-world",
+    "source_url": "https://github.com/igorwwwwwwwwwwwwwwwwwwww/hello-world.git",
+    "source_host": "github.com",
+    "api_url": "https://api.github.com/repos/igorwwwwwwwwwwwwwwwwwwww/hello-world",
+    "last_build_id": 721269,
+    "last_build_number": "445",
+    "last_build_started_at": "2018-05-14T14:26:52Z",
+    "last_build_finished_at": "2018-05-14T14:27:06Z",
+    "last_build_duration": 14,
+    "last_build_state": "passed",
+    "default_branch": "master",
+    "description": "Hi!"
+  },
+  "ssh_key": null,
+  "timeouts": {
+    "hard_limit": 3000,
+    "log_silence": null
+  },
+  "cache_settings": {
+    "fetch_timeout": 1200,
+    "push_timeout": 7200,
+    "s3": {
+      "access_key_id": "nopenotanaccesskey",
+      "aws_signature_version": "4",
+      "bucket": "travis-cache-staging-org",
+      "hostname": "s3.amazonaws.com",
+      "secret_access_key": "vEry_SeCrEt_AcCeSs_KeY"
+    },
+    "type": "s3"
+  },
+  "enterprise": false,
+  "prefer_https": false
+}

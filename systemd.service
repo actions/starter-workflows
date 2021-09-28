@@ -1,0 +1,13 @@
+# Service definition to be installed somewhere in the systemd load path
+[Unit]
+Description=Travis Worker
+
+[Service]
+ExecStart=___SYSTEMD_WRAPPER___
+ExecStopPost=/bin/sleep 5
+Restart=always
+WorkingDirectory=/
+User=travis
+
+[Install]
+WantedBy=multi-user.target
