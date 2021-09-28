@@ -3,5 +3,11 @@
     "../../ci",
     "../../automation",
     "../../deployments"
+  ],
+  "allowed_categories" : [
+    "Continuous integration",
+    "Deployment",
+    "Code Scanning",
+    "Automation"
   ]
 }
