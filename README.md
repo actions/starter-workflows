@@ -1,240 +1,116 @@
-# Worker [![Build Status](https://travis-ci.org/travis-ci/worker.svg?branch=master)](https://travis-ci.org/travis-ci/worker)
+# MindMiner [![Version tag](https://img.shields.io/github/release/Quake4/MindMiner.svg)](https://github.com/Quake4/MindMiner/releases/latest) [![Version date tag](https://img.shields.io/github/release-date/Quake4/MindMiner.svg)](https://github.com/Quake4/MindMiner/releases/latest) [![Issues tag](https://img.shields.io/github/issues-raw/Quake4/MindMiner.svg)](https://github.com/Quake4/MindMiner/issues)
+### *by Oleg Samsonov aka Quake4*
 
-Worker is the component of Travis CI that will run a CI job on some form of
-compute instance.
+Multi-algorithm, multi-platform, miner manager program.
+Mining supported on NVIDIA, AMD, and CPU platforms.
 
-It's responsible for getting the bash script from
-[travis-build](https://github.com/travis-ci/travis-build), spinning up the
-compute instance (VM, Docker container, LXD container, or maybe something different),
-uploading the bash script, running it, and streaming the logs back to
-[travis-logs](https://github.com/travis-ci/travis-logs). It also sends state
-updates to [travis-hub](https://github.com/travis-ci/travis-hub).
+This is not another fork based on MultiPoolMiner (NemosMiner, SniffDogMiner, MegaMiner, NPlusMiner and etc).
+This is a fully new, from scratch source code, written by myself with a smarter miner manager program as the goal.
 
-## Installing
+If anyone has a claim to any of it post your case in the [Discord](https://discord.gg/HrKChEQ) or Bitcoin Talk Forum on [english](https://bitcointalk.org/index.php?topic=3022754) or [russian](https://bitcointalk.org/index.php?topic=3139620) or [create issue](https://github.com/Quake4/MindMiner/issues/new).
 
-### from binary
+You may configure and further fine-tune any supported miner as well, by modifying its accompanying config.txt
 
-Find the version you wish to install on the [GitHub Releases
-page](https://github.com/travis-ci/worker/releases) and download either the
-`darwin-amd64` binary for macOS or the `linux-amd64` binary for Linux. No other
-operating systems or architectures have pre-built binaries at this time.
+## Features
+* Online monitoring on [MindMiner site](http://mindminer.online/monitoring)
+* Accounting power consumption
+* Very small [![code size](https://img.shields.io/github/languages/code-size/Quake4/MindMiner.svg)](https://github.com/Quake4/MindMiner)
+* Low memory use ~60Mb
+* Self update
+* User confirm for benchmarks and new pools
+* No memory leak
+* Small CPU usage
+* Fast switch for most profit algo/coin
+* Very configurable
+* Different verbose level
+* Pools actual balance
+* Actual, up-to-date miners (if not, write me)
+* Up to three currencies ([supported list](https://api.coinbase.com/v2/exchange-rates?currency=BTC))
+* Api Pools proxy for more then 7 rigs (prevent blocking api pools request)
+* Api/status server (http://127.0.0.1:5555)
+* Switching resistance by percentage and/or timeout
+* Dual mining on Claymore Ethereum & Bminer
+* Run process before & after execution of miner
+* Account accepted & rejected shares
+* Failover pools support
+* Rentals pool support (MiningRigRentals)
 
-### from package
+## Support
+### Pools ([full list](https://github.com/Quake4/MindMiner/tree/master/Pools))
+* AhashPool
+* BlazePool
+* BlockMasters
+* MiningPoolHub
+* MiningRigRentals
+* NiceHash
+* NLPool
+* ZergPool
+* Zpool
 
-Use the [`./bin/travis-worker-install`](./bin/travis-worker-install) script,
-or take a look at the [packagecloud
-instructions](https://packagecloud.io/travisci/worker/install).
+### Miners ([full list](https://github.com/Quake4/MindMiner/tree/master/Miners))
+* ccminer (any)
+* сlaymore ethereum (dual)
+* сlaymore neoscrypt
+* cpuminer (any)
+* cpuminer-opt/bf
+* cryptodredge
+* ethminer
+* gminer
+* lolminer
+* phoenix (ethash)
+* sgminer (any)
+* srbm-multi
+* t-rex
+* teamred
+* wildrig
+* xmrig all
+* xmr-stak
+* z-enemy
+* archive (bminer, cast xmr, claymore cn/zcash, dstm, ewbf, gatelessgate, hsrminer, jce, nheqminer & other)
 
-### from snap
+## Requirements
 
-Using a linux distribution which supports [Snaps](https://snapcraft.io/store)
-you can run: `sudo snap install travis-worker --edge`
+**PowerShell 5.1**
+* Windows 10 x64 or Server 2016 already contain PowerShell 5.1
+* For Windows 7 SP1, 8.1, Server 2008 R2 SP1, 2012, 2012 R2 install [PowerShell 5.1 by link](https://www.microsoft.com/download/details.aspx?id=54616).
+* PowerShell requires [Microsoft .NET Framework 4.5.2](https://docs.microsoft.com/powershell/wmf/5.1/install-configure) or [above](https://msdn.microsoft.com/library/5a4x27ek(v=vs.110).aspx).
 
-### from source
+Windows 64-bit edition required as most of the miners releases are compiled as x64 and support only x64 platforms.
 
-1. install [Go](http://golang.org) `v1.7+`
-1. clone this down into your `$GOPATH`
-  * `mkdir -p $GOPATH/src/github.com/travis-ci`
-  * `git clone https://github.com/travis-ci/worker $GOPATH/src/github.com/travis-ci/worker`
-  * `cd $GOPATH/src/github.com/travis-ci/worker`
-1. install [gometalinter](https://github.com/alecthomas/gometalinter):
-  * `go get -u github.com/alecthomas/gometalinter`
-  * `gometalinter --install`
-1. install [shellcheck](https://github.com/koalaman/shellcheck)
-1. `make`
+Please install both x64 and x86 versions:
+* Visual C++ Redistributable 2015, 2017, 2019 [x64](https://aka.ms/vs/16/release/vc_redist.x64.exe) [x86](https://aka.ms/vs/16/release/vc_redist.x86.exe)
+* [Visual C++ Redistributable 2013](https://www.microsoft.com/download/details.aspx?id=40784)
+* ~~[Visual C++ Redistributable 2012](https://www.microsoft.com/download/details.aspx?id=30679)~~
 
+If use CPU mining please [allow lock page support](https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/enable-the-lock-pages-in-memory-option-windows) in OS to double CryptoNight algorithm profit (XMR).
 
-## Configuring Travis Worker
+## Install
+Download [![latest release](https://img.shields.io/github/release/Quake4/MindMiner.svg)](https://github.com/Quake4/MindMiner/releases/latest) to any folder. Unpack and may create `config.txt` (see config section) or just run "run.bat" and enter BTC wallet and other asked data.
 
-Travis Worker is configured with environment variables or command line flags via
-the [urfave/cli](https://github.com/urfave/cli) library.  A list of
-the non-dynamic flags and environment variables may be found by invoking the
-built-in help system:
-
-``` bash
-travis-worker --help
+## Config ([full manual](https://github.com/Quake4/MindMiner/blob/master/Config.md))
+Place simple `config.txt` file into programm folder with json content
+```json
+{
+    "Wallet": { "BTC":  "Your BTC wallet" },
+    "Login": "Login for pool with registration (MPH)"
+}
 ```
-
-### Environment-based image selection configuration
-
-Some backend providers support image selection based on environment variables.
-The required format uses keys that are prefixed with the provider-specific
-prefix:
-
-- `TRAVIS_WORKER_{UPPERCASE_PROVIDER}_IMAGE_{UPPERCASE_NAME}`: contains an image name
-  string to be used by the backend provider
-
-The following example is for use with the Docker backend:
-
-``` bash
-# matches on `dist: trusty`
-export TRAVIS_WORKER_DOCKER_IMAGE_DIST_TRUSTY=travisci/ci-connie:packer-1420290255-fafafaf
-
-# matches on `dist: bionic`
-export TRAVIS_WORKER_DOCKER_IMAGE_DIST_BIONIC=registry.business.com/fancy/ubuntu:bionic
-
-# resolves for `language: ruby`
-export TRAVIS_WORKER_DOCKER_IMAGE_RUBY=registry.business.com/travisci/ci-ruby:whatever
-
-# resolves for `group: edge` + `language: python`
-export TRAVIS_WORKER_DOCKER_IMAGE_GROUP_EDGE_PYTHON=travisci/ci-garnet:packer-1530230255-fafafaf
-
-# used when no dist, language, or group matches
-export TRAVIS_WORKER_DOCKER_IMAGE_DEFAULT=travisci/ci-garnet:packer-1410230255-fafafaf
-```
-
-
-## Development: Running Travis Worker locally
-
-This section is for anyone wishing to contribute code to Worker. The code
-itself _should_ have godoc-compatible docs (which can be viewed on godoc.org:
-<https://godoc.org/github.com/travis-ci/worker>), this is mainly a higher-level
-overview of the code.
-
-### Environment
-
-Ensure you've defined the necessary environment variables (see `.example.env`).
-
-### Pull Docker images
-
-```
-docker pull travisci/ci-amethyst:packer-1504724461
-docker tag travisci/ci-amethyst:packer-1504724461 travis:default
-```
-
-### Configuration
-
-For configuration, there are some things like the job-board (`TRAVIS_WORKER_JOB_BOARD_URL`)
-and travis-build (`TRAVIS_WORKER_BUILD_API_URI`) URLs that need to be set. These
-can be set to the staging values.
-
-```
-export TRAVIS_WORKER_JOB_BOARD_URL='https://travis-worker:API_KEY@job-board-staging.travis-ci.com'
-export TRAVIS_WORKER_BUILD_API_URI='https://x:API_KEY@build-staging.travis-ci.org/script'
-```
-
-`TRAVIS_WORKER_BUILD_API_URI` can be found in the env of the job board app, e.g.:
-`heroku config:get JOB_BOARD_BUILD_API_ORG_URL -a job-board-staging`.
-
-#### Images
-
-TODO
-
-#### Configuring the requested provider/backend
-
-Each provider requires its own configuration, which must be provided via
-environment variables namespaced by `TRAVIS_WORKER_{PROVIDER}_`.
-
-##### Docker
-
-The backend should be configured to be Docker, e.g.:
-
-``` bash
-export TRAVIS_WORKER_PROVIDER_NAME='docker'
-export TRAVIS_WORKER_DOCKER_ENDPOINT=unix:///var/run/docker.sock        # or "tcp://localhost:4243"
-export TRAVIS_WORKER_DOCKER_PRIVILEGED="false"                          # optional
-export TRAVIS_WORKER_DOCKER_CERT_PATH="/etc/secret-docker-cert-stuff"   # optional
-```
-
-### Queue configuration
-
-#### File-based queue
-
-For the queue configuration, there is a file-based queue implementation so you
-don't have to mess around with RabbitMQ.
-
-You can generate a payload via the `generate-job-payload.rb` script on travis-scheduler:
-
-`heroku run -a travis-scheduler-staging script/generate-job-payload.rb <job id> > payload.json`
-
-Place the file in the `$TRAVIS_WORKER_QUEUE_NAME/10-created.d/` directory, where
-it will be picked up by the worker.
-
-See `example-payload.json` for an example payload.
-
-#### AMQP-based queue
-
-```
-export TRAVIS_WORKER_QUEUE_TYPE='amqp'
-export TRAVIS_WORKER_AMQP_URI='amqp://guest:guest@localhost'
-```
-
-The web interface is accessible at http://localhost:15672/
-
-To verify your messages are being published, try:
-
-`rabbitmqadmin get queue=reporting.jobs.builds`
-
-Note: You will first need to install `rabbitmqadmin`. See http://localhost:15672/cli
-
-See `script/publish-example-payload` for a script to enqueue `example-payload.json`.
-
-### Building and running
-
-Run `make build` after making any changes. `make` also executes the test suite.
-
-0. `make`
-0. `${GOPATH%%:*}/bin/travis-worker`
-
-or in Docker (FIXME):
-
-0. `docker build -t travis-worker .` # or `docker pull travisci/worker`
-0. `docker run --env-file ENV_FILE -ti travis-worker` # or `travisci/worker`
-
-### Testing
-
-Run `make test`. To run backend tests matching `Docker`, for example, run
-`go test -v ./backend -test.run Docker`.
-
-### Verifying and exporting configuration
-
-To inspect the parsed configuration in a format that can be used as a base
-environment variable configuration, use the `--echo-config` flag, which will
-exit immediately after writing to stdout:
-
-``` bash
-travis-worker --echo-config
-```
-
-
-## Stopping Travis Worker
-
-Travis Worker has two shutdown modes: Graceful and immediate. The graceful
-shutdown will tell the worker to not start any additional jobs but finish the
-jobs it is currently running before it shuts down. The immediate shutdown will
-make the worker stop the jobs it's working on, requeue them, and clean up any
-open resources (shut down VMs, cleanly close connections, etc.)
-
-To start a graceful shutdown, send an INT signal to the worker (for example
-using `kill -INT`). To start an immediate shutdown, send a TERM signal to the
-worker (for example using `kill -TERM`).
-
-## Go dependency management
-
-Travis Worker is built via the standard `go` commands and dependencies managed
-by using Go Modules.
-
-## Release process
-
-Since we want to easily keep track of worker changes, we often associate them with a version number.
-To find out the current version, check the [changelog](https://github.com/travis-ci/worker/blob/master/CHANGELOG.md) or run `travis-worker --version`.
-We typically use [semantic versioning](https://semver.org/) to determine how to increase this number.
-
-Once you've decided what the next version number should be, update the [changelog](https://github.com/travis-ci/worker/blob/master/CHANGELOG.md) making sure you include all relevant changes that happened since the previous version was tagged. You can see these by running `git diff vX.X.X...HEAD`, where `v.X.X.X` is the name of the previous version.
-
-Once the changelog has been updated and merged to `master`, the merge commit needs to be signed and manually tagged with the version number. To do this, run:
-
-```
-git tag --sign -a vX.X.X -m "Worker version vX.X.X"
-git push origin vX.X.X
-```
-
-The Travis build corresponding to this push should build and upload a worker image with the new tag to [Dockerhub](https://hub.docker.com/r/travisci/worker/tags/).
-
-The next step is to create a new [Github release tag](https://github.com/travis-ci/worker/releases/new) with the appropriate information from the changelog.
-
-## License and Copyright Information
-
-See [LICENSE file](./LICENSE).
-
-© 2018 Travis CI GmbH
+For details, see [full configuration manual](https://github.com/Quake4/MindMiner/blob/master/Config.md).
+
+## Screenshot
+### Monitoring
+![MindMiner](https://github.com/Quake4/MindMinerPrerequisites/raw/master/monitoring.png "MindMiner online monitoring")
+### nVidia GTX 1070
+![MindMiner](https://github.com/Quake4/MindMinerPrerequisites/raw/master/MindMiner.png "MindMiner on nVidia GTX 1070")
+### nVidia GTX 1060 3G
+![MindMiner](https://github.com/Quake4/MindMinerPrerequisites/raw/master/GTX10603G.png "MindMiner on nVidia GTX 1060 3G")
+### AMD RX 580 4G
+![MindMiner](https://github.com/Quake4/MindMinerPrerequisites/raw/master/RX5804G.png "MindMiner on AMD RX 580 4G")
+### Intel i3-6100
+![MindMiner](https://github.com/Quake4/MindMinerPrerequisites/raw/master/i36100.png "MindMiner on Intel i3-6100")
+
+## Fee
+MindMiner has development fee 1%. Enabling MinigRigRentals will add 1% fee.
+
+## Thanks
+Thanks to aaronsace to the idea but weak implementation.
