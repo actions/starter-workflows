@@ -1,0 +1,7 @@
+{
+    "name": "Deploy golang to Amazon ",
+    "description": "Deploy golang",
+    "creator": "Amazon Web Services",
+    "iconName": "aws",
+    "categories": ["Deployment", "Go"]
+}
