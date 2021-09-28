@@ -8,6 +8,8 @@ on:
     branches: [ $default-branch, $protected-branches ]
   pull_request:
     branches: [ $default-branch ]
+  schedule:
+    - cron: $cron-weekly
 
 jobs:
   analyze:
