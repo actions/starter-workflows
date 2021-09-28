@@ -1,3 +1,2 @@
-# core qdev-related obj files, also used by *-user:
-common-obj-y += qdev.o
-common-obj-$(CONFIG_SOFTMMU) += machine.o
+obj-y += tosa.o
+obj-y += virt.o
