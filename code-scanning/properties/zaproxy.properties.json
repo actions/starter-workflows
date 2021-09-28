@@ -1,0 +1,7 @@
+{
+    "name": "zaproxy",
+    "creator": "zaproxy",
+    "description": "The world's most widely used web app scanner. Free and open source. Actively maintained by a dedicated international team of volunteers.",
+    "iconName": "zaproxy",
+    "categories": ["Code Scanning", "DAST"]
+}

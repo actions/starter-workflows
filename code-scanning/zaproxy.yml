@@ -1,0 +1,48 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+#
+# This workflow leverages containers to do a DAST scan. 
+#
+# To test a (publicly) reachable url instead of a container remove the `build-image` and `publish-image` job, and replace the localhost target with the website that needs to be scanned/ 
+
+
+
+name: ZAProxy
+
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    branches: [ $default-branch ]  
+  schedule:
+    - cron: $cron-weekly
+
+jobs:
+  ## Ensure a container image is available to run a container-based scan.
+  build-image:
+    ## Build your image here
+  publish-image:
+    ## Publish your image to a container registry here
+  dast-scan:
+    ## Run the container as service in the workflow
+    services:
+      website:
+        image: namespace/image # Point to the container image of your application
+        ports:
+          - 80:80
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: ZAP Scan
+        uses: zaproxy/action-baseline@v0.4.0
+        with:
+          ## URL of container in context of the workflow, or for non-container based scans, a public reachable url.
+          target: 'http://localhost'
+      - name: Create sarif file from zaproxy results
+        uses: SvanBoxel/zaproxy-to-ghas@main
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: results.sarif
