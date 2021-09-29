@@ -1,5 +1,5 @@
 {
-    "name": "Azure Data Factory",
+    "name": "Deploy to Azure Data Factory",
     "creator": "Microsoft Azure",
     "description": "Deploy Azure Data Factory resources",
     "iconName": "azure-data-factory",
