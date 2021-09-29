@@ -1,0 +1,47 @@
+name: Data Factory CD
+
+on:
+  push:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  resourceGroupName: myResourceGroup
+  dataFactoryName: myDataFactory
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v2
+
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true
+
+      - name: Export ARM Template
+        id: export
+        uses: Azure/data-factory-export-action@v1.1.0
+        # with:
+        #   path: <data-factory-dir> # replace by the folder that contains the Data Factory resources
+      
+      - name: Deploy resources
+        uses: Azure/data-factory-deploy-action@v1.1.0
+        with:
+          resourceGroupName: ${{ env.resourceGroupName }}
+          dataFactoryName: ${{ env.dataFactoryName }}
+          armTemplateFile: '${{steps.export.outputs.arm-template-directory}}/ARMTemplateForFactory.json'
+          armTemplateParametersFile: '${{steps.export.outputs.arm-template-directory}}/ARMTemplateParametersForFactory.json'
+          # additionalParameters: 'key1=value key2=value keyN=value'
+
+      - name: Publish artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: data-factory-package
+          path: ${{ steps.export.outputs.arm-template-directory }}
+          if-no-files-found: error

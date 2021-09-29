@@ -1,0 +1,7 @@
+{
+    "name": "Azure Data Factory",
+    "creator": "Microsoft Azure",
+    "description": "Deploy Azure Data Factory resources",
+    "iconName": "azure-data-factory",
+    "categories": ["Deployment", "Azure Data Factory"]
+}
