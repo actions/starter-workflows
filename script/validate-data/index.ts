@@ -116,9 +116,8 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
 (async function main() {
   try {
     const settings = require("./settings.json");
-    const allowed_categories = settings.allowed_categories
     const erroredWorkflows = await checkWorkflows(
-      settings.folders, allowed_categories
+      settings.folders, settings.allowed_categories
     )
 
     if (erroredWorkflows.length > 0) {
