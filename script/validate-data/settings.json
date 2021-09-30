@@ -4,5 +4,11 @@
     "../../automation",
     "../../deployments",
     "../../code-scanning"
+  ],
+  "allowed_categories" : [
+    "Continuous integration",
+    "Deployment",
+    "Code Scanning",
+    "Automation"
   ]
 }
