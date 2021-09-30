@@ -49,7 +49,7 @@ async function checkWorkflows(folders: string[], allowed_categories: string[]): 
     });
 
     for (const e of dir) {
-      if (e.isFile()) {
+      if (e.isFile() && [".yml", ".yaml"].includes(extname(e.name))) {
         const fileType = basename(e.name, extname(e.name))
 
         const workflowFilePath = join(folder, e.name);
@@ -104,7 +104,8 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
       }
       
     }
-    if (! workflowPath.endsWith("blank.yml") && (! properties.categories || ! properties.categories.some(category => allowed_categories.some(ac => ac.toLowerCase() == category.toLowerCase())))) {
+    if (!workflowPath.endsWith("blank.yml") && (!properties.categories || 
+      !properties.categories.some(category => allowed_categories.some(ac => ac.toLowerCase() == category.toLowerCase())))) {
       workflowErrors.errors.push(`Workflow does not contain at least one allowed category - ${allowed_categories}`)
     }
   } catch (e) {

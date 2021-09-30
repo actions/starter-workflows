@@ -2,7 +2,8 @@
   "folders": [
     "../../ci",
     "../../automation",
-    "../../deployments"
+    "../../deployments",
+    "../../code-scanning"
   ],
   "allowed_categories" : [
     "Continuous integration",

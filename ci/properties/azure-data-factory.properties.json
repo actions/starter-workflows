@@ -1,0 +1,7 @@
+{
+    "name": "Azure Data Factory",
+    "creator": "Microsoft Azure",
+    "description": "Build and validate Azure Data Factory resources",
+    "iconName": "azure-data-factory",
+    "categories": ["Continuous integration", "Azure Data Factory"]
+}
