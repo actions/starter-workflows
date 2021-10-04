@@ -43,7 +43,7 @@ jobs:
       - run: stat plan.out
 
       - name: Run Cloudrail
-        uses: indeni/cloudrail-run-ga@v1.3
+        uses: indeni/cloudrail-run-ga@b56ed2d30913c975b36df231adc2eabf05523622
         with:
           tf-plan-file: plan.out # This was created in a "terraform plan" step
           cloudrail-api-key: ${{ secrets.CLOUDRAIL_API_KEY }} # This requires registration to Indeni Cloudrail's SaaS at https://web.cloudrail.app
