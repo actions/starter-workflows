@@ -1,0 +1,7 @@
+{
+    "name": "Mayhem for API",
+    "creator": "ForAllSecure",
+    "description": "Automatically test your REST APIs with your OpenAPI specs and Postman collections.",
+    "iconName": "mayhem-for-api",
+    "categories": ["Code Scanning", "C#", "Go", "Java", "Scala", "JavaScript", "TypeScript", "Ruby", "PHP", "Swift", "Kotlin" , "Python", "Rust", "Objective C"]
+}

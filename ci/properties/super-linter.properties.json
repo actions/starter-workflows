@@ -1,0 +1,6 @@
+{
+  "name": "Super Linter - Run Linters for several languages",
+  "description": "Run linters for several languages on your code base for changed files",
+  "iconName": "octicon check-circle",
+  "categories": ["Continuous integration", "code-quality", "code-review"]
+}

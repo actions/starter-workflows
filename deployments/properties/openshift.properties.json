@@ -1,0 +1,7 @@
+{
+    "name": "OpenShift",
+    "description": "Build a Docker-based project and deploy it to OpenShift.",
+    "creator": "Red Hat",
+    "iconName": "openshift",
+    "categories": ["Deployment", "Dockerfile"]
+}

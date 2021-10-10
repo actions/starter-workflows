@@ -1,0 +1,7 @@
+{
+    "name": "Synopsys Intelligent Security Scan Action",
+    "creator": "Synopsys",
+    "description": "The Synopsys Intelligent Security Scan Action helps selectively perform SAST and SCA scans, triggered during a variety of GitHub Platform events",
+    "iconName": "synopsys-io",
+    "categories": ["Code Scanning", "C", "C++", "C#", "Go", "Java", "JavaScript", "Ruby", "PHP", "Swift", "Kotlin" , "Python", "VB.NET", "Objective C"]
+}

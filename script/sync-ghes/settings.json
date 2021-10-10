@@ -1,0 +1,32 @@
+{
+  "folders": [
+    "../../ci",
+    "../../automation",
+    "../../code-scanning"
+  ],
+  "enabledActions": [
+    "actions/checkout",
+    "actions/create-release",
+    "actions/delete-package-versions",
+    "actions/download-artifact",
+    "actions/setup-dotnet",
+    "actions/setup-go",
+    "actions/setup-java",
+    "actions/setup-node",
+    "actions/stale",
+    "actions/starter-workflows",
+    "actions/upload-artifact",
+    "actions/upload-release-asset",
+    "github/codeql-action"
+  ],
+  "partners": [
+    "Alibaba Cloud",
+    "Amazon Web Services",
+    "Microsoft Azure",
+    "Google Cloud",
+    "IBM",
+    "Red Hat",
+    "Tencent Cloud",
+    "HashiCorp"
+  ]
+}

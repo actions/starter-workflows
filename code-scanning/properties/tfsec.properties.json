@@ -1,0 +1,7 @@
+{
+    "name": "tfsec",
+    "creator": "tfsec",
+    "description": "A static analysis security scanner for your Terraform code. Discover problems with your infrastructure before hackers do.",
+    "iconName": "tfsec",
+    "categories": ["Code Scanning", "HCL"]
+}
