@@ -1,5 +1,5 @@
 # This workflow will build and push a new container image to Alibaba Cloud Container Registry (ACR),
-# and then will deploy it to Alibaba Cloud Container Service for Kubernetes (ACK), when a release is created.
+# and then will deploy it to Alibaba Cloud Container Service for Kubernetes (ACK), when there is a push to the $default-branch branch.
 #
 # To use this workflow, you will need to complete the following set-up steps:
 #
@@ -20,8 +20,9 @@
 name: Build and Deploy to ACK
 
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+      - $default-branch
 
 # Environment variables available to all jobs and steps in this workflow.
 env:
