@@ -56,7 +56,7 @@ jobs:
       run: |
         docker build -t "$REGISTRY_HOSTNAME"/"$ICR_NAMESPACE"/"$IMAGE_NAME":"$GITHUB_SHA" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
-          --build-arg GITHUB_REF="$GITHUB_REF" .
+          --build-arg GITHUB_REF="$GITHUB_REF_NAME" .
 
     # Push the image to IBM Container Registry
     - name: Push the image to ICR

@@ -58,7 +58,7 @@ jobs:
         docker build \
           --tag "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
-          --build-arg GITHUB_REF="$GITHUB_REF" \
+          --build-arg GITHUB_REF="$GITHUB_REF_NAME" \
           .
 
     # Push the Docker image to Google Container Registry
