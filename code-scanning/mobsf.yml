@@ -7,11 +7,11 @@ name: MobSF
 
 on:
   push:
-    branches: [ master ]
+    branches: [ $default-branch, $protected-branches ]
   pull_request:
-    branches: [ master ]
-
-  workflow_dispatch:
+    branches: [ $default-branch ]  
+  schedule:
+    - cron: $cron-weekly
 
 jobs:
   mobile-security:
@@ -25,7 +25,7 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: mobsfscan
+      - name: Run mobsfscan
         uses: MobSF/mobsfscan@main
         with:
           args: . --sarif --output results.sarif || true
