@@ -1,0 +1,57 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+#
+# Find more information at:
+# https://github.com/microsoft/msvc-code-analysis-action
+
+name: Microsoft C++ Code Analysis
+
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    branches: [ $default-branch ]
+  schedule:
+    - cron: $cron-weekly
+
+env:
+  # Path to the CMake build directory.
+  build: '${{ github.workspace }}/build'
+
+jobs:
+  build:
+    steps:
+      # Configure project with CMake
+      - name: Configure CMake
+        uses: lukka/run-cmake@v3
+        with:
+          buildDirectory: ${{ env.build }}
+          # Build is not require unless generated source files are used
+          buildWithCMake: false
+          cmakeGenerator: 'VS16Win64'
+          cmakeListsTxtPath: ${{ github.workspace }}/CMakeLists.txt
+
+      # Run Microsoft Visual C++ code analysis
+      - name: Initialize MSVC Code Analysis
+        uses: microsoft/msvc-code-analysis-action
+        # Provide a unique ID to access the sarif output path
+        id: run-analysis
+        with:
+          cmakeBuildDirectory: ${{ env.build }}
+          # Ruleset file that will determine what checks will be run
+          ruleset: NativeRecommendRules.ruleset
+
+      # Upload SARIF file to GitHub Code Scanning Alerts
+      - name: Upload SARIF to Github
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: ${{ steps.run-analysis.outputs.sarif }}
+
+      # Upload SARIF file as an Artifact to download and view
+      # - name: Upload SARIF as an Artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: sarif-file
+      #     path: ${{ steps.run-analysis.outputs.sarif }}
