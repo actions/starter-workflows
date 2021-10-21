@@ -21,21 +21,23 @@ env:
   build: '${{ github.workspace }}/build'
 
 jobs:
-  build:
-    steps:
-      # Configure project with CMake
-      - name: Configure CMake
-        uses: lukka/run-cmake@v3
-        with:
-          buildDirectory: ${{ env.build }}
-          # Build is not require unless generated source files are used
-          buildWithCMake: false
-          cmakeGenerator: 'VS16Win64'
-          cmakeListsTxtPath: ${{ github.workspace }}/CMakeLists.txt
+  analyze:
+    name: Analyze
+    runs-on: windows-latest
 
-      # Run Microsoft Visual C++ code analysis
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Configure CMake
+        run: cmake -B ${{ env.build }}
+
+      # Build is not required unless generated source files are used
+      # - name: Build CMake
+      #   run: cmake --build ${{ env.build }}
+
       - name: Initialize MSVC Code Analysis
-        uses: microsoft/msvc-code-analysis-action
+        uses: microsoft/msvc-code-analysis-action@502db28262ba134c9a621d5a509b9f7e696c99b6
         # Provide a unique ID to access the sarif output path
         id: run-analysis
         with:
@@ -44,7 +46,7 @@ jobs:
           ruleset: NativeRecommendRules.ruleset
 
       # Upload SARIF file to GitHub Code Scanning Alerts
-      - name: Upload SARIF to Github
+      - name: Upload SARIF to GitHub
         uses: github/codeql-action/upload-sarif@v1
         with:
           sarif_file: ${{ steps.run-analysis.outputs.sarif }}
