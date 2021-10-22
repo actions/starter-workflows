@@ -1,6 +1,6 @@
 {
     "name": "[Specific Docker] Deploy dockerfile to Amazon EKS",
-    "description": "Deploy a container to an Amazon ECS.",
+    "description": "Deploy a container to an Amazon EKS.",
     "creator": "Amazon Web Services",
     "iconName": "aws",
     "categories": ["Deployment", "Dockerfile"]
