@@ -1,7 +1,0 @@
-{
-    "name": "[Specific Java] Build and Deploy Java to GCE",
-    "description": "Build and deploy Java application to Google Compute engine.",
-    "creator": "Google Cloud",
-    "iconName": "googlegke",
-    "categories": ["Deployment", "Java"]
-}

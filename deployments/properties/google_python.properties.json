@@ -1,7 +1,0 @@
-{
-    "name": "[Specific Python] Build and Deploy to GCE",
-    "description": "Build and deploy a python application to Google compute engine.",
-    "creator": "Google Cloud",
-    "iconName": "googlegke",
-    "categories": ["Deployment", "Python"]
-}
