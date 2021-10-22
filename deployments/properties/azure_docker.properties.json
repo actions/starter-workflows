@@ -1,6 +1,6 @@
 {
-    "name": "[Specific Docker]Deploy Node.js to Azure Web App",
-    "description": "Build a Node.js project and deploy it to an Azure Web App.",
+    "name": "[Specific Docker] Deploy Node.js to AKS",
+    "description": "Build a Node.js project and deploy it to AKS.",
     "creator": "Microsoft Azure",
     "iconName": "azure",
     "categories": ["Deployment", "Dockerfile"]
