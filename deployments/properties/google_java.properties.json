@@ -1,6 +1,6 @@
 {
-    "name": "[Specific Java]Build and Deploy to GKE",
-    "description": "Build a docker container, publish it to Google Container Registry, and deploy to GKE.",
+    "name": "[Specific Java] Build and Deploy Java to GCE",
+    "description": "Build and deploy Java application to Google Compute engine.",
     "creator": "Google Cloud",
     "iconName": "googlegke",
     "categories": ["Deployment", "Java"]
