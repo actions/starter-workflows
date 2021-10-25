@@ -3,5 +3,5 @@
     "description": "Build a .NET Core project and deploy it to an Azure Web App.",
     "creator": "Microsoft Azure",
     "iconName": "azure",
-    "categories": ["Deployment"]
+    "categories": ["Deployment", "C#", "dotNetCore"]
 }
