@@ -1,7 +1,0 @@
-{
-    "name": "[Specific Docker] Deploy dockerfile to AKS",
-    "description": "Build a dockerfile project and deploy it to AKS.",
-    "creator": "Microsoft Azure",
-    "iconName": "azure",
-    "categories": ["Deployment", "Dockerfile"]
-}
