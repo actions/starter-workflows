@@ -1,0 +1,37 @@
+ชื่อ: สร้างปัญหาในการคอมมิต
+
+เมื่อ: [ ดัน ]
+
+งาน:
+
+  create_commit:
+
+    วิ่งบน: ubuntu-ล่าสุด 
+
+    สิทธิ์:
+
+      ประเด็น: เขียน 
+
+    ขั้นตอน:
+
+      - ชื่อ: สร้างปัญหาโดยใช้ REST API
+
+        วิ่ง: |
+
+          curl -- ขอ POST \
+
+          --url https://api.github.com/repos/${{ github.repository }}/issues \
+
+          --header 'การอนุญาต: ผู้ถือ ${{ secrets.GITHUB_TOKEN }}' \
+
+          --header 'ประเภทเนื้อหา: แอปพลิเคชัน/json' \
+
+          --ข้อมูล '{
+
+            "title": "ปัญหาอัตโนมัติสำหรับการคอมมิต: ${{ github.sha }}",
+
+            "body": "ปัญหานี้สร้างขึ้นโดยอัตโนมัติโดยเวิร์กโฟลว์ GitHub Action **${{ github.workflow }}** \n\n แฮชที่คอมมิตคือ: _${{ github.sha }}_"
+
+            }' \
+
+          --fail
