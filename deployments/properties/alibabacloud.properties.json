@@ -3,5 +3,5 @@
     "description": "Deploy a container to Alibaba Cloud Container Service for Kubernetes (ACK).",
     "creator": "Alibaba Cloud",
     "iconName": "alibabacloud",
-    "categories": ["Deployment"]
+    "categories": ["Deployment", "Dockerfile"]
 }
