@@ -2,9 +2,9 @@ name: aks-springboot-starter
 # This workflow will build a Springboot application image, push the image to ACR, and deploy the image on an AKS cluster
 on:
   push:
-    branches: [ main ]
+    branches:  [ $default-branch ]
   pull_request:
-    branches: [ main ]
+    branches:  [ $default-branch ]
 
 jobs:
   aks:
