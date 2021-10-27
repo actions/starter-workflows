@@ -1,6 +1,6 @@
 {
   "name": "aks-springboot",
-  "description": "Build and deploy a Springboot application on AKS using Terraform",
+  "description": "Build and deploy a containerized application on AKS using Terraform",
   "iconName": "Java",
   "categories": ["Continuous integration", "Java", "Terraform", "Spring"]
 }
