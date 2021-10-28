@@ -1,4 +1,4 @@
-name: aks-springboot-starter
+name: aks-deploy-starter
 # This workflow will build a containerized application image, push the image to ACR, and deploy the image on an AKS cluster
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   aks:
-    name: "Deploy Spring Application"
+    name: "Deploy containerized Application"
     concurrency: test
     runs-on: ubuntu-latest
     steps:

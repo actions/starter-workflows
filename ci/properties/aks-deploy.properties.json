@@ -1,0 +1,6 @@
+{
+  "name": "aks-deploy",
+  "description": "Build and deploy a containerized application on AKS using Terraform",
+  "iconName": "Azure",
+  "categories": ["Continuous integration", "Azure", "Terraform"]
+}
