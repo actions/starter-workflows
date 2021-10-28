@@ -1,5 +1,10 @@
 name: aks-deploy-starter
 # This workflow will build a containerized application image, push the image to ACR, and deploy the image on an AKS cluster
+
+# Using this workflow requires users to pass variables to the actions below. These variables need to be defined in your repo's settings.
+# To define and use variables like ${{ secrets.ARM_TENANT_ID }}, go to your repo's "settings", click on "secrets", then "New repository secret".
+# Name your secret (e.g. SOME_VARIABLE) and reference it in your workflow like ${{ secrets.SOME_VARIABLE }}
+
 on:
   push:
     branches:  [ $default-branch ]
@@ -13,6 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      # For info on generating these inputs, see the README for this action: https://github.com/gambtho/aks_create_action/
       - uses: gambtho/aks_create_action@main
         with:
           CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
