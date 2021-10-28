@@ -34,8 +34,7 @@ jobs:
       matrix:
         language: [ $detected-codeql-languages ]
         # CodeQL supports [ $supported-codeql-languages ]
-        # Learn more:
-        # https://docs.github.com/en/free-pro-team@latest/github/finding-security-vulnerabilities-and-errors-in-your-code/configuring-code-scanning#changing-the-languages-that-are-analyzed
+        # Learn more about CodeQL language support at https://git.io/codeql-language-support
 
     steps:
     - name: Checkout repository
