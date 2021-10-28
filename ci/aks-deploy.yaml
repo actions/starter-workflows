@@ -50,6 +50,7 @@ jobs:
           resource-group: ${{ secrets.RESOURCE_GROUP_NAME }}
       - uses: azure/login@v1
         with:
+          # To generate AZURE_CREDS json, run: az ad sp create-for-rbac --sdk-auth
           creds: ${{ secrets.AZURE_CREDS }}
       # Create namespace if it doesn't exist
       - run: |
