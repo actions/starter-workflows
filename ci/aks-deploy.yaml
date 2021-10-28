@@ -1,0 +1,71 @@
+name: aks-deploy-starter
+# This workflow will build a containerized application image, push the image to ACR, and deploy the image on an AKS cluster
+on:
+  push:
+    branches:  [ $default-branch ]
+  pull_request:
+    branches:  [ $default-branch ]
+
+jobs:
+  aks:
+    name: "Deploy containerized Application"
+    concurrency: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: gambtho/aks_create_action@main
+        with:
+          CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
+          RESOURCE_GROUP_NAME: ${{ secrets.RESOURCE_GROUP_NAME }}
+          STORAGE_ACCOUNT_NAME: ${{ secrets.STORAGE_ACCOUNT_NAME }}
+          STORAGE_CONTAINER_NAME: ${{ secrets.STORAGE_CONTAINER_NAME }}
+          STORAGE_ACCESS_KEY: ${{ secrets.STORAGE_ACCESS_KEY }}
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+          CREATE_ACR: true
+      - uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.CLUSTER_NAME }}.azurecr.io
+          username: ${{ secrets.ARM_CLIENT_ID }}
+          password: ${{ secrets.ARM_CLIENT_SECRET }}
+
+      # Container build and push to an Azure Container Registry(ACR)
+      - run: |
+          docker build . -t ${{ secrets.CLUSTER_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}
+          docker push ${{ secrets.CLUSTER_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}
+        name: "Docker push"
+      # Set the target Azure Kubernetes Service (AKS) cluster.
+      - uses: azure/aks-set-context@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDS }}'
+          cluster-name: ${{ secrets.CLUSTER_NAME }}
+          resource-group: ${{ secrets.RESOURCE_GROUP_NAME }}
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDS }}
+      # Create namespace if it doesn't exist
+      - run: |
+          kubectl create namespace ${{ secrets.NAMESPACE }} --dry-run -o json | kubectl apply -f -
+
+      # Create image pull secret for ACR
+      - uses: azure/k8s-create-secret@v1
+        with:
+          container-registry-url: ${{ secrets.CLUSTER_NAME }}.azurecr.io
+          container-registry-username: ${{ secrets.ARM_CLIENT_ID }}
+          container-registry-password: ${{ secrets.ARM_CLIENT_SECRET }}
+          secret-name: ${{ secrets.SECRET_NAME }}
+          namespace: ${{ secrets.NAMESPACE }}
+          force: true
+        id: create-secret
+      # Deploy app to AKS
+      - uses: azure/k8s-deploy@v1
+        with:
+          manifests: |
+            k8s/deployment.yaml
+          images: |
+            ${{ secrets.CLUSTER_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}
+          imagepullsecrets: |
+            ${{ secrets.SECRET_NAME }}
+          namespace: ${{ secrets.NAMESPACE }}
