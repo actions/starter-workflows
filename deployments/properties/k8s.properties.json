@@ -1,0 +1,7 @@
+{
+    "name": "Deploy to a Kubernetes Cluster",
+    "description": "Deploy an application to a Kubernetes Cluster",
+    "creator": "Microsoft Azure",
+    "iconName": "kubernetes",
+    "categories": ["Deployment", "Dockerfile", "Kompose", "Helm", "Kustomize"]
+}

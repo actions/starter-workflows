@@ -1,0 +1,51 @@
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    
+    # additional usage information can be found here https://github.com/Azure/docker-login
+    - uses: Azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY_URL }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    
+    - run: |
+        docker build . -t ${{ secrets.REGISTRY_URL }}/${{ env.PROJECT_NAME }}:${{ github.sha }}
+        docker push ${{ secrets.REGISTRY_URL }}/${{ env.PROJECT_NAME }}:${{ github.sha }}
+    
+    # additional usage information can be found here - https://github.com/Azure/k8s-set-context
+    - uses: Azure/k8s-set-context@v1
+      with:
+        kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+    # additional usage information can be found here - https://github.com/Azure/k8s-create-secret    
+    - uses: Azure/k8s-create-secret@v1
+      with:
+        container-registry-url: ${{ secrets.REGISTRY_URL }}
+        container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
+        container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+        secret-name: ${{ env.PROJECT_NAME }}
+
+    # additional usage information can be found here - https://github.com/Azure/k8s-bake
+    - uses: azure/k8s-bake@v1
+      with:
+        renderEngine: 'helm'
+        helmChart: ${{ env.CHART_PATH }}
+        overrideFiles: ${{ env.CHART_OVERRIDE_PATH }}
+        overrides: |     
+          replicas:2
+        helm-version: 'latest' 
+      id: bake
+
+    # additional usage information can be found here - https://github.com/Azure/k8s-deploy
+    - uses: Azure/k8s-deploy@v1
+      with:
+        manifests: ${{ steps.bake.outputs.manifestsBundle }}
+        images: |
+          ${{ secrets.REGISTRY_URL }}/${{ env.PROJECT_NAME }}:${{ github.sha }}
+        imagepullsecrets: |
+          ${{ env.PROJECT_NAME }}
