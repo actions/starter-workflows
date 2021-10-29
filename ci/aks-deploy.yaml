@@ -8,9 +8,6 @@ name: aks-deploy-starter
 on:
   push:
     branches:  [ $default-branch ]
-  pull_request:
-    branches:  [ $default-branch ]
-
 jobs:
   aks:
     name: "Deploy containerized Application"
@@ -19,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       # For info on generating these inputs, see the README for this action: https://github.com/gambtho/aks_create_action/
-      - uses: gambtho/aks_create_action@main
+      - uses: actions/create-aks-cluster@main
         with:
           CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
           RESOURCE_GROUP_NAME: ${{ secrets.RESOURCE_GROUP_NAME }}
