@@ -1,3 +1,33 @@
+# This workflow will build and push an application to a Kubernetes cluster when you push your code
+#
+# This workflow assumes you have already created the target Kubernetes Cluster
+# For instructions see https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal
+#
+# To configure this workflow:
+#
+# 1. Set the following secrets in your repository:
+#    - REGISTRY_URL (url to your container registry)
+#    - REGISTRY_USERNAME
+#    - REGISTRY_PASSWORD
+#    - KUBE_CONFIG (kubeconfig for the target k8s cluster)
+#
+# 2. Set the following environment variables (or replace the values below):
+#    - PROJECT_NAME
+#
+# 3. Choose the approrpiate render engine for the bake step https://github.com/Azure/k8s-bake. The config below assumes helm, then set
+#    any needed environment variables such as:
+#    - CHART_PATH 
+#    - CHART_OVERRIDE_PATH
+#
+# For more information on GitHub Actions for Azure, refer to https://github.com/Azure/Actions
+# For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
+# For more options with the actions used below please see the folllowing
+# https://github.com/Azure/docker-login
+# https://github.com/Azure/k8s-set-context
+# https://github.com/Azure/k8s-create-secret
+# https://github.com/Azure/k8s-bake
+# https://github.com/Azure/k8s-deploy   
+
 on: [push]
 
 jobs:
@@ -6,7 +36,6 @@ jobs:
     steps:
     - uses: actions/checkout@master
     
-    # additional usage information can be found here https://github.com/Azure/docker-login
     - uses: Azure/docker-login@v1
       with:
         login-server: ${{ secrets.REGISTRY_URL }}
@@ -17,12 +46,10 @@ jobs:
         docker build . -t ${{ secrets.REGISTRY_URL }}/${{ env.PROJECT_NAME }}:${{ github.sha }}
         docker push ${{ secrets.REGISTRY_URL }}/${{ env.PROJECT_NAME }}:${{ github.sha }}
     
-    # additional usage information can be found here - https://github.com/Azure/k8s-set-context
     - uses: Azure/k8s-set-context@v1
       with:
         kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
-    # additional usage information can be found here - https://github.com/Azure/k8s-create-secret    
     - uses: Azure/k8s-create-secret@v1
       with:
         container-registry-url: ${{ secrets.REGISTRY_URL }}
@@ -30,10 +57,9 @@ jobs:
         container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
         secret-name: ${{ env.PROJECT_NAME }}
 
-    # additional usage information can be found here - https://github.com/Azure/k8s-bake
     - uses: azure/k8s-bake@v1
       with:
-        renderEngine: ${{ env.BAKE_RENDER_ENGINE }}
+        renderEngine: 'helm'
         helmChart: ${{ env.CHART_PATH }}
         overrideFiles: ${{ env.CHART_OVERRIDE_PATH }}
         overrides: |     
@@ -41,7 +67,6 @@ jobs:
         helm-version: 'latest' 
       id: bake
 
-    # additional usage information can be found here - https://github.com/Azure/k8s-deploy
     - uses: Azure/k8s-deploy@v1
       with:
         manifests: ${{ steps.bake.outputs.manifestsBundle }}
