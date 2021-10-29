@@ -33,7 +33,7 @@ jobs:
     # additional usage information can be found here - https://github.com/Azure/k8s-bake
     - uses: azure/k8s-bake@v1
       with:
-        renderEngine: 'helm'
+        renderEngine: ${{ env.BAKE_RENDER_ENGINE }}
         helmChart: ${{ env.CHART_PATH }}
         overrideFiles: ${{ env.CHART_OVERRIDE_PATH }}
         overrides: |     
