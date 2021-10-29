@@ -42,22 +42,24 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     
-    - name: Azure CLI script
+    - name: Build image on ACR
       uses: azure/CLI@v1
       with:
         azcliversion: 2.29.1
         inlineScript: |
-	        az configure --defaults acr=${{ env.AZURE_CONTAINER_REGISTRY }}
-	        az acr build -t  -t ${{ secrets.REGISTRY_URL }}/${{ env.PROJECT_NAME }}:${{ github.sha }}
+          az configure --defaults acr=${{ env.AZURE_CONTAINER_REGISTRY }}
+          az acr build -t  -t ${{ secrets.REGISTRY_URL }}/${{ env.PROJECT_NAME }}:${{ github.sha }}
     
-    - uses: azure/aks-set-context@v1
-    with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-        resource-group: ${{ env.RESOURCE_GROUP }}
-        cluster-name: ${{ env.CLUSTER_NAME }}
-    id: login
+    - name: Gets K8s context
+      uses: azure/aks-set-context@v1
+      with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          resource-group: ${{ env.RESOURCE_GROUP }}
+          cluster-name: ${{ env.CLUSTER_NAME }}
+      id: login
 
-    - uses: azure/k8s-bake@v1
+    - name: Configure deployment
+      uses: azure/k8s-bake@v1
       with:
         renderEngine: 'helm'
         helmChart: ${{ env.CHART_PATH }}
@@ -67,10 +69,11 @@ jobs:
         helm-version: 'latest' 
       id: bake
 
+    - name: Deploys application
     - uses: Azure/k8s-deploy@v1
       with:
         manifests: ${{ steps.bake.outputs.manifestsBundle }}
         images: |
-          ${{ secrets.REGISTRY_URL }}/${{ env.PROJECT_NAME }}:${{ github.sha }}
+          ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.PROJECT_NAME }}:${{ github.sha }}
         imagepullsecrets: |
           ${{ env.PROJECT_NAME }}
