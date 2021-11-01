@@ -2,6 +2,6 @@
     "name": "Deploy to a AKS Cluster",
     "description": "Deploy an application to a Azure Kubernetes Service Cluster",
     "creator": "Microsoft Azure",
-    "iconName": "aks",
+    "iconName": "azure",
     "categories": ["Deployment", "AKS", "Kompose", "Helm", "Kustomize", "Kubernetes"]
 }
