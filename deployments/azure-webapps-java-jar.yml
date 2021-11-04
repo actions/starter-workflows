@@ -40,6 +40,7 @@ jobs:
         uses: actions/setup-java@v2.3.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
+          cache: 'maven'
 
       - name: Build with Maven
         run: mvn clean install
