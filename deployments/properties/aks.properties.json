@@ -3,5 +3,5 @@
     "description": "Deploy an application to a Azure Kubernetes Service Cluster",
     "creator": "Microsoft Azure",
     "iconName": "azure",
-    "categories": ["Deployment", "AKS", "Kompose", "Helm", "Kustomize", "Kubernetes"]
+    "categories": ["Deployment", "Kompose", "Helm", "Kustomize", "Kubernetes"]
 }
