@@ -29,3 +29,11 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    - name: build and push image
+    uses: mr-smithers-excellent/docker-build-push@v5
+with:
+  image: binaydocker27/azure-repo
+  registry: docker.io
+  username: ${{ secrets.DOCKER_USERNAME }}
+  password: ${{ secrets.DOCKER_PASSWORD }}
+
