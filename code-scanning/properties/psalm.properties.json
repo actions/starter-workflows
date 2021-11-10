@@ -2,7 +2,7 @@
     "name": "Psalm Security Scan",
     "creator": "psalm",
     "description": "Psalm is a static analysis tool for finding errors in PHP applications",
-    "iconName": "mobsf",
+    "iconName": "psalm",
     "categories": [
         "Code Scanning", 
         "PHP"
