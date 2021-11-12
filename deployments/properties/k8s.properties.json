@@ -1,6 +1,6 @@
 {
     "name": "Deploy to a Kubernetes Cluster",
-    "description": "Deploy an application to a Kubernetes Cluster",
+    "description": "Deploy an application to a Kubernetes Cluster using kubeconfig",
     "creator": "Microsoft Azure",
     "iconName": "azure",
     "categories": ["Deployment", "Dockerfile", "Kompose", "Helm", "Kustomize"]
