@@ -1,5 +1,5 @@
 # This workflow will build and push a new container image to Amazon ECR,
-# and then will deploy a new task definition to Amazon ECS, when a release is created
+# and then will deploy a new task definition to Amazon ECS, when there is a push to the $default-branch branch.
 #
 # To use this workflow, you will need to complete the following set-up steps:
 #
@@ -27,8 +27,9 @@
 name: Deploy to Amazon ECS
 
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+      - $default-branch
 
 env:
   AWS_REGION: MY_AWS_REGION                   # set this to your preferred AWS region, e.g. us-west-1
