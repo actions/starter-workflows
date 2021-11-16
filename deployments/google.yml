@@ -6,7 +6,7 @@
 #
 # 2. Create and configure a Workload Identity Provider for GitHub (https://github.com/google-github-actions/auth#setting-up-workload-identity-federation)
 #
-# 3. Change the values for the GAR_LOCATION, GKE_ZONE, GKE_CLUSTER, IMAGE, REPOSITOY and DEPLOYMENT_NAME environment variables (below).
+# 3. Change the values for the GAR_LOCATION, GKE_ZONE, GKE_CLUSTER, IMAGE, REPOSITORY and DEPLOYMENT_NAME environment variables (below).
 #
 # For more support on how to run the workflow, please visit https://github.com/google-github-actions/setup-gcloud/tree/master/example-workflows/gke-kustomize
 
@@ -49,26 +49,16 @@ jobs:
         workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
         service_account: 'my-service-account@my-project.iam.gserviceaccount.com'
 
-    # Install gcloud CLI
-    - name: 'Install gcloud CLI'
-      uses: 'google-github-actions/setup-gcloud@master'
-
-    # Log in to gcloud CLI
-    - name: Log in to gcloud CLI
-      run: |-
-        gcloud auth login --quiet --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
-
-    # Configure Docker to use the gcloud command-line tool as a credential
-    # helper for authentication (https://cloud.google.com/artifact-registry/docs/docker/authentication)
     - name: Docker configuration
       run: |-
-        gcloud --quiet auth configure-docker $GAR_LOCATION-docker.pkg.dev
-
+        echo ${{steps.auth.outputs.access_token}} | docker login -u oauth2accesstoken --password-stdin https://$GAR_LOCATION-docker.pkg.dev
 
     # Get the GKE credentials so we can deploy to the cluster
     - name: Set up GKE credentials
-      run: |-
-        gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+      uses: google-github-actions/get-gke-credentials@v0.4.0
+      with:
+        cluster_name: ${{ env.GKE_CLUSTER }}
+        location: ${{ env.GKE_ZONE }}
 
     # Build the Docker image
     - name: Build
