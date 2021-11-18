@@ -3,6 +3,7 @@
 # This workflow assumes you have already created the target AKS cluster and have created an Azure Container Registry (ACR)
 # For instructions see https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal
 # https://docs.microsoft.com/en-us/azure/container-registry/container-registry-get-started-portal
+# https://github.com/Azure/aks-create-action
 #
 # To configure this workflow:
 #
@@ -48,7 +49,7 @@ jobs:
         azcliversion: 2.29.1
         inlineScript: |
           az configure --defaults acr=${{ env.AZURE_CONTAINER_REGISTRY }}
-          az acr build -t  -t ${{ secrets.REGISTRY_URL }}/${{ env.PROJECT_NAME }}:${{ github.sha }}
+          az acr build -t  -t ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.PROJECT_NAME }}:${{ github.sha }}
     
     - name: Gets K8s context
       uses: azure/aks-set-context@v1
