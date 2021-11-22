@@ -32,21 +32,23 @@ on:
   # Triggers the workflow on push or pull request events but only for the $default-branch branch
   # Customize trigger events based on your DevSecOps processes.
   push:
-    branches: [ $default-branch ]
+    branches: [ $default-branch, $protected-branches ]
   pull_request:
     branches: [ $default-branch ]
+  schedule:
+    - cron: $cron-weekly
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 
 jobs:
-  Trigger-APIsec-Scan:
+  Trigger APIsec scan:
     runs-on: ubuntu-latest
 
     steps:
-       - name: APIsec Scan
-         uses: apisec-inc/apisec-run-scan@master
+       - name: APIsec scan
+         uses: apisec-inc/apisec-run-scan@f62d0c6fae8a80f97b091a323befdb56e6ad9993
          with:
           # The APIsec username with which the scans will be executed
           apisec-username: ${{ secrets.apisec_username }}
@@ -57,7 +59,7 @@ jobs:
           # The name of the sarif format result file The file is written only if this property is provided.
           sarif-result-file: "apisec-results.sarif"
 		  
-       - name: Import Results
+       - name: Import results
          uses: github/codeql-action/upload-sarif@v1
          with:
           sarif_file: ./apisec-results.sarif
