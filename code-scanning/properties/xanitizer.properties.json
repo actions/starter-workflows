@@ -1,0 +1,7 @@
+{
+    "name": "Xanitizer",
+    "creator": "RIGS IT",
+    "description": "Automatically scan your code for vulnerabilities and generate compliance reports with the static security analysis tool Xanitizer (SAST).",
+    "iconName": "xanitizer",
+    "categories": ["Code Scanning", "javascript", "java", "scala", "typescript", "xml", "json"]
+}
