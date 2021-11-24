@@ -1,0 +1,80 @@
+# This workflow will build and push an application to a Azure Kubernetes Service (AKS) cluster when you push your code
+#
+# This workflow assumes you have already created the target AKS cluster and have created an Azure Container Registry (ACR)
+# For instructions see https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal
+# https://docs.microsoft.com/en-us/azure/container-registry/container-registry-get-started-portal
+# https://github.com/Azure/aks-create-action
+#
+# To configure this workflow:
+#
+# 1. Set the following secrets in your repository:
+#    - AZURE_CREDENTIALS (instructions for getting this https://github.com/Azure/login#configure-a-service-principal-with-a-secret)
+#
+# 2. Set the following environment variables (or replace the values below):
+#    - AZURE_CONTAINER_REGISTRY (name of your container registry)
+#    - PROJECT_NAME
+#    - RESOURCE_GROUP (where your cluster is deployed)
+#    - CLUSTER_NAME (name of your AKS cluster)
+#
+# 3. Choose the approrpiate render engine for the bake step https://github.com/Azure/k8s-bake. The config below assumes helm, then set
+#    any needed environment variables such as:
+#    - CHART_PATH 
+#    - CHART_OVERRIDE_PATH
+#
+# For more information on GitHub Actions for Azure, refer to https://github.com/Azure/Actions
+# For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
+# For more options with the actions used below please see the folllowing
+# https://github.com/Azure/login
+# https://github.com/Azure/aks-set-context
+# https://github.com/marketplace/actions/azure-cli-action
+# https://github.com/Azure/k8s-bake
+# https://github.com/Azure/k8s-deploy   
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: Build image on ACR
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.29.1
+        inlineScript: |
+          az configure --defaults acr=${{ env.AZURE_CONTAINER_REGISTRY }}
+          az acr build -t  -t ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.PROJECT_NAME }}:${{ github.sha }}
+    
+    - name: Gets K8s context
+      uses: azure/aks-set-context@v1
+      with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          resource-group: ${{ env.RESOURCE_GROUP }}
+          cluster-name: ${{ env.CLUSTER_NAME }}
+      id: login
+
+    - name: Configure deployment
+      uses: azure/k8s-bake@v1
+      with:
+        renderEngine: 'helm'
+        helmChart: ${{ env.CHART_PATH }}
+        overrideFiles: ${{ env.CHART_OVERRIDE_PATH }}
+        overrides: |     
+          replicas:2
+        helm-version: 'latest' 
+      id: bake
+
+    - name: Deploys application
+    - uses: Azure/k8s-deploy@v1
+      with:
+        manifests: ${{ steps.bake.outputs.manifestsBundle }}
+        images: |
+          ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.PROJECT_NAME }}:${{ github.sha }}
+        imagepullsecrets: |
+          ${{ env.PROJECT_NAME }}
