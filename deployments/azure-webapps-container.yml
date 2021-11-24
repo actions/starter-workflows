@@ -11,7 +11,14 @@
 # 2. Create a secret in your repository named AZURE_WEBAPP_PUBLISH_PROFILE, paste the publish profile contents as the value of the secret.
 #    For instructions on obtaining the publish profile see: https://docs.microsoft.com/azure/app-service/deploy-github-actions#configure-the-github-secret
 #
-# 3. Change the value for the AZURE_WEBAPP_NAME.
+# 3. Create a GitHub Personal access token with "repo" and "read:packages" permissions. 
+#
+# 4. Create three app settings on your Azure Web app:
+#       DOCKER_REGISTRY_SERVER_URL: Set this to "https://ghcr.io"
+#       DOCKER_REGISTRY_SERVER_USERNAME: Set this to the GitHub username or organization that owns the repository
+#       DOCKER_REGISTRY_SERVER_PASSWORD: Set this to the value of your PAT token from the previous step
+#
+# 5. Change the value for the AZURE_WEBAPP_NAME.
 #
 # For more information on GitHub Actions for Azure: https://github.com/Azure/Actions
 # For more information on the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
@@ -43,9 +50,9 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ github.token }}
 
-      - name: Lowercase the repo name
+      - name: Lowercase the repo name and username
         run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
 
       - name: Build and push container image to registry
@@ -63,7 +70,7 @@ jobs:
         url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
       steps:
-        - name: Lowercase the repo name
+        - name: Lowercase the repo name and username
           run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
         
         - name: Deploy to Azure Web App
