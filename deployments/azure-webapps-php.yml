@@ -48,6 +48,21 @@ jobs:
         with:
           files: 'composer.json'
 
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        if: steps.check_files.outputs.files_exists == 'true'
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Set up dependency caching for faster installs
+        uses: actions/cache@v2
+        if: steps.check_files.outputs.files_exists == 'true'
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
       - name: Run composer install if composer.json exists
         if: steps.check_files.outputs.files_exists == 'true'
         run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
