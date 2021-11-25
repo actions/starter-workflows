@@ -31,9 +31,24 @@ It is not:
 
 - [ ] Should be preserved under [the `ci` directory](https://github.com/actions/starter-workflows/tree/main/ci).
 - [ ] Should include a matching `ci/properties/*.properties.json` file (for example, [`ci/properties/docker-publish.properties.json`](https://github.com/actions/starter-workflows/blob/main/ci/properties/docker-publish.properties.json)).
+  - [ ] `name`; Name of the deployment workflow
+  - [ ] `description`: Short description of the deployment workflow
+  - [ ] `categories`: Array of string which includes language and frameworks names, and template type `Continuous integration`
+  - [ ] `iconName`: Name of the SVG logo representing the Code Scanning integration. This SVG logo must be present in [the `icons` directory](https://github.com/actions/starter-workflows/tree/main/icons).
 - [ ] Should run on `push` to `branches: [ $default-branch ]` and `pull_request` to `branches: [ $default-branch ]`.
 - [ ] Packaging workflows should run on `release` with `types: [ created ]`.
 - [ ] Publishing workflows should have a filename that is the name of the language or platform, in lower case, followed by "-publish" (for example, [`docker-publish.yml`](https://github.com/actions/starter-workflows/blob/main/ci/docker-publish.yml)).
+
+**For _Deployment_ workflows, the workflow:**
+- [ ] Should be preserved under the [the `deployments` directory](https://github.com/actions/starter-workflows/tree/main/deployments)
+- [ ] Should include a matching `deployments/properties/*.properties.json` file (for example `[deployments/properties/aws.properties.json`](https://github.com/actions/starter-workflows/blob/main/deployments/properties/azure.properties.json) with the properties as follows:
+  - [ ] `name`; Name of the deployment workflow
+  - [ ] `description`: Short description of the deployment workflow
+  - [ ] `creator`: Name of the creator(cloud partner)
+  - [ ] `categories`: Array of string which includes language and frameworks names, and template type `Deployment`
+  - [ ] `iconName`: Name of the SVG logo representing the Code Scanning integration. This SVG logo must be present in [the `icons` directory](https://github.com/actions/starter-workflows/tree/main/icons).
+- [ ] Should run on `push` to `branches: [ $default-branch ]` and `pull_request` to `branches: [ $default-branch ]`.
+
 
 **For _Code Scanning_ workflows, the workflow:**
 
@@ -42,7 +57,7 @@ It is not:
   - [ ] `name`: Name of the Code Scanning integration.
   - [ ] `organization`: Name of the organization producing the Code Scanning integration.
   - [ ] `description`: Short description of the Code Scanning integration.
-  - [ ] `categories`: Array of languages supported by the Code Scanning integration.
+  - [ ] `categories`: Array of languages supported by the Code Scanning integration and template type `Code scanning`.
   - [ ] `iconName`: Name of the SVG logo representing the Code Scanning integration. This SVG logo must be present in [the `icons` directory](https://github.com/actions/starter-workflows/tree/main/icons).
 - [ ] Should run on `push` to `branches: [ $default-branch, $protected-branches ]` and `pull_request` to `branches: [ $default-branch ]`. We also recommend a `schedule` trigger of `cron: $cron-weekly` (for example, [`codeql.yml`](https://github.com/actions/starter-workflows/blob/c59b62dee0eae1f9f368b7011cf05c2fc42cf084/code-scanning/codeql.yml#L14-L21)).
 
