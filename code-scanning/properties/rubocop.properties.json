@@ -1,0 +1,7 @@
+{
+    "name": "RuboCop Linting",
+    "creator": "arthurnn",
+    "description": "A Ruby static code analyzer and formatter, based on the community Ruby style guide.",
+    "iconName": "rubocop",
+    "categories": ["Code Scanning", "ruby"]
+}

@@ -2,5 +2,5 @@
     "name": "Publish Node.js Package",
     "description": "Publishes a Node.js package to npm and GitHub Packages.",
     "iconName": "node-package-transparent",
-    "categories": ["JavaScript", "SDLC"]
+    "categories": ["Continuous integration", "JavaScript", "npm"]
 }
