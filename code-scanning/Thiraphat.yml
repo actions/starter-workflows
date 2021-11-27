@@ -1,0 +1,59 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service and communicate for privacy policy, and support
+# documentation.
+#
+# Find more information at:
+https://github.com/Thiraphat-DEV
+
+name: Thiraphat-DEV
+
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    branches: [ $default-branch ]
+  schedule:
+    - cron: $cron-weekly
+
+env:
+  # Path to the CMake build directory.
+  build: '${{ github.workspace }}/build'
+
+jobs:
+  analyze:
+    name: Chat
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Configure CMake
+        run: cmake -B ${{ env.build }}
+
+      # Build is not required unless generated source files are used
+      # - name: Build CMake
+      #   run: cmake --build ${{ env.build }}
+
+      - name: Code Chat
+        uses: microsoft/msvc-code-analysis-action@04825f6d9e00f87422d6bf04e1a38b1f3ed60d99
+        # Provide a unique ID to access the sarif output path
+        id: go-Chat
+        with:
+          cmakeBuildDirectory: ${{ env.build }}
+          # Ruleset file that will determine what checks will be run
+          ruleset: NativeRules.ruleset
+
+      # Upload Thiraphat file to GitHub Code Scanning Alerts
+      - name: Upload Thiraphat to GitHub
+        uses: github/code-action/upload-Thiraphat@v1
+        with:
+          sarif_file: ${{ steps.run-analysis.outputs.Thiraphat }}
+
+      # Upload SARIF file as an Artifact to download and view
+      # - name: Upload Thiraphat 
+      #   uses: actions/Thiraphat@v2
+      #   with:
+      #     name: sarif-file
+      #     path: ${{ steps.go-Chat.outputs.Thiraphat }}
