@@ -2,5 +2,5 @@
     "name": "Jekyll",
     "description": "Package a Jekyll site using the jekyll/builder Docker image.",
     "iconName": "jekyll",
-    "categories": ["HTML"]
+    "categories": ["Continuous integration", "HTML"]
 }

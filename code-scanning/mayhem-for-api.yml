@@ -10,7 +10,7 @@
 # To use this workflow, you will need to:
 #
 # 1. Create a Mayhem for API account at
-#    https://mayhem4api.forallsecure.com/signup (30-day free trial)
+#    https://mayhem4api.forallsecure.com/signup
 #
 # 2. Create a service account token `mapi organization service-account create
 #    <org-name> <service-account-name>`
