@@ -29,11 +29,7 @@ jobs:
       with:
         repository: ''
 
-    - uses: vimtor/action-zip@5f1c4aa587ea41db1110df6a99981dbe19cee310
-      with:
-        files: /
-        recursive: true
-        dest: veracode-pipeline-scan-results-to-sarif.zip
+    - run: zip -r veracode-pipeline-scan-results-to-sarif.zip ./
 
     - uses: actions/upload-artifact@v1
       with:
@@ -41,9 +37,7 @@ jobs:
         path: veracode-pipeline-scan-results-to-sarif.zip
 
     # download the Veracode Static Analysis Pipeline scan jar
-    - uses: wei/curl@012398a392d02480afa2720780031f8621d5f94c
-      with:
-        args: -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
+    - run: curl --silent --show-error --fail -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
     - run: unzip -o pipeline-scan-LATEST.zip
 
     - uses: actions/setup-java@v1
