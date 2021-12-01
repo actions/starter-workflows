@@ -76,13 +76,27 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      # Sign the resulting Docker image digest except on PR
+      # Check whether this is a public repository before signing the image.
+      # The keyless signing process records signatures on the Rekor public
+      # transparency log, so signing is disabled for private repos by default
+      # to avoid leaking private data.  If you wish to sign things anyways,
+      # then this check can be removed and --force can be added to the cosign
+      # command below.
+      - name: Confirm this is a public repository
+        if: ${{ github.event_name != 'pull_request' }}
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+          TEMP=$(gh api repos/$GITHUB_REPOSITORY --jq '.private')
+          echo "IS_PRIVATE=$TEMP" >> $GITHUB_ENV
+
+      # Sign the resulting Docker image digest except on PRs and private repos
       # https://github.com/sigstore/cosign
       - name: Sign the published Docker image
-        if: github.event_name != 'pull_request'
+        if: ${{ github.event_name != 'pull_request' && env.IS_PRIVATE == 'false' }}
         env:
           COSIGN_EXPERIMENTAL: "true"
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance, and records it to the
         # sigstore community Rekor transparency log.
-        run: cosign sign --force ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build-and-push.outputs.digest }}
+        run: cosign sign ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build-and-push.outputs.digest }}
