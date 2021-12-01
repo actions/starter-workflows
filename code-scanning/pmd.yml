@@ -14,45 +14,27 @@ on:
     - cron: $cron-weekly
 
 jobs:
-  mobile-security:
+  pmd-code-scan:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
-
-      - name: Setup python
-        uses: actions/setup-python@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
         with:
-          python-version: 3.8
-
-      - name: Run Full PMD Analysis on Apex Code
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        id: pmd-full-analysis
-        uses: abirismyname/pmd@master
+          java-version: '11'
+          distribution: 'adopt'
+          cache: maven
+      - name: Run PMD
+        id: pmd
+        uses: pmd/pmd-github-action@v1
         with:
-          analyse-all-code: 'true'
-          pmd-version: 'latest'
-          file-path: './src'
-          rules-path: 'rulesets/apex/quickstart.xml'
-
-      # - name: Run Full PMD Analysis on Java Code
-      #   if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-      #   id: pmd-full-analysis
-      #   uses: abirismyname/pmd@master
-      #   with:
-      #     analyse-all-code: 'true'
-      #     pmd-version: 'latest'
-      #     file-path: './src'
-      #     rules-path: 'rulesets/java/quickstart.xml'
-
-      - name: Upload pmdscan report
+          rulesets: 'rulesets/java/quickstart.xml'
+          sourcePath: 'src/main/java'
+      - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v1
         with:
-          sarif_file: pmd-output.sarif
-
-      - name: No PMD Errors?
-        run: |
-          if ${{ steps.pmd-full-analysis.outputs.error-found }} ${{ steps.pmd-partial-analysis.outputs.error-found }}
-          then
-            exit 3
-          fi          
+          sarif_file: pmd-report.sarif
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: pmd-report.sarif
