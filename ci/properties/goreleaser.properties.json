@@ -1,0 +1,7 @@
+{
+    "name": "GoReleaser",
+    "description": "GoReleaser is a Go project that helps you to release your Go projects.",
+    "iconName": "octicon package",
+    "creator": "GoReleaser",
+    "categories": ["Continuous integration", "GoReleaser"]
+}
