@@ -2,5 +2,5 @@
     "name": "Django",
     "description": "Build and Test a Django Project",
     "iconName": "django",
-    "categories": ["Continuous integration", "Python", "Django"]
+    "categories": ["Python", "Django"]
 }
