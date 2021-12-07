@@ -29,12 +29,7 @@ jobs:
       with:
         repository: ''
 
-    - run: zip -r veracode-pipeline-scan-results-to-sarif.zip ./
-
-    - uses: actions/upload-artifact@v1
-      with:
-        name: my-artifact
-        path: veracode-pipeline-scan-results-to-sarif.zip
+    - run: zip -r veracode-scan-target.zip ./
 
     # download the Veracode Static Analysis Pipeline scan jar
     - run: curl --silent --show-error --fail -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
@@ -43,12 +38,8 @@ jobs:
     - uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - run: java -jar pipeline-scan.jar --veracode_api_id "${{secrets.VERACODE_API_ID}}" --veracode_api_key "${{secrets.VERACODE_API_KEY}}" --fail_on_severity="Very High, High" --file veracode-pipeline-scan-results-to-sarif.zip
+    - run: java -jar pipeline-scan.jar --veracode_api_id "${{secrets.VERACODE_API_ID}}" --veracode_api_key "${{secrets.VERACODE_API_KEY}}" --fail_on_severity="Very High, High" --file veracode-scan-target.zip
       continue-on-error: true
-    - uses: actions/upload-artifact@v1
-      with:
-        name: ScanResults
-        path: results.json
     - name: Convert pipeline scan output to SARIF format
       id: convert
       uses: veracode/veracode-pipeline-scan-results-to-sarif@ff08ae5b45d5384cb4679932f184c013d34da9be
