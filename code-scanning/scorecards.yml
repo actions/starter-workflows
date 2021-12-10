@@ -24,8 +24,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: "Run analysis"
-        # TODO: update with a hash once we have a release.
-        uses: ossf/scorecard-action@feat/rempol
+        uses: ossf/scorecard-action@59f9117686133e93b60a8f23131f87089a076e1b
         with:
           results_file: results.sarif
           results_format: sarif
