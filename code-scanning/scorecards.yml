@@ -1,0 +1,74 @@
+name: Scorecards supply-chain security
+on: 
+  # Only the default branch is supported.
+  branch_protection_rule:
+  schedule:
+    # Weekly on Saturdays.
+    - cron: '30 1 * * 6'
+  push:
+    branches: [ $default-branch ]
+
+# Declare default permissions as read only.
+permissions: read-all
+
+jobs:
+  analysis:
+    name: Scorecards analysis
+    runs-on: ubuntu-latest
+    permissions:
+      # Needed to upload the results to code-scanning dashboard.
+      security-events: write
+    
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v1
+
+      - name: "Run analysis"
+        # TODO: update with a hash once we have a release.
+        uses: ossf/scorecard-action@feat/rempol
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          # For the token, 
+          # 1. Create a PAT token at https://github.com/settings/tokens/new
+          #    with the following read permissions:
+          #     - Note: OSSF Scorecard read-only token
+          #     - Expiration: No expiration
+          #     - Scopes: 
+          #       * repo > public_repo
+          #       * admin:org > read:org
+          #       * admin:repo_hook > read:repo_hook
+          #       * write:discussion > read:discussion
+          #
+          # Create and copy the token.
+          #
+          # 2. Create a new repository secret at https://github.com/<org>/<repo>/settings/secrets/actions
+          #    with the following settings:
+          #     - Name: SCORECARD_TOKEN
+          #     - Value: the value of the token created in step 1 above.
+          repo_token: ${{ secrets.SCORECARD_TOKEN }}
+          # The Scorecard team runs a weekly scan of public GitHub repositories in order to track 
+          # the overall security health of the open source ecosystem.
+          # Setting `publish_results: true` replaces the results of the team's weelky scans, 
+          # helping us scale by cutting down on repeated workflows and GitHub API requests.
+          # This option is needed to enable badges on the repo.
+          publish_results: true
+
+      # Upload the results as artifacts.
+      # https://docs.github.com/en/actions/advanced-guides/storing-workflow-data-as-artifacts
+      # This is optional.
+      - name: "Upload artifact"
+        # Note: scorecard will flag this line if not pinned by hash.
+        uses: actions/upload-artifact@v2
+        with:
+          name: SARIF file
+          path: results.sarif
+          retention-days: 5
+      
+      # Upload the results to GitHub's code scanning dashboard.
+      # This is required to visualize the results on GitHub website.
+      - name: "Upload to code-scanning"
+        # Note: scorecard will flag this line if not pinned by hash.
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: results.sarif
