@@ -1,0 +1,7 @@
+{
+    "name": "Deploy to a AKS Cluster",
+    "description": "Deploy an application to a Azure Kubernetes Service Cluster using Azure Credentials",
+    "creator": "Microsoft Azure",
+    "iconName": "azure",
+    "categories": ["Deployment", "Kompose", "Helm", "Kustomize", "Kubernetes", "Dockerfile"]
+}
