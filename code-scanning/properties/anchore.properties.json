@@ -1,0 +1,7 @@
+{
+    "name": "Anchore Container Scan",
+    "creator": "Indeni Cloudrail",
+    "description": "Produce container image vulnerability and compliance reports based on the open-source Anchore container image scanner.",
+    "iconName": "anchore",
+    "categories": ["Code Scanning", "dockerfile"]
+}

@@ -1,7 +1,8 @@
 {
   "folders": [
     "../../ci",
-    "../../automation"
+    "../../automation",
+    "../../code-scanning"
   ],
   "enabledActions": [
     "actions/checkout",
@@ -15,6 +16,17 @@
     "actions/stale",
     "actions/starter-workflows",
     "actions/upload-artifact",
-    "actions/upload-release-asset"
+    "actions/upload-release-asset",
+    "github/codeql-action"
+  ],
+  "partners": [
+    "Alibaba Cloud",
+    "Amazon Web Services",
+    "Microsoft Azure",
+    "Google Cloud",
+    "IBM",
+    "Red Hat",
+    "Tencent Cloud",
+    "HashiCorp"
   ]
 }
