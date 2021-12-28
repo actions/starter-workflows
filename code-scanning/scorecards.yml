@@ -42,7 +42,7 @@ jobs:
           #
           # Create and copy the token.
           #
-          # 2. Create a new repository secret at https://github.com/<org>/<repo>/settings/secrets/actions
+          # 2. Create a new repository secret at https://github.com/<org>/<repo>/settings/secrets/actions/new
           #    with the following settings:
           #     - Name: SCORECARD_TOKEN
           #     - Value: the value of the token created in step 1 above.
