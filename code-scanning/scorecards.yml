@@ -20,7 +20,9 @@ jobs:
     
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v1
+        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # v2.4.0
+        with:
+          persist-credentials: false
 
       - name: "Run analysis"
         uses: ossf/scorecard-action@59f9117686133e93b60a8f23131f87089a076e1b
@@ -56,8 +58,7 @@ jobs:
       # https://docs.github.com/en/actions/advanced-guides/storing-workflow-data-as-artifacts
       # This is optional.
       - name: "Upload artifact"
-        # Note: scorecard will flag this line if not pinned by hash.
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2 # v2.3.1
         with:
           name: SARIF file
           path: results.sarif
@@ -66,7 +67,6 @@ jobs:
       # Upload the results to GitHub's code scanning dashboard.
       # This is required to visualize the results on GitHub website.
       - name: "Upload to code-scanning"
-        # Note: scorecard will flag this line if not pinned by hash.
-        uses: github/codeql-action/upload-sarif@v1
+        uses: github/codeql-action/upload-sarif@5f532563584d71fdef14ee64d17bafb34f751ce5 # v1.0.26
         with:
           sarif_file: results.sarif
