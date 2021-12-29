@@ -48,10 +48,12 @@ jobs:
           #     - Value: the value of the token created in step 1 above.
           repo_token: ${{ secrets.SCORECARD_TOKEN }}
           # The Scorecard team runs a weekly scan of public GitHub repositories in order to track 
-          # the overall security health of the open source ecosystem.
+          # the overall security health of the open source ecosystem. The results are publicly
+          # available as described at https://github.com/ossf/scorecard#public-data.
           # Setting `publish_results: true` replaces the results of the team's weelky scans, 
           # helping us scale by cutting down on repeated workflows and GitHub API requests.
-          # This option is needed to enable badges on the repo.
+          # This option is needed to enable badges on the repo. If you're installing the action
+          # on a private repo, set it to `publish_results: false` or do not set the value at all.
           publish_results: true
 
       # Upload the results as artifacts.
