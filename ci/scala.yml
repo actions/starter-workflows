@@ -17,6 +17,6 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: '11'
-        distribution: 'adopt'
+        distribution: 'temurin'
     - name: Run tests
       run: sbt test
