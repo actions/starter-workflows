@@ -32,7 +32,7 @@ jobs:
         uses: actions/checkout@v2
       # Add or replace dependency steps here
       - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@180e1d1f1c5eadbfbab3dab6fb79ab0c07e3cecc
         with:
           bundler-cache: true
       # Add or replace database setup steps here
