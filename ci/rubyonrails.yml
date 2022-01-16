@@ -17,12 +17,11 @@ jobs:
       DB: rails_test
       USER: rails
       PASSWORD: password
-      PORT: 5432
     services:
       postgres:
         image: postgres:11-alpine
         ports:
-          - "$${{env.PORT}}:$${{env.PORT}}"
+          - "5432:5432"
         env:
           POSTGRES_DB: ${{env.DB}}
           POSTGRES_USER: ${{env.USER}}
@@ -40,13 +39,13 @@ jobs:
         run: bin/rails db:schema:load
         env:
           RAILS_ENV: test
-          DATABASE_URL: "postgres://${{env.USER}}:${{env.PASSWORD}}@localhost:${{env.PORT}}/${{env.DB}}"
+          DATABASE_URL: "postgres://${{env.USER}}:${{env.PASSWORD}}@localhost:5432/${{env.DB}}"
       # Add or replace test runners here
       - name: Run tests
         run: bin/rake
         env:
           RAILS_ENV: test
-          DATABASE_URL: "postgres://${{env.USER}}:${{env.PASSWORD}}@localhost:${{env.PORT}}/${{env.DB}}"
+          DATABASE_URL: "postgres://${{env.USER}}:${{env.PASSWORD}}@localhost:5432/${{env.DB}}"
 
   lint:
     runs-on: ubuntu-latest
