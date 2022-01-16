@@ -13,15 +13,20 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      DB: rails_test
+      USER: rails
+      PASSWORD: password
+      PORT: 5432
     services:
       postgres:
         image: postgres:11-alpine
         ports:
-          - 5432:5432
+          - "$${{env.PORT}}:$${{env.PORT}}"
         env:
-          POSTGRES_DB: rails_test
-          POSTGRES_USER: rails
-          POSTGRES_PASSWORD: password
+          POSTGRES_DB: ${{env.DB}}
+          POSTGRES_USER: ${{env.USER}}
+          POSTGRES_PASSWORD: ${{env.PASSWORD}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -35,13 +40,13 @@ jobs:
         run: bin/rails db:schema:load
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgres://rails:password@localhost:5432/rails_test
+          DATABASE_URL: "postgres://${{env.USER}}:${{env.PASSWORD}}@localhost:${{env.PORT}}/${{env.DB}}"
       # Add or replace test runners here
       - name: Run tests
         run: bin/rake
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgres://rails:password@localhost:5432/rails_test
+          DATABASE_URL: "postgres://${{env.USER}}:${{env.PASSWORD}}@localhost:${{env.PORT}}/${{env.DB}}"
 
   lint:
     runs-on: ubuntu-latest
