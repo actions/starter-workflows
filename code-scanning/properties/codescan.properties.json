@@ -1,0 +1,7 @@
+{
+    "name": "CodeScan",
+    "creator": "CodeScan Enterprises, LLC",
+    "description": "CodeScan allows for better visibility on your code quality checks based on your custom rulesets.",
+    "iconName": "codescan",
+    "categories": ["Code Scanning", "javascript", "apex"]
+}
