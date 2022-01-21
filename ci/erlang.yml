@@ -6,14 +6,13 @@ on:
   pull_request:
     branches: [ $default-branch ]
 
-permissions: read-all
+permissions:
+  contents: read
 
 jobs:
 
   build:
 
-    permissions:
-      contents: read # for actions/checkout to fetch code
     runs-on: ubuntu-latest
 
     container:
