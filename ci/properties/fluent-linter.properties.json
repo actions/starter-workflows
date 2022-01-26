@@ -1,0 +1,6 @@
+{
+  "name": "Fluent Linter Action Workflow",
+  "description": "Linter action for Fluent Bit and Fluentd configurations",
+  "iconName": "fluent-linter-action",
+  "categories": ["fluentd, fluent-bit, linter, fluent"]
+}

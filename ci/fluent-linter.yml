@@ -1,0 +1,34 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+#
+# This workflow will run fluent-linter-action and lint Fluent Bit and Fluentd configuration. 
+# For more information see: https://github.com/calyptia/fluent-linter-action
+# To configure this workflow:
+#
+# 1. Create a secret in your repository named CALYPTIA_API_KEY, with the calyptia api token. 
+# For instructions on obtaining the Calyptia api token see: https://github.com/calyptia/fluent-linter-action#configure-secret-in-your-repository
+#
+# 2. Make sure to change CONFIG_LOCATION_GLOB to a glob that points to your Fluent Bit and / or Fluentd configuration within the repository.
+#
+
+name: Fluent linter 
+
+on:
+  push:
+    branches: [$default-branch]
+  pull_request:
+    branches: [$default-branch]
+
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - id: running_linter
+        uses: calyptia/fluent-linter-action@3360a861abaa840a3d67dd18e72f8c06deb2a0a0
+        with:
+          CALYPTIA_API_KEY: ${{ secrets.CALYPTIA_API_KEY }}
+          CONFIG_LOCATION_GLOB: '*.conf'
