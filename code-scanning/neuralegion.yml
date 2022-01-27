@@ -163,42 +163,13 @@ jobs:
     name: A job to run a Nexploit scan
     steps:
       - uses: actions/checkout@v2
-      - run: |
-          sudo apt update
-          sudo apt-get install nodejs-dev node-gyp libssl1.0-dev
-          sudo apt-get install nodejs npm
-          sudo npm install -g @neuralegion/nexploit-cli --unsafe-perm=true
-      - name: Save environment variables
-        # This is where the NEXPLOIT_TOKEN and REPEATER repo env variables are used, those should be configured
-        # in the repo settings under the secrets section.
-        run: |
-          printf "NEXPLOIT_TOKEN=${{ secrets.NEXPLOIT_TOKEN }}\nREPEATER=${{ secrets.REPEATER }}\n" > .env
-          cat .env
       - name: Start Nexploit Scan 🏁
-        id: start
-        # The --crawler target should be changed to the target you want to scan.
-        # The --test array can be changed to include more types of scans.
-        # All options can be found at https://docs.neuralegion.com/docs/running-a-scan
-        run: |
-          SCAN_ID=$(nexploit-cli scan:run                                                 \
-            --test csrf dom_xss header_security secret_tokens                             \
-            --name "NeuraLegion scan for a '${GITHUB_REF##*/}' branch #${GITHUB_RUN_NUMBER}" \
-            --crawler https://brokencrystals.com/                                    \
-            --repeater ${{ secrets.REPEATER }}                                            \
-            --token ${{ secrets.NEXPLOIT_TOKEN }})
-          echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
-      - name: Get the output scan url 🔗
-        run: |
-          printf "Scan was started with ID https://app.neuralegion.com/scans/$SCAN_ID"
-      - name: Wait for issues ⏳
-        # Specific "failure strategy" configurations can be found at https://docs.neuralegion.com/docs/checking-scan-status
-        run: |
-          nexploit-cli scan:polling               \
-            --interval 30s                        \
-            --timeout 4m                         \
-            --token ${{ secrets.NEXPLOIT_TOKEN }} \
-            --breakpoint high_issue $SCAN_ID
-      - name: Stop Scan 🛑
-        continue-on-error: true
-        if: ${{ always() }}
-        run: nexploit-cli scan:stop --token ${{ secrets.NEXPLOIT_TOKEN }} $SCAN_ID
+          id: start
+          uses: NeuraLegion/run-scan@v1.1
+          with:
+            api_token: ${{ secrets.NEURALEGION_TOKEN }}
+            name: GitHub scan ${{ github.sha }}
+            discovery_types: |
+              [ "crawler" ]
+            crawler_urls: |
+              [ "https://brokencrystals.com" ] # ✏️ Update this to the url you wish to scan
