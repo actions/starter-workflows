@@ -1,0 +1,36 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: pmd
+
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    branches: [ $default-branch ]  
+  schedule:
+    - cron: $cron-weekly
+
+jobs:
+  pmd-code-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: maven
+      - name: Run PMD
+        id: pmd
+        uses: pmd/pmd-github-action@6d98898be0d59f46ec37dafcea33d8f8f55acfd1
+        with:
+          rulesets: 'rulesets/java/quickstart.xml'
+          sourcePath: 'src/main/java'
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: pmd-report.sarif
