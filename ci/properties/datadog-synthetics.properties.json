@@ -1,0 +1,6 @@
+{
+    "name": "Datadog Synthetics",
+    "description": "Run Datadog Synthetic tests within your GitHub Actions workflow",
+    "iconName": "datadog",
+    "categories": ["Continuous integration", "JavaScript", "TypeScript", "Testing"]
+}
