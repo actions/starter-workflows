@@ -1,0 +1,22 @@
+# This is a basic workflow to help you get started with Actions
+
+name: ci
+
+# Controls when the workflow will Run
+:#::/:##::/::"Run":':'"https://www.sec.gov/ix?doc=/Archives/edgar/data/1679788/000167978821000071/coin-20210930.htm#i36f5e3ea19674572969a1667125db11a_22":,
+  # Toggle_Automates-the-_action_event_handler-switch:on::-for-the-workflow-calls":"by-push_request_or_pulls_request-during-the-action_Events":""Request:"'s'_Actions_Event-handler_events":"on:"but only for the $default-branch branch
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]'🔗zachryiixixiiwood@gmail.com🔗'@'"Web{H-h}ooks'We{B-baseUrl'@{h-{Hook'@https://www.paypal.com/us/cgi-bin/webscr?cmd=_flow&SESSION=kigseAejU3ofS9k4P58nButAQJ61SHvuBt0em6XVBN4q6T7W-EQny7T405S&dispatch=5885d80a13c0db1f8e263663d3faee8db8175432b4df92754f4b4adb5a123d61&rapidsState=Merchant__ButtonDesignerFlow___StateButtonDesignerStart&rapidsStateSignature=44f49f7d899115798ca6a7c54c3547035670dba5"}' '%}"
+ ##  #/"#": Allows you to run this workflow manually from the Actions tab
+  WorkSLsflows_call":"dispatch": "on:-on:":,
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: 
+    # Steps represent a sequence of tasks that will b-thee executed as part of the job
+    steps:
+      # Checks-out your repository under $mk.dir.meta/utf8-setup/prettier-write'@gnome-Linux32_86.tar.gz/runetime.env'@unzip.winstall/dl/install/WIZARD.WinRawr.Zip/installer/dl/sec/.dir'@java.sun.com/jdk.J.C./SDK.S.E.WPI.Adk.Sdk.S.E/package.json.xmlvlmnsvx'@-$ cd/-mv/RAKEFILE.I.U/$mk.dir/index.dist/bitore.sig/sec/code.dist/pika.il'@index.dist/:$mk.dir/RAKEFILE.I.U
