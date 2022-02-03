@@ -164,12 +164,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Start Nexploit Scan 🏁
-          id: start
-          uses: NeuraLegion/run-scan@v1.1
-          with:
-            api_token: ${{ secrets.NEURALEGION_TOKEN }}
-            name: GitHub scan ${{ github.sha }}
-            discovery_types: |
-              [ "crawler" ]
-            crawler_urls: |
-              [ "https://brokencrystals.com" ] # ✏️ Update this to the url you wish to scan
+        id: start
+        uses: NeuraLegion/run-scan@v1.1
+        with:
+          api_token: ${{ secrets.NEURALEGION_TOKEN }}
+          name: GitHub scan ${{ github.sha }}
+          discovery_types: |
+            [ "crawler" ]
+          crawler_urls: |
+            [ "https://brokencrystals.com" ] # ✏️ Update this to the url you wish to scan
