@@ -17,10 +17,18 @@ on:
     - cron: $cron-weekly
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel - this job is specifically configured to use the Checkmarx CxFlow Action
+permissions:
+  contents: read
+
 jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on - Ubuntu is required as Docker is leveraged for the action
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      issues: write # for checkmarx-ts/checkmarx-cxflow-github-action to write feedback to github issues
+      pull-requests: write # for checkmarx-ts/checkmarx-cxflow-github-action to write feedback to PR
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
     runs-on: ubuntu-latest
 
     # Steps require - checkout code, run CxFlow Action, Upload SARIF report (optional)
