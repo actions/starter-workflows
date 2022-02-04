@@ -25,19 +25,19 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: '11'
-        distribution: 'adopt'
+        distribution: 'temurin'
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@4137be6a8bf7d7133955359dbd952c0ca73b1021
+      uses: gradle/gradle-build-action@937999e9cc2425eddc7fd62d1053baf041147db7
       with:
         arguments: build
 
     # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
     # the publishing section of your build.gradle
     - name: Publish to GitHub Packages
-      uses: gradle/gradle-build-action@4137be6a8bf7d7133955359dbd952c0ca73b1021
+      uses: gradle/gradle-build-action@937999e9cc2425eddc7fd62d1053baf041147db7
       with:
         arguments: publish
       env:

@@ -1,7 +1,7 @@
 {
   "name": "APIsec Scan",
   "creator": "APIsec",
-  "description": "APIsec addresses the critical need to secure APIs before they reach production. APIsec provides the industry’s only automated and continuous API testing platform that uncovers security vulnerabilities and logic flaws in APIs. Clients rely on APIsec to evaluate every update and release, ensuring that no APIs go to production with vulnerabilities.",
+  "description": "APIsec provides the industry’s only automated and continuous API testing platform that uncovers security vulnerabilities and logic flaws in APIs.",
   "iconName": "apisec",
   "categories": [
     "Code Scanning",
