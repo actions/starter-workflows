@@ -1,0 +1,76 @@
+# This workflow run the following steps when there is a push to the $default-branch branch:
+#
+#   1. Authenticate to Google Cloud
+#   2. Deploy it to Cloud Run
+#
+# To configure this workflow:
+#
+# 1. Ensure the required Google Cloud APIs are enabled:
+#
+#    Cloud Run            run.googleapis.com
+#    Cloud Build          cloudbuild.googleapis.com
+#    Artifact Registry    artifactregistry.googleapis.com
+#
+# 2. Create and configure a Workload Identity Provider for GitHub (https://github.com/google-github-actions/auth#setting-up-workload-identity-federation)
+#
+# 3. Ensure the required IAM permissions are granted:
+#
+#    Cloud Run    https://cloud.google.com/run/docs/deploying-source-code#permissions_required_to_deploy
+#
+# 4. Create a GitHub secrets for GCP_PROJECT, WIF_PROVIDER, WIF_SERVICE_ACCOUNT
+#
+# 5. Change the values for the SERVICE and REGION environment variables (below).
+#
+# For more support on how to run this workflow, please visit https://github.com/marketplace/actions/deploy-to-cloud-run
+# For more information on how Cloud Run builds from source, please visit https://cloud.google.com/run/docs/deploying-source-code
+
+name: Deploy to Cloud Run from Source
+
+on:
+  push:
+    branches:
+      - $default-branch
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+  SERVICE: YOUR_SERVICE_NAME # TODO: update Cloud Run service name
+  REGION: YOUR_SERVICE_REGION # TODO: update Cloud Run service region
+
+jobs:
+  deploy:
+    # Add "id-token" with the intended permissions for workload identity federation
+    permissions:
+      contents: "read"
+      id-token: "write"
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Google Auth
+        id: auth
+        uses: "google-github-actions/auth@v0"
+        with:
+          workload_identity_provider: "${{ secrets.WIF_PROVIDER }}" # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
+          service_account: "${{ secrets.WIF_SERVICE_ACCOUNT }}" # e.g. - my-service-account@my-project.iam.gserviceaccount.com
+
+      # NOTE: Alternative option - authentication via credentials json
+      # - name: Google Auth
+      #   id: auth
+      #   uses: "google-github-actions/auth@v0"
+      #   with:
+      #     credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+
+      - name: Deploy to Cloud Run
+        id: deploy
+        uses: google-github-actions/deploy-cloudrun@v0
+        with:
+          service: ${{ env.SERVICE }}
+          region: ${{ env.REGION }}
+          # NOTE: If required, update to the appropriate source folder
+          source: ./
+
+      # If required, use the Cloud Run url output in later steps
+      - name: Show Output
+        run: echo ${{ steps.deploy.outputs.url }}
