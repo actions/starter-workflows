@@ -50,7 +50,7 @@ jobs:
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
 
-    - uses: Azure/k8s-create-secret@v1.1
+    - uses: Azure/k8s-create-secret@v2.1
       with:
         container-registry-url: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.PROJECT_NAME }}:${{ github.sha }}
         container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
