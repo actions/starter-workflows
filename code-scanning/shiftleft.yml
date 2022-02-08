@@ -17,9 +17,16 @@ on:
   schedule:
     - cron: $cron-weekly
 
+permissions:
+  contents: read
+
 jobs:
   Scan-Build:
     # Scan runs on ubuntu, mac and windows
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      pull-requests: write # for ShiftLeftSecurity/scan-action to add comments in pull request
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
