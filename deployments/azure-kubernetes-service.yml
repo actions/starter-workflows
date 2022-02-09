@@ -17,10 +17,8 @@
 #    - RESOURCE_GROUP (where your cluster is deployed)
 #    - CLUSTER_NAME (name of your AKS cluster)
 #
-# 3. Choose the appropriate render engine for the bake step https://github.com/Azure/k8s-bake. The config below assumes helm, then set
-#    any needed environment variables such as:
-#    - CHART_PATH 
-#    - CHART_OVERRIDE_PATH
+# 3. Choose the appropriate render engine for the bake step https://github.com/Azure/k8s-bake. The config below assumes kustomize.
+#    Set your kustomizationPath and kubectl-version to suit your configuration.
 #
 # For more information on GitHub Actions for Azure, refer to https://github.com/Azure/Actions
 # For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
@@ -67,12 +65,9 @@ jobs:
     - name: Configure deployment
       uses: azure/k8s-bake@v2.1
       with:
-        renderEngine: 'helm'
-        helmChart: ${{ env.CHART_PATH }}
-        overrideFiles: ${{ env.CHART_OVERRIDE_PATH }}
-        overrides: |     
-          replicas:2
-        helm-version: 'latest' 
+        renderEngine: 'kustomize'
+        kustomizationPath: './kustomize/'
+        kubectl-version: 'latest'
       id: bake
 
     - name: Deploys application
