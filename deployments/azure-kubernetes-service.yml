@@ -12,13 +12,15 @@
 #    - AZURE_CREDENTIALS (instructions for getting this https://github.com/Azure/login#configure-a-service-principal-with-a-secret)
 #
 # 2. Set the following environment variables (or replace the values below):
-#    - AZURE_CONTAINER_REGISTRY (name of your container registry)
-#    - PROJECT_NAME
+#    - AZURE_CONTAINER_REGISTRY (name of your container registry / ACR)
 #    - RESOURCE_GROUP (where your cluster is deployed)
 #    - CLUSTER_NAME (name of your AKS cluster)
+#    - CONTAINER_NAME (name of the container image you would like to push up to your ACR)
+#    - SECRET_NAME (name of the secret associated with pulling your ACR image)
 #
 # 3. Choose the appropriate render engine for the bake step https://github.com/Azure/k8s-bake. The config below assumes kustomize.
 #    Set your kustomizationPath and kubectl-version to suit your configuration.
+#    - KUSTOMIZE_PATH (the path where your Kustomize manifests are located)
 #
 # For more information on GitHub Actions for Azure, refer to https://github.com/Azure/Actions
 # For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
@@ -29,7 +31,21 @@
 #   - https://github.com/Azure/k8s-bake
 #   - https://github.com/Azure/k8s-deploy   
 
-on: [push]
+name: Build and deploy an Azure Kubernetes Service cluster
+
+on:
+  push:
+    branches:
+      - $default-branch
+  workflow_dispatch:
+
+env:
+  AZURE_CONTAINER_REGISTRY: "your-azure-container-registry"
+  CONTAINER_NAME: "your-container-name"
+  RESOURCE_GROUP: "your-resource-group"
+  CLUSTER_NAME: "your-cluster-name"
+  SECRET_NAME: "your-secret-name"
+  KUSTOMIZE_PATH: "your-kustomize-path"
 
 jobs:
   build:
@@ -42,43 +58,46 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - uses: Azure/docker-login@v1
+    - name: Login to ACR
+      uses: Azure/docker-login@v1
       with:
         login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
-    
-    - run: |
-        docker build . -t ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.PROJECT_NAME }}:${{ github.sha }}
-        docker push ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.PROJECT_NAME }}:${{ github.sha }}
+      
+    - name: Build and push docker image to ACR
+      run: |
+        docker build . -t ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
+        docker push ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
     
     - name: Gets K8s context
       uses: azure/aks-set-context@v2.0
       with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
           resource-group: ${{ env.RESOURCE_GROUP }}
           cluster-name: ${{ env.CLUSTER_NAME }}
-          
-    - uses: Azure/k8s-create-secret@v2.1
+
+    - name: Create K8s secret for pulling image from ACR
+      uses: Azure/k8s-create-secret@v1.1
       with:
-        container-registry-url: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.PROJECT_NAME }}:${{ github.sha }}
+        container-registry-url: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io
         container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
         container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-        secret-name: ${{ env.PROJECT_NAME }}
+        secret-name: ${{ env.SECRET_NAME }}
 
     - name: Configure deployment
       uses: azure/k8s-bake@v2.1
       with:
         renderEngine: 'kustomize'
-        kustomizationPath: './kustomize/'
-        kubectl-version: 'latest'
+        kustomizationPath: ${{ env.KUSTOMIZE_PATH }}
+        kubectl-version: latest
       id: bake
 
     - name: Deploys application
-      uses: Azure/k8s-deploy@v2.0
+      uses: Azure/k8s-deploy@v3.0
       with:
+        action: deploy
         manifests: ${{ steps.bake.outputs.manifestsBundle }}
         images: |
-          ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.PROJECT_NAME }}:${{ github.sha }}
+          ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
         imagepullsecrets: |
-          ${{ env.PROJECT_NAME }}
+          ${{ env.SECRET_NAME }}
