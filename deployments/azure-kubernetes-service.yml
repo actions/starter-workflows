@@ -47,6 +47,10 @@ jobs:
         login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
+    
+    - run: |
+        docker build . -t ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.PROJECT_NAME }}:${{ github.sha }}
+        docker push ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.PROJECT_NAME }}:${{ github.sha }}
 
     - uses: Azure/k8s-create-secret@v2.1
       with:
@@ -56,7 +60,7 @@ jobs:
         secret-name: ${{ env.PROJECT_NAME }}
     
     - name: Gets K8s context
-      uses: azure/aks-set-context@v1
+      uses: azure/aks-set-context@v2.0
       with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           resource-group: ${{ env.RESOURCE_GROUP }}
@@ -71,7 +75,7 @@ jobs:
       id: bake
 
     - name: Deploys application
-    - uses: Azure/k8s-deploy@v2.0
+      uses: Azure/k8s-deploy@v2.0
       with:
         manifests: ${{ steps.bake.outputs.manifestsBundle }}
         images: |
