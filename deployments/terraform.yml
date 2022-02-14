@@ -50,6 +50,9 @@ on:
     - $default-branch
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   terraform:
     name: 'Terraform'
