@@ -10,5 +10,23 @@
     "Deployment",
     "Code Scanning",
     "Automation"
+  ],
+  "folder_category_map": [
+    {
+      "name":  "../../ci",
+      "category": "Continuous integration" 
+    },
+    {
+      "name": "../../automation",
+      "category": "Automation"
+    },
+    { 
+      "name": "../../deployments",
+      "category": "Deployment"
+    },
+    { 
+      "name": "../../code-scanning",
+      "category": "Code Scanning"
+    }
   ]
 }

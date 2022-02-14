@@ -1,7 +1,7 @@
 #!/usr/bin/env npx ts-node
 import { promises as fs } from "fs";
 import { safeLoad } from "js-yaml";
-import { basename, extname, join } from "path";
+import { basename, extname, join, dirname } from "path";
 import { Validator as validator } from "jsonschema";
 import { endGroup, error, info, setFailed, startGroup } from '@actions/core';
 
@@ -40,7 +40,7 @@ const propertiesSchema = {
   }
 }
 
-async function checkWorkflows(folders: string[], allowed_categories: string[]): Promise<WorkflowWithErrors[]> {
+async function checkWorkflows(folders: string[], allowed_categories: string[], folder_category_map: object[]): Promise<WorkflowWithErrors[]> {
   const result: WorkflowWithErrors[] = []
   const workflow_template_names = new Set()
   for (const folder of folders) {
@@ -55,7 +55,7 @@ async function checkWorkflows(folders: string[], allowed_categories: string[]): 
         const workflowFilePath = join(folder, e.name);
         const propertiesFilePath = join(folder, "properties", `${fileType}.properties.json`)
 
-        const workflowWithErrors = await checkWorkflow(workflowFilePath, propertiesFilePath, allowed_categories);
+        const workflowWithErrors = await checkWorkflow(workflowFilePath, propertiesFilePath, allowed_categories, folder_category_map);
         if(workflowWithErrors.name && workflow_template_names.size == workflow_template_names.add(workflowWithErrors.name).size) {
           workflowWithErrors.errors.push(`Workflow template name "${workflowWithErrors.name}" already exists`) 
         }
@@ -69,7 +69,7 @@ async function checkWorkflows(folders: string[], allowed_categories: string[]): 
   return result;
 }
 
-async function checkWorkflow(workflowPath: string, propertiesPath: string, allowed_categories: string[]): Promise<WorkflowWithErrors> {
+async function checkWorkflow(workflowPath: string, propertiesPath: string, allowed_categories: string[], folder_category_map: object[]): Promise<WorkflowWithErrors> {
   let workflowErrors: WorkflowWithErrors = {
     id: workflowPath,
     name: null,
@@ -104,10 +104,17 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
       }
       
     }
+    var directoryName = dirname(workflowPath)
+    var folder_category = folder_category_map.find( folder_category => folder_category["name"] == directoryName)["category"]
     if (!workflowPath.endsWith("blank.yml") && (!properties.categories || 
       !properties.categories.some(category => allowed_categories.some(ac => ac.toLowerCase() == category.toLowerCase())))) {
       workflowErrors.errors.push(`Workflow does not contain at least one allowed category - ${allowed_categories}`)
     }
+
+    if(properties.categories && !properties.categories.some(category => category.toLowerCase() == folder_category.toLowerCase())) {
+      workflowErrors.errors.push(`Either workflow is not added to the correct directory or category specified is wrong. Allowed category for ${basename(directoryName)} directory is ${folder_category}`)
+    }
+    
   } catch (e) {
     workflowErrors.errors.push(e.toString())
   }
@@ -118,7 +125,7 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
   try {
     const settings = require("./settings.json");
     const erroredWorkflows = await checkWorkflows(
-      settings.folders, settings.allowed_categories
+      settings.folders, settings.allowed_categories, settings.folder_category_map
     )
 
     if (erroredWorkflows.length > 0) {
