@@ -40,6 +40,9 @@ env:
   ACR_EE_IMAGE: repo
   ACR_EE_TAG: ${{ github.sha }}
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
