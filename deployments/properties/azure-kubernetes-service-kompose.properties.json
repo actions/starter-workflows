@@ -1,5 +1,5 @@
 {
-    "name": "Build and Deploy an app to AKS with Kompose",
+    "name": "Deploy to AKS with Kompose",
     "description": "Deploy an application to an Azure Kubernetes Service Cluster using Azure Credentials and Kompose",
     "creator": "Microsoft Azure",
     "iconName": "azure",

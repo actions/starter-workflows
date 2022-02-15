@@ -1,5 +1,5 @@
 {
-    "name": "Build and Deploy an app to AKS",
+    "name": "Deploy to AKS",
     "description": "Deploy an application to an Azure Kubernetes Service Cluster using Azure Credentials",
     "creator": "Microsoft Azure",
     "iconName": "azure",
