@@ -51,6 +51,11 @@ permissions:
 
 jobs:
   build:
+    permissions:
+      actions: write
+      contents: read
+      id-token: write
+      
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
