@@ -47,7 +47,7 @@ env:
   CONTAINER_NAME: "your-container-name"
   RESOURCE_GROUP: "your-resource-group"
   CLUSTER_NAME: "your-cluster-name"
-  SECRET_NAME: "your-secret-name"
+  IMAGE_PULL_SECRET_NAME: "your-image-pull-secret-name"
   KUSTOMIZE_PATH: "your-kustomize-path"
 
 permissions:
@@ -93,7 +93,7 @@ jobs:
         container-registry-url: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io
         container-registry-username: ${{ steps.get-acr-creds.outputs.username }}
         container-registry-password: ${{ steps.get-acr-creds.outputs.password }}
-        secret-name: ${{ env.SECRET_NAME }}
+        secret-name: ${{ env.IMAGE_PULL_SECRET_NAME }}
 
     - name: Bake deployment
       uses: azure/k8s-bake@v2.1
@@ -111,4 +111,4 @@ jobs:
         images: |
           ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
         imagepullsecrets: |
-          ${{ env.SECRET_NAME }}
+          ${{ env.IMAGE_PULL_SECRET_NAME }}
