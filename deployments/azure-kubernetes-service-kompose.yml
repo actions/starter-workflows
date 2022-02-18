@@ -30,7 +30,7 @@
 # For more options with the actions used below please see the following:
 #   - https://github.com/Azure/login
 #   - https://github.com/Azure/aks-set-context
-#   - https://github.com/marketplace/actions/azure-cli-action
+#   - https://github.com/Azure/k8s-create-secret
 #   - https://github.com/Azure/k8s-bake
 #   - https://github.com/Azure/k8s-deploy   
 
