@@ -51,7 +51,7 @@ env:
   KUSTOMIZE_PATH: "your-kustomize-path"
 
 permissions:
-  actions: write
+  actions: read
   contents: read
   id-token: write
 

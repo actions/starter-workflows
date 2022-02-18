@@ -53,7 +53,7 @@ env:
   CHART_OVERRIDE_PATH: "your-chart-override-path"
 
 permissions:
-  actions: write
+  actions: read
   contents: read
   id-token: write
 

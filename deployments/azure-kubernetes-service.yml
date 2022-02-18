@@ -48,7 +48,7 @@ env:
   DEPLOYMENT_MANIFEST_PATH: 'your-deployment-manifest-path'
 
 permissions:
-  actions: write
+  actions: read
   contents: read
   id-token: write
 

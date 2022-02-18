@@ -45,7 +45,7 @@ env:
   DOCKER_COMPOSE_FILE_PATH: "your-docker-compose-file-path"
 
 permissions:
-  actions: write
+  actions: read
   contents: read
   id-token: write
 
