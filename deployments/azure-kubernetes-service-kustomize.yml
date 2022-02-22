@@ -27,12 +27,7 @@
 #
 # For more information on GitHub Actions for Azure, refer to https://github.com/Azure/Actions
 # For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
-# For more options with the actions used below please see the following:
-#   - https://github.com/Azure/login
-#   - https://github.com/Azure/aks-set-context
-#   - https://github.com/Azure/k8s-create-secret
-#   - https://github.com/Azure/k8s-bake
-#   - https://github.com/Azure/k8s-deploy   
+# For more options with the actions used below please refer to https://github.com/Azure/login
 
 name: Build and deploy an app to AKS with Kustomize
 
