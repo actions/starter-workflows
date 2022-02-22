@@ -53,7 +53,7 @@ env:
 jobs:
   build:
     permissions:
-      actions: write
+      actions: read
       contents: read
       id-token: write
       
