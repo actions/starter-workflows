@@ -1,6 +1,6 @@
 {
     "name": "Deploy to AKS with Kustomize",
-    "description": "Deploy an application to an Azure Kubernetes Service Cluster using Azure Credentials and Kustomize",
+    "description": "Deploy an application to an Azure Kubernetes Service cluster using Kustomize",
     "creator": "Microsoft Azure",
     "iconName": "azure",
     "categories": ["Deployment", "Kustomize", "Kubernetes", "Dockerfile"]

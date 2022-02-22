@@ -1,6 +1,6 @@
 {
     "name": "Deploy to AKS with Helm",
-    "description": "Deploy an application to an Azure Kubernetes Service Cluster using Azure Credentials and Helm",
+    "description": "Deploy an application to an Azure Kubernetes Service cluster using Helm",
     "creator": "Microsoft Azure",
     "iconName": "azure",
     "categories": ["Deployment", "Helm", "Kubernetes", "Dockerfile"]
