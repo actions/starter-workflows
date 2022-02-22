@@ -44,15 +44,10 @@ env:
   IMAGE_PULL_SECRET_NAME: "your-image-pull-secret-name"
   DOCKER_COMPOSE_FILE_PATH: "your-docker-compose-file-path"
 
-permissions:
-  actions: read
-  contents: read
-  id-token: write
-
 jobs:
   build:
     permissions:
-      actions: write
+      actions: read
       contents: read
       id-token: write
       

@@ -47,11 +47,6 @@ env:
   IMAGE_PULL_SECRET_NAME: "your-image-pull-secret-name"
   DEPLOYMENT_MANIFEST_PATH: 'your-deployment-manifest-path'
 
-permissions:
-  actions: read
-  contents: read
-  id-token: write
-
 jobs:
   build:
     permissions:

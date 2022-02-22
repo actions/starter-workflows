@@ -52,11 +52,6 @@ env:
   CHART_PATH: "your-chart-path"
   CHART_OVERRIDE_PATH: "your-chart-override-path"
 
-permissions:
-  actions: read
-  contents: read
-  id-token: write
-
 jobs:
   build:
     permissions:

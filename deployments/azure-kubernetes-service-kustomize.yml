@@ -50,11 +50,6 @@ env:
   IMAGE_PULL_SECRET_NAME: "your-image-pull-secret-name"
   KUSTOMIZE_PATH: "your-kustomize-path"
 
-permissions:
-  actions: read
-  contents: read
-  id-token: write
-
 jobs:
   build:
     permissions:
