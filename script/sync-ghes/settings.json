@@ -28,5 +28,8 @@
     "Red Hat",
     "Tencent Cloud",
     "HashiCorp"
+  ],
+  "codeScanningTemplates": [
+    "codeql.yml"
   ]
 }

@@ -33,13 +33,15 @@ interface WorkflowsCheckResult {
 async function checkWorkflows(
   folders: string[],
   enabledActions: string[],
-  partners: string[]
+  partners: string[],
+  codeScanningTemplates: string[]
 ): Promise<WorkflowsCheckResult> {
   const result: WorkflowsCheckResult = {
     compatibleWorkflows: [],
     incompatibleWorkflows: [],
   };
   const partnersSet = new Set(partners.map((x) => x.toLowerCase()));
+  const codeScanningTemplatesSet = new Set(codeScanningTemplates)
 
   for (const folder of folders) {
     const dir = await fs.readdir(folder, {
@@ -59,9 +61,11 @@ async function checkWorkflows(
 
         const isPartnerWorkflow = workflowProperties.creator ? partnersSet.has(workflowProperties.creator.toLowerCase()) : false;
 
+        const isCodeScanningTemplateEnabled = (folder === "../../code-scanning") ? codeScanningTemplatesSet.has(e.name) : true;
+
         const enabled =
           !isPartnerWorkflow &&
-          workflowProperties.enterprise !== false &&
+          isCodeScanningTemplateEnabled &&
           (await checkWorkflow(workflowFilePath, enabledActions));
 
         const workflowDesc: WorkflowDesc = {
@@ -133,7 +137,8 @@ async function checkWorkflow(
     const result = await checkWorkflows(
       settings.folders,
       settings.enabledActions,
-      settings.partners
+      settings.partners,
+      settings.codeScanningTemplates
     );
 
     console.group(
