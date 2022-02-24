@@ -9,7 +9,7 @@ on:
   push:
     branches: [ $default-branch, $protected-branches ]
   pull_request:
-    branches: [ $default-branch ]  
+    branches: [ $default-branch ]
   schedule:
     - cron: $cron-weekly
 
@@ -23,13 +23,13 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-          cache: maven
       - name: Run PMD
         id: pmd
-        uses: pmd/pmd-github-action@6d98898be0d59f46ec37dafcea33d8f8f55acfd1
+        uses: pmd/pmd-github-action@967a81f8b657c87f7c3e96b62301cb1a48efef29
         with:
           rulesets: 'rulesets/java/quickstart.xml'
           sourcePath: 'src/main/java'
+          analyzeModifiedFilesOnly: false
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v1
         with:
