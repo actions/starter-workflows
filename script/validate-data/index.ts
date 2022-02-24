@@ -69,7 +69,7 @@ async function checkWorkflows(folders: string[], allowed_categories: string[], f
   return result;
 }
 
-async function checkWorkflow(workflowPath: string, propertiesPath: string, allowed_categories: string[], folder_category_map: object[]): Promise<WorkflowWithErrors> {
+async function checkWorkflow(workflowPath: string, propertiesPath: string, allowed_categories: string[], directory_category_map: object[]): Promise<WorkflowWithErrors> {
   let workflowErrors: WorkflowWithErrors = {
     id: workflowPath,
     name: null,
@@ -105,16 +105,15 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
       
     }
     var directoryName = dirname(workflowPath)
-    var folder_category = folder_category_map.find( folder_category => folder_category["name"] == directoryName)["category"]
-    if (!workflowPath.endsWith("blank.yml") && (!properties.categories || 
-      !properties.categories.some(category => allowed_categories.some(ac => ac.toLowerCase() == category.toLowerCase())))) {
-      workflowErrors.errors.push(`Workflow does not contain at least one allowed category - ${allowed_categories}`)
+    var directory_category = directory_category_map.find( folder_category => folder_category["name"] == directoryName)["category"]
+    if (!workflowPath.endsWith("blank.yml") && ((!properties.categories || properties.categories.length == 0 )|| 
+      properties.categories[0].toLowerCase() !== directory_category.toLowerCase())) {
+      if(!properties.categories || properties.categories.length == 0) {
+        workflowErrors.errors.push(`Workflow categories cannot be null or empty`)
+      } else {
+        workflowErrors.errors.push(`The first category in properties.json categories must be "${directory_category}" for ${basename(directoryName)} directory workflow.`)
+      }
     }
-
-    if(properties.categories && !properties.categories.some(category => category.toLowerCase() == folder_category.toLowerCase())) {
-      workflowErrors.errors.push(`Either workflow is not added to the correct directory or category specified is wrong. Allowed category for ${basename(directoryName)} directory is ${folder_category}`)
-    }
-    
   } catch (e) {
     workflowErrors.errors.push(e.toString())
   }
@@ -125,7 +124,7 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
   try {
     const settings = require("./settings.json");
     const erroredWorkflows = await checkWorkflows(
-      settings.folders, settings.allowed_categories, settings.folder_category_map
+      settings.folders, settings.allowed_categories, settings.directory_category_map
     )
 
     if (erroredWorkflows.length > 0) {

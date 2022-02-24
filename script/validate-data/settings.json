@@ -5,13 +5,7 @@
     "../../deployments",
     "../../code-scanning"
   ],
-  "allowed_categories" : [
-    "Continuous integration",
-    "Deployment",
-    "Code Scanning",
-    "Automation"
-  ],
-  "folder_category_map": [
+  "directory_category_map": [
     {
       "name":  "../../ci",
       "category": "Continuous integration" 
