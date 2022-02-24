@@ -48,8 +48,10 @@ jobs:
       
     runs-on: ubuntu-latest
     steps:
+    # Checks out the repository this file is in
     - uses: actions/checkout@master
     
+    # Logs in with your Azure credentials
     - name: Azure login
       uses: azure/login@v1.4.3
       with:
@@ -57,16 +59,19 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       
+    # Builds and pushes an image up to your Azure Container Registry
     - name: Build and push image to ACR
       run: |
         az acr build --image ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.RESOURCE_GROUP }} .
 
-    - name: Gets K8s context
+    # Retrieves your Azure Kubernetes Service cluster's kubeconfig file
+    - name: Get K8s context
       uses: azure/aks-set-context@v2.0
       with:
         resource-group: ${{ env.RESOURCE_GROUP }}
         cluster-name: ${{ env.CLUSTER_NAME }}
 
+    # Retrieves the credentials for pulling images from your Azure Container Registry
     - name: Get ACR credentials
       run: |
         az acr update -n ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.RESOURCE_GROUP }} --admin-enabled true
@@ -76,6 +81,7 @@ jobs:
         echo "::set-output name=password::${ACR_PASSWORD}"
       id: get-acr-creds
 
+    # Creates a kubernetes secret on your Azure Kubernetes Service cluster that matches up to the credentials from the last step
     - name: Create K8s secret for pulling image from ACR
       uses: Azure/k8s-create-secret@v1.1
       with:
@@ -84,6 +90,7 @@ jobs:
         container-registry-password: ${{ steps.get-acr-creds.outputs.password }}
         secret-name: ${{ env.IMAGE_PULL_SECRET_NAME }}
 
+    # Runs Kompose to create manifest files
     - name: Bake deployment
       uses: azure/k8s-bake@v2.1
       with:
@@ -92,6 +99,7 @@ jobs:
         kompose-version: 'latest'   
       id: bake
 
+    # Deploys application based on manifest files from previous step
     - name: Deploy application
       uses: Azure/k8s-deploy@v3.0
       with:
