@@ -13,10 +13,17 @@ on:
   schedule:
     - cron: $cron-weekly
 
+permissions:
+  contents: read
+
 jobs:
 
   build:
 
+    permissions:
+      checks: write # for sysdiglabs/scan-action to publish the checks
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
     runs-on: ubuntu-latest
 
     steps:
