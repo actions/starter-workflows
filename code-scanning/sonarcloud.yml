@@ -21,15 +21,13 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
   workflow_dispatch:
 
 jobs:
   Analysis:
     runs-on: ubuntu-latest
-
+    
     steps:
- 
       - name: Analyze with SonarCloud         
 
           # You may pin to the exact commit or the version.
