@@ -1,4 +1,4 @@
-# This workflow helps you trigger a SonarCloud analysis of your code.
+# This workflow helps you trigger a SonarCloud analysis of your code and populates GitHub Code Scanning alerts with the vulnerabilities found.
 
 # 1. Login to SonarCloud.io using your GitHub account
 
