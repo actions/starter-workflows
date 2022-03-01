@@ -1,4 +1,19 @@
-This workflow helps you trigger a SonarCloud analysis of your code.
+# This workflow helps you trigger a SonarCloud analysis of your code.
+
+# 1. Login to SonarCloud.io using your GitHub account
+# 2. Import your project on SonarCloud
+#     * Add your GitHub organization first, then add your repository as a new project.
+#     * Please note that your project might be ready for Automatic Analysis, which means that it could be analysed without the need for GitHub Actions (it will be built automatically).
+#     * This behavior can be changed in Administration > Analysis Method.
+# 
+# 3. Copy/paste the Projet Key and the Organization Key in the args parameter below
+#     * You'll find those info on SonarCloud. Click on "Information" at the bottom left
+# 4. Generate a new token and add it to your Github's repository Secrets with the name SONAR_TOKEN
+#     * On SonarCloud, click on your avatar on top-right > My account > Security
+
+# Feel free to take a look at our documentation (https://docs.sonarcloud.io/getting-started/github/)
+# or reach out to our community forum if you need some help (https://community.sonarsource.com/c/help/sc/9)
+
 name: SonarCloud analysis
 
 on:
@@ -15,18 +30,7 @@ jobs:
 
     steps:
  
-      - name: Analyze with SonarCloud
-      
-          # 1. Import your project to SonarCloud.
-          # 2. Import it on SonarCloud
-          #     * Open sonarcloud.io, connect with your GitHub account and add your GitHub organization and your repository as a new project.
-          #     * Please note that your project might be ready for AutoScan which means that it will be analysed without the need for GitHub Actions (it will be built automatically).
-          #     * This behavior can be changed in Administration > Analysis Method.
-          # 
-          # 3. Copy/paste the Projet Key and the Organization Key in the args below
-          #     * On SonarCloud, click on Information at the bottom left
-          # 4. Generate a new token and add it to your Github's repository Secrets as SONAR_TOKEN
-          #     * On SonarCloud, click on your avatar on top-right > My account > Security
+      - name: Analyze with SonarCloud         
 
           # You may pin to the exact commit or the version.
           # uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
@@ -36,15 +40,15 @@ jobs:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   # Generate a token on Sonarcloud.io, add it to the secrets of this repo with the name SONAR_TOKEN (Settings > Secrets > Actions > add new repository secret)
           with:
             # Additional arguments to the sonarcloud scanner
-            args: >
-            # Set the sonar.projectBaseDir analysis property
-            projectBaseDir: . # optional, default is .
+            args:             
               # Unique key of your project. You can find it in SonarCloud > Information (bottom-left menu)
               -Dsonar.projectKey= # mandatory
               # Unique organisation key of your project. You can find it in SonarCloud > Information (bottom-left menu)
               -Dsonar.organization= # mandatory
               # Comma-separated paths to directories containing main source files.
               -Dsonar.sources= # optional, default is project base directory
+              # When you need the analysis to take place in a directory other than the one from which it was launched
+              -Dsonar.projectBaseDir= # optional, default is .
               # Comma-separated paths to directories containing test source files.
               -Dsonar.tests= # optional. For more info about Code Coverage, please refer to https://docs.sonarcloud.io/enriching/test-coverage/overview/
                # Adds more detail to both client and server-side analysis logs, activating DEBUG mode for the scanner, and adding client-side environment variables and system properties to the server-side log of analysis report processing.
