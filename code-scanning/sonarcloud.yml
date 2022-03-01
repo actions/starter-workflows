@@ -1,6 +1,7 @@
 # This workflow helps you trigger a SonarCloud analysis of your code.
 
 # 1. Login to SonarCloud.io using your GitHub account
+
 # 2. Import your project on SonarCloud
 #     * Add your GitHub organization first, then add your repository as a new project.
 #     * Please note that your project might be ready for Automatic Analysis, which means that it could be analysed without the need for GitHub Actions (it will be built automatically).
@@ -8,6 +9,7 @@
 # 
 # 3. Copy/paste the Projet Key and the Organization Key in the args parameter below
 #     * You'll find those info on SonarCloud. Click on "Information" at the bottom left
+
 # 4. Generate a new token and add it to your Github's repository Secrets with the name SONAR_TOKEN
 #     * On SonarCloud, click on your avatar on top-right > My account > Security
 
