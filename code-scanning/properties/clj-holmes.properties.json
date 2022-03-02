@@ -1,0 +1,10 @@
+{
+    "name": "clj-holmes",
+    "creator": "Matheus Bernardes",
+    "description": "A CLI SAST (Static application security testing) tool which was built with the intent of finding vulnerable Clojure code via rules that use a simple pattern language.",
+    "iconName": "clj-holmes",
+    "categories": [
+        "Code Scanning",
+        "clojure"
+    ]
+}
