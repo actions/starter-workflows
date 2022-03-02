@@ -20,8 +20,14 @@ env:
   # Path to the CMake build directory.
   build: '${{ github.workspace }}/build'
 
+permissions:
+  contents: read
+
 jobs:
   analyze:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
     name: Analyze
     runs-on: windows-latest
 
