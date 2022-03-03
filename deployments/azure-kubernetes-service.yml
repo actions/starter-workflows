@@ -32,8 +32,14 @@
 
 on: [push]
 
+permissions:
+  contents: read
+
 jobs:
   build:
+    permissions:
+      actions: read # for Azure/k8s-deploy to query workflow path
+      contents: read # for actions/checkout to fetch code
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
