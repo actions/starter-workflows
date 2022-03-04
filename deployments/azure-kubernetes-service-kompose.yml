@@ -20,19 +20,16 @@
 #    - CLUSTER_NAME (name of your AKS cluster)
 #    - CONTAINER_NAME (name of the container image you would like to push up to your ACR)
 #    - SECRET_NAME (name of the secret associated with pulling your ACR image)
-#    - DEPLOYMENT_MANIFEST_PATH (path to the manifest yaml for your deployment)
+#
+# 3. Choose the appropriate render engine for the bake step https://github.com/Azure/k8s-bake. The config below assumes Kompose.
+#    Set your dockerComposeFile and kompose-version to suit your configuration.
+#    - DOCKER_COMPOSE_FILE_PATH (the path where your Kompose deployment manifest is located)
 #
 # For more information on GitHub Actions for Azure, refer to https://github.com/Azure/Actions
 # For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
 # For more options with the actions used below please refer to https://github.com/Azure/login
 
-name: Build and deploy an app to AKS
-
-on:
-  push:
-    branches:
-      - $default-branch
-  workflow_dispatch:
+name: Build and deploy an app to AKS with Kompose
 
 env:
   AZURE_CONTAINER_REGISTRY: "your-azure-container-registry"
@@ -40,7 +37,7 @@ env:
   RESOURCE_GROUP: "your-resource-group"
   CLUSTER_NAME: "your-cluster-name"
   IMAGE_PULL_SECRET_NAME: "your-image-pull-secret-name"
-  DEPLOYMENT_MANIFEST_PATH: 'your-deployment-manifest-path'
+  DOCKER_COMPOSE_FILE_PATH: "your-docker-compose-file-path"
 
 jobs:
   build:
@@ -48,7 +45,7 @@ jobs:
       actions: read
       contents: read
       id-token: write
-
+      
     runs-on: ubuntu-latest
     steps:
     # Checks out the repository this file is in
@@ -91,14 +88,23 @@ jobs:
         container-registry-url: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io
         container-registry-username: ${{ steps.get-acr-creds.outputs.username }}
         container-registry-password: ${{ steps.get-acr-creds.outputs.password }}
-        secret-name: ${{ env.IMAGE_PULL_SECRET_NAME }}  
+        secret-name: ${{ env.IMAGE_PULL_SECRET_NAME }}
 
-    # Deploys application based on given manifest file
-    - name: Deploys application
+    # Runs Kompose to create manifest files
+    - name: Bake deployment
+      uses: azure/k8s-bake@v2.1
+      with:
+        renderEngine: 'kompose'
+        dockerComposeFile: ${{ env.DOCKER_COMPOSE_FILE_PATH }}
+        kompose-version: 'latest'   
+      id: bake
+
+    # Deploys application based on manifest files from previous step
+    - name: Deploy application
       uses: Azure/k8s-deploy@v3.0
       with:
         action: deploy
-        manifests: ${{ env.DEPLOYMENT_MANIFEST_PATH }}
+        manifests: ${{ steps.bake.outputs.manifestsBundle }}
         images: |
           ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
         imagepullsecrets: |
