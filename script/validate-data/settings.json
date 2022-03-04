@@ -5,7 +5,7 @@
     "../../deployments",
     "../../code-scanning"
   ],
-  "directory_category_map": [
+  "folder_category_map": [
     {
       "name":  "../../ci",
       "category": "Continuous integration" 

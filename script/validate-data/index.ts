@@ -14,6 +14,7 @@ interface WorkflowWithErrors {
 interface WorkflowProperties {
   name: string;
   description: string;
+  creator: string;
   iconName: string;
   categories: string[];
 }
@@ -69,7 +70,7 @@ async function checkWorkflows(folders: string[], folder_category_map: object[]):
   return result;
 }
 
-async function checkWorkflow(workflowPath: string, propertiesPath: string, directory_category_map: object[]): Promise<WorkflowWithErrors> {
+async function checkWorkflow(workflowPath: string, propertiesPath: string, folder_category_map: object[]): Promise<WorkflowWithErrors> {
   let workflowErrors: WorkflowWithErrors = {
     id: workflowPath,
     name: null,
@@ -104,15 +105,19 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, direc
       }
       
     }
-    var directoryName = dirname(workflowPath)
-    var directory_category = directory_category_map.find( folder_category => folder_category["name"] == directoryName)["category"]
+    var folderName = dirname(workflowPath)
+    var folder_category = folder_category_map.find( folder_category => folder_category["name"] == folderName)["category"]
     if (!workflowPath.endsWith("blank.yml") && ((!properties.categories || properties.categories.length == 0 )|| 
-      properties.categories[0].toLowerCase() !== directory_category.toLowerCase())) {
+      properties.categories[0].toLowerCase() !== folder_category.toLowerCase())) {
       if(!properties.categories || properties.categories.length == 0) {
         workflowErrors.errors.push(`Workflow categories cannot be null or empty`)
       } else {
-        workflowErrors.errors.push(`The first category in properties.json categories must be "${directory_category}" for ${basename(directoryName)} directory workflow.`)
+        workflowErrors.errors.push(`The first category in properties.json categories must be "${folder_category}" for ${basename(folderName)} folder workflow.`)
       }
+    }
+
+    if(folder_category.toLowerCase() == 'deployment' && !properties.creator) {
+      workflowErrors.errors.push(`The "creator" in properties.json must be present.`)
     }
   } catch (e) {
     workflowErrors.errors.push(e.toString())
@@ -124,7 +129,7 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, direc
   try {
     const settings = require("./settings.json");
     const erroredWorkflows = await checkWorkflows(
-      settings.folders, settings.directory_category_map
+      settings.folders, settings.folder_category_map
     )
 
     if (erroredWorkflows.length > 0) {
