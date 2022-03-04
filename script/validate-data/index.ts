@@ -40,7 +40,7 @@ const propertiesSchema = {
   }
 }
 
-async function checkWorkflows(folders: string[], allowed_categories: string[], folder_category_map: object[]): Promise<WorkflowWithErrors[]> {
+async function checkWorkflows(folders: string[], folder_category_map: object[]): Promise<WorkflowWithErrors[]> {
   const result: WorkflowWithErrors[] = []
   const workflow_template_names = new Set()
   for (const folder of folders) {
@@ -55,7 +55,7 @@ async function checkWorkflows(folders: string[], allowed_categories: string[], f
         const workflowFilePath = join(folder, e.name);
         const propertiesFilePath = join(folder, "properties", `${fileType}.properties.json`)
 
-        const workflowWithErrors = await checkWorkflow(workflowFilePath, propertiesFilePath, allowed_categories, folder_category_map);
+        const workflowWithErrors = await checkWorkflow(workflowFilePath, propertiesFilePath, folder_category_map);
         if(workflowWithErrors.name && workflow_template_names.size == workflow_template_names.add(workflowWithErrors.name).size) {
           workflowWithErrors.errors.push(`Workflow template name "${workflowWithErrors.name}" already exists`) 
         }
@@ -69,7 +69,7 @@ async function checkWorkflows(folders: string[], allowed_categories: string[], f
   return result;
 }
 
-async function checkWorkflow(workflowPath: string, propertiesPath: string, allowed_categories: string[], directory_category_map: object[]): Promise<WorkflowWithErrors> {
+async function checkWorkflow(workflowPath: string, propertiesPath: string, directory_category_map: object[]): Promise<WorkflowWithErrors> {
   let workflowErrors: WorkflowWithErrors = {
     id: workflowPath,
     name: null,
@@ -124,7 +124,7 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
   try {
     const settings = require("./settings.json");
     const erroredWorkflows = await checkWorkflows(
-      settings.folders, settings.allowed_categories, settings.directory_category_map
+      settings.folders, settings.directory_category_map
     )
 
     if (erroredWorkflows.length > 0) {
