@@ -13,6 +13,8 @@ on:
     branches: [ $default-branch ]
   schedule:
     - cron: $cron-weekly
+permissions:
+  contents: read
 
 jobs:
   clj-holmes:
