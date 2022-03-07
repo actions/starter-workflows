@@ -1,0 +1,44 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: clj-watson
+
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ $default-branch ]
+  schedule:
+    - cron: $cron-weekly
+permissions:
+  contents: read
+
+jobs:
+  clj-holmes:
+    name: Run clj-watson scanning
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Dependency scan
+        uses: clj-holmes/clj-watson-action@992d0e6270ab50ac6f7d8709f323a77cfa816b66
+        with:
+          clj-watson-sha: "992d0e6"
+          clj-watson-tag: "v3.0.2-ALPHA"
+          database-strategy: github-advisory
+          aliases: clojure-lsp,test 
+          deps-edn-path: deps.edn
+          suggest-fix: true
+          output-type: sarif
+          output-file: clj-watson-results.sarif
+        fail-on-result: 'true'
+
+      - name: Upload analysis results to GitHub
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: ${{github.workspace}}/clj-watson-results.sarif
+        wait-for-processing: true
