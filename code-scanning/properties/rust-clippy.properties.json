@@ -1,0 +1,10 @@
+{
+    "name": "rust-clippy",
+    "creator": "The Rust Programming Language",
+    "description": "A collection of lints to catch common mistakes and improve your Rust code.",
+    "iconName": "rust-clippy",
+    "categories": [
+        "Code Scanning",
+        "rust"
+    ]
+}
