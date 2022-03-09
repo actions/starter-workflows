@@ -14,6 +14,9 @@ on:
   schedule:
     - cron: $cron-weekly
 
+permissions:
+  contents: read
+  
 jobs:
   clj-holmes:
     name: Run clj-holmes scanning
