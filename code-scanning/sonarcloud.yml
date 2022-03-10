@@ -4,14 +4,15 @@
 
 # 2. Import your project on SonarCloud
 #     * Add your GitHub organization first, then add your repository as a new project.
-#     * Please note that your project might be ready for Automatic Analysis, which means that it could be analysed without the need for GitHub Actions (it will be built automatically).
+#     * Please note that many languages are eligible for automatic analysis, which means that the analysis will start automatically without the need to set up GitHub Actions.
 #     * This behavior can be changed in Administration > Analysis Method.
 # 
-# 3. Copy/paste the Projet Key and the Organization Key in the args parameter below
-#     * You'll find those info on SonarCloud. Click on "Information" at the bottom left
-
-# 4. Generate a new token and add it to your Github's repository Secrets with the name SONAR_TOKEN
-#     * On SonarCloud, click on your avatar on top-right > My account > Security
+# 3. Follow the SonarCloud's online tutorial
+#     * a. Copy/paste the Projet Key and the Organization Key in the args parameter below
+#          (You'll find those info on SonarCloud. Click on "Information" at the bottom left)
+#
+#     * b. Generate a new token and add it to your Github's repository Secrets with the name SONAR_TOKEN
+#          (On SonarCloud, click on your avatar on top-right > My account > Security)
 
 # Feel free to take a look at our documentation (https://docs.sonarcloud.io/getting-started/github/)
 # or reach out to our community forum if you need some help (https://community.sonarsource.com/c/help/sc/9)
