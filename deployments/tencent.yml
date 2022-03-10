@@ -27,6 +27,9 @@ env:
   TKE_CLUSTER_ID: cls-mywebapp
   DEPLOYMENT_NAME: tke-test
 
+permissions:
+  contents: read
+
 jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
