@@ -6,6 +6,7 @@
     "categories": [
         "Code Scanning",
         "javascript",
-        "ecmascript"
+        "ecmascript",
+        "typescript"
     ]
 }
