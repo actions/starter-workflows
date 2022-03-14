@@ -14,6 +14,9 @@ on:
   schedule:
     - cron: $cron-weekly
 
+permissions:
+  contents: read
+
 jobs:
   clj-holmes:
     name: Run clj-watson scanning
@@ -26,17 +29,17 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Dependency scan
-        uses: clj-holmes/clj-watson-action@992d0e6270ab50ac6f7d8709f323a77cfa816b66
+        uses: clj-holmes/clj-watson-action@619de8e236697f885f7118749a609b942d0594fb
         with:
-          clj-watson-sha: "992d0e6"
-          clj-watson-tag: "v3.0.2-ALPHA"
+          clj-watson-sha: "7990c86"
+          clj-watson-tag: "v3.0.2"
           database-strategy: github-advisory
           aliases: clojure-lsp,test 
           deps-edn-path: deps.edn
           suggest-fix: true
           output-type: sarif
           output-file: clj-watson-results.sarif
-        fail-on-result: 'true'
+          fail-on-result: 'false'
 
       - name: Upload analysis results to GitHub
         uses: github/codeql-action/upload-sarif@v1
