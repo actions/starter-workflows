@@ -109,7 +109,7 @@ jobs:
           }
 
     - name: Check out repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Determine app name
       if: env.APP_NAME == ''
