@@ -46,7 +46,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
-          java-version: 1.8
+          java-version: 8
           distribution: 'temurin'
 
       # Prepare source+dependencies for upload. The default example is for a Maven project that uses pom.xml.
