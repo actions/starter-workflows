@@ -13,6 +13,7 @@
 #
 #     * b. Generate a new token and add it to your Github's repository Secrets with the name SONAR_TOKEN
 #          (On SonarCloud, click on your avatar on top-right > My account > Security)
+#          (or go directly to https://sonarcloud.io/account/security/)
 
 # Feel free to take a look at our documentation (https://docs.sonarcloud.io/getting-started/github/)
 # or reach out to our community forum if you need some help (https://community.sonarsource.com/c/help/sc/9)
@@ -44,13 +45,13 @@ jobs:
             args:             
               # Unique key of your project. You can find it in SonarCloud > Information (bottom-left menu)
               -Dsonar.projectKey= # mandatory
-              # Unique organisation key of your project. You can find it in SonarCloud > Information (bottom-left menu)
+              # Unique organization key of your project. You can find it in SonarCloud > Information (bottom-left menu)
               -Dsonar.organization= # mandatory
               # Comma-separated paths to directories containing main source files.
-              -Dsonar.sources= # optional, default is project base directory
+              #-Dsonar.sources= # optional, default is project base directory
               # When you need the analysis to take place in a directory other than the one from which it was launched
-              -Dsonar.projectBaseDir= # optional, default is .
+              #-Dsonar.projectBaseDir= # optional, default is .
               # Comma-separated paths to directories containing test source files.
-              -Dsonar.tests= # optional. For more info about Code Coverage, please refer to https://docs.sonarcloud.io/enriching/test-coverage/overview/
-               # Adds more detail to both client and server-side analysis logs, activating DEBUG mode for the scanner, and adding client-side environment variables and system properties to the server-side log of analysis report processing.
-              -Dsonar.verbose= # optional, default is false   
+              #-Dsonar.tests= # optional. For more info about Code Coverage, please refer to https://docs.sonarcloud.io/enriching/test-coverage/overview/
+              # Adds more detail to both client and server-side analysis logs, activating DEBUG mode for the scanner, and adding client-side environment variables and system properties to the server-side log of analysis report processing.
+              #-Dsonar.verbose= # optional, default is false   
