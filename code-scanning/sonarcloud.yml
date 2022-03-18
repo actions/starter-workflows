@@ -1,19 +1,21 @@
-# This workflow helps you trigger a SonarCloud analysis of your code and populates GitHub Code Scanning alerts with the vulnerabilities found.
+# This workflow helps you trigger a SonarCloud analysis of your code and populates 
+# GitHub Code Scanning alerts with the vulnerabilities found.
 
 # 1. Login to SonarCloud.io using your GitHub account
 
 # 2. Import your project on SonarCloud
 #     * Add your GitHub organization first, then add your repository as a new project.
-#     * Please note that many languages are eligible for automatic analysis, which means that the analysis will start automatically without the need to set up GitHub Actions.
+#     * Please note that many languages are eligible for automatic analysis, 
+#       which means that the analysis will start automatically without the need to set up GitHub Actions.
 #     * This behavior can be changed in Administration > Analysis Method.
 # 
-# 3. Follow the SonarCloud's online tutorial
-#     * a. Copy/paste the Projet Key and the Organization Key in the args parameter below
-#          (You'll find those info on SonarCloud. Click on "Information" at the bottom left)
+# 3. Follow the SonarCloud in-product tutorial
+#     * a. Copy/paste the Project Key and the Organization Key into the args parameter below
+#          (You'll find this information in SonarCloud. Click on "Information" at the bottom left)
 #
-#     * b. Generate a new token and add it to your Github's repository Secrets with the name SONAR_TOKEN
-#          (On SonarCloud, click on your avatar on top-right > My account > Security)
-#          (or go directly to https://sonarcloud.io/account/security/)
+#     * b. Generate a new token and add it to your Github repository's secrets using the name SONAR_TOKEN
+#          (On SonarCloud, click on your avatar on top-right > My account > Security 
+#           or go directly to https://sonarcloud.io/account/security/)
 
 # Feel free to take a look at our documentation (https://docs.sonarcloud.io/getting-started/github/)
 # or reach out to our community forum if you need some help (https://community.sonarsource.com/c/help/sc/9)
@@ -34,14 +36,14 @@ jobs:
     steps:
       - name: Analyze with SonarCloud         
 
-          # You may pin to the exact commit or the version.
+          # You can pin the exact commit or the version.
           # uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
           uses: SonarSource/sonarcloud-github-action@v1.6
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   # Generate a token on Sonarcloud.io, add it to the secrets of this repo with the name SONAR_TOKEN (Settings > Secrets > Actions > add new repository secret)
           with:
-            # Additional arguments to the sonarcloud scanner
+            # Additional arguments for the sonarcloud scanner
             args:             
               # Unique key of your project. You can find it in SonarCloud > Information (bottom-left menu)
               -Dsonar.projectKey= # mandatory
