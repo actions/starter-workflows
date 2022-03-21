@@ -1,0 +1,17 @@
+{
+    "name": "Dependency Review",
+    "creator": "GitHub",
+    "description": "Scans Pull Requests on each push for the introduction and/or resolution of vulnerable depdendencies to the repository",
+    "iconName": "octicon mark-github",
+    "categories": [
+      "Dependency Graph",
+      "Dependency Review",
+      "Go",
+      "Java",
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "Ruby",
+      "Actions",
+      "PHP"]
+}   
