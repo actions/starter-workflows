@@ -79,7 +79,7 @@ jobs:
           license: ${{ secrets.XANITIZER_LICENSE }}
 
       # Archiving the findings list reports
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: Xanitizer-Reports
           path: |
