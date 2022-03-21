@@ -19,7 +19,6 @@
 #    - RESOURCE_GROUP (where your cluster is deployed)
 #    - CLUSTER_NAME (name of your AKS cluster)
 #    - CONTAINER_NAME (name of the container image you would like to push up to your ACR)
-#    - SECRET_NAME (name of the secret associated with pulling your ACR image)
 #    - DEPLOYMENT_MANIFEST_PATH (path to the manifest yaml for your deployment)
 #
 # For more information on GitHub Actions for Azure, refer to https://github.com/Azure/Actions
@@ -39,7 +38,6 @@ env:
   CONTAINER_NAME: "your-container-name"
   RESOURCE_GROUP: "your-resource-group"
   CLUSTER_NAME: "your-cluster-name"
-  IMAGE_PULL_SECRET_NAME: "your-image-pull-secret-name"
   DEPLOYMENT_MANIFEST_PATH: 'your-deployment-manifest-path'
 
 jobs:
@@ -74,24 +72,10 @@ jobs:
         resource-group: ${{ env.RESOURCE_GROUP }}
         cluster-name: ${{ env.CLUSTER_NAME }}
 
-    # Retrieves the credentials for pulling images from your Azure Container Registry
-    - name: Get ACR credentials
+    # Attaches ACR to your AKS Cluster
+    - name: Attach ACR to AKS Cluster
       run: |
-        az acr update -n ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.RESOURCE_GROUP }} --admin-enabled true
-        ACR_USERNAME=$(az acr credential show -g ${{ env.RESOURCE_GROUP }} -n ${{ env.AZURE_CONTAINER_REGISTRY }} --query username -o tsv)
-        ACR_PASSWORD=$(az acr credential show -g ${{ env.RESOURCE_GROUP }} -n ${{ env.AZURE_CONTAINER_REGISTRY }} --query passwords[0].value -o tsv)
-        echo "::set-output name=username::${ACR_USERNAME}"
-        echo "::set-output name=password::${ACR_PASSWORD}"
-      id: get-acr-creds
-
-    # Creates a kubernetes secret on your Azure Kubernetes Service cluster that matches up to the credentials from the last step
-    - name: Create K8s secret for pulling image from ACR
-      uses: Azure/k8s-create-secret@v1.1
-      with:
-        container-registry-url: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io
-        container-registry-username: ${{ steps.get-acr-creds.outputs.username }}
-        container-registry-password: ${{ steps.get-acr-creds.outputs.password }}
-        secret-name: ${{ env.IMAGE_PULL_SECRET_NAME }}  
+        az aks update -n ${{ env.CLUSTER_NAME }} -g ${{ env.RESOURCE_GROUP }} --attach-acr ${{ env.AZURE_CONTAINER_REGISTRY }}
 
     # Deploys application based on given manifest file
     - name: Deploys application
@@ -101,5 +85,3 @@ jobs:
         manifests: ${{ env.DEPLOYMENT_MANIFEST_PATH }}
         images: |
           ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
-        imagepullsecrets: |
-          ${{ env.IMAGE_PULL_SECRET_NAME }}
