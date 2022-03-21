@@ -19,7 +19,6 @@
 #    - RESOURCE_GROUP (where your cluster is deployed)
 #    - CLUSTER_NAME (name of your AKS cluster)
 #    - CONTAINER_NAME (name of the container image you would like to push up to your ACR)
-#    - SECRET_NAME (name of the secret associated with pulling your ACR image)
 #
 # 3. Choose the appropriate render engine for the bake step https://github.com/Azure/k8s-bake. The config below assumes Helm.
 #    Set your helmChart, overrideFiles, overrides, and helm-version to suit your configuration.
@@ -71,17 +70,17 @@ jobs:
       run: |
         az acr build --image ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.RESOURCE_GROUP }} .
 
-    # Attaches ACR to your AKS Cluster
-    - name: Attach ACR to AKS Cluster
-      run: |
-        az aks update -n ${{ env.CLUSTER_NAME }} -g ${{ env.RESOURCE_GROUP }} --attach-acr ${{ env.AZURE_CONTAINER_REGISTRY }}
-
     # Retrieves your Azure Kubernetes Service cluster's kubeconfig file
     - name: Get K8s context
       uses: azure/aks-set-context@v2.0
       with:
         resource-group: ${{ env.RESOURCE_GROUP }}
         cluster-name: ${{ env.CLUSTER_NAME }}
+
+    # Attaches ACR to your AKS Cluster
+    - name: Attach ACR to AKS cluster
+      run: |
+        az aks update -n ${{ env.CLUSTER_NAME }} -g ${{ env.RESOURCE_GROUP }} --attach-acr ${{ env.AZURE_CONTAINER_REGISTRY }}
 
     # Runs Helm to create manifest files
     - name: Bake deployment
