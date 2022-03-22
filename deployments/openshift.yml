@@ -71,7 +71,7 @@ jobs:
 
     steps:
     - name: Check for required secrets
-      uses: actions/github-script@v4
+      uses: actions/github-script@v6
       with:
         script: |
           const secrets = {
