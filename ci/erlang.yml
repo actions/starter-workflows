@@ -16,7 +16,7 @@ jobs:
       image: erlang:22.0.7
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Compile
       run: rebar3 compile
     - name: Run tests
