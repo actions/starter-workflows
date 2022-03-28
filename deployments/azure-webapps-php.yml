@@ -55,7 +55,7 @@ jobs:
           echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Set up dependency caching for faster installs
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         if: steps.check_files.outputs.files_exists == 'true'
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
