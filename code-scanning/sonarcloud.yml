@@ -5,6 +5,7 @@
 
 # This workflow helps you trigger a SonarCloud analysis of your code and populates 
 # GitHub Code Scanning alerts with the vulnerabilities found.
+# Free for open source project.
 
 # 1. Login to SonarCloud.io using your GitHub account
 
