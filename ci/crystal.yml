@@ -15,7 +15,7 @@ jobs:
       image: crystallang/crystal
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Install dependencies
       run: shards install
     - name: Run tests
