@@ -71,7 +71,7 @@ jobs:
 
     steps:
     - name: Check for required secrets
-      uses: actions/github-script@v4
+      uses: actions/github-script@v6
       with:
         script: |
           const secrets = {
@@ -109,7 +109,7 @@ jobs:
           }
 
     - name: Check out repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Determine app name
       if: env.APP_NAME == ''
