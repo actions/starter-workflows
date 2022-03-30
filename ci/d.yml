@@ -10,6 +10,9 @@ on:
   pull_request:
     branches: [ $default-branch ]
 
+permissions:
+  contents: read
+
 jobs:
   build:
 
