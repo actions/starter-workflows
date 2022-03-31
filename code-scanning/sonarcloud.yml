@@ -35,6 +35,9 @@ on:
     branches: [ $default-branch ]
   workflow_dispatch:
 
+permissions:
+  pull-requests: read # allows SonarCloud to decorate PRs with analysis results
+
 jobs:
   Analysis:
     runs-on: ubuntu-latest
@@ -46,7 +49,7 @@ jobs:
           # uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
           uses: SonarSource/sonarcloud-github-action@v1.6
           env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   # Generate a token on Sonarcloud.io, add it to the secrets of this repo with the name SONAR_TOKEN (Settings > Secrets > Actions > add new repository secret)
           with:
             # Additional arguments for the sonarcloud scanner
