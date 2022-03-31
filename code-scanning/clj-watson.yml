@@ -29,7 +29,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Dependency scan
-        uses: clj-holmes/clj-watson-action@619de8e236697f885f7118749a609b942d0594fb
+        uses: clj-holmes/clj-watson-action@39b8ed306f2c125860cf6e69b6939363689f998c
         with:
           clj-watson-sha: "7990c86"
           clj-watson-tag: "v3.0.2"
@@ -39,7 +39,7 @@ jobs:
           suggest-fix: true
           output-type: sarif
           output-file: clj-watson-results.sarif
-          fail-on-result: 'false'
+          fail-on-result: false
 
       - name: Upload analysis results to GitHub
         uses: github/codeql-action/upload-sarif@v1
