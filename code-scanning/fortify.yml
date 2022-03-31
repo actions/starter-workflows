@@ -92,6 +92,6 @@ jobs:
 
       # Import Fortify on Demand results to GitHub Security Code Scanning
       - name: Import Results
-        uses: github/codeql-action/upload-sarif@v1
+        uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: ./gh-fortify-sast.sarif
