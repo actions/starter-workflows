@@ -3,9 +3,8 @@
     "description": "Scans Pull Requests on each push for the introduction and/or resolution of vulnerable depdendencies to the repository",
     "iconName": "octicon mark-github",
     "categories": [
-      "Code Scanning",
-      "Dependency Review",
-      "Dependency Graph",
+      "Dependency review",
+      "Dependency graph",
       "Go",
       "Java",
       "JavaScript",
