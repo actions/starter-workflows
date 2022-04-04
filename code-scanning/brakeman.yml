@@ -17,14 +17,20 @@ on:
   schedule:
     - cron: $cron-weekly
 
+permissions:
+  contents: read
+
 jobs:
   brakeman-scan:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
     name: Brakeman Scan
     runs-on: ubuntu-latest
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     # Customize the ruby version depending on your needs
     - name: Setup Ruby
@@ -46,6 +52,6 @@ jobs:
 
     # Upload the SARIF file generated in the previous step
     - name: Upload SARIF
-      uses: github/codeql-action/upload-sarif@v1
+      uses: github/codeql-action/upload-sarif@v2
       with:
         sarif_file: output.sarif.json
