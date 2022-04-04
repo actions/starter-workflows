@@ -1,7 +1,7 @@
 {
   "name": "Zscaler IaC Scan",
-  "creator": "Zscaler CWP Team",
+  "creator": "Zscaler CWP",
   "description": "Scan your Infrastructure as Code files using Zscaler Infrastructure as Code (IaC) Scan app",
   "iconName": "zscaler",
-  "categories": ["Code Scanning","HCL"]
+  "categories": ["Code Scanning","Security"]
 }
