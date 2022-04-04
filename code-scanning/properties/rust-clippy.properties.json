@@ -1,8 +1,8 @@
 {
     "name": "rust-clippy",
-    "creator": "The Rust Programming Language",
+    "creator": "The Rust programming language team",
     "description": "A collection of lints to catch common mistakes and improve your Rust code.",
-    "iconName": "rust-clippy",
+    "iconName": "rust",
     "categories": [
         "Code Scanning",
         "rust"
