@@ -7,7 +7,7 @@
 #which detects security misconfigurations in IaC templates and publishes the findings
 #under the code scanning alerts section within the repository.
 
-name: Zscanner IaC Scan
+name: Zscaler IaC Scan
 on:
   push:
     branches: [ $default-branch, $protected-branches ]
