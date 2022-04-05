@@ -16,14 +16,20 @@ on:
   schedule:
     - cron: $cron-weekly
 
+permissions:
+  contents: read
+
 jobs:
   zscaler-iac-scan:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
     runs-on: ubuntu-latest
     steps:
       - name : Code Checkout
         uses: actions/checkout@v2
       - name : Zscaler IAC Scan
-        uses : ZscalerCWP/Zscaler-IaC-Action@v0.2.0
+        uses : ZscalerCWP/Zscaler-IaC-Action@8f0d8b60bd5a8f44062d444463f66f419ab71cfc
         id : zscaler-iac-scan
         with:
           #Log into the Zscaler Workload Posture (ZWP) Admin Portal to begin the onboarding process.
