@@ -1,7 +1,7 @@
 {
     "name": "cloudrail",
     "creator": "Indeni Cloudrail",
-    "description": "Cloudrail can be used to scan your infrastructure-as-code files for potential security and compliance issues. The Cloudrail action is often used as part of both CI workflows (on pull_request) and on CD workflows to identify potential issues.",
+    "description": "Cloudrail can be used to scan your infrastructure-as-code files for potential security and compliance issues.",
     "iconName": "cloudrail",
     "categories": ["Code Scanning", "HCL"]
 }

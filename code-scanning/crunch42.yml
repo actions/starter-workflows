@@ -33,11 +33,17 @@ on:
   schedule:
     - cron: $cron-weekly
 
+permissions:
+  contents: read
+
 jobs:
   rest-api-static-security-testing:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for 42Crunch/api-security-audit-action to upload results to Github Code Scanning
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: 42Crunch REST API Static Security Testing
         uses: 42Crunch/api-security-audit-action@96228d9c48873fe001354047d47fb62be42abeb1
