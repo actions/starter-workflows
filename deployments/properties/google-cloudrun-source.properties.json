@@ -1,0 +1,7 @@
+{
+  "name": "Deploy to Cloud Run from Source",
+  "description": "Deploy to Google Cloud Run directly from source.",
+  "creator": "Google Cloud",
+  "iconName": "google-cloud",
+  "categories": ["Deployment", "Containers", "Cloud Run", "Serverless", "Buildpacks"]
+}
