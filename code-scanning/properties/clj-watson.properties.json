@@ -5,7 +5,6 @@
     "iconName": "clj-watson",
     "categories": [
         "Code Scanning",
-        "Clojure",
-        "deps.edn"
+        "Clojure"
     ]
 }
