@@ -5,7 +5,7 @@
     "iconName": "clj-watson",
     "categories": [
         "Code Scanning",
-        "clojure",
+        "Clojure",
         "deps.edn"
     ]
 }
