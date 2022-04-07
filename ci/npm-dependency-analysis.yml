@@ -30,7 +30,7 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - name: Harden Runner
+      - name: Harden runner
         uses: step-security/harden-runner@9b0655f430fba8c7001d4e38f8d4306db5c6e0ab
         with:
           egress-policy: block # change block to audit to discover all outbound calls
