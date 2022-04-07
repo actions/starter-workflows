@@ -13,9 +13,9 @@ name: Behavioral analysis of dependencies
 
 on:
   push:
-    branches: [main]
+    branches: [ $default-branch ]
   pull_request:
-    branches: [main]
+    branches: [ $default-branch ]
 
 permissions:
   contents: read
