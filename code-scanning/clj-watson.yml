@@ -2,6 +2,11 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
+# clj-watson scans dependencies in a clojure deps.edn
+# seeking for vulnerable direct/transitive dependencies and
+# build a report with all the information needed to help you
+# understand how the vulnerability manifest in your software.
+# More details at https://github.com/clj-holmes/clj-watson 
 
 name: clj-watson
 
