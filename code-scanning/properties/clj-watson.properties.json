@@ -1,7 +1,7 @@
 {
     "name": "clj-watson",
     "creator": "Matheus Bernardes",
-    "description": "A software composition analysis tool scans Clojure/Clojurescript projects for vulnerable direct/transitive dependencies.",
+    "description": "Scan Clojure/Clojurescript projects for vulnerable direct/transitive dependencies.",
     "iconName": "clj-watson",
     "categories": [
         "Code Scanning",
