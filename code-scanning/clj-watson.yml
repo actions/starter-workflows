@@ -32,7 +32,7 @@ jobs:
         uses: clj-holmes/clj-watson-action@39b8ed306f2c125860cf6e69b6939363689f998c
         with:
           clj-watson-sha: "9972a33"
-          clj-watson-tag: "v4.0.0"
+          clj-watson-tag: "v4.0.1"
           database-strategy: github-advisory
           aliases: clojure-lsp,test 
           deps-edn-path: deps.edn
