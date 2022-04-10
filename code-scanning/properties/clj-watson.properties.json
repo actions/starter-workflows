@@ -1,6 +1,5 @@
 {
     "name": "clj-watson",
-    "creator": "Matheus Bernardes",
     "description": "Scan Clojure/Clojurescript projects for vulnerable direct/transitive dependencies.",
     "iconName": "clj-watson",
     "categories": [
