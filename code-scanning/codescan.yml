@@ -17,14 +17,20 @@ on:
   schedule:
     - cron: $cron-weekly
 
+permissions:
+  contents: read
+
 jobs:
     CodeScan:
+        permissions:
+          contents: read # for actions/checkout to fetch code
+          security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
         runs-on: ubuntu-latest
         steps:
             -   name: Checkout repository
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
             -   name: Cache files
-                uses: actions/cache@v2
+                uses: actions/cache@v3
                 with:
                     path: |
                         ~/.sonar
@@ -37,6 +43,6 @@ jobs:
                     organization: ${{ secrets.CODESCAN_ORGANIZATION_KEY }}
                     projectKey: ${{ secrets.CODESCAN_PROJECT_KEY }}
             -   name: Upload SARIF file
-                uses: github/codeql-action/upload-sarif@v1
+                uses: github/codeql-action/upload-sarif@v2
                 with:
                     sarif_file: codescan.sarif
