@@ -14,13 +14,16 @@ on:
   pull_request:
     branches: [$default-branch]
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Setup repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Deno
         # uses: denoland/setup-deno@v1
