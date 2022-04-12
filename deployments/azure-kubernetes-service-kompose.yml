@@ -77,7 +77,6 @@ jobs:
         az acr update -n ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.RESOURCE_GROUP }} --admin-enabled true
         ACR_USERNAME=$(az acr credential show -g ${{ env.RESOURCE_GROUP }} -n ${{ env.AZURE_CONTAINER_REGISTRY }} --query username -o tsv)
         ACR_PASSWORD=$(az acr credential show -g ${{ env.RESOURCE_GROUP }} -n ${{ env.AZURE_CONTAINER_REGISTRY }} --query passwords[0].value -o tsv)
-        
         echo "::add-mask::${ACR_USERNAME}"
         echo "::set-output name=username::${ACR_USERNAME}"
         echo "::add-mask::${ACR_PASSWORD}"
@@ -111,3 +110,6 @@ jobs:
         manifests: ${{ steps.bake.outputs.manifestsBundle }}
         images: |
           ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
+        
+        imagepullsecrets: |
+          ${{ env.IMAGE_PULL_SECRET_NAME }}
