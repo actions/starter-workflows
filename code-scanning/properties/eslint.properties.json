@@ -1,6 +1,5 @@
 {
     "name": "ESLint",
-    "creator": "ESLint",
     "description": "A tool for identifying and reporting the problems found in ECMAScript/JavaScript code.",
     "iconName": "eslint",
     "categories": [
