@@ -104,7 +104,7 @@ jobs:
 
     # Deploys application based on manifest files from previous step
     - name: Deploy application
-      uses: Azure/k8s-deploy@v3.0
+      uses: Azure/k8s-deploy@v3.1
       with:
         action: deploy
         manifests: ${{ steps.bake.outputs.manifestsBundle }}
