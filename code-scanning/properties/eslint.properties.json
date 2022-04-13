@@ -4,8 +4,8 @@
     "iconName": "eslint",
     "categories": [
         "Code Scanning",
-        "javascript",
-        "ecmascript",
-        "typescript"
+        "JavaScript",
+        "EcmaScript",
+        "TypeScript"
     ]
 }
