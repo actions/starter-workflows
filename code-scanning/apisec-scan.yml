@@ -42,8 +42,13 @@ on:
   workflow_dispatch:
 
 
+permissions:
+  contents: read
+
 jobs:
   Trigger APIsec scan:
+    permissions:
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
     runs-on: ubuntu-latest
 
     steps:
@@ -59,6 +64,6 @@ jobs:
           # The name of the sarif format result file The file is written only if this property is provided.
           sarif-result-file: "apisec-results.sarif"
        - name: Import results
-         uses: github/codeql-action/upload-sarif@v1
+         uses: github/codeql-action/upload-sarif@v2
          with:
           sarif_file: ./apisec-results.sarif
