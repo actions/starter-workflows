@@ -42,7 +42,7 @@ env:
   DEPLOYMENT_MANIFEST_PATH: 'your-deployment-manifest-path'
 
 jobs:
-  build:
+  buildImage:
     permissions:
       actions: read
       contents: read
@@ -115,7 +115,7 @@ jobs:
       contents: read
       id-token: write
     runs-on: ubuntu-latest
-    needs: [build, createSecret]
+    needs: [buildImage, createSecret]
     steps:
     # Checks out the repository this file is in
     - uses: actions/checkout@v3
@@ -143,7 +143,6 @@ jobs:
         manifests: ${{ env.DEPLOYMENT_MANIFEST_PATH }}
         images: |
           ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
-        
         imagepullsecrets: |
           ${{ env.IMAGE_PULL_SECRET_NAME }}
 
