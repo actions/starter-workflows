@@ -1,0 +1,6 @@
+{
+    "name": "Publish Java Package with Gradle",
+    "description": "Build a Java Package using Gradle and publish to GitHub Packages.",
+    "iconName": "gradle",
+    "categories": ["Continuous integration", "Java", "Gradle", "Spring", "JSF"]
+}
