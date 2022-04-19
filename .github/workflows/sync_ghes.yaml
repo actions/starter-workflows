@@ -18,7 +18,7 @@ jobs:
         git config user.name "GitHub Actions"
     - uses: actions/setup-node@v3
       with:
-        node-version: '12'
+        node-version: '16'
     - name: Check starter workflows for GHES compat
       run: |
         npm ci
