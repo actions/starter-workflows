@@ -97,7 +97,6 @@ jobs:
         echo "::set-output name=username::${ACR_USERNAME}"
         echo "::add-mask::${ACR_PASSWORD}"
         echo "::set-output name=password::${ACR_PASSWORD}"
-        
       id: get-acr-creds
 
     # Creates a kubernetes secret on your Azure Kubernetes Service cluster that matches up to the credentials from the last step
