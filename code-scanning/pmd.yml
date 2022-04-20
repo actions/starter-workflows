@@ -13,8 +13,14 @@ on:
   schedule:
     - cron: $cron-weekly
 
+permissions:
+  contents: read
+
 jobs:
   pmd-code-scan:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -31,6 +37,6 @@ jobs:
           sourcePath: 'src/main/java'
           analyzeModifiedFilesOnly: false
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v1
+        uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: pmd-report.sarif
