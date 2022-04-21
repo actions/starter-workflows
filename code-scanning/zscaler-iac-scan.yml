@@ -12,8 +12,7 @@
 #GitHub secrets (ZSCANNER_CLIENT_ID, ZSCANNER_CLIENT_SECRET).
 
 #Refer https://github.com/marketplace/actions/zscaler-iac-scan for additional details on setting up this workflow.
-#Any issues with this workflow, please raise it on https://github.com/ZscalerCWP/Zscaler-IaC-Action/issues
-#for further investigation.
+#Any issues with this workflow, please raise it on https://github.com/ZscalerCWP/Zscaler-IaC-Action/issues for further investigation.
 
 name: Zscaler IaC Scan
 on:
