@@ -7,6 +7,14 @@
 #which detects security misconfigurations in IaC templates and publishes the findings
 #under the code scanning alerts section within the repository.
 
+#Log into the Zscaler Workload Posture (ZWP) Admin Portal to begin the onboarding process.
+#Copy the client ID and client secret key generated during the onboarding process and configure.
+#GitHub secrets (ZSCANNER_CLIENT_ID, ZSCANNER_CLIENT_SECRET).
+
+#Refer https://github.com/marketplace/actions/zscaler-iac-scan for additional details on setting up this workflow.
+#Any issues with this workflow, please raise it on https://github.com/ZscalerCWP/Zscaler-IaC-Action/issues
+#for further investigation.
+
 name: Zscaler IaC Scan
 on:
   push:
@@ -27,14 +35,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name : Code Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name : Zscaler IAC Scan
         uses : ZscalerCWP/Zscaler-IaC-Action@8f0d8b60bd5a8f44062d444463f66f419ab71cfc
         id : zscaler-iac-scan
         with:
-          #Log into the Zscaler Workload Posture (ZWP) Admin Portal to begin the onboarding process.
-          #Copy the client ID and client secret key generated during the onboarding process and configure.
-          #GitHub secrets (ZSCANNER_CLIENT_ID, ZSCANNER_CLIENT_SECRET).
           client_id : ${{ secrets.ZSCANNER_CLIENT_ID }}
           client_secret : ${{ secrets.ZSCANNER_CLIENT_SECRET }}
           #This is the user region specified during the onboarding process within the ZWP Admin Portal.
@@ -47,6 +52,6 @@ jobs:
       #Ensure that the following step is included in order to post the scan results under the code scanning alerts section within the repository.
       - name: Upload SARIF file
         if: ${{ success() || failure() && (steps.zscaler-iac-scan.outputs.sarif_file_path != '') }}
-        uses: github/codeql-action/upload-sarif@v1
+        uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: ${{ steps.zscaler-iac-scan.sarif_file_path }}
