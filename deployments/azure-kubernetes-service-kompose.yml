@@ -42,7 +42,6 @@ env:
 jobs:
   buildImage:
     permissions:
-      actions: read
       contents: read
       id-token: write
     runs-on: ubuntu-latest
@@ -65,7 +64,6 @@ jobs:
   
   createSecret:
     permissions:
-      actions: read
       contents: read
       id-token: write
     runs-on: ubuntu-latest
