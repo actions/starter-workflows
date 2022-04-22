@@ -22,8 +22,14 @@ on:
   schedule:
     - cron: $cron-weekly
 
+permissions:
+  contents: read
+
 jobs:
   snyk:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -43,6 +49,6 @@ jobs:
         image: your/image-to-test
         args: --file=Dockerfile
     - name: Upload result to GitHub Code Scanning
-      uses: github/codeql-action/upload-sarif@v1
+      uses: github/codeql-action/upload-sarif@v2
       with:
         sarif_file: snyk.sarif
