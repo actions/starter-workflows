@@ -3,12 +3,13 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-# This workflow uses step-security/harden-runner GitHub Action
-# to restrict outbound traffic to allowed endpoints. Observing
-# network connectivity during the test stage of the CI pipeline
+# Observing network connectivity during the test stage of the CI pipeline
 # can help detect potentially compromised upstream dependencies.
-# For more information on the Harden Runner Action usage and
-# parameters, see https://github.com/step-security/harden-runner.
+# While this starter workflow is for Node, you can add Harden 
+# Runner Action in same way for other languages as well. 
+# Just change egress-policy: block to audit first to discover
+# outbound calls. For more information on the Harden Runner Action 
+# usage and parameters, see https://github.com/step-security/harden-runner.
 name: Behavioral analysis of dependencies
 
 on:
@@ -31,7 +32,7 @@ jobs:
 
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@9b0655f430fba8c7001d4e38f8d4306db5c6e0ab
+        uses: step-security/harden-runner@34cbc43f0b10c9dda284e663cf43c2ebaf83e956
         with:
           egress-policy: block # change block to audit to discover all outbound calls
           disable-telemetry: true

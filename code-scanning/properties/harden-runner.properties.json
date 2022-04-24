@@ -4,7 +4,7 @@
   "description": "Detect potentially compromised dependencies by observing network connectivity during the test stage of the CI pipeline.",
   "iconName": "harden-runner",
   "categories": [
-    "Continuous integration",
+    "Dependency review",
     "C",
     "C++",
     "C#",
