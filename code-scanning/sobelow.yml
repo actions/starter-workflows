@@ -8,8 +8,6 @@
 # To use this workflow, you must have GitHub Advanced Security (GHAS) enabled for your repository.
 #
 # Instructions:
-# 1. Update elixir-version and otp-version in the "Set up Elixir" action below.
-#
 # 2. Follow the annotated workflow below and make any necessary modifications then save the workflow to your repository
 #    and review the "Security" tab once the action has run.
 name: Sobelow
