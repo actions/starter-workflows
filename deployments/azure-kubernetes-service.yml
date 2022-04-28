@@ -8,8 +8,7 @@
 #
 # To configure this workflow:
 #
-# 1. Set the following secrets in your repository (instructions for getting these 
-#    https://github.com/Azure/login#configure-a-service-principal-with-a-federated-credential-to-use-oidc-based-authentication):
+# 1. Set the following secrets in your repository (instructions for getting these can be found at https://docs.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-cli%2Clinux):
 #    - AZURE_CLIENT_ID
 #    - AZURE_TENANT_ID
 #    - AZURE_SUBSCRIPTION_ID
@@ -19,7 +18,7 @@
 #    - RESOURCE_GROUP (where your cluster is deployed)
 #    - CLUSTER_NAME (name of your AKS cluster)
 #    - CONTAINER_NAME (name of the container image you would like to push up to your ACR)
-#    - SECRET_NAME (name of the secret associated with pulling your ACR image)
+#    - IMAGE_PULL_SECRET_NAME (name of the ImagePullSecret that will be created to pull your ACR image)
 #    - DEPLOYMENT_MANIFEST_PATH (path to the manifest yaml for your deployment)
 #
 # For more information on GitHub Actions for Azure, refer to https://github.com/Azure/Actions
@@ -43,12 +42,10 @@ env:
   DEPLOYMENT_MANIFEST_PATH: 'your-deployment-manifest-path'
 
 jobs:
-  build:
+  buildImage:
     permissions:
-      actions: read
       contents: read
       id-token: write
-
     runs-on: ubuntu-latest
     steps:
     # Checks out the repository this file is in
@@ -67,6 +64,20 @@ jobs:
       run: |
         az acr build --image ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.RESOURCE_GROUP }} .
 
+  createSecret:
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+    # Logs in with your Azure credentials
+    - name: Azure login
+      uses: azure/login@v1.4.3
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      
     # Retrieves your Azure Kubernetes Service cluster's kubeconfig file
     - name: Get K8s context
       uses: azure/aks-set-context@v2.0
@@ -80,7 +91,9 @@ jobs:
         az acr update -n ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.RESOURCE_GROUP }} --admin-enabled true
         ACR_USERNAME=$(az acr credential show -g ${{ env.RESOURCE_GROUP }} -n ${{ env.AZURE_CONTAINER_REGISTRY }} --query username -o tsv)
         ACR_PASSWORD=$(az acr credential show -g ${{ env.RESOURCE_GROUP }} -n ${{ env.AZURE_CONTAINER_REGISTRY }} --query passwords[0].value -o tsv)
+        echo "::add-mask::${ACR_USERNAME}"
         echo "::set-output name=username::${ACR_USERNAME}"
+        echo "::add-mask::${ACR_PASSWORD}"
         echo "::set-output name=password::${ACR_PASSWORD}"
       id: get-acr-creds
 
@@ -93,9 +106,35 @@ jobs:
         container-registry-password: ${{ steps.get-acr-creds.outputs.password }}
         secret-name: ${{ env.IMAGE_PULL_SECRET_NAME }}  
 
+  deploy:
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    needs: [buildImage, createSecret]
+    steps:
+    # Checks out the repository this file is in
+    - uses: actions/checkout@v3
+    
+    # Logs in with your Azure credentials
+    - name: Azure login
+      uses: azure/login@v1.4.3
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      
+    # Retrieves your Azure Kubernetes Service cluster's kubeconfig file
+    - name: Get K8s context
+      uses: azure/aks-set-context@v2.0
+      with:
+        resource-group: ${{ env.RESOURCE_GROUP }}
+        cluster-name: ${{ env.CLUSTER_NAME }}
+
     # Deploys application based on given manifest file
     - name: Deploys application
-      uses: Azure/k8s-deploy@v3.0
+      uses: Azure/k8s-deploy@v3.1
       with:
         action: deploy
         manifests: ${{ env.DEPLOYMENT_MANIFEST_PATH }}
