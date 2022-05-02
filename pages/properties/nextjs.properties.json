@@ -1,0 +1,7 @@
+{
+    "name": "Next.js",
+    "creator": "GitHub Actions",
+    "description": "Make a Next.js site.",
+    "iconName": "microsoft",
+    "categories": ["Pages"]
+}
