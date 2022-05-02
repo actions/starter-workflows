@@ -116,7 +116,7 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
       }
     }
 
-    if(path.toLowerCase() == 'deployment' && !properties.creator) {
+    if(basename(path).toLowerCase() == 'deployments' && !properties.creator) {
       workflowErrors.errors.push(`The "creator" in properties.json must be present.`)
     }
   } catch (e) {
