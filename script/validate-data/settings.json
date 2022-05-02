@@ -7,20 +7,20 @@
   ],
   "allowed_categories": [
     {
-      "name":  "Continuous integration",
-      "path": "../../ci" 
+      "path": "../../ci",
+      "categories":  ["Continuous integration"]
     },
     {
-      "name": "Automation",
-      "path": "../../automation"
+      "path": "../../automation",
+      "categories": ["Automation"]
     },
-    { 
+    {       
       "path": "../../deployments",
-      "name": "Deployment"
+      "categories": ["Deployment"]
     },
     { 
-      "name": "Code Scanning",
-      "path": "../../code-scanning"
+      "path": "../../code-scanning",
+      "categories": ["Code Scanning", "Dependency review"],
     }
   ]
 }
