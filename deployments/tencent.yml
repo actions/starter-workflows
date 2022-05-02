@@ -1,4 +1,4 @@
-# This workflow will build a docker container, publish and deploy it to Tencent Kubernetes Engine (TKE).
+# This workflow will build a docker container, publish and deploy it to Tencent Kubernetes Engine (TKE) when there is a push to the $default-branch branch.
 #
 # To configure this workflow:
 #
@@ -16,8 +16,9 @@
 name: Tencent Kubernetes Engine
 
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+      - $default-branch
 
 # Environment variables available to all jobs and steps in this workflow
 env:
@@ -25,6 +26,9 @@ env:
   TKE_REGION: ap-guangzhou
   TKE_CLUSTER_ID: cls-mywebapp
   DEPLOYMENT_NAME: tke-test
+
+permissions:
+  contents: read
 
 jobs:
   setup-build-publish-deploy:
@@ -34,7 +38,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       
     # Build
     - name: Build Docker image

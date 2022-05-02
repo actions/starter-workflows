@@ -1,0 +1,7 @@
+{
+    "name": "cloudrail",
+    "creator": "Indeni Cloudrail",
+    "description": "Cloudrail can be used to scan your infrastructure-as-code files for potential security and compliance issues.",
+    "iconName": "cloudrail",
+    "categories": ["Code Scanning", "HCL"]
+}

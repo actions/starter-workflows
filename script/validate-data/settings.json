@@ -2,6 +2,14 @@
   "folders": [
     "../../ci",
     "../../automation",
-    "../../deployments"
+    "../../deployments",
+    "../../code-scanning"
+  ],
+  "allowed_categories" : [
+    "Continuous integration",
+    "Deployment",
+    "Code Scanning",
+    "Dependency review",
+    "Automation"
   ]
 }

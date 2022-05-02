@@ -1,0 +1,7 @@
+{
+    "name": "SonarCloud",
+    "creator": "Sonar",
+    "description": "Static analysis of code for vulnerability detection, covering 26+ languages. Start cleaning your code in minutes!",
+    "iconName": "sonarcloud",
+    "categories": ["Code Scanning","abap","apex","c","cobol","cpp","cloudformation","csharp","css","flex","go","java","javascript","kotlin","objectivec","php","plsql","ruby","scala","swift","terraform","tsql","typescript","vb","vba","xml"]              
+}
