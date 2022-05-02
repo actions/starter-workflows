@@ -20,7 +20,7 @@
     },
     { 
       "path": "../../code-scanning",
-      "categories": ["Code Scanning", "Dependency review"],
+      "categories": ["Code Scanning", "Dependency review"]
     }
   ]
 }

@@ -106,17 +106,17 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
       
     }
     var path = dirname(workflowPath)
-    var folder_category = allowed_categories.find( category => category["path"] == path)["name"]
+    var folder_categories = allowed_categories.find( category => category["path"] == path)["categories"]
     if (!workflowPath.endsWith("blank.yml")) {
       if(!properties.categories || properties.categories.length == 0) {
         workflowErrors.errors.push(`Workflow categories cannot be null or empty`)
       } 
-      else if(properties.categories[0].toLowerCase() !== folder_category.toLowerCase()) {
-        workflowErrors.errors.push(`The first category in properties.json categories must be "${folder_category}" for workflow in ${basename(path)} folder.`)
+      else if(!folder_categories.some(category => properties.categories[0].toLowerCase() == category.toLowerCase())) {
+        workflowErrors.errors.push(`The first category in properties.json categories for workflow in ${basename(path)} folder must be one of "${folder_categories}"`)
       }
     }
 
-    if(folder_category.toLowerCase() == 'deployment' && !properties.creator) {
+    if(path.toLowerCase() == 'deployment' && !properties.creator) {
       workflowErrors.errors.push(`The "creator" in properties.json must be present.`)
     }
   } catch (e) {
