@@ -5,22 +5,22 @@
     "../../deployments",
     "../../code-scanning"
   ],
-  "folder_category_map": [
+  "allowed_categories": [
     {
-      "name":  "../../ci",
-      "category": "Continuous integration" 
+      "name":  "Continuous integration",
+      "path": "../../ci" 
     },
     {
-      "name": "../../automation",
-      "category": "Automation"
+      "name": "Automation",
+      "path": "../../automation"
     },
     { 
-      "name": "../../deployments",
-      "category": "Deployment"
+      "path": "../../deployments",
+      "name": "Deployment"
     },
     { 
-      "name": "../../code-scanning",
-      "category": "Code Scanning"
+      "name": "Code Scanning",
+      "path": "../../code-scanning"
     }
   ]
 }

@@ -41,7 +41,7 @@ const propertiesSchema = {
   }
 }
 
-async function checkWorkflows(folders: string[], folder_category_map: object[]): Promise<WorkflowWithErrors[]> {
+async function checkWorkflows(folders: string[], allowed_categories: object[]): Promise<WorkflowWithErrors[]> {
   const result: WorkflowWithErrors[] = []
   const workflow_template_names = new Set()
   for (const folder of folders) {
@@ -56,7 +56,7 @@ async function checkWorkflows(folders: string[], folder_category_map: object[]):
         const workflowFilePath = join(folder, e.name);
         const propertiesFilePath = join(folder, "properties", `${fileType}.properties.json`)
 
-        const workflowWithErrors = await checkWorkflow(workflowFilePath, propertiesFilePath, folder_category_map);
+        const workflowWithErrors = await checkWorkflow(workflowFilePath, propertiesFilePath, allowed_categories);
         if(workflowWithErrors.name && workflow_template_names.size == workflow_template_names.add(workflowWithErrors.name).size) {
           workflowWithErrors.errors.push(`Workflow template name "${workflowWithErrors.name}" already exists`) 
         }
@@ -70,7 +70,7 @@ async function checkWorkflows(folders: string[], folder_category_map: object[]):
   return result;
 }
 
-async function checkWorkflow(workflowPath: string, propertiesPath: string, folder_category_map: object[]): Promise<WorkflowWithErrors> {
+async function checkWorkflow(workflowPath: string, propertiesPath: string, allowed_categories: object[]): Promise<WorkflowWithErrors> {
   let workflowErrors: WorkflowWithErrors = {
     id: workflowPath,
     name: null,
@@ -105,14 +105,14 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, folde
       }
       
     }
-    var folderName = dirname(workflowPath)
-    var folder_category = folder_category_map.find( folder_category => folder_category["name"] == folderName)["category"]
-    if (!workflowPath.endsWith("blank.yml") && ((!properties.categories || properties.categories.length == 0 )|| 
-      properties.categories[0].toLowerCase() !== folder_category.toLowerCase())) {
+    var path = dirname(workflowPath)
+    var folder_category = allowed_categories.find( category => category["path"] == path)["name"]
+    if (!workflowPath.endsWith("blank.yml")) {
       if(!properties.categories || properties.categories.length == 0) {
         workflowErrors.errors.push(`Workflow categories cannot be null or empty`)
-      } else {
-        workflowErrors.errors.push(`The first category in properties.json categories must be "${folder_category}" for ${basename(folderName)} folder workflow.`)
+      } 
+      else if(properties.categories[0].toLowerCase() !== folder_category.toLowerCase()) {
+        workflowErrors.errors.push(`The first category in properties.json categories must be "${folder_category}" for workflow in ${basename(path)} folder.`)
       }
     }
 
@@ -129,7 +129,7 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, folde
   try {
     const settings = require("./settings.json");
     const erroredWorkflows = await checkWorkflows(
-      settings.folders, settings.folder_category_map
+      settings.folders, settings.allowed_categories
     )
 
     if (erroredWorkflows.length > 0) {
