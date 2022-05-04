@@ -17,8 +17,10 @@ on:
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ $default-branch ]
-  schedule:
-    - cron: $cron-weekly
+  
+#If you would like to have CodeQL scan for vulnerabilities based on a cron/scheduled job, uncomment the following two lines 
+  #schedule:
+   # - cron: $cron-weekly
 
 jobs:
   analyze:
