@@ -2,6 +2,12 @@
 
 name: nextjs
 
+# This sets the permissions of the GITHUB_TOKEN to allow us to deploy to Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
