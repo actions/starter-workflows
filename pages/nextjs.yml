@@ -35,13 +35,10 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
 
-    - name: Archive build output
-      run: "tar --dereference --directory .next/ -cvf artifact.tar ."
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
+    - name: Upload Pages artifact
+      uses: paper-spa/upload-pages-artifact@main
       with:
-        name: github-pages
-        path: artifact.tar
+        directory: '.next/'
 
   # The deploy job tells Pages to deploy the artifact we created in "build"
   deploy:
