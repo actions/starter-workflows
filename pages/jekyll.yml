@@ -33,13 +33,8 @@ jobs:
         with:
           source: ./
           destination: ./_site
-      - name: Archive build output
-        run: "tar --dereference --directory _site/ -cvf artifact.tar ."
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: github-pages
-          path: artifact.tar
+      - name: Upload Pages artifact
+        uses: paper-spa/upload-pages-artifact@main
   deploy:
     environment: 
       name: github-pages
