@@ -1,0 +1,7 @@
+{
+    "name": "Gatsby",
+    "creator": "GitHub Actions",
+    "description": "Package a Gatsby site.",
+    "iconName": "gatsby",
+    "categories": ["Pages"]
+}
