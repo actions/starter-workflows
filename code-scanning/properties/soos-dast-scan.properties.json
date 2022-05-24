@@ -1,0 +1,8 @@
+{
+    "name": "SOOS DAST Scan",
+    "creator": "SOOS",
+    "description": "Integrate dynamic application security testing (DAST) and API security testing into your CI pipeline with StackHawk",
+    "iconName": "soos",
+    "categories": ["Code Scanning"]
+  }
+  
