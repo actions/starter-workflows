@@ -1,0 +1,6 @@
+{
+  "name": "flake8",
+  "description": "A python tool that glues together pycodestyle, pyflakes, mccabe, and third-party plugins to check the style and quality of some python code.",
+  "iconName": "flake8",
+  "categories": [ "Code Scanning", "Python" ]
+}
