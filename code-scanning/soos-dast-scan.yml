@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 #
-# SOOS is the easy-to-integrate software security solution for your whole team we currently, learn more at https://soos.io/
+# SOOS is the easy-to-integrate software security solution for your whole team, learn more at https://soos.io/
 #
 # To use this action you need to fill the following requirements:
 #
@@ -32,7 +32,7 @@ jobs:
         with:
           client_id: ${{ secrets.SOOS_CLIENT_ID }}
           api_key: ${{ secrets.SOOS_API_KEY }}
-          project_name: "DAST-GitHub-Action-Test" # If you're going to use SARIF the project name should be on the form of `repoowner/reponame` or use the token github.repository
+          project_name: ${{ github.repository }} # If you're going to use SARIF the project name should be on the form of `repoowner/reponame` or use the token github.repository
           scan_mode: "baseline"
           target_url: "https://www.example.com/"
           sarif: true # Only set to true if you want to upload the SARIF report to Github

@@ -1,8 +1,7 @@
 {
     "name": "SOOS DAST Scan",
     "creator": "SOOS",
-    "description": "Integrate dynamic application security testing (DAST) and API security testing into your CI pipeline with StackHawk",
+    "description": "SOOS DAST is the easy-to-integrate no-limit web vulnerability scanner. Integrate SOOS DAST with your CI pipeline to find vulnerabilities by scanning a web app or APIs.",
     "iconName": "soos",
     "categories": ["Code Scanning"]
-  }
-  
+}
