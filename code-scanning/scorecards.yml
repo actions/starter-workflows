@@ -19,7 +19,6 @@ jobs:
       security-events: write
       # Used to receive a badge. (Upcoming feature)
       id-token: write
-      actions: read
       contents: read
     
     steps:
