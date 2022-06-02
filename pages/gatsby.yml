@@ -1,10 +1,4 @@
 name: 'Gatsby pages build'
-description: 'An action that builds your Gatsby site for GitHub Pages using npm or yarn'
-inputs:
-  node-version:
-    description: 'The version of node'
-    required: true
-    default: '16'
 
 # Controls when the workflow will run
 on:
@@ -48,7 +42,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: ${{ inputs.node-version }}
+          node-version: '16'
           cache: ${{ steps.check-package-manager.outputs.manager }}
 
       - name: cache gatsby site build
