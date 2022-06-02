@@ -63,7 +63,7 @@ jobs:
       - name: Upload Pages artifact
         uses: paper-spa/upload-pages-artifact@main
         with:
-          directory: 'public'
+          path: 'public'
 
   # The deploy job tells Pages to deploy the artifact we created in "build"
   deploy:
