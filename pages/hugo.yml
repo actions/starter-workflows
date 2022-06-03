@@ -41,8 +41,8 @@ jobs:
       - name: Build with Hugo
         run: |
           hugo \
-            --minify \
-            --baseURL https://yoannchaudet.github.io/hugo/
+            --minify
+            # --baseURL https://yoannchaudet.github.io/hugo/
       - name: Upload artifact
         uses: paper-spa/upload-pages-artifact@v0
         with:
