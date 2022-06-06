@@ -19,8 +19,9 @@ jobs:
       security-events: write
       # Used to receive a badge. (Upcoming feature)
       id-token: write
-      actions: read
+      # Needs for private repositories.
       contents: read
+      actions: read
     
     steps:
       - name: "Checkout code"
@@ -29,7 +30,7 @@ jobs:
           persist-credentials: false
 
       - name: "Run analysis"
-        uses: ossf/scorecard-action@5c8bc69dc88b65c66584e07611df79d3579b0377 # v1.1.0
+        uses: ossf/scorecard-action@3e15ea8318eee9b333819ec77a36aca8d39df13e # v1.1.1
         with:
           results_file: results.sarif
           results_format: sarif
