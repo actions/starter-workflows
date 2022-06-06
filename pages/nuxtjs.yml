@@ -1,0 +1,55 @@
+# This is a basic workflow to help you get started with Actions
+
+name: nuxtjs
+
+# This sets the permissions of the GITHUB_TOKEN to allow us to deploy to Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This build job takes care of preparing the artifact that we'll deploy to Pages
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run generate
+
+
+    - name: Upload Pages artifact
+      uses: paper-spa/upload-pages-artifact@main
+      with:
+        path: 'dist/'
+
+  # The deploy job tells Pages to deploy the artifact we created in "build"
+  deploy:
+    if: ${{ always() }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: paper-spa/deploy-pages@main
