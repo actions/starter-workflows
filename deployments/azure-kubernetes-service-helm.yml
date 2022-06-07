@@ -120,6 +120,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [buildImage, createSecret]
     steps:
+    # Checks out the repository this file is in
+    - uses: actions/checkout@v3
+    
     # Logs in with your Azure credentials
     - name: Azure login
       uses: azure/login@v1.4.3
