@@ -18,6 +18,6 @@ jobs:
     uses: slsa-framework/slsa-github-generator/.github/workflows/builder_go_slsa3.yml@v1.0.0
     with:
       # By default, the config file is .slsa-goreleaser.yml in the root directory.
-      # The format for the config file is described in 
+      # The format of the config file is described in 
       # https://github.com/slsa-framework/slsa-github-generator/blob/main/internal/builders/go/README.md#configuration-file.
       go-version: 1.17
