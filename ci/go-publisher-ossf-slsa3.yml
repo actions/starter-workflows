@@ -1,9 +1,8 @@
 name: SLSA Go releaser
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - "*" 
+  release:
+    types: [created]
 
 permissions: read-all
 
