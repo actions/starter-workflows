@@ -1,0 +1,9 @@
+{
+    "name": "clj-watson",
+    "description": "Scan Clojure/Clojurescript projects for vulnerable direct/transitive dependencies.",
+    "iconName": "clj-watson",
+    "categories": [
+        "Code Scanning",
+        "Clojure"
+    ]
+}
