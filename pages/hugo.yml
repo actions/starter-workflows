@@ -45,7 +45,7 @@ jobs:
         run: |
           hugo \
             --minify \
-            --baseURL ${{ steps.pages.outputs.origin }}
+            --baseURL ${{ steps.pages.outputs.base_url }}
       - name: Upload artifact
         uses: paper-spa/upload-pages-artifact@v0
         with:
