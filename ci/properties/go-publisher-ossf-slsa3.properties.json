@@ -2,6 +2,6 @@
     "name": "SLSA Go releaser",
     "creator": "Open Source Security Foundation (OpenSSF)",
     "description": "Compile your Golang project using a SLSA3 compliant builder.",
-    "iconName": "go-publisher-ossf-slsa3.svg",
+    "iconName": "go-publisher-ossf-slsa3",
     "categories": ["Continuous integration"]
 }
