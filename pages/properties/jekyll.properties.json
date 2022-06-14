@@ -2,6 +2,6 @@
     "name": "Jekyll",
     "creator": "GitHub Actions",
     "description": "Package a Jekyll site using the jekyll/builder Docker image.",
-    "iconName": "jekyll",
+    "iconName": "jekyll-tube",
     "categories": ["Pages"]
 }
