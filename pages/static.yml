@@ -35,7 +35,7 @@ jobs:
       - name: Upload artifact
         uses: paper-spa/upload-pages-artifact@v0
         with:
-          # Upload entire directory
+          # Upload entire repository
           path: '.'
       - name: Deploy to GitHub Pages
         id: deployment
