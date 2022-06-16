@@ -3,5 +3,5 @@
     "creator": "Open Source Security Foundation (OpenSSF)",
     "description": "Compile your Golang project using a SLSA3 compliant builder. See https://github.com/slsa-framework/slsa-github-generator to learn more about the buidler, and slsa.dev to learn more about the benefits of SLSA",
     "iconName": "go-publisher-ossf-slsa3",
-    "categories": ["Continuous integration"]
+    "categories": ["Continuous integration", "Go"]
 }
