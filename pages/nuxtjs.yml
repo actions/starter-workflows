@@ -32,6 +32,9 @@ jobs:
       with:
         node-version: '16'
         cache: 'npm'
+    - name: Setup Pages
+      id: pages
+      uses: paper-spa/configure-pages@main
     - run: npm ci
     - run: npm run generate
 

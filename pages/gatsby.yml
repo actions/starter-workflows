@@ -45,6 +45,10 @@ jobs:
           node-version: '16'
           cache: ${{ steps.check-package-manager.outputs.manager }}
 
+      - name: Setup Pages
+        id: pages
+        uses: paper-spa/configure-pages@main
+
       - name: cache gatsby site build
         id: gatsby-cache-build
         uses: actions/cache@v2
