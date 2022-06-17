@@ -3,6 +3,12 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
+# This workflow lets you compile your Go project 
+# using a SLSA3 compliant builder. The provenance describes the steps htat were used to generate 
+# the final binary.
+# The project is an OpenSSF (openssf.org) project and is hosted at https://github.com/slsa-framework/slsa-github-generator#golang-projects to learn more.
+# For more information about SLSA and how it improves the supply-chain, visit slsa.dev.
+    "iconName": "go-
 name: SLSA Go releaser
 on:
   workflow_dispatch:
