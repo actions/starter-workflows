@@ -29,13 +29,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          source: ./
-          destination: ./_site
+          ruby-version: '3.0' # Not needed with a .ruby-version file
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          cache-version: 0 # Increment this number if you need to re-download cached gems
+      - run: bundle exec jekyll build # defaults output to '/_site'
       - name: Upload artifact
-        uses: paper-spa/upload-pages-artifact@v0
+        uses: paper-spa/upload-pages-artifact@v0 # This will automatically upload an artifact from the '/_site' directory
 
   # Deployment job
   deploy:
