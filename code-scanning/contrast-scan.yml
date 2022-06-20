@@ -21,6 +21,9 @@ on:
   schedule:
     - cron: $cron-weekly
 
+permissions:
+  contents: read
+
 name: Scan analyze workflow
 jobs:
   build-and-scan:
