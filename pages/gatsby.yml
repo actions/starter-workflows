@@ -1,35 +1,47 @@
-name: 'Gatsby pages build'
+# Sample workflow for building and deploying a Gatsby site to GitHub Pages
+name: Deploy Gastby site to Pages
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
+  # Runs on push and pull request targetting the default branch
   push:
-    branches: [ master ]
+    branches: [$default-branch]
   pull_request:
-    branches: [ master ]
+    branches: [$default-branch]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# This sets the permissions of the GITHUB_TOKEN to allow us to deploy to Pages
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+# Default to bash
+defaults:
+  run:
+    shell: bash
+
 jobs:
+  # Build job
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Check package manager
-        id: check-package-manager
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Detect package manager
+        id: detect-package-manager
         run: |
           if [ -f "${{ github.workspace }}/yarn.lock" ]; then
             echo "::set-output name=manager::yarn"
             echo "::set-output name=command::install"
             exit 0
-          elif [  -f "${{ github.workspace }}/package-lock.json" ]; then
+          elif [ -f "${{ github.workspace }}/package-lock.json" ]; then
             echo "::set-output name=manager::npm"
             echo "::set-output name=command::ci"
             exit 0
@@ -37,20 +49,15 @@ jobs:
             echo "Unable to determine packager manager"
             exit 1
           fi
-
-        shell: bash
-
-      - uses: actions/setup-node@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2
         with:
-          node-version: '16'
-          cache: ${{ steps.check-package-manager.outputs.manager }}
-
+          node-version: "16"
+          cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Setup Pages
         id: pages
         uses: paper-spa/configure-pages@main
-
-      - name: cache gatsby site build
-        id: gatsby-cache-build
+      - name: Restore cache
         uses: actions/cache@v2
         with:
           path: |
@@ -59,17 +66,16 @@ jobs:
           key: ${{ runner.os }}-gatsby-build-${{ hashFiles('public') }}
           restore-keys: |
             ${{ runner.os }}-gatsby-build-
-      - run: ${{ steps.check-package-manager.outputs.manager }} ${{ steps.check-package-manager.outputs.command }}
-        shell: bash
-
-      - run: ${{ steps.check-package-manager.outputs.manager }} run build --if-present
-        shell: bash
-      - name: Upload Pages artifact
-        uses: paper-spa/upload-pages-artifact@main
+      - name: Install dependencies
+        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      - name: Build with Gatsby
+        run: ${{ steps.detect-package-manager.outputs.manager }} run build --if-present
+      - name: Upload artifact
+        uses: paper-spa/upload-pages-artifact@v0
         with:
-          path: 'public'
+          path: ./public
 
-  # The deploy job tells Pages to deploy the artifact we created in "build"
+  # Deployment job
   deploy:
     environment:
       name: github-pages
@@ -79,4 +85,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: paper-spa/deploy-pages@main
+        uses: actions/deploy-pages@v1
