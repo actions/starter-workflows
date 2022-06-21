@@ -1,0 +1,7 @@
+{
+    "name": "GitHub Pages Jekyll",
+    "creator": "GitHub Actions",
+    "description": "Package a Jekyll site using the familiar GitHub Pages build pipeline.",
+    "iconName": "jekyll-tube",
+    "categories": ["Pages"]
+}
