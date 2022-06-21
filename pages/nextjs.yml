@@ -51,6 +51,11 @@ jobs:
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      - name: Setup Pages
+        id: pages
+        uses: paper-spa/configure-pages@main
+        with:
+          static_site_generator: next
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.manager }} run build --if-present
       - name: Upload artifact

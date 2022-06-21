@@ -54,6 +54,11 @@ jobs:
         with:
           node-version: "16"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
+      - name: Setup Pages
+        id: pages
+        uses: paper-spa/configure-pages@main
+        with:
+          static_site_generator: gatsby
       - name: Restore cache
         uses: actions/cache@v2
         with:
