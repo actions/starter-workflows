@@ -71,7 +71,7 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Gatsby
-        run: ${{ steps.detect-package-manager.outputs.manager }} run build --if-present
+        run: ${{ steps.detect-package-manager.outputs.manager }} run build
       - name: Upload artifact
         uses: paper-spa/upload-pages-artifact@v0
         with:
