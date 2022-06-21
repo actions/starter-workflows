@@ -54,6 +54,8 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: paper-spa/configure-pages@main
+        with:
+          static_site_generator: nuxt
       - name: Build with Nuxt
         run: ${{ steps.detect-package-manager.outputs.manager }} run build --if-present
       - name: Upload artifact
