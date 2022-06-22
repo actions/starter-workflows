@@ -55,7 +55,7 @@ jobs:
         with:
           static_site_generator: nuxt
       - name: Build with Nuxt
-        run: ${{ steps.detect-package-manager.outputs.manager }} run build --if-present
+        run: ${{ steps.detect-package-manager.outputs.manager }} run build
       - name: Upload artifact
         uses: paper-spa/upload-pages-artifact@v0
         with:
