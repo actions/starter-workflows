@@ -1,7 +1,7 @@
 {
     "name": "Next.js",
     "creator": "GitHub Actions",
-    "description": "Make a Next.js site.",
+    "description": "Package a Next.js site.",
     "iconName": "nextjs",
     "categories": ["Pages"]
 }
