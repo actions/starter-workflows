@@ -1,13 +1,12 @@
-
 # Sample workflow for building and deploying a Hugo site to GitHub Pages
 name: Deploy Hugo site to Pages
 
 on:
   # Runs on push and pull request targetting the default branch
   push:
-    branches: [ $default-branch ]
+    branches: [$default-branch]
   pull_request:
-    branches: [ $default-branch ]
+    branches: [$default-branch]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -22,6 +21,11 @@ permissions:
 concurrency:
   group: "pages"
   cancel-in-progress: true
+
+# Default to bash
+defaults:
+  run:
+    shell: bash
 
 jobs:
   # Build job
@@ -40,7 +44,7 @@ jobs:
           submodules: recursive
       - name: Setup Pages
         id: pages
-        uses: paper-spa/setup-pages@main
+        uses: paper-spa/configure-pages@main
       - name: Build with Hugo
         run: |
           hugo \
@@ -61,4 +65,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@main
+        uses: actions/deploy-pages@v1
