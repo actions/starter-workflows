@@ -27,7 +27,7 @@ jobs:
       actions: read   # To read workflow path.
     # If you need more configuration options, such as ldflag examples, 
     # visit https://github.com/slsa-framework/slsa-github-generator#golang-projects.
-    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_go_slsa3.yml@v1.0.0
+    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_go_slsa3.yml@v1.1.1
     with:
       # By default, the config file is .slsa-goreleaser.yml in the root directory.
       # The format of the config file is described in 
