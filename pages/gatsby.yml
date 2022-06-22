@@ -1,5 +1,5 @@
 # Sample workflow for building and deploying a Gatsby site to GitHub Pages
-name: Deploy Gastby site to Pages
+name: Deploy Gatsby site to Pages
 
 on:
   # Runs on push and pull request targetting the default branch
