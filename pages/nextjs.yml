@@ -2,10 +2,8 @@
 name: Deploy Next.js site to Pages
 
 on:
-  # Runs on push and pull request targetting the default branch
+  # Runs on pushes targeting the default branch
   push:
-    branches: [$default-branch]
-  pull_request:
     branches: [$default-branch]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -28,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Detect package manager
         id: detect-package-manager
         run: |
@@ -45,7 +43,7 @@ jobs:
             exit 1
           fi
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: "16"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
@@ -57,7 +55,7 @@ jobs:
         with:
           static_site_generator: next
       - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.manager }} run build --if-present
+        run: ${{ steps.detect-package-manager.outputs.manager }} run build
       - name: Upload artifact
         uses: paper-spa/upload-pages-artifact@v0
         with:

@@ -2,10 +2,8 @@
 name: Deploy Hugo site to Pages
 
 on:
-  # Runs on push and pull request targetting the default branch
+  # Runs on pushes targeting the default branch
   push:
-    branches: [$default-branch]
-  pull_request:
     branches: [$default-branch]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -39,7 +37,7 @@ jobs:
           wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.deb \
           && sudo dpkg -i ${{ runner.temp }}/hugo.deb
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: recursive
       - name: Setup Pages

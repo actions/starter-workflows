@@ -2,11 +2,9 @@
 name: Deploy static content to Pages
 
 on:
-  # Runs on push and pull request targetting the default branch
+  # Runs on pushes targeting the default branch
   push:
-    branches: [ $default-branch ]
-  pull_request:
-    branches: [ $default-branch ]
+    branches: [$default-branch]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -31,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Upload artifact
         uses: paper-spa/upload-pages-artifact@v0
         with:
