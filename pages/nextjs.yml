@@ -38,7 +38,7 @@ jobs:
           elif [ -f "${{ github.workspace }}/package-lock.json" ]; then
             echo "::set-output name=manager::npm"
             echo "::set-output name=command::ci"
-            echo "::set-output name=runner::npx"
+            echo "::set-output name=runner::npx --no-install"
             exit 0
           else
             echo "Unable to determine packager manager"
