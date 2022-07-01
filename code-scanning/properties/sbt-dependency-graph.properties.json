@@ -1,0 +1,10 @@
+{
+  "name": "Sbt Dependency Graph",
+  "description": "Submit the dependency graph of an sbt build to the Github Dependency Submission API",
+  "iconName": "scalacenter",
+  "creator": "The Scala Center",
+  "categories": [
+      "dependency-management",
+      "scala"
+  ]
+}

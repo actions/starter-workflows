@@ -1,0 +1,23 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# More details at https://github.com/scalacenter/sbt-dependency-graph-action 
+
+name: Sbt Dependency Graph
+
+on:
+  push:
+    branches: [ $default-branch ]
+
+jobs:
+  submit-dependency-graph:
+    name: Submit dependency graph
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: scalacenter/sbt-dependency-graph-action@v1
