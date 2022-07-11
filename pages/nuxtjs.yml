@@ -54,8 +54,8 @@ jobs:
         uses: paper-spa/configure-pages@main
         with:
           static_site_generator: nuxt
-      - name: Build with Nuxt
-        run: ${{ steps.detect-package-manager.outputs.manager }} run build
+      - name: Static HTML export with Nuxt
+        run: ${{ steps.detect-package-manager.outputs.manager }} run generate
       - name: Upload artifact
         uses: paper-spa/upload-pages-artifact@v0
         with:
