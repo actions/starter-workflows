@@ -30,6 +30,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Setup Pages
+        uses: paper-spa/configure-pages@main
       - name: Upload artifact
         uses: paper-spa/upload-pages-artifact@v0
         with:
