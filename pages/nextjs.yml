@@ -35,7 +35,7 @@ jobs:
             echo "::set-output name=command::install"
             echo "::set-output name=runner::yarn"
             exit 0
-          elif [ -f "${{ github.workspace }}/package-lock.json" ]; then
+          elif [ -f "${{ github.workspace }}/package.json" ]; then
             echo "::set-output name=manager::npm"
             echo "::set-output name=command::ci"
             echo "::set-output name=runner::npx --no-install"

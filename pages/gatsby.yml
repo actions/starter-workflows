@@ -39,7 +39,7 @@ jobs:
             echo "::set-output name=manager::yarn"
             echo "::set-output name=command::install"
             exit 0
-          elif [ -f "${{ github.workspace }}/package-lock.json" ]; then
+          elif [ -f "${{ github.workspace }}/package.json" ]; then
             echo "::set-output name=manager::npm"
             echo "::set-output name=command::ci"
             exit 0
