@@ -33,10 +33,12 @@ jobs:
           if [ -f "${{ github.workspace }}/yarn.lock" ]; then
             echo "::set-output name=manager::yarn"
             echo "::set-output name=command::install"
+            echo "::set-output name=runner::yarn"
             exit 0
           elif [ -f "${{ github.workspace }}/package-lock.json" ]; then
             echo "::set-output name=manager::npm"
             echo "::set-output name=command::ci"
+            echo "::set-output name=runner::npx --no-install"
             exit 0
           else
             echo "Unable to determine packager manager"
@@ -55,11 +57,13 @@ jobs:
         with:
           static_site_generator: next
       - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.manager }} run build
+        run: ${{ steps.detect-package-manager.outputs.runner }} next build
+      - name: Static HTML export with Next.js
+        run: ${{ steps.detect-package-manager.outputs.runner }} next export
       - name: Upload artifact
         uses: paper-spa/upload-pages-artifact@v0
         with:
-          path: ./.next
+          path: ./out
 
   # Deployment job
   deploy:
