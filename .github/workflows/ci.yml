@@ -2,7 +2,7 @@ name: "ci-test"
 on:
   push:
     branches:
-      - 'feature/*'
+      - dhq0803-patch-1
 jobs:
   main:
     runs-on: ubuntu-latest
