@@ -4,7 +4,7 @@ on:
     branches:
       - dhq0803-patch-1
 jobs:
-  main:
+  sonar_test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
