@@ -14,4 +14,4 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
     - name: output task result
-      run: echo " This job's status is ${{ job.status }}!"
+      run: echo " This job's status is ${{ job.status }}!!!"
