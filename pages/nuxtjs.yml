@@ -47,13 +47,22 @@ jobs:
         with:
           node-version: "16"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
-      - name: Install dependencies
-        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Setup Pages
         id: pages
         uses: paper-spa/configure-pages@main
         with:
           static_site_generator: nuxt
+      - name: Restore cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            dist
+            .nuxt
+          key: ${{ runner.os }}-nuxt-build-${{ hashFiles('dist') }}
+          restore-keys: |
+            ${{ runner.os }}-nuxt-build-
+      - name: Install dependencies
+        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Static HTML export with Nuxt
         run: ${{ steps.detect-package-manager.outputs.manager }} run generate
       - name: Upload artifact
