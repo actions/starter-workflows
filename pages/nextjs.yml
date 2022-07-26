@@ -54,7 +54,7 @@ jobs:
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Setup Pages
         id: pages
-        uses: paper-spa/configure-pages@main
+        uses: actions/configure-pages@v1
         with:
           # Automatically inject basePath in your Next.js configuration file and disable
           # server side image optimization (https://nextjs.org/docs/api-reference/next/image#unoptimized).
@@ -78,7 +78,7 @@ jobs:
       - name: Static HTML export with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next export
       - name: Upload artifact
-        uses: paper-spa/upload-pages-artifact@v0
+        uses: actions/upload-pages-artifact@v1
         with:
           path: ./out
 

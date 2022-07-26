@@ -57,7 +57,7 @@ jobs:
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Setup Pages
         id: pages
-        uses: paper-spa/configure-pages@main
+        uses: actions/configure-pages@v1
         with:
           # Automatically inject pathPrefix in your Gatsby configuration file.
           #
@@ -79,7 +79,7 @@ jobs:
           PREFIX_PATHS: 'true'
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
       - name: Upload artifact
-        uses: paper-spa/upload-pages-artifact@v0
+        uses: actions/upload-pages-artifact@v1
         with:
           path: ./public
 
