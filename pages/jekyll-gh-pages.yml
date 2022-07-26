@@ -28,14 +28,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Setup Pages
-        uses: paper-spa/configure-pages@main
+        uses: actions/configure-pages@v1
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
           destination: ./_site
       - name: Upload artifact
-        uses: paper-spa/upload-pages-artifact@v0
+        uses: actions/upload-pages-artifact@v1
 
   # Deployment job
   deploy:

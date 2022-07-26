@@ -42,14 +42,14 @@ jobs:
           submodules: recursive
       - name: Setup Pages
         id: pages
-        uses: paper-spa/configure-pages@main
+        uses: actions/configure-pages@v1
       - name: Build with Hugo
         run: |
           hugo \
             --minify \
             --baseURL ${{ steps.pages.outputs.base_url }}
       - name: Upload artifact
-        uses: paper-spa/upload-pages-artifact@v0
+        uses: actions/upload-pages-artifact@v1
         with:
           path: ./public
 

@@ -52,7 +52,7 @@ jobs:
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Setup Pages
         id: pages
-        uses: paper-spa/configure-pages@main
+        uses: actions/configure-pages@v1
         with:
           # Automatically inject router.base in your Nuxt configuration file.
           # You may remove this line if you want to manage the configuration yourself.
@@ -71,7 +71,7 @@ jobs:
       - name: Static HTML export with Nuxt
         run: ${{ steps.detect-package-manager.outputs.manager }} run generate
       - name: Upload artifact
-        uses: paper-spa/upload-pages-artifact@v0
+        uses: actions/upload-pages-artifact@v1
         with:
           path: ./dist
 
