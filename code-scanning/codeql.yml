@@ -20,7 +20,7 @@ on:
   
 #If you would like to have CodeQL scan for vulnerabilities based on a cron/scheduled job, uncomment the following two lines 
   #schedule:
-   # - cron: $cron-weekly
+   # - cron: $cron-monthly
 
 jobs:
   analyze:
