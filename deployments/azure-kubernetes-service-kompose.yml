@@ -31,6 +31,12 @@
 
 name: Build and deploy an app to AKS with Kompose
 
+on:
+  push:
+    branches:
+      - $default-branch
+  workflow_dispatch:
+
 env:
   AZURE_CONTAINER_REGISTRY: "your-azure-container-registry"
   CONTAINER_NAME: "your-container-name"

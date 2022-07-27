@@ -2,8 +2,11 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
+# hadoint is a Dockerfile linter written in Haskell
+# that helps you build best practice Docker images.
+# More details at https://github.com/hadolint/hadolint
 
-name: build
+name: Hadolint
 
 on:
   push:
@@ -18,30 +21,27 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  hadolint:
+    name: Run hadolint scanning
+    runs-on: ubuntu-latest
     permissions:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
-    name: Build
-    runs-on: "ubuntu-18.04"
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Build an image from Dockerfile
-        run: |
-          docker build -t docker.io/my-organization/my-app:${{ github.sha }} .
-
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+      - name: Run hadolint
+        uses: hadolint/hadolint-action@f988afea3da57ee48710a9795b6bb677cc901183
         with:
-          image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
-          format: 'template'
-          template: '@/contrib/sarif.tpl'
-          output: 'trivy-results.sarif'
-          severity: 'CRITICAL,HIGH'
+          dockerfile: ./Dockerfile
+          format: sarif
+          output-file: hadolint-results.sarif
+          no-fail: true
 
-      - name: Upload Trivy scan results to GitHub Security tab
+      - name: Upload analysis results to GitHub
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: 'trivy-results.sarif'
+          sarif_file: hadolint-results.sarif
+          wait-for-processing: true
