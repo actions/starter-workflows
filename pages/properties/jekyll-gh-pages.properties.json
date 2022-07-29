@@ -1,7 +1,6 @@
 {
     "name": "GitHub Pages Jekyll",
-    "creator": "GitHub Actions",
     "description": "Package a Jekyll site with GitHub Pages dependencies preinstalled.",
     "iconName": "jekyll-tube",
-    "categories": ["Pages"]
+    "categories": ["Pages", "Jekyll"]
 }
