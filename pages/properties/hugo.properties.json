@@ -1,0 +1,7 @@
+{
+    "name": "Hugo",
+    "creator": "GitHub Actions",
+    "description": "Package a Hugo site.",
+    "iconName": "hugo",
+    "categories": ["Pages"]
+}
