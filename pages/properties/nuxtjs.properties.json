@@ -1,7 +1,0 @@
-{
-    "name": "NuxtJS",
-    "creator": "GitHub Actions",
-    "description": "Package a NuxtJS site.",
-    "iconName": "nuxtjs",
-    "categories": ["Pages"]
-}
