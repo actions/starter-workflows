@@ -1,7 +1,6 @@
 {
     "name": "Static HTML",
-    "creator": "GitHub Actions",
     "description": "Deploy static files in a repository without a build.",
     "iconName": "html",
-    "categories": ["Pages"]
+    "categories": ["Pages", "HTML", "JavaScript", "CSS"]
 }

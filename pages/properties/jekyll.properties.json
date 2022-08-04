@@ -1,7 +1,6 @@
 {
     "name": "Jekyll",
-    "creator": "GitHub Actions",
     "description": "Package a Jekyll site.",
     "iconName": "jekyll-tube",
-    "categories": ["Pages"]
+    "categories": ["Pages", "Jekyll"]
 }
