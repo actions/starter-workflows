@@ -2,6 +2,10 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
+# Frogbot Scan Pull Requests does the following:
+# Automatically scans new pull requests for security vulnerabilities.
+# Uses JFrog Xray to scan the project.
+# Read more about Frogbot here - https://github.com/jfrog/frogbot#frogbot
 
 name: "Frogbot Scan"
 on:
@@ -35,23 +39,9 @@ jobs:
       #    with:
       #      node-version: "16.x"
 
-      # - uses: gradle/gradle-build-action@v2
+      # The full template list with the required GitHub Actions can be found at https://github.com/jfrog/frogbot/tree/master/templates/github-actions/scan-pull-request 
 
-      # - uses: actions/setup-dotnet@v2
-      #  with:
-      #    dotnet-version: "3.1.x"
-
-      # - uses: nuget/setup-nuget@v1
-      #  with:
-      #    nuget-version: "5.x"
-
-      # - uses: actions/setup-python@v3
-      #  with:
-      #    python-version: "3.x"
-
-      # - run: pipx install pipenv
-
-      - uses: jfrog/frogbot@v2
+      - uses: jfrog/frogbot@2291fc454e8aeea77386cfcb85a1ae36765bb1f4
         env:
           # [Mandatory]
           # JFrog platform URL (This functionality requires version 3.29.0 or above of Xray)
@@ -69,7 +59,9 @@ jobs:
           # The GitHub token automatically generated for the job
           JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-          # Uncomment the below options if you'd like to use them.
+          # [Mandatory if JF_USER and JF_PASSWORD are not provided]
+          # JFrog access token with 'read' permissions on Xray service
+          # JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
 
           # [Mandatory when using npm]
           # The command that installs the dependencies
@@ -79,34 +71,4 @@ jobs:
           # The command that installs the dependencies
           # JF_INSTALL_DEPS_CMD: "dotnet restore"
 
-          # [Optional when using Nuget]
-          # The command that installs the dependencies
-          # JF_INSTALL_DEPS_CMD: "nuget restore"
-
-          # [Optional when using Pip]
-          # The command that installs the dependencies
-          # JF_INSTALL_DEPS_CMD: "pip install"
-
-          # [Optional when using Pipenv]
-          # The command that installs the dependencies
-          # JF_INSTALL_DEPS_CMD: "pipenv install"
-
-          # [Optional, default: https://api.github.com]
-          # API endpoint to GitHub
-          # JF_GIT_API_ENDPOINT: https://github.example.com
-
-          # [Mandatory if JF_USER and JF_PASSWORD are not provided]
-          # JFrog access token with 'read' permissions on Xray service
-          # JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
-
-          # [Optional, default: "."]
-          # Relative path to the project in the git repository
-          # JF_WORKING_DIR: path/to/working/dir
-
-          # [Optional]
-          # Xray Watches. Learn more about them here: https://www.jfrog.com/confluence/display/JFROG/Configuring+Xray+Watches
-          # JF_WATCHES: <watch-1>,<watch-2>...<watch-n>
-
-          # [Optional]
-          # JFrog project. Learn more about it here: https://www.jfrog.com/confluence/display/JFROG/Projects
-          # JF_PROJECT: <project-key>
+          # The full template list with full optional environment variables can be found at https://github.com/jfrog/frogbot/tree/master/templates/github-actions/scan-pull-request 

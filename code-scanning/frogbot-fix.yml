@@ -2,6 +2,9 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
+# Frogbot Scan and Fix does the following:
+# Automatically creates pull requests with fixes for vulnerable project dependencies.
+# Uses JFrog Xray to scan the project.
 # Read more about Frogbot here - https://github.com/jfrog/frogbot#frogbot
 
 name: "Frogbot Fix"
@@ -37,7 +40,7 @@ jobs:
       #      node-version: "16.x"
 
 
-      - uses: jfrog/frogbot@v2
+      - uses: jfrog/frogbot@2291fc454e8aeea77386cfcb85a1ae36765bb1f4
         env:
           # [Mandatory]
           # JFrog platform URL (This functionality requires version 3.29.0 or above of Xray)
