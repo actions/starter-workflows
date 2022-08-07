@@ -1,5 +1,5 @@
 {
-  "name": "Frogbot Scan Pull Requests",
+  "name": "Frogbot Scan Pull Request",
   "description": "Automatically scans new pull requests for security vulnerabilities. Uses JFrog Xray to scan the project. Included as part of JFrog's free subscription.",
   "iconName": "frogbot",
   "categories": [
