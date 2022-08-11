@@ -1,0 +1,6 @@
+{
+    "name": "C/C++ with Meson",
+    "description": "Build and test a C/C++ project using Meson.",
+    "iconName": "c-cpp",
+    "categories": ["Continuous integration", "C", "C++"]
+}
