@@ -1,5 +1,8 @@
 ## Contributing
-
+AUTHOR: 
+# ZACH T WOO
+# SSN 633441725
+# e-mail :zachryiixixiiwood@gmail.com
 [code-of-conduct]: CODE_OF_CONDUCT.md
 
 Hi there 👋 We are excited that you want to contribute a new workflow to this repo. By doing this you are helping people get up and running with GitHub Actions and that's cool 😎.
