@@ -13,6 +13,7 @@ on:
     types: [ opened, synchronize ]
 permissions:
   pull-requests: write
+  contents: read
 jobs:
   scan-pull-request:
     runs-on: ubuntu-latest
@@ -39,9 +40,9 @@ jobs:
       #    with:
       #      node-version: "16.x"
 
-      # The full template list with the required GitHub Actions can be found at https://github.com/jfrog/frogbot/tree/master/templates/github-actions/scan-pull-request 
+      # The full template list with the required GitHub Actions can be found at https://github.com/jfrog/frogbot/tree/master/templates/github-actions/scan-pull-request
 
-      - uses: jfrog/frogbot@2291fc454e8aeea77386cfcb85a1ae36765bb1f4
+      - uses: jfrog/frogbot@c8dfceda50ee19fee0cc19992c4a4aaffc95f4c6
         env:
           # [Mandatory]
           # JFrog platform URL (This functionality requires version 3.29.0 or above of Xray)
@@ -71,4 +72,4 @@ jobs:
           # The command that installs the dependencies
           # JF_INSTALL_DEPS_CMD: "dotnet restore"
 
-          # The full template list with full optional environment variables can be found at https://github.com/jfrog/frogbot/tree/master/templates/github-actions/scan-pull-request 
+          # The full template list with full optional environment variables can be found at https://github.com/jfrog/frogbot/tree/master/templates/github-actions/scan-pull-request
