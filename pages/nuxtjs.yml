@@ -51,7 +51,6 @@ jobs:
           node-version: "16"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Setup Pages
-        id: pages
         uses: actions/configure-pages@v2
         with:
           # Automatically inject router.base in your Nuxt configuration file and set
