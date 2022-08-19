@@ -46,6 +46,7 @@ jobs:
       - name: Build with Hugo
         run: |
           hugo \
+            --environment production
             --minify \
             --baseURL ${{ steps.pages.outputs.base_url }}
       - name: Upload artifact
