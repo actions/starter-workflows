@@ -18,6 +18,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  security-events: write
 jobs:
   create-fix-pull-requests:
     runs-on: ubuntu-latest
@@ -40,7 +41,7 @@ jobs:
       #      node-version: "16.x"
 
 
-      - uses: jfrog/frogbot@de3d42bf3a454ddf156632ae520a5ead49048416
+      - uses: jfrog/frogbot@34759934930c177bdefba6ca3a417589d4db6cab
         env:
           # [Mandatory]
           # JFrog platform URL (This functionality requires version 3.29.0 or above of Xray)
