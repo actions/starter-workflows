@@ -57,7 +57,7 @@ jobs:
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Setup Pages
         id: pages
-        uses: actions/configure-pages@v1
+        uses: actions/configure-pages@v2
         with:
           # Automatically inject pathPrefix in your Gatsby configuration file.
           #
