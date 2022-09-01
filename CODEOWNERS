@@ -1,4 +1,0 @@
-* @actions/starter-workflows
-
-/code-scanning/ @actions/advanced-security-code-scanning @actions/starter-workflows
-/pages/ @actions/pages @actions/starter-workflows
