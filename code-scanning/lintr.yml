@@ -2,13 +2,13 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
-# Puppet Lint tests Puppet code against the recommended Puppet language style guide.
-# https://puppet.com/docs/puppet/7/style_guide.html
-# Puppet Lint validates only code style; it does not validate syntax.
-# To test syntax, use Puppet's puppet parser validate command.
-# More details at https://github.com/puppetlabs/puppet-lint/
+# lintr provides static code analysis for R.
+# It checks for adherence to a given style,
+# identifying syntax errors and possible semantic issues,
+# then reports them to you so you can take action.
+# More details at https://lintr.r-lib.org/
 
-name: puppet-lint
+name: lintr
 
 on:
   push:
@@ -23,8 +23,8 @@ permissions:
   contents: read
 
 jobs:
-  puppet-lint:
-    name: Run puppet-lint scanning
+  lintr:
+    name: Run lintr scanning
     runs-on: ubuntu-latest
     permissions:
       contents: read # for checkout to fetch code
@@ -34,21 +34,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@0a29871fe2b0200a17a4497bae54fe5df0d973aa # v1.115.3
+      - name: Setup R
+        uses: r-lib/actions/setup-r@4e1feaf90520ec1215d1882fdddfe3411c08e492
+
+      - name: Setup lintr
+        uses: r-lib/actions/setup-r-dependencies@4e1feaf90520ec1215d1882fdddfe3411c08e492
         with:
-          ruby-version: 2.7
-          bundler-cache: true
+          extra-packages: lintr
 
-      - name: Install puppet-lint
-        run: gem install puppet-lint
-
-      - name: Run puppet-lint
-        run: puppet-lint . --sarif > puppet-lint-results.sarif
+      - name: Run lintr
+        run: lintr::sarif_output(lintr::lint_dir("."), "lintr-results.sarif")
+        shell: Rscript {0}
         continue-on-error: true
 
       - name: Upload analysis results to GitHub
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: puppet-lint-results.sarif
+          sarif_file: lintr-results.sarif
           wait-for-processing: true

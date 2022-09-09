@@ -42,7 +42,7 @@ jobs:
 
       # The full template list with the required GitHub Actions can be found at https://github.com/jfrog/frogbot/tree/master/templates/github-actions/scan-pull-request
 
-      - uses: jfrog/frogbot@de3d42bf3a454ddf156632ae520a5ead49048416
+      - uses: jfrog/frogbot@34759934930c177bdefba6ca3a417589d4db6cab
         env:
           # [Mandatory]
           # JFrog platform URL (This functionality requires version 3.29.0 or above of Xray)
