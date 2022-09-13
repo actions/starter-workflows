@@ -20,7 +20,7 @@
     "actions/stale",
     "actions/starter-workflows",
     "actions/upload-artifact",
-    "actions/upload-pages-artifact".
+    "actions/upload-pages-artifact",
     "actions/upload-release-asset",
     "github/codeql-action"
   ],
