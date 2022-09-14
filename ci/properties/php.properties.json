@@ -1,0 +1,6 @@
+{
+    "name": "PHP",
+    "description": "Build and test a PHP application using Composer",
+    "iconName": "php",
+    "categories": ["Continuous integration", "PHP", "Composer"]
+}
