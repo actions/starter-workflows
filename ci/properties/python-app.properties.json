@@ -1,0 +1,6 @@
+{
+    "name": "Python application",
+    "description": "Create and test a Python application.",
+    "iconName": "python",
+    "categories": ["Continuous integration", "Python", "Bottle", "Flask"]
+}
