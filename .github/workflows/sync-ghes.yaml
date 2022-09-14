@@ -3,6 +3,7 @@ name: Sync workflows for GHES
 on:
   push:
     branches: [ $default-branch ]
+  workflow_dispatch:
 
 jobs:
   sync:
