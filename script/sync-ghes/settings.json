@@ -18,6 +18,7 @@
     "actions/setup-go",
     "actions/setup-java",
     "actions/setup-node",
+    "actions/setup-python",
     "actions/stale",
     "actions/starter-workflows",
     "actions/upload-artifact",
