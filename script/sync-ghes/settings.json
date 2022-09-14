@@ -6,6 +6,7 @@
     "../../pages"
   ],
   "enabledActions": [
+    "actions/cache",
     "actions/checkout",
     "actions/configure-pages",
     "actions/create-release",
