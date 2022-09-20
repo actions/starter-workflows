@@ -7,6 +7,7 @@ import { endGroup, error, info, setFailed, startGroup } from '@actions/core';
 
 interface WorkflowWithErrors {
   id: string;
+  name: string;
   errors: string[];
 }
 
@@ -42,6 +43,7 @@ const propertiesSchema = {
 
 async function checkWorkflows(folders: string[], allowed_categories: object[]): Promise<WorkflowWithErrors[]> {
   const result: WorkflowWithErrors[] = []
+  const workflow_template_names = new Set()
   const workflow_template_paths = new Set()
   for (const folder of folders) {
     const dir = await fs.readdir(folder, {
@@ -56,8 +58,11 @@ async function checkWorkflows(folders: string[], allowed_categories: object[]): 
         const propertiesFilePath = join(folder, "properties", `${fileType}.properties.json`)
 
         const workflowWithErrors = await checkWorkflow(workflowFilePath, propertiesFilePath, allowed_categories);
+        if(workflowWithErrors.name && workflow_template_names.size == workflow_template_names.add(workflowWithErrors.name).size) {
+          workflowWithErrors.errors.push(`Workflow template name "${workflowWithErrors.name}" already exists`)
+        }
         if(workflow_template_paths.size == workflow_template_paths.add(e.name).size) {
-        workflowWithErrors.errors.push(`Workflow template with filename "${e.name}" already exists`) 
+          workflowWithErrors.errors.push(`Workflow template with filename "${e.name}" already exists`) 
         }
         if (workflowWithErrors.errors.length > 0) {
           result.push(workflowWithErrors)
@@ -72,6 +77,7 @@ async function checkWorkflows(folders: string[], allowed_categories: object[]): 
 async function checkWorkflow(workflowPath: string, propertiesPath: string, allowed_categories: object[]): Promise<WorkflowWithErrors> {
   let workflowErrors: WorkflowWithErrors = {
     id: workflowPath,
+    name: null,
     errors: []
   }
   try {
@@ -80,6 +86,9 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
 
     const propertiesFileContent = await fs.readFile(propertiesPath, "utf8")
     const properties: WorkflowProperties = JSON.parse(propertiesFileContent)
+    if(properties.name && properties.name.trim().length > 0) {
+      workflowErrors.name = properties.name
+    }
     let v = new validator();
     const res = v.validate(properties, propertiesSchema)
     workflowErrors.errors = res.errors.map(e => e.toString())
