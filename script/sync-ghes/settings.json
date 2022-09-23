@@ -6,6 +6,7 @@
     "../../pages"
   ],
   "enabledActions": [
+    "actions/cache",
     "actions/checkout",
     "actions/configure-pages",
     "actions/create-release",
@@ -17,6 +18,7 @@
     "actions/setup-go",
     "actions/setup-java",
     "actions/setup-node",
+    "actions/setup-python",
     "actions/stale",
     "actions/starter-workflows",
     "actions/upload-artifact",
