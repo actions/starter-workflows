@@ -1,0 +1,28 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# This workflow checks out code and scans the content changed or added in the last commit for offensive / exclusive terms.
+# The scan will provide context on the found terms and alternatvies that can be used instead.
+
+# For more information on Inclusiveness Analyser usage
+# and parameters, see https://github.com/microsoft/InclusivenessAnalyzer.
+
+name: Inclusiveness Analyser scan
+
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+    # The branches below must be a subset of the branches above
+    branches: [ $default-branch ]
+
+jobs:
+  Inclusiveness-Analyser-scan:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Inclusiveness Analyser scan
+      uses: microsoft/InclusivenessAnalyser@v0.1.7
