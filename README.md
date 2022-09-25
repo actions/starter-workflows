@@ -12,10 +12,10 @@ These are the workflow files for helping people get started with GitHub Actions.
 
 ### Directory structure
 
-* [ci](ci): solutions for Continuous Integration workflows.
-* [deployments](deployments): solutions for Deployment workflows.
 * [automation](automation): solutions for automating workflows.
+* [ci](ci): solutions for Continuous Integration workflows.
 * [code-scanning](code-scanning): starter workflows for [Code Scanning](https://github.com/features/security)
+* [deployments](deployments): solutions for Deployment workflows.
 * [icons](icons): svg icons for the relevant template
 
 Each workflow must be written in YAML and have a `.yml` extension. They also need a corresponding `.properties.json` file that contains extra metadata about the workflow (this is displayed in the GitHub.com UI).
@@ -31,14 +31,15 @@ For example: `ci/django.yml` and `ci/properties/django.properties.json`.
 * `categories`: the categories that it will be shown under. Choose at least one category from the list [here](#categories). Further, choose the categories from the list of languages available [here](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml). When a user views the available templates, those templates that match the same language will feature more prominently.
 
 ### Categories
-* continuous-integration
-* deployment
-* testing
+* automation
+* ci
 * code-quality
-* code-review
+* code-scanning
+* continuous-integration
 * dependency-management
+* deployments
 * monitoring
-* Automation
+* testing
 * utilities
 
 ### Variables
