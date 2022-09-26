@@ -3,5 +3,5 @@
     "creator": "Microsoft",
     "description": "The Inclusiveness Analyzer is a GitHub action that checks your repository for offensive / exclusive terms.It also provides context on why a word is exclusive and suggests alternate terms that can be used instead.",
     "iconName": "inclusiveness-analyser",
-    "categories": [ "Code Scanning"]
+    "categories": [ "Automation" ]
 }
