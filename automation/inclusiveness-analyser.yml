@@ -9,7 +9,7 @@
 # For more information on Inclusiveness Analyser usage
 # and parameters, see https://github.com/microsoft/InclusivenessAnalyzer.
 
-name: Inclusiveness Analyser scan
+name: Inclusiveness Analyzer scan
 
 on:
   push:
@@ -18,11 +18,11 @@ on:
     branches: [ $default-branch ]
 
 jobs:
-  Inclusiveness-Analyser-scan:
+  Inclusiveness-Analyzer-scan:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
     
     - name: Inclusiveness Analyser scan
-      uses: microsoft/InclusivenessAnalyser@v0.1.7
+      uses: microsoft/InclusivenessAnalyzer@v0.1.7
