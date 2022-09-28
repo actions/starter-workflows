@@ -34,6 +34,7 @@ For example: `ci/django.yml` and `ci/properties/django.properties.json`.
 * automation
 * ci
 * code-quality
+* code-review
 * code-scanning
 * continuous-integration
 * dependency-management
