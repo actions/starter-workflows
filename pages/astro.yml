@@ -8,9 +8,10 @@ name: Deploy Roadmap to Pages
 on:
   push:
     branches: [main]
-    paths: # only needed when project in subfolder
-      - "roadmap-priorities"
-      - ".github/workflows/deploy-roadmap.yml"
+    # paths:
+    # only needed when project in subfolder
+    # - "subfolder"
+    # - ".github/workflows/astro.yml"
   workflow_dispatch:
 
 permissions:
