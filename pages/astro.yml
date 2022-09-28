@@ -1,0 +1,51 @@
+# Sample workflow for building and deploying an Astro site to GitHub Pages
+#
+# To get started with Astro see: https://docs.astro.build/en/getting-started/
+#
+
+name: Deploy Roadmap to Pages
+
+on:
+  push:
+    branches: [main]
+    paths: # only needed when project in subfolder
+      - "roadmap-priorities"
+      - ".github/workflows/deploy-roadmap.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+env:
+  PAT: '.' # default value when not using subfolders
+  # PAT: subfolder
+
+jobs:
+  build:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache-dependency-path: ${{ env.PAT }}/package-lock.json
+      - run: npm install && npm run build
+        working-directory: ${{ env.PAT }}
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          path: ${{ env.PAT }}/dist
+
+  deploy:
+    needs: build
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
