@@ -1,7 +1,10 @@
 name: Scorecards supply-chain security
 on:
-  # Only the default branch is supported.
+  # For Branch-Protection check. Only the default branch is supported. See
+  # https://github.com/ossf/scorecard/blob/main/docs/checks.md#branch-protection
   branch_protection_rule:
+  # To guarantee Maintained check is occasionally updated. See
+  # https://github.com/ossf/scorecard/blob/main/docs/checks.md#maintained
   schedule:
     - cron: $cron-weekly
   push:
@@ -17,11 +20,11 @@ jobs:
     permissions:
       # Needed to upload the results to code-scanning dashboard.
       security-events: write
-      # Used to receive a badge.
+      # Needed to publish results and get a badge (see publish_results below).
       id-token: write
-      # Needs for private repositories.
-      contents: read
-      actions: read
+      # Uncomment the permissions below if installing in a private repository.
+      # contents: read
+      # actions: read
 
     steps:
       - name: "Checkout code"
@@ -40,10 +43,13 @@ jobs:
           # To create the PAT, follow the steps in https://github.com/ossf/scorecard-action#authentication-with-pat.
           # repo_token: ${{ secrets.SCORECARD_READ_TOKEN }}
 
-          # Publish the results for public repositories to enable scorecard badges. For more details, see
-          # https://github.com/ossf/scorecard-action#publishing-results.
-          # For private repositories, `publish_results` will automatically be set to `false`, regardless
-          # of the value entered here.
+          # Public repositories:
+          #   - Publish results to OpenSSF REST API for easy access by consumers
+          #   - Allows the repository to include the Scorecard badge.
+          #   - See https://github.com/ossf/scorecard-action#publishing-results.
+          # For private repositories:  
+          #   - `publish_results` will always be set to `false`, regardless
+          #     of the value entered here.
           publish_results: true
 
       # Upload the results as artifacts (optional). Commenting out will disable uploads of run results in SARIF
