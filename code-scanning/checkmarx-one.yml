@@ -14,10 +14,18 @@ on:
     types: [opened, reopened, synchronize]
     branches: [ $default-branch, $protected-branches ]
 
+permissions:
+  contents: read
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
   build:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif
+    
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -26,7 +34,8 @@ jobs:
       # This step checks out a copy of your repository.
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Checkmarx scan
+      # This step creates the Checkmarx One scan 
+      - name: Checkmarx One scan
         uses: checkmarx/ast-github-action@main
         with:
           base_uri: https://ast.checkmarx.net  # This should be replaced by your base uri for Checkmarx One
