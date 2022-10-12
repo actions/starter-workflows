@@ -2,8 +2,7 @@ name: Sync workflows for GHES
 
 on:
   push:
-    branches:
-    - main
+    branches: [ main ]
 
 jobs:
   sync:
