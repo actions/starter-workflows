@@ -42,9 +42,14 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-
+permissions:
+  contents: read
+  
 jobs:
   Trigger_EthicalCheck:
+    permissions:
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status 
     runs-on: ubuntu-latest
 
     steps:
@@ -57,8 +62,8 @@ jobs:
           email: "xxx@apisec.ai"
           sarif-result-file: "ethicalcheck-results.sarif"
           
-      - name: Upload sarif file to repository
-        uses: github/codeql-action/upload-sarif@v2
-        with:
+       - name: Upload sarif file to repository
+         uses: github/codeql-action/upload-sarif@v2
+         with:
           sarif_file: ./ethicalcheck-results.sarif
           
