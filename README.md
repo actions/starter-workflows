@@ -43,9 +43,6 @@ For example: `ci/django.yml` and `ci/properties/django.properties.json`.
 * utilities
 * Pages
 * Hugo
-* Gatsby
-* Next
-* Nuxt
 
 ### Variables
 These variables can be placed in the starter workflow and will be substituted as detailed below:
