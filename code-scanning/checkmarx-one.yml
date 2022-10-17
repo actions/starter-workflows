@@ -3,6 +3,11 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
+# The Checkmarx One GitHub Action enables you to trigger SAST, SCA, and KICS scans directly from the GitHub workflow. 
+# It provides a wrapper around the Checkmarx One CLI Tool which creates a zip archive from your source code repository 
+# and uploads it to Checkmarx One for scanning. The Github Action provides easy integration with GitHub while enabling 
+# scan customization using the full functionality and flexibility of the CLI tool.
+
 # This is a basic workflow to help you get started with Using Checkmarx One Action, 
 # documentation can be found here : https://checkmarx.com/resource/documents/en/34965-68702-checkmarx-one-github-actions.html
 
