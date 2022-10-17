@@ -3,7 +3,8 @@
     "../../ci",
     "../../automation",
     "../../deployments",
-    "../../code-scanning"
+    "../../code-scanning",
+    "../../pages"
   ],
   "allowed_categories": [
     {
@@ -21,6 +22,10 @@
     { 
       "path": "../../code-scanning",
       "categories": ["Code Scanning", "Dependency review"]
+    },
+    { 
+      "path": "../../pages",
+      "categories": ["Pages"]
     }
   ]
 }
