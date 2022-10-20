@@ -1,7 +1,7 @@
 {
   "name": "EthicalCheck",
   "creator": "APIsec",
-  "description": "EthicalCheck addresses the critical need to continuously security test APIs in development and in production. EthicalCheck provides the industry’s only free & automated API security testing service that uncovers security vulnerabilities using OWASP API list. Developers relies on EthicalCheck to evaluate every update and release, ensuring that no APIs go to production with exploitable vulnerabilities. You develop the application and API, we bring complete and continuous security testing to you, accelerating development.Know your API and Applications are secure with EthicalCheck – our free & automated API security testing service.",
+  "description": "EthicalCheck provides the industry’s only free & automated API security testing service that uncovers security vulnerabilities using OWASP API list.",
   "iconName": "apisec",
   "categories": [
     "Code Scanning",
