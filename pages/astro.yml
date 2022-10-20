@@ -24,24 +24,24 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PAT: "." # default value when not using subfolders
-  # PAT: subfolder
+  BUILD_PATH: "." # default value when not using subfolders
+  # BUILD_PATH: subfolder
 
 jobs:
   build:
-    name: Build & Deploy
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache-dependency-path: ${{ env.PAT }}/package-lock.json
+          cache-dependency-path: ${{ env.BUILD_PATH }}/package-lock.json
       - run: npm install && npm run build
-        working-directory: ${{ env.PAT }}
+        working-directory: ${{ env.BUILD_PATH }}
       - uses: actions/upload-pages-artifact@v1
         with:
-          path: ${{ env.PAT }}/dist
+          path: ${{ env.BUILD_PATH }}/dist
 
   deploy:
     needs: build
