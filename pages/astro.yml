@@ -2,25 +2,29 @@
 #
 # To get started with Astro see: https://docs.astro.build/en/getting-started/
 #
-
 name: Deploy Astro site to Pages
 
 on:
+  # Runs on pushes targeting the default branch
   push:
-    branches: [main]
-    # paths:
-    # only needed when project in subfolder
-    # - "subfolder"
-    # - ".github/workflows/astro.yml"
+    branches: [$default-branch]
+
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 env:
-  PAT: '.' # default value when not using subfolders
+  PAT: "." # default value when not using subfolders
   # PAT: subfolder
 
 jobs:
