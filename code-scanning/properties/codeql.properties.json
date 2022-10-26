@@ -1,6 +1,7 @@
 {
     "name": "CodeQL Analysis",
     "creator": "GitHub",
+    "enterprise": true,
     "description": "Security analysis from GitHub for C, C++, C#, Go, Java, JavaScript, TypeScript, Python, and Ruby developers.",
     "iconName": "octicon mark-github",
     "categories": ["Code Scanning", "C", "C++", "C#", "Go", "Java", "JavaScript", "TypeScript", "Python", "Ruby"]

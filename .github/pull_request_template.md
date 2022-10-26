@@ -41,7 +41,7 @@ It is not:
 - [ ] Should be preserved under [the `code-scanning` directory](https://github.com/actions/starter-workflows/tree/main/code-scanning).
 - [ ] Should include a matching `code-scanning/properties/*.properties.json` file (for example, [`code-scanning/properties/codeql.properties.json`](https://github.com/actions/starter-workflows/blob/main/code-scanning/properties/codeql.properties.json)), with properties set as follows:
   - [ ] `name`: Name of the Code Scanning integration.
-  - [ ] `organization`: Name of the organization producing the Code Scanning integration.
+  - [ ] `creator`: Name of the organization/user producing the Code Scanning integration.
   - [ ] `description`: Short description of the Code Scanning integration.
   - [ ] `categories`: Array of languages supported by the Code Scanning integration.
   - [ ] `iconName`: Name of the SVG logo representing the Code Scanning integration. This SVG logo must be present in [the `icons` directory](https://github.com/actions/starter-workflows/tree/main/icons).
