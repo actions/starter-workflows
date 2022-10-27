@@ -7,7 +7,7 @@
 #which detects security misconfigurations in IaC templates and publishes the findings
 #under the code scanning alerts section within the repository.
 
-#Log into the Zscaler Workload Posture (ZWP) Admin Portal to begin the onboarding process.
+#Log into the Zscaler Posture Control(ZPC) Portal to begin the onboarding process.
 #Copy the client ID and client secret key generated during the onboarding process and configure.
 #GitHub secrets (ZSCANNER_CLIENT_ID, ZSCANNER_CLIENT_SECRET).
 
@@ -36,12 +36,12 @@ jobs:
       - name : Code Checkout
         uses: actions/checkout@v3
       - name : Zscaler IAC Scan
-        uses : ZscalerCWP/Zscaler-IaC-Action@8f0d8b60bd5a8f44062d444463f66f419ab71cfc
+        uses : ZscalerCWP/Zscaler-IaC-Action@8d2afb33b10b4bd50e2dc2c932b37c6e70ac1087
         id : zscaler-iac-scan
         with:
           client_id : ${{ secrets.ZSCANNER_CLIENT_ID }}
           client_secret : ${{ secrets.ZSCANNER_CLIENT_SECRET }}
-          #This is the user region specified during the onboarding process within the ZWP Admin Portal.
+          #This is the user region specified during the onboarding process within the ZPC Admin Portal.
           region : 'US'
           iac_dir : #Enter the IaC directory path from root.
           iac_file : #Enter the IaC file path from root.
