@@ -1,6 +1,0 @@
-{
-    "name": "Scala",
-    "description": "Build and test a Scala project with SBT.",
-    "iconName": "scala",
-    "categories": ["Continuous integration", "Scala", "Java"]
-}
