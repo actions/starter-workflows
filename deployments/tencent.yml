@@ -17,8 +17,7 @@ name: Tencent Kubernetes Engine
 
 on:
   push:
-    branches:
-      - $default-branch
+    branches: [ $default-branch ]
 
 # Environment variables available to all jobs and steps in this workflow
 env:
@@ -26,6 +25,9 @@ env:
   TKE_REGION: ap-guangzhou
   TKE_CLUSTER_ID: cls-mywebapp
   DEPLOYMENT_NAME: tke-test
+
+permissions:
+  contents: read
 
 jobs:
   setup-build-publish-deploy:
@@ -35,7 +37,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       
     # Build
     - name: Build Docker image

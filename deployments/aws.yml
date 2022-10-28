@@ -28,8 +28,7 @@ name: Deploy to Amazon ECS
 
 on:
   push:
-    branches:
-      - $default-branch
+    branches: [ $default-branch ]
 
 env:
   AWS_REGION: MY_AWS_REGION                   # set this to your preferred AWS region, e.g. us-west-1
@@ -41,6 +40,9 @@ env:
   CONTAINER_NAME: MY_CONTAINER_NAME           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     name: Deploy
@@ -49,7 +51,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1

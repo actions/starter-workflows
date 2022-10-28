@@ -1,0 +1,11 @@
+{
+    "name": "Sobelow",
+    "creator": "nccgroup",
+    "description": "Sobelow is a security-focused static analysis tool for the Phoenix framework.",
+    "iconName": "sobelow",
+    "categories": [
+      "Code Scanning",
+      "Elixir"
+    ]
+  }
+  

@@ -21,6 +21,8 @@ interface WorkflowProperties {
   categories: string[] | null;
 
   creator?: string;
+
+  enterprise?: boolean;
 }
 
 interface WorkflowsCheckResult {
@@ -59,6 +61,7 @@ async function checkWorkflows(
 
         const enabled =
           !isPartnerWorkflow &&
+          (workflowProperties.enterprise === true || folder !== 'code-scanning') &&
           (await checkWorkflow(workflowFilePath, enabledActions));
 
         const workflowDesc: WorkflowDesc = {
