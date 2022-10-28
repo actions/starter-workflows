@@ -30,6 +30,7 @@ jobs:
     permissions:
         contents: read # for actions/checkout
         security-events: write # for github/codeql-action/upload-sarif
+        actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status 
     runs-on: ubuntu-latest
     # check out project
     steps:
