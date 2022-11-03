@@ -13,10 +13,10 @@
 #     * Add your repository as a new project by clicking "Create project" from your homepage.
 # 
 # 3. Select GitHub Actions as your CI and follow the tutorial
-#     * a. Generate a new token and add it to your Github repository's secrets using the name SONAR_TOKEN
+#     * a. Generate a new token and add it to your GitHub repository's secrets using the name SONAR_TOKEN
 #          (On SonarQube, click on your avatar on top-right > My account > Security or ask your administrator)
 #
-#     * b. Copy/paste your SonarQube host URL to your Github repository's secrets using the name SONAR_HOST_URL
+#     * b. Copy/paste your SonarQube host URL to your GitHub repository's secrets using the name SONAR_HOST_URL
 #
 #     * c. Copy/paste the project Key into the args parameter below
 #          (You'll find this information in SonarQube by following the tutorial or by clicking on Project Information at the top-right of your project's homepage)
