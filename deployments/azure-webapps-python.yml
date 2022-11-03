@@ -25,9 +25,11 @@ env:
 
 on:
   push:
-    branches:
-      - $default-branch
+    branches: [ $default-branch ]
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -61,6 +63,8 @@ jobs:
             !venv/
 
   deploy:
+    permissions:
+      contents: none
     runs-on: ubuntu-latest
     needs: build
     environment:

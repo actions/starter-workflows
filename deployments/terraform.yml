@@ -46,9 +46,11 @@ name: 'Terraform'
 
 on:
   push:
-    branches:
-    - $default-branch
+    branches: [ $default-branch ]
   pull_request:
+
+permissions:
+  contents: read
 
 jobs:
   terraform:
