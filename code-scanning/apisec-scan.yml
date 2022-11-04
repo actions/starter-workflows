@@ -3,8 +3,8 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-# APIsec addresses the critical need to secure APIs before they reach production. 
-# APIsec provides the industry’s only automated and continuous API testing platform that uncovers security vulnerabilities and logic flaws in APIs. 
+# APIsec addresses the critical need to secure APIs before they reach production.
+# APIsec provides the industry’s only automated and continuous API testing platform that uncovers security vulnerabilities and logic flaws in APIs.
 # Clients rely on APIsec to evaluate every update and release, ensuring that no APIs go to production with vulnerabilities.
 
 # How to Get Started with APIsec.ai
@@ -50,7 +50,7 @@ jobs:
   Trigger_APIsec_scan:
     permissions:
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
-      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status 
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
     runs-on: ubuntu-latest
 
     steps:

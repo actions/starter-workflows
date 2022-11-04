@@ -11,7 +11,7 @@
 # 2. Create a secret in your repository named AZURE_WEBAPP_PUBLISH_PROFILE, paste the publish profile contents as the value of the secret.
 #    For instructions on obtaining the publish profile see: https://docs.microsoft.com/azure/app-service/deploy-github-actions#configure-the-github-secret
 #
-# 3. Create a GitHub Personal access token with "repo" and "read:packages" permissions. 
+# 3. Create a GitHub Personal access token with "repo" and "read:packages" permissions.
 #
 # 4. Create three app settings on your Azure Web app:
 #       DOCKER_REGISTRY_SERVER_URL: Set this to "https://ghcr.io"

@@ -44,12 +44,12 @@ on:
 
 permissions:
   contents: read
-  
+
 jobs:
   Trigger_EthicalCheck:
     permissions:
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
-      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status 
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
     runs-on: ubuntu-latest
 
     steps:
@@ -61,9 +61,9 @@ jobs:
           # The email address to which the penetration test report will be sent.
           email: "xxx@apisec.ai"
           sarif-result-file: "ethicalcheck-results.sarif"
-          
+
        - name: Upload sarif file to repository
          uses: github/codeql-action/upload-sarif@v2
          with:
           sarif_file: ./ethicalcheck-results.sarif
-          
+
