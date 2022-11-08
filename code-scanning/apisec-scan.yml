@@ -46,7 +46,8 @@ permissions:
   contents: read
 
 jobs:
-  Trigger APIsec scan:
+
+  Trigger_APIsec_scan:
     permissions:
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status 
@@ -54,7 +55,7 @@ jobs:
 
     steps:
        - name: APIsec scan
-         uses: apisec-inc/apisec-run-scan@f62d0c6fae8a80f97b091a323befdb56e6ad9993
+         uses: apisec-inc/apisec-run-scan@f748a240d69ca6cd7e9532fd0a47bec4ccd6a73c
          with:
           # The APIsec username with which the scans will be executed
           apisec-username: ${{ secrets.apisec_username }}
