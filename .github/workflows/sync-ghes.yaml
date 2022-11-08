@@ -2,8 +2,7 @@ name: Sync workflows for GHES
 
 on:
   push:
-    branches:
-    - main
+    branches: [ main ]
 
 jobs:
   sync:
@@ -18,7 +17,9 @@ jobs:
         git config user.name "GitHub Actions"
     - uses: actions/setup-node@v3
       with:
-        node-version: '12'
+        node-version: '16'
+        cache: 'npm'
+        cache-dependency-path: script/sync-ghes/package-lock.json
     - name: Check starter workflows for GHES compat
       run: |
         npm ci
