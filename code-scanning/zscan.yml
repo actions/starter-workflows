@@ -6,11 +6,11 @@
 # The zimperium-zscan GitHub action scans your mobile app binary (iOS or Android)
 # and identifies security, privacy, and compliance-related vulnerabilities. ​
 #
-# Prerequisites: ​
+# Prerequisites:
 #  * An active Zimperium zScan account is required. If you are not an existing Zimperium
 #    zScan customer, please request a zSCAN demo by visiting https://www.zimperium.com/contact-us.
 #  * Either GitHub Advanced Security (GHAS) or a public repository is required to display
-#    issues and view the remediation information inside of GitHub code scanning alerts. ​
+#    issues and view the remediation information inside of GitHub code scanning alerts.​
 #
 # For additional information and setup instructions
 # please visit:  https://github.com/Zimperium/zScanMarketplace#readme
