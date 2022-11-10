@@ -3,10 +3,10 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-# This workflow lets you compile your Go project using a SLSA3 compliant builder. 
-# This workflow will generate a so-called "provenance" file describing the steps 
+# This workflow lets you compile your Go project using a SLSA3 compliant builder.
+# This workflow will generate a so-called "provenance" file describing the steps
 # that were performed to generate the final binary.
-# The project is an initiative of the OpenSSF (openssf.org) and is developed at 
+# The project is an initiative of the OpenSSF (openssf.org) and is developed at
 # https://github.com/slsa-framework/slsa-github-generator.
 # The provenance file can be verified using https://github.com/slsa-framework/slsa-verifier.
 # For more information about SLSA and how it improves the supply-chain, visit slsa.dev.
@@ -21,7 +21,7 @@ permissions: read-all
 
 jobs:
   # ========================================================================================================================================
-  #     Prerequesite: Create a .slsa-goreleaser.yml in the root directory of your project.      
+  #     Prerequesite: Create a .slsa-goreleaser.yml in the root directory of your project.
   #       See format in https://github.com/slsa-framework/slsa-github-generator/blob/main/internal/builders/go/README.md#configuration-file
   #=========================================================================================================================================
   build:
