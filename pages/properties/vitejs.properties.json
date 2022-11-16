@@ -1,0 +1,6 @@
+{
+  "name": "Vite.js",
+  "description": "Package a Vite.js site.",
+  "iconName": "vitejs",
+  "categories": ["Pages", "Vite"]
+}
