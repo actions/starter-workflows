@@ -57,6 +57,13 @@ jobs:
           node-version: "16"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
           cache-dependency-path: ${{ env.BUILD_PATH }}/package-lock.json
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+        with:
+          # Automatically inject site and base configuration in your Astro configuration file.
+          #
+          # You may remove this line if you want to manage the configuration yourself.
+          static_site_generator: astro
       - run: npm install && npm run build
         working-directory: ${{ env.BUILD_PATH }}
       - uses: actions/upload-pages-artifact@v1
