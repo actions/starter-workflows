@@ -54,7 +54,7 @@ These variables can be placed in the starter workflow and will be substituted as
 ## How to test templates before publishing
 
 ### Disable template for public
-The author should add a `labels` array in the `properties.json` file with a label `preview`. This would hide the template from GitHub UX. 
+The template author adds a `labels` array in the template's `properties.json` file with a label `preview`. This will hide the template from users, unless user uses query parameter `preview=true` in the URL.
 Example `properties.json` file:
 ```json
 {
@@ -66,7 +66,7 @@ Example `properties.json` file:
 }
 ```
 
-Then to view the template in the `actions/new` page add a URL query parameter `preview=true` and it should be visible.
+For viewing the templates with `preview` label, provide query parameter `preview=true` to the  `new workflow` page URL. Eg. `https://github.com/<owner>/<repo_name>/actions/new?preview=true`.
 
 ### Enable template for public
 Remove the `labels` array from `properties.json` file to publish the template to public
