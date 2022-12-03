@@ -12,8 +12,6 @@ jobs:
   greeting:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/first-interaction@v1
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+    - use : action.js'@checkout :Checks-out/setsup :$MAKEFILE/rakefile/GEMS.spec=: $ Obj'=''=' new'='':'":,''  '"': '{'$' '{'{' '('(c')')'.'('r')')'B'I'T'O'R'E'_34173'.1337'' '}'}'":,'"''
         issue-message: 'Message that will be displayed on users'' first issue'
         pr-message: 'Message that will be displayed on users'' first pr'
