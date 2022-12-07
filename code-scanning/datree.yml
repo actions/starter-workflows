@@ -17,6 +17,9 @@ on:
     # The branches below must be a subset of the branches above
     branches: [ $default-branch ]
 
+permissions:
+  contents: read
+
 jobs:
   datree:
     permissions:
@@ -27,7 +30,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Run Datree policy check
         continue-on-error: true
-        uses: hadar-co/action-datree@main
+        uses: datreeio/action-datree@de67ae7a5133d719dc794e1b75682cd4c5f94d8a
         env:
           # In order to use the Datree action you will need to have a Datree token.
           # See https://hub.datree.io/setup/account-token#1-get-your-account-token-from-the-dashboard to acquire your token.
