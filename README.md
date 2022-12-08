@@ -50,3 +50,23 @@ These variables can be placed in the starter workflow and will be substituted as
 * `$default-branch`: will substitute the branch from the repository, for example `main` and `master`
 * `$protected-branches`: will substitute any protected branches from the repository
 * `$cron-daily`: will substitute a valid but random time within the day
+
+## How to test templates before publishing
+
+### Disable template for public
+The template author adds a `labels` array in the template's `properties.json` file with a label `preview`. This will hide the template from users, unless user uses query parameter `preview=true` in the URL.
+Example `properties.json` file:
+```json
+{
+    "name": "Node.js",
+    "description": "Build and test a Node.js project with npm.",
+    "iconName": "nodejs",
+    "categories": ["Continuous integration", "JavaScript", "npm", "React", "Angular", "Vue"],
+    "labels": ["preview"]
+}
+```
+
+For viewing the templates with `preview` label, provide query parameter `preview=true` to the  `new workflow` page URL. Eg. `https://github.com/<owner>/<repo_name>/actions/new?preview=true`.
+
+### Enable template for public
+Remove the `labels` array from `properties.json` file to publish the template to public
