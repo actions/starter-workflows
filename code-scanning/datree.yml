@@ -34,7 +34,7 @@ jobs:
         env:
           # In order to use the Datree action you will need to have a Datree token.
           # See https://hub.datree.io/setup/account-token#1-get-your-account-token-from-the-dashboard to acquire your token.
-          DATREE_TOKEN: ${{ secrets.DATREE_TOKEN }} 
+          DATREE_TOKEN: ${{ secrets.DATREE_TOKEN }}
         with:
           # Add the path to the configuration file/s that you would like to test.
           # See https://github.com/datreeio/action-datree#usage for all available options.
