@@ -1,7 +1,12 @@
-# Bandit is a tool designed to find common security issues in Python code.
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# Bandit is a security linter designed to find common security issues in Python code.
 # This action will run Bandit on your codebase.
 # The results of the scan will be found under the Security tab of your repository.
-#
+
 # https://github.com/marketplace/actions/bandit-scan is ISC licensed, by abirismyname
 # https://pypi.org/project/bandit/ is Apache v2.0 licensed, by PyCQA
 
