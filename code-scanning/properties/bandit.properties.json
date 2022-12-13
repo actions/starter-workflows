@@ -3,6 +3,6 @@
     "creator": "amirismyname",
     "enterprise": false,
     "description": "Bandit is free software designed to find common security issues in Python code, maintained by PyCQA",
-    "iconName": "arrow-left",
+    "iconName": "python",
     "categories": ["Code Scanning", "Python"]
 }
