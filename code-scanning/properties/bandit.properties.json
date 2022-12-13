@@ -1,6 +1,6 @@
 {
     "name": "Bandit Scan",
-    "creator": "amirismyname",
+    "creator": "abirismyname",
     "enterprise": false,
     "description": "Bandit is free software designed to find common security issues in Python code, maintained by PyCQA",
     "iconName": "bandit",
