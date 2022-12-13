@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-# This workflow helps you trigger a SonarQube analysis of your code and populates 
+# This workflow helps you trigger a SonarQube analysis of your code and populates
 # GitHub Code Scanning alerts with the vulnerabilities found.
 # (this feature is available starting from SonarQube 9.7, Developer Edition and above)
 
@@ -11,7 +11,7 @@
 
 # 2. Import your project on SonarQube
 #     * Add your repository as a new project by clicking "Create project" from your homepage.
-# 
+#
 # 3. Select GitHub Actions as your CI and follow the tutorial
 #     * a. Generate a new token and add it to your GitHub repository's secrets using the name SONAR_TOKEN
 #          (On SonarQube, click on your avatar on top-right > My account > Security or ask your administrator)
@@ -39,7 +39,7 @@ permissions:
 jobs:
   Analysis:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Analyze with SonarQube
 
