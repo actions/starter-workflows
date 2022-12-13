@@ -26,7 +26,7 @@ It is not:
 - [ ] Should use sentence case for the names of workflows and steps (for example, "Run tests").
 - [ ] Should be named _only_ by the name of the language or platform (for example, "Go", not "Go CI" or "Go Build").
 - [ ] Should include comments in the workflow for any parts that are not obvious or could use clarification.
-- [ ] Should specify least priviledge [permissions](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token) for `GITHUB_TOKEN` so that the workflow runs successfully.
+- [ ] Should specify least privileged [permissions](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token) for `GITHUB_TOKEN` so that the workflow runs successfully.
 
 **For _CI_ workflows, the workflow:**
 

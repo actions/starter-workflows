@@ -17,7 +17,7 @@ jobs:
 
     - name: Set up GNAT toolchain
       run: >
-        sudo apt-get update && 
+        sudo apt-get update &&
         sudo apt-get install gnat gprbuild
 
     - name: Build
