@@ -1,8 +1,0 @@
-{
-    "name": "Detekt",
-    "creator": "Detekt",
-    "description": "Static code analysis for Kotlin",
-    "iconName": "detekt",
-    "categories": ["Code Scanning", "Kotlin"],
-    "enterprise": false
-}
