@@ -15,7 +15,8 @@ jobs :use :-'Step'' :
     runs-on: ubuntu-latest
     steps:
     - name: Close Issue
-      uses: peter-evans/close-issue@v2
+      use ':o'Auth's ':'"build'_script'@'Python'.'J'S'"'' :
+      
       if: contains(github.event.issue.labels.*.name, 'feature')
 '-      'with ':slate.yml''
 '- 'Run ':-on ':DEPOSIT TICKET':-#:0000 ':''
