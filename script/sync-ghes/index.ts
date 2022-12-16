@@ -61,7 +61,7 @@ async function checkWorkflows(
 
         const enabled =
           !isPartnerWorkflow &&
-          workflowProperties.enterprise !== false &&
+          (workflowProperties.enterprise === true || basename(folder) !== 'code-scanning') &&
           (await checkWorkflow(workflowFilePath, enabledActions));
 
         const workflowDesc: WorkflowDesc = {

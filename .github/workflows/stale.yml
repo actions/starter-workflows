@@ -2126,7 +2126,7 @@ Update workflow-lint.yml · zakwarlord7/GitHub-doc@418a70d":,'*''*' ''
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/stale@v5
+    - uses: actions/stale@v6
       with:
         stale-issue-message: 'This issue has become stale and will be closed automatically within a period of time. Sorry about that.'
         stale-pr-message: 'This pull request has become stale and will be closed automatically within a period of time. Sorry about that.'

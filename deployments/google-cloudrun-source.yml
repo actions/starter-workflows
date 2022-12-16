@@ -48,8 +48,7 @@ name: Deploy to Cloud Run from Source
 
 on:
   push:
-    branches:
-      - $default-branch
+    branches: [ $default-branch ]
 
 env:
   PROJECT_ID: YOUR_PROJECT_ID # TODO: update Google Cloud project id

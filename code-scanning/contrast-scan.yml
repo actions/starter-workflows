@@ -8,7 +8,7 @@
 # Contrast Scan currently supports Java, JavaScript and .NET artifacts.
 # For more information about the Contrast Scan GitHub Action see here: https://github.com/Contrast-Security-OSS/contrastscan-action
 
-# Pre-requisites: 
+# Pre-requisites:
 # All Contrast related account secrets should be configured as GitHub secrets to be passed as inputs to the Contrast Scan Action.
 # The required secrets are CONTRAST_API_KEY, CONTRAST_ORGANIZATION_ID and CONTRAST_AUTH_HEADER.
 
@@ -30,6 +30,7 @@ jobs:
     permissions:
         contents: read # for actions/checkout
         security-events: write # for github/codeql-action/upload-sarif
+        actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
     runs-on: ubuntu-latest
     # check out project
     steps:
@@ -37,7 +38,7 @@ jobs:
     # Since Contrast Scan is designed to run against your deployable artifact, the steps to build your artifact should go here.
     # -name: Build Project
     # ...
-    # Scan Artifact    
+    # Scan Artifact
     - name: Contrast Scan Action
       uses: Contrast-Security-OSS/contrastscan-action@7352a45d9678ec8a434cf061b07ffb51c1e351a1
       with:
@@ -45,7 +46,7 @@ jobs:
         apiKey: ${{ secrets.CONTRAST_API_KEY }}
         orgId: ${{ secrets.CONTRAST_ORGANIZATION_ID }}
         authHeader: ${{ secrets.CONTRAST_AUTH_HEADER }}
-    #Upload the results to GitHub      
+    #Upload the results to GitHub
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v2
       with:
