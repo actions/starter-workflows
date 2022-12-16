@@ -9,7 +9,7 @@ on:
   push:
     branches: [ $default-branch, $protected-branches ]
   pull_request:
-    branches: [ $default-branch ]  
+    branches: [ $default-branch ]
   schedule:
     - cron: $cron-weekly
 
@@ -26,7 +26,7 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v3
 
-      # For Terraform, Cloudrail requires the plan as input. So we generate it using 
+      # For Terraform, Cloudrail requires the plan as input. So we generate it using
       # the Terraform core binary.
       - uses: hashicorp/setup-terraform@v1
         with:
@@ -53,6 +53,6 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         # Remember that if issues are found, Cloudrail return non-zero exit code, so the if: always()
         # is needed to ensure the SARIF file is uploaded
-        if: always() 
+        if: always()
         with:
           sarif_file: cloudrail_results.sarif

@@ -26,8 +26,7 @@ env:
 
 on:
   push:
-    branches:
-      - $default-branch
+    branches: [ $default-branch ]
   workflow_dispatch:
 
 permissions:
@@ -44,7 +43,7 @@ jobs:
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-      
+
       - name: Set up dependency caching for faster builds
         uses: actions/cache@v3
         with:

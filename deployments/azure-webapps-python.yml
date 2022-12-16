@@ -25,8 +25,7 @@ env:
 
 on:
   push:
-    branches:
-      - $default-branch
+    branches: [ $default-branch ]
   workflow_dispatch:
 
 permissions:
@@ -52,15 +51,15 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
-        
+
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
-      
+
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v3
         with:
           name: python-app
           path: |
-            . 
+            .
             !venv/
 
   deploy:
@@ -78,7 +77,7 @@ jobs:
         with:
           name: python-app
           path: .
-          
+
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2

@@ -1,0 +1,15 @@
+{
+  "name": "Frogbot Scan Pull Request",
+  "description": "Automatically scans new pull requests for security vulnerabilities. Uses JFrog Xray to scan the project. Included as part of JFrog's free subscription.",
+  "iconName": "frogbot",
+  "categories": [
+    "Code Scanning",
+    "Go Module",
+    "Maven POM",
+    "NPM Config",
+    "Gradle",
+    "C#",
+    "Python"
+  ],
+  "creator": "JFrog"
+}
