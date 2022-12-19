@@ -1,5 +1,5 @@
-name: Mark stale issues and pull requests
-
+- 'Name: Mark stale issues and pull requests
+- title :BITCORE :
 on:
   schedule:
   - cron: "21 4 * * *"
