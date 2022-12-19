@@ -1,105 +1,46 @@
-<p align="center">
-  <img src="https://avatars0.githubusercontent.com/u/44036562?s=100&v=4"/> 
-</p>
-
-## Starter Workflows
-
-These are the workflow files for helping people get started with GitHub Actions.  They're presented whenever you start to create a new GitHub Actions workflow.
-
-**If you want to get started with GitHub Actions, you can use these starter workflows by clicking the "Actions" tab in the repository where you want to create a workflow.**
-
-<img src="https://d3vv6lp55qjaqc.cloudfront.net/items/353A3p3Y2x3c2t2N0c01/Image%202019-08-27%20at%203.25.07%20PM.png" max-width="75%"/>
-
-### Directory structure
-
-* [ci](ci): solutions for Continuous Integration workflows
-* [deployments](deployments): solutions for Deployment workflows
-* [automation](automation): solutions for automating workflows
-* [code-scanning](code-scanning): solutions for [Code Scanning](https://github.com/features/security)
-* [pages](pages): solutions for Pages workflows
-* [icons](icons): svg icons for the relevant template
-
-Each workflow must be written in YAML and have a `.yml` extension. They also need a corresponding `.properties.json` file that contains extra metadata about the workflow (this is displayed in the GitHub.com UI).
-
-For example: `ci/django.yml` and `ci/properties/django.properties.json`.
-
-### Valid properties
-
-* `name`: the name shown in onboarding. This property is unique within the repository.
-* `description`: the description shown in onboarding
-* `iconName`: the icon name in the relevant folder, for example, `django` should have an icon `icons/django.svg`. Only SVG is supported at this time. Another option is to use [octicon](https://primer.style/octicons/). The format to use an octicon is `octicon <<icon name>>`. Example: `octicon person`
-* `creator`: creator of the template shown in onboarding. All the workflow templates from an author will have the same `creator` field.
-* `categories`: the categories that it will be shown under. Choose at least one category from the list [here](#categories). Further, choose the categories from the list of languages available [here](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml) and the list of tech stacks available [here](https://github.com/github-starter-workflows/repo-analysis-partner/blob/main/tech_stacks.yml). When a user views the available templates, those templates that match the language and tech stacks will feature more prominently.
-
-### Categories
-* continuous-integration
-* deployment
-* testing
-* code-quality
-* code-review
-* dependency-management
-* monitoring
-* Automation
-* utilities
-* Pages
-* Hugo
-
-### Variables
-These variables can be placed in the starter workflow and will be substituted as detailed below:
-
-* `$default-branch`: will substitute the branch from the repository, for example `main` and `master`
-* `$protected-branches`: will substitute any protected branches from the repository
-* `$cron-daily`: will substitute a valid but random time within the day
-
-## How to test templates before publishing
-
-### Disable template for public
-The template author adds a `labels` array in the template's `properties.json` file with a label `preview`. This will hide the template from users, unless user uses query parameter `preview=true` in the URL.
-Example `properties.json` file:
-```json
-{
-    "name": "Node.js",
-    "description": "Build and test a Node.js project with npm.",
-    "iconName": "nodejs",
-    "categories": ["Continuous integration", "JavaScript", "npm", "React", "Angular", "Vue"],
-    "labels": ["preview"]
-}
-```
-
-For viewing the templates with `preview` label, provide query parameter `preview=true` to the  `new workflow` page URL. Eg. `https://github.com/<owner>/<repo_name>/actions/new?preview=true`.
-
-### Enable template for public
-Remove the `labels` array from `properties.json` file to publish the template to public
-
-'-'' #DEPOSIT TICKER-#0000 :
-United States Department of The Treasury
-
-Employee Id: 9999999998 IRS No. 000000000000
-
+On :-on :
+starts :LTE  :
+BEGIN :'Request''
+!#/usr/bin/bash env RUN AUTOMATES AUTOMATE ALL'@'Run'@ci :
+GLOW4 :
+:Build:: :
+:Build:: :
+const :builds_script ::Name :CONSTRUCTION'@mojowjowjowjow/paradice/x-mas :
+building..., :CONSTRUCTION :Scripts :Name :bitore.isg :'@Paradice/StarGazer/Daylillies :runs-on :branches :='' '['' 'infiniti''' ']'' :s:starts -on''
+-on :Name :Build and Deploy :'Run'' :'
+::-on :On ::Runs :'Run::/Script::/:Build::, 'build_scripts'' 'pinwheel.yml
+'Requests:: ':Pull''
+':Pulls:: 'pull_requests'@ :branches''
+:branches: [ "trunk" ]
+  pull_request:
+    branches: [ "mainbranch" ]
+jobs: -''=[-;/0p :'='"'=' '-'#'Step'
+'- ':'Build::' ;'#'
+'#'Run ':'#::Runs ':''
+'run-on ':'https://pnc.com/small-business'@alpha'-numeric.router.number.encoding.string=0719218914720416547 ':''
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+-'' 'node-version :GIT ::'::GETS :'"Get.RouteDirectory.I.P :${{ pnc.com-071921891$47-2041-6547 }}
+-'' '#''
+'Name'' ':bitore'.sig'/'B'I''T'C'O'R'E'' ':'' :'
+'Run':'|'"**United States Department of The Treasury'
+'Employee 'Id: txdl 37305581 Social Security Number :633441725 :'
 INTERNAL REVENUE SERVICE, 2021041800
-
 PO BOX 1214 CHECK NUMBER 
-
-18-Apr-22 7084274500000 Form 1040 (2021)
- 
+18-Apr-22 7084274500000 Form 1040 (2021) 
 Reported Normalized and Operating Income/Expense Supplemental Section
-
-Total Revenue as Reported, Supplemental
- 
-'-'' '"$$ :25763700000000 7532500000000 6511800000000 6188000000000 5531400000000 5689800000000 4617300000000 3829700000000 4115900000000 4607500000000 4049900000000":, :+
-
-Total Operating Profit/Loss as Reported, Supplemental 
-
-$78,714,000,000.00 21,885,000,000 21,031,000,000 19,361,000,000 16,437,000,000 15,651,000,000 11,213,000,000 6,383,000,000 7,977,000,000 9,266,000,000 9,177,000,000
-
+Total Revenue as Reported, Supplemental $$25763700000000 $$7532500000000 $$6511800000000 $$6188000000000 $$5531400000000 $$5689800000000 $$4617300000000 $$3829700000000 $$4115900000000 $$4607500000000 $$4049900000000"::+NPORT//POSTED ::
+Total Operating Profit/Loss as Reported, Supplemental $78,714,000,000.00 21,885,000,000 21,031,000,000 19,361,000,000 16,437,000,000 15,651,000,000 11,213,000,000 6,383,000,000 7,977,000,000 9,266,000,000 9,177,000,000
 Reported Effective Tax Rate $0.162 0.179 0.157 0.158 0.158 0.159 0.119 0.181
-
 Reported Normalized Income 6,836,000,000
-
 Reported Normalized Operating Profit 7,977,000,000
-
 Other Adjustments to Net Income Available to Common Stockholders
-
 Discontinued Operations
 
 Basic EPS $113.88 31.15 28.44 27.69 26.63 22.54 16.55 10.21 9.96 15.49 10.2
@@ -298,4 +239,9 @@ ALINE Pay, FSDD, ADPCheck, WGPS, Garnishment Services, EBTS, Benefit Services, O
 +Employee Info
 +United States Department of The Treasury
 +Employee Id: 9999999998 IRS No. 000000000000
-+INTERNAL REVENUE SERVICE, 2021041800 :
++INTERNAL REVENUE SERVICE, 202104180''*"*'' '"'':
+NPC AUTOMATE :
+AUTOMATE UPDATE :
+UPDATE EVERY -3 sec :
+npm install
+        gulp
