@@ -2,5 +2,5 @@
     "name": "Go",
     "description": "Build a Go project.",
     "iconName": "go",
-    "categories": ["Go"]
+    "categories": ["Continuous integration", "Go"]
 }

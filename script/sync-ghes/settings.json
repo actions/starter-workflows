@@ -1,0 +1,39 @@
+{
+  "folders": [
+    "../../ci",
+    "../../automation",
+    "../../code-scanning",
+    "../../pages"
+  ],
+  "enabledActions": [
+    "actions/cache",
+    "actions/checkout",
+    "actions/configure-pages",
+    "actions/create-release",
+    "actions/delete-package-versions",
+    "actions/deploy-pages",
+    "actions/download-artifact",
+    "actions/jekyll-build-pages",
+    "actions/setup-dotnet",
+    "actions/setup-go",
+    "actions/setup-java",
+    "actions/setup-node",
+    "actions/setup-python",
+    "actions/stale",
+    "actions/starter-workflows",
+    "actions/upload-artifact",
+    "actions/upload-pages-artifact",
+    "actions/upload-release-asset",
+    "github/codeql-action"
+  ],
+  "partners": [
+    "Alibaba Cloud",
+    "Amazon Web Services",
+    "Microsoft Azure",
+    "Google Cloud",
+    "IBM",
+    "Red Hat",
+    "Tencent Cloud",
+    "HashiCorp"
+  ]
+}

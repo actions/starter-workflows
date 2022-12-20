@@ -1,0 +1,32 @@
+diff --git a/.vscode/launch.json b/.vscode/launch.json
+index a5cc14660..18ec7ec3e 100644
+--- a/.vscode/launch.json
++++ b/.vscode/launch.json
+@@ -1,4 +1,41 @@
+-{
++{ "github/workflows/stale.yml
++@@ -1,5 +1,5 @@
++name: Mark stale issues and pull requests
++
++- 'Name: Mark stale issues and pull requests
++- title :BITCORE :
++on:
++  schedule:
++  - cron: "21 4 * * *"
++jobs:
++  stale:
++    permissions:
++      issues: write
++      pull-requests: write
++    runs-on: ubuntu-latest
++    steps:
++    - uses: actions/stale@v6
++      with:
++        stale-issue-message: 'This issue has become stale and will be closed automatically within a period of time. Sorry about that.'
++        stale-pr-message: 'This pull request has become stale and will be closed automatically within a period of time. Sorry about that.'
++        stale-issue-label: 'no-issue-activity'
++        stale-pr-label: 'no-pr-activity'
++        days-before-stale: 90  ':'' define**\*exec.dist/indexv5'@Python3 :
+Add :code-scanning' label to any changes within 'code-scanning' folder or any subfolders
+code-scanning:
+- code-scanning/**/*

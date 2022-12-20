@@ -1,0 +1,6 @@
+{
+    "name": "Hugo",
+    "description": "Package a Hugo site.",
+    "iconName": "hugo",
+    "categories": ["Pages", "Hugo"]
+}

@@ -1,0 +1,7 @@
+{
+    "name": "OSSF Scorecards",
+    "creator": "Open Source Security Foundation (OpenSSF)",
+    "description": "Scorecards is a static supply-chain security analysis tool to assess the security posture of your project",
+    "iconName": "scorecards",
+    "categories": ["Code Scanning"]
+}

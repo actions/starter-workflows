@@ -1,0 +1,7 @@
+{
+    "name": "Deploy a Python app to an Azure Web App",
+    "description": "Build a Python app and deploy it to an Azure Web App.",
+    "creator": "Microsoft Azure",
+    "iconName": "azure",
+    "categories": ["Deployment", "Python", "Django", "Flask", "Pip"]
+}
