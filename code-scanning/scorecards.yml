@@ -2,7 +2,7 @@
 # by a third-party and are governed by separate terms of service, privacy
 # policy, and support documentation.
 
-name: Scorecards supply-chain security
+name: Scorecard supply-chain security
 on:
   # For Branch-Protection check. Only the default branch is supported. See
   # https://github.com/ossf/scorecard/blob/main/docs/checks.md#branch-protection
@@ -19,7 +19,7 @@ permissions: read-all
 
 jobs:
   analysis:
-    name: Scorecards analysis
+    name: Scorecard analysis
     runs-on: ubuntu-latest
     permissions:
       # Needed to upload the results to code-scanning dashboard.
@@ -43,7 +43,7 @@ jobs:
           results_format: sarif
           # (Optional) "write" PAT token. Uncomment the `repo_token` line below if:
           # - you want to enable the Branch-Protection check on a *public* repository, or
-          # - you are installing Scorecards on a *private* repository
+          # - you are installing Scorecard on a *private* repository
           # To create the PAT, follow the steps in https://github.com/ossf/scorecard-action#authentication-with-pat.
           # repo_token: ${{ secrets.SCORECARD_TOKEN }}
 
