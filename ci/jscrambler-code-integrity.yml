@@ -1,3 +1,8 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
 # This is a basic workflow to help you get started with Using Jscrambler Code Integrity Action,
 # documentation can be found here : https://docs.jscrambler.com/latest/code-integrity/documentation/github-ci-integration
 
@@ -20,7 +25,7 @@ jobs:
       - name: Protect With Jscrambler Code Integrity
         id: jscrambler
         # the complete list of inputs can be found here: https://github.com/marketplace/actions/jscrambler#inputs
-        uses: jscrambler/code-integrity-actions/protect@v6
+        uses: jscrambler/code-integrity-actions/protect@f3abdc9bd3f9183555eae093e5891f8c86f90979
         with:
           application-id: ${{ secrets.JSCRAMBLER_APPLICATION_ID }}  # This value should be created within your Jscrambler account
           secret-key: ${{ secrets.JSCRAMBLER_SECRET_KEY }}          # This value can be found in your Jscrambler account
