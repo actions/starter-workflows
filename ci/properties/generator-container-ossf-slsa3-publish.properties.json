@@ -1,0 +1,7 @@
+{
+  "name": "SLSA Container generator",
+  "creator": "Open Source Security Foundation (OpenSSF)",
+  "description": "Generate SLSA3 provenance for your Docker container images",
+  "iconName": "generator-container-ossf-slsa3-publish",
+  "categories": ["Continuous integration", "Dockerfile"]
+}
