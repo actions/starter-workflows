@@ -3,8 +3,11 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-# This is a basic workflow to help you get started with Using Jscrambler Code Integrity Action,
-# documentation can be found here : https://docs.jscrambler.com/latest/code-integrity/documentation/github-ci-integration
+# This is a basic workflow to help you get started with Using Jscrambler Code Integrity Action.
+# It automates the protection of your JavaScript Applications, so you can run it whenever a new version of your application is built.
+# A Jscrambler account is required to use this Workflow.
+#
+# More info can be found here : https://docs.jscrambler.com/latest/code-integrity/documentation/github-ci-integration
 
 name: Jscrambler Code Integrity
 
@@ -12,9 +15,14 @@ on:
   release:
     types: [created]
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
