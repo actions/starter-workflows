@@ -16,10 +16,10 @@ on:
   release:
     types: [created]
 
-# Set your IMAGE_REGISTRY and IMAGE_NAME here.
+# Set your REGISTRY and IMAGE_NAME here.
 # The default is [ghcr.io/username/repository]
 env:
-  IMAGE_REGISTRY: ghcr.io
+  REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
@@ -71,10 +71,10 @@ jobs:
       # Output the full image name.
       # NOTE: Set the image as an output because the `env` context is not
       # available to the inputs of a reusable workflow call.
-      - name: Output image
+      - name: Output image name
         id: image
         run: |
-          image_name="${IMAGE_REGISTRY}/${IMAGE_NAME}"
+          image_name="${REGISTRY}/${IMAGE_NAME}"
           echo "image=$image_name" >> "$GITHUB_OUTPUT"
 
   # This step calls the container workflow to generate provenance and push it to
