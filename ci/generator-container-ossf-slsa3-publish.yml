@@ -1,0 +1,95 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# This workflow lets you generate SLSA provenance file for your Docker container image.
+# The generation satisfies level 3 for the provenance requirements - see https://slsa.dev/spec/v0.1/requirements
+# The project is an initiative of the OpenSSF (openssf.org) and is developed at
+# https://github.com/slsa-framework/slsa-github-generator.
+# The provenance file can be verified using https://github.com/slsa-framework/slsa-verifier.
+# For more information about SLSA and how it improves the supply-chain, visit slsa.dev.
+
+name: SLSA container generator
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+
+# Set your IMAGE_REGISTRY and IMAGE_NAME here.
+# The default is [ghcr.io/username/repository]
+env:
+  IMAGE_REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.image.outputs.image }}
+      digest: ${{ steps.build-and-push.outputs.digest }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Workaround: https://github.com/docker/build-push-action/issues/461
+      # https://github.com/docker/setup-buildx-action
+      - name: Setup Docker buildx
+        uses: docker/setup-buildx-action@8c0edbc76e98fa90f69d9a2c020dcb50019dc325 # v2.2.1
+
+      # Login against a Docker registry
+      # https://github.com/docker/login-action
+      - name: Log into registry ${{ env.REGISTRY }}
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20aa # v2.1.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Extract metadata (tags, labels) for Docker
+      # https://github.com/docker/metadata-action
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@57396166ad8aefe6098280995947635806a0e6eaa # v4.1.1
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      # Build and push Docker image with Buildx
+      # https://github.com/docker/build-push-action
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@c56af957549030174b10d6867f20e78cfd7debc5 # v3.2.0
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # Output the full image name.
+      # NOTE: Set the image as an output because the `env` context is not
+      # available to the inputs of a reusable workflow call.
+      - name: Output image
+        id: image
+        run: |
+          image_name="${IMAGE_REGISTRY}/${IMAGE_NAME}"
+          echo "image=$image_name" >> "$GITHUB_OUTPUT"
+
+  # This step calls the container workflow to generate provenance and push it to
+  # the container registry.
+  provenance:
+    needs: [build]
+    permissions:
+      actions: read # To read the Github Actions environment.
+      id-token: write # To create OIDC tokens for signing.
+      packages: write # To upload attestations.
+    if: startsWith(github.ref, 'refs/tags/')
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v1.4.0
+    with:
+      image: ${{ needs.build.outputs.image }}
+      digest: ${{ needs.build.outputs.digest }}
+      registry-username: ${{ github.actor }}
+    secrets:
+      registry-password: ${{ secrets.GITHUB_TOKEN }}
