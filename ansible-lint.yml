@@ -1,0 +1,38 @@
+name: Ansible Lint
+
+on:
+  push:
+    paths:
+      - 'tools/scripts/ansible/**'
+      - '.github/workflows/ansible-lint.yml'
+  pull_request:
+    paths:
+      - 'tools/scripts/ansible/**'
+      - '.github/workflows/ansible-lint.yml'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        lfs: false # not needed for this job, as we don’t currently do a Java build
+    - name: Lint Ansible Playbook
+      # the hash here is a specific version of that repo
+      uses: ansible/ansible-lint-action@c00ea1b2ac047eaf7318275ac83a0cb846cea71a
+      with:
+        targets: tools/scripts/ansible/*-playbook.yml
+        override-deps: |
+          rich>=9.5.1,<11.0.0
+  testprovision:
+    runs-on: macos-10.15  # see https://github.com/actions/virtual-environments/issues/4060
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        lfs: false # not needed for this job, as we don’t currently do a Java build
+    - name: Install Vagrant and Ansible
+      run: brew install ansible
+    - name: Prepare the provision
+      run: (cd tools/scripts/ansible && ansible-galaxy install -r requirements.yml && ln -sv test-local-vars local-vars && vagrant validate)
+    - name: Try the provision (ignored, see CLDR-14757)
+      run: (cd tools/scripts/ansible && vagrant up) || ( echo Failing But Not Blocking CLDR-14757 ; true)
