@@ -101,6 +101,8 @@ jobs:
         with:
           resource-group: ${{ env.RESOURCE_GROUP }}
           cluster-name: ${{ env.CLUSTER_NAME }}
+          admin: 'false'
+          use-kubelogin: 'true'
 
       # Runs Helm to create manifest files
       - name: Bake deployment
