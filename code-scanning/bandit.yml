@@ -32,7 +32,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: Bandit Scan
         uses: shundor/python-bandit-scan@9cc5aa4a006482b8a7f91134412df6772dbda22c
-        
         with: # optional arguments
           # exit with 0, even with results found
           exit_zero: true # optional, default is DEFAULT
