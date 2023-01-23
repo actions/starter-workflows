@@ -3,5 +3,5 @@
     "description": "Protect your JavaScript Application with polymorphic obfuscation, code locks, and self-defensive techniques",
     "creator": "Jscrambler",
     "iconName": "jscrambler",
-    "categories": ["Continuous integration", "JavaScript"]
+    "categories": ["Code Scanning", "JavaScript", "HTML"]
 }
