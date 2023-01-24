@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     # A pull request needs to be approved, before Frogbot scans it. Any GitHub user who is associated with the
     # "frogbot" GitHub environment can approve the pull request to be scanned.
+    # Read more here (Install Frogbot Using GitHub Actions): https://github.com/jfrog/frogbot/blob/master/docs/install-github.md
     environment: frogbot
     steps:
       - uses: actions/checkout@v2
@@ -29,7 +30,7 @@ jobs:
 
       # - uses: actions/setup-go@v3
       #   with:
-      #     go-version: 1.17.x
+      #     go-version: 1.19.x
 
       # - uses: actions/setup-java@v3
       #    with:
@@ -40,7 +41,9 @@ jobs:
       #    with:
       #      node-version: "16.x"
 
-      # The full template list with the required GitHub Actions can be found at https://github.com/jfrog/frogbot/tree/master/templates/github-actions/scan-pull-request
+      # The full template list with the required GitHub Actions can be found at https://github.com/jfrog/frogbot/tree/master/docs/templates/github-actions/scan-pull-request
+      # Frogbot uses a frogbot-config.yml file to run. The following article will guide you through the process of creating this file:
+      # https://github.com/jfrog/frogbot/blob/master/docs/frogbot-config.md
 
       - uses: jfrog/frogbot@b92e53d9631139a697cb71d9e70229a70ca56694
         env:
@@ -63,13 +66,3 @@ jobs:
           # [Mandatory if JF_USER and JF_PASSWORD are not provided]
           # JFrog access token with 'read' permissions on Xray service
           # JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
-
-          # [Mandatory when using npm]
-          # The command that installs the dependencies
-          # JF_INSTALL_DEPS_CMD: "npm i"
-
-          # [Mandatory when using .NET]
-          # The command that installs the dependencies
-          # JF_INSTALL_DEPS_CMD: "dotnet restore"
-
-          # The full template list with full optional environment variables can be found at https://github.com/jfrog/frogbot/tree/master/templates/github-actions/scan-pull-request
