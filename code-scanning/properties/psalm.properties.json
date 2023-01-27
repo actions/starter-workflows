@@ -4,7 +4,7 @@
     "description": "Psalm is a static analysis tool for finding errors in PHP applications",
     "iconName": "psalm",
     "categories": [
-        "Code Scanning", 
+        "Code Scanning",
         "PHP"
     ]
 }
