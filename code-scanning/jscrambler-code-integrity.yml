@@ -12,8 +12,11 @@
 name: Jscrambler Code Integrity
 
 on:
-  release:
-    types: [created]
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ $default-branch ]
 
 permissions:
   contents: read
@@ -30,10 +33,10 @@ jobs:
           node-version: 18
       - run: npm ci
       - run: npm run build
-      - name: Protect With Jscrambler Code Integrity
+      - name: Jscrambler Code Integrity
         id: jscrambler
         # the complete list of inputs can be found here: https://github.com/marketplace/actions/jscrambler#inputs
-        uses: jscrambler/code-integrity-actions/protect@f3abdc9bd3f9183555eae093e5891f8c86f90979
+        uses: jscrambler/code-integrity-actions/protect@ab65962a2ecffcc362b75a997e24a181d0bde5fb
         with:
           application-id: ${{ secrets.JSCRAMBLER_APPLICATION_ID }}  # This value should be created within your Jscrambler account
           secret-key: ${{ secrets.JSCRAMBLER_SECRET_KEY }}          # This value can be found in your Jscrambler account
