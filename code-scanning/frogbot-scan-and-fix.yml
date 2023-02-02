@@ -28,7 +28,7 @@ jobs:
       #  1. See the following link for information about the tools that need to be installed for Frogbot to work - https://github.com/jfrog/frogbot/tree/master/docs/templates/github-actions/scan-and-fix
       #  2. Frogbot requires a frogbot-config.yml to run. Read more about in the following link - https://github.com/jfrog/frogbot/blob/master/docs/frogbot-config.md
 
-      - uses: jfrog/frogbot@80d5c273e67898731f4d20cb5eb218f9f15b3afd
+      - uses: jfrog/frogbot@8daba7e9515dbc898012367c71c1018449cd7716
         env:
           # [Mandatory]
           # JFrog platform URL
