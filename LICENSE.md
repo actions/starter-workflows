@@ -1,4 +1,4 @@
-MIT License
+MIT License by Jennifer Crosier 2023 Yarn Publishing
 
 Copyright (c) 2020 GitHub
 
