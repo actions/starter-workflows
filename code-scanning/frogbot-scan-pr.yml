@@ -7,6 +7,9 @@
 # Uses JFrog Xray to scan the project.
 # Read more about Frogbot here - https://github.com/jfrog/frogbot#frogbot
 
+# Frogbot uses a frogbot-config.yml file to run. The following article will guide you through the process of creating this file:
+# https://github.com/jfrog/frogbot/blob/master/docs/frogbot-config.md
+
 name: "Frogbot Scan Pull Request"
 on:
   pull_request_target:
@@ -19,57 +22,35 @@ jobs:
     runs-on: ubuntu-latest
     # A pull request needs to be approved, before Frogbot scans it. Any GitHub user who is associated with the
     # "frogbot" GitHub environment can approve the pull request to be scanned.
+    # Read more here (Install Frogbot Using GitHub Actions): https://github.com/jfrog/frogbot/blob/master/docs/install-github.md
     environment: frogbot
     steps:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      # Install prerequisites - uncomment the relevant ones
+      #  IMPORTANT:
+      #  1. See the following link for information about the tools that need to be installed for Frogbot to work - https://github.com/jfrog/frogbot/tree/master/docs/templates/github-actions/scan-and-fix
+      #  2. Frogbot requires a frogbot-config.yml to run. Read more about in the following link - https://github.com/jfrog/frogbot/blob/master/docs/frogbot-config.md
 
-      # - uses: actions/setup-go@v3
-      #   with:
-      #     go-version: 1.17.x
-
-      # - uses: actions/setup-java@v3
-      #    with:
-      #      java-version: "11"
-      #      distribution: "temurin"
-
-      # - uses: actions/setup-node@v3
-      #    with:
-      #      node-version: "16.x"
-
-      # The full template list with the required GitHub Actions can be found at https://github.com/jfrog/frogbot/tree/master/templates/github-actions/scan-pull-request
-
-      - uses: jfrog/frogbot@b92e53d9631139a697cb71d9e70229a70ca56694
+      - uses: jfrog/frogbot@8daba7e9515dbc898012367c71c1018449cd7716
         env:
           # [Mandatory]
-          # JFrog platform URL (This functionality requires version 3.29.0 or above of Xray)
+          # JFrog platform URL
           JF_URL: ${{ secrets.JF_URL }}
 
-          # [Mandatory if JF_ACCESS_TOKEN is not provided]
-          # JFrog username with 'read' permissions for Xray. Must be provided with JF_PASSWORD
-          JF_USER: ${{ secrets.JF_USER }}
-
-          # [Mandatory if JF_ACCESS_TOKEN is not provided]
-          # JFrog password. Must be provided with JF_USER
-          JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
+          # [Mandatory if JF_USER and JF_PASSWORD are not provided]
+          # JFrog access token with 'read' permissions on Xray service
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
 
           # [Mandatory]
           # The GitHub token automatically generated for the job
           JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-          # [Mandatory if JF_USER and JF_PASSWORD are not provided]
-          # JFrog access token with 'read' permissions on Xray service
-          # JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+          # [Mandatory if JF_ACCESS_TOKEN is not provided]
+          # JFrog username with 'read' permissions for Xray. Must be provided with JF_PASSWORD
+          # JF_USER: ${{ secrets.JF_USER }}
 
-          # [Mandatory when using npm]
-          # The command that installs the dependencies
-          # JF_INSTALL_DEPS_CMD: "npm i"
-
-          # [Mandatory when using .NET]
-          # The command that installs the dependencies
-          # JF_INSTALL_DEPS_CMD: "dotnet restore"
-
-          # The full template list with full optional environment variables can be found at https://github.com/jfrog/frogbot/tree/master/templates/github-actions/scan-pull-request
+          # [Mandatory if JF_ACCESS_TOKEN is not provided]
+          # JFrog password. Must be provided with JF_USER
+          # JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
