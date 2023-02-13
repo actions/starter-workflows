@@ -1,3 +1,12 @@
+# Haskell CI using Cabal via haskell/action/setup.
+# Build and test a Haskell project using standard cabal commands.
+# Author (2022-02-13): Andreas Abel
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
 name: Haskell CI
 
 on:
@@ -11,33 +20,73 @@ permissions:
 
 jobs:
   build:
+    name: GHC ${{ matrix.ghc-version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        ghc-version: ['9.4', '9.2', '9.0', '8.10']
 
-    runs-on: ubuntu-latest
+        include:
+        - os: windows-latest
+          ghc-version: '9.4'
+        - os: macos-latest
+          ghc-version: '9.4'
 
     steps:
     - uses: actions/checkout@v3
-    - uses: actions/setup-haskell@v1
-      with:
-        ghc-version: '8.10.3'
-        cabal-version: '3.2'
 
-    - name: Cache
-      uses: actions/cache@v3
-      env:
-        cache-name: cache-cabal
+    - name: Set up GHC ${{ matrix.ghc-version }}
+      uses: haskell/actions/setup@v2
+      id: setup
       with:
-        path: ~/.cabal
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/*.cabal') }}-${{ hashFiles('**/cabal.project') }}
+        ghc-version: ${{ matrix.ghc-version }}
+        # Defaults, added for clarity:
+        cabal-version: 'latest'
+        cabal-update: true
+
+    - name: Installed minor versions of GHC and Cabal
+      shell: bash
+        # bash is default in Linux, but needed in Windows for piping syntax.
+      run: |
+        GHC_VERSION=$(ghc --numeric-version)
+        CABAL_VERSION=$(cabal --numeric-version)
+        echo "GHC_VERSION=${GHC_VERSION}"     >> "${GITHUB_ENV}"
+        echo "CABAL_VERSION=${CABAL_VERSION}" >> "${GITHUB_ENV}"
+
+    - name: Configure the build
+      run: |
+        cabal configure --enable-tests --enable-benchmarks
+        cabal build --dry-run
+      # The last step generates dist-newstyle/cache/plan.json for the cache key.
+
+    - name: Restore cached dependencies
+      uses: actions/cache/restore@v3
+      id: cache
+      with:
+        path: ${{ steps.setup.outputs.cabal-store }}
+        key:  ${{ runner.os }}-ghc-${{ env.GHC_VERSION }}-cabal-${{ env.CABAL_VERSION }}-plan-${{ hashFiles('**/plan.json') }}
         restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
+              ${{ runner.os }}-ghc-${{ env.GHC_VERSION }}-cabal-${{ env.CABAL_VERSION }}-
 
     - name: Install dependencies
-      run: |
-        cabal update
-        cabal build --only-dependencies --enable-tests --enable-benchmarks
+      run: cabal build all --only-dependencies
+
+    # Cache dependencies already here, so that we do not have to rebuild them should the subsequent steps fail.
+    - name: Save cached dependencies
+      # Caches are immutable, trying to save with the same key would error.
+      if:   ${{ !steps.cache.outputs.cache-hit || steps.cache.outputs.cache-primary-key != steps.cache.outputs.cache-matched-key }}
+      uses: actions/cache/save@v3
+      with:
+        path: ${{ steps.setup.outputs.cabal-store }}
+        key:  ${{ steps.cache.outputs.cache-primary-key }}
+
     - name: Build
-      run: cabal build --enable-tests --enable-benchmarks all
+      run: cabal build all
+
     - name: Run tests
       run: cabal test all
+
+    - name: Check cabal file
+      run: cabal check
