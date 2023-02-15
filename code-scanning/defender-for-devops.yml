@@ -10,7 +10,7 @@
 # The Microsoft Security DevOps action is currently in beta and runs on the windows-latest queue,
 # as well as Windows self hosted agents. ubuntu-latest support coming soon.
 
-#For more information about the action , check out https://github.com/microsoft/security-devops-action
+# For more information about the action , check out https://github.com/microsoft/security-devops-action
 
 name: "Microsoft Defender For Devops"
 
