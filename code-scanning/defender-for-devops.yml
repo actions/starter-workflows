@@ -2,14 +2,14 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
-
+#
 # Microsoft Security DevOps (MSDO) is a command line application which integrates static analysis tools into the development cycle.
-# MSDO installs, configures and runs the latest versions of static analysis tools 
+# MSDO installs, configures and runs the latest versions of static analysis tools
 # (including, but not limited to, SDL/security and compliance tools).
-
+#
 # The Microsoft Security DevOps action is currently in beta and runs on the windows-latest queue,
 # as well as Windows self hosted agents. ubuntu-latest support coming soon.
-
+#
 # For more information about the action , check out https://github.com/microsoft/security-devops-action
 
 name: "Microsoft Defender For Devops"
