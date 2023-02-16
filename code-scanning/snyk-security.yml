@@ -53,7 +53,7 @@ jobs:
       - name: Snyk Open Source monitor
         run: snyk monitor --all-projects
         
-        # Runs Snyk Code (SAST) analysis and uploadss result into GitHub. 
+        # Runs Snyk Code (SAST) analysis and uploads result into GitHub. 
         # Use || true to not fail the pipeline      
       - name: Snyk Code test 
         run: snyk code test --sarif > snyk-code.sarif || true
