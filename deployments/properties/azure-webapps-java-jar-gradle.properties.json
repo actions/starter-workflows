@@ -3,5 +3,6 @@
     "description": "Build a Gradle project and deploy it to an Azure Web App.",
     "creator": "Microsoft Azure",
     "iconName": "azure",
-    "categories": ["Deployment", "Java", "Gradle"]
+    "categories": ["Deployment", "Java", "Gradle"],
+    "labels": ["preview"]
 }

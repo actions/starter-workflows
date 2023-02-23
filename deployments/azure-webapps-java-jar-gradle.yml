@@ -47,7 +47,7 @@ jobs:
           cache: 'gradle'
 
       - name: Build with Gradle
-        run: gradle assemble
+        run: gradle build
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
