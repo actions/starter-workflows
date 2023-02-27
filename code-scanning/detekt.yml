@@ -77,7 +77,7 @@ jobs:
         fi
 
         DETEKT_DOWNLOAD_URL=$(jq --raw-output '.data.repository.release.releaseAssets.nodes[0].downloadUrl' gh_response.json)
-        echo "::set-output name=download_url::$DETEKT_DOWNLOAD_URL"
+        echo "download_url=$DETEKT_DOWNLOAD_URL" >> $GITHUB_OUTPUT
 
     # Sets up the detekt cli
     - name: Setup Detekt
