@@ -10,7 +10,7 @@
 # How to Get Started with APIsec.ai
 # 1. Schedule a demo at https://www.apisec.ai/request-a-demo .
 #
-# 2. Register your account at https://cloud.fxlabs.io/#/signup .
+# 2. Register your account at https://cloud.apisec.ai/#/signup .
 #
 # 3. Register your API . See the video (https://www.youtube.com/watch?v=MK3Xo9Dbvac) to get up and running with APIsec quickly.
 #
@@ -55,7 +55,7 @@ jobs:
 
     steps:
        - name: APIsec scan
-         uses: apisec-inc/apisec-run-scan@f748a240d69ca6cd7e9532fd0a47bec4ccd6a73c
+         uses: apisec-inc/apisec-run-scan@025432089674a28ba8fb55f8ab06c10215e772ea
          with:
           # The APIsec username with which the scans will be executed
           apisec-username: ${{ secrets.apisec_username }}
