@@ -60,7 +60,7 @@ jobs:
       - name: Snyk Open Source monitor
         run: snyk monitor --all-projects
         
-        # Runs Snyk Infrastructure as Code (IaC) analysis and uploads result to Snyk. 
+        # Runs Snyk Infrastructure as Code (IaC) analysis and uploads result to Snyk.
         # Use || true to not fail the pipeline.
       - name: Snyk IaC test and report
         run: snyk iac test --report # || true
