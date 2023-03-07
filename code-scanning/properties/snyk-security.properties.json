@@ -3,5 +3,5 @@
     "creator": "Snyk",
     "description": "Detect vulnerabilities across your applications and infrastructure with the Snyk platform.",
     "iconName": "snyk",
-    "categories": ["Code Scanning"]
+    "categories": ["Code Scanning","JavaScript", "Python", "Java", "PHP", "C#", "C", "C++", "Ruby", "Swift", "Go", "TypeScript", "Kotlin", "Apex", "Scala", "Terraform", "Dockerfile"]
 }
