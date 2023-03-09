@@ -1,6 +1,6 @@
 name: Mark stale issues and pull requests
 
-on:
+on:Google payment method fix
   schedule:
   - cron: "21 4 * * *"
 
