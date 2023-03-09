@@ -3,14 +3,14 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-# APIsec addresses the critical need to secure APIs before they reach production. 
-# APIsec provides the industry’s only automated and continuous API testing platform that uncovers security vulnerabilities and logic flaws in APIs. 
+# APIsec addresses the critical need to secure APIs before they reach production.
+# APIsec provides the industry’s only automated and continuous API testing platform that uncovers security vulnerabilities and logic flaws in APIs.
 # Clients rely on APIsec to evaluate every update and release, ensuring that no APIs go to production with vulnerabilities.
 
 # How to Get Started with APIsec.ai
 # 1. Schedule a demo at https://www.apisec.ai/request-a-demo .
 #
-# 2. Register your account at https://cloud.fxlabs.io/#/signup .
+# 2. Register your account at https://cloud.apisec.ai/#/signup .
 #
 # 3. Register your API . See the video (https://www.youtube.com/watch?v=MK3Xo9Dbvac) to get up and running with APIsec quickly.
 #
@@ -46,14 +46,16 @@ permissions:
   contents: read
 
 jobs:
-  Trigger APIsec scan:
+
+  Trigger_APIsec_scan:
     permissions:
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
     runs-on: ubuntu-latest
 
     steps:
        - name: APIsec scan
-         uses: apisec-inc/apisec-run-scan@f62d0c6fae8a80f97b091a323befdb56e6ad9993
+         uses: apisec-inc/apisec-run-scan@025432089674a28ba8fb55f8ab06c10215e772ea
          with:
           # The APIsec username with which the scans will be executed
           apisec-username: ${{ secrets.apisec_username }}

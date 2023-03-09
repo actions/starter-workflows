@@ -50,7 +50,7 @@
 #
 # `restart_scan`
 #
-# **Required** when restarting an existing scan by its ID. You can get the scan ID in the Scans section on [nexploit.app](https://nexploit.app/login).<br> Please make sure to only use the necessary parameters. Otherwise, you will get a response with the parameter usage requirements.    
+# **Required** when restarting an existing scan by its ID. You can get the scan ID in the Scans section on [nexploit.app](https://nexploit.app/login).<br> Please make sure to only use the necessary parameters. Otherwise, you will get a response with the parameter usage requirements.
 #
 # _Example:_ `restart_scan: ai3LG8DmVn9Rn1YeqCNRGQ)`
 #
@@ -95,7 +95,7 @@
 #
 # `hosts_filter`
 #
-# **Required** when the the discovery type is set to `archive`. Allows selecting specific hosts for a scan. 
+# **Required** when the the discovery type is set to `archive`. Allows selecting specific hosts for a scan.
 #
 # Outputs
 #

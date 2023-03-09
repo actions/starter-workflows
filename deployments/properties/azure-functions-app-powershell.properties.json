@@ -1,0 +1,7 @@
+{
+    "name": "Deploy PowerShell app to Azure Functions App",
+    "description": "Deploy a PowerShell project to an Azure Functions App on Windows or Linux.",
+    "creator": "Microsoft Azure",
+    "iconName": "azure",
+    "categories": ["Deployment", "PowerShell", "Azure Functions"]
+}
