@@ -1,8 +1,8 @@
-# Sample workflow for building and deploying a mdbook site to GitHub Pages
+# Sample workflow for building and deploying a mdBook site to GitHub Pages
 #
-# To get started with mdbook see: https://rust-lang.github.io/mdBook/index.html
+# To get started with mdBook see: https://rust-lang.github.io/mdBook/index.html
 #
-name: Deploy mdbook site to Pages
+name: Deploy mdBook site to Pages
 
 on:
   # Runs on pushes targeting the default branch
