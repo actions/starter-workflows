@@ -23,6 +23,9 @@ on:
     branches:
     - [$default-branch]
 
+permissions:
+  contents: read
+
 env:
   AZURE_FUNCTIONAPP_NAME: 'your-app-name'   # set this to your function app name on Azure
   BUILD_GRADLE_DIRECTORY: '.'               # set this to the directory which contains build.gradle file
@@ -30,6 +33,8 @@ env:
 
 jobs:
   build-and-deploy:
+    permissions:
+      contents: none
     runs-on: windows-latest # For Linux, use ubuntu-latest
     environment: dev
     steps:
@@ -48,7 +53,7 @@ jobs:
         java-version: ${{ env.JAVA_VERSION }}
 
     # Build function project with functions gradle plugin
-    # For project with function plugin lower than 1.12.1 please make sure you have set same app name in gradle configuration
+    # For project with function plugin lower than 1.12.1, please make sure you have set same app name in gradle configuration
     - name: 'Restore Project Dependencies Using Gradle Plugin for Azure Functions'
       shell: pwsh # For Linux, use bash
       run: |
