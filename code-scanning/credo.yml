@@ -46,7 +46,7 @@ jobs:
         with:
           otp-version: ${{matrix.otp}}
           elixir-version: ${{matrix.elixir}}
-      - name: get dependencies 
+      - name: get dependencies
         run: mix deps.get
       - name: compile dependencies
         run: mix deps.compile
