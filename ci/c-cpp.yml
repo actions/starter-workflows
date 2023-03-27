@@ -1,5 +1,7 @@
 name: C/C++ CI
-
+steps:
+- uses: carlosperate/arm-none-eabi-gcc-action@v1
+- run: arm-none-eabi-gcc --version
 on:
   push:
     branches: [ $default-branch ]
