@@ -1,0 +1,74 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+name: Synopsys Security Testing
+
+on:
+  push:
+    # At this time, it is recommended to run Polaris only on pushes to main branches
+    # Pull request analysis will be supported by Polaris in the future
+    branches: [ $default-branch, $protected-branches ]
+
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Synopsys Action
+        uses: synopsys-sig/synopsys-action@v1.1.0
+        with:
+
+          # Optional parameter to specify path to synopsys bridge.
+          # This can be used if you want to pre-configure your GitHub Runner with the
+          # Synopsys Bridge software
+          # The default is either /{user_home}/synopsys-bridge or in linux /usr/synopsys-bridge
+          #synopsys_bridge_path: "/path_to_bridge_executable"
+
+          #------------------------------------------COVERITY------------------------------------------
+          coverity_url: ${{ secrets.COVERITY_URL }}
+          coverity_user: ${{ secrets.COVERITY_USER }}
+          coverity_passphrase: ${{ secrets.COVERITY_PASSPHRASE }}
+          # Many customers prefer to set their Coverity project and stream names to match
+          # the GitHub repository name
+          coverity_project_name: ${{ secrets.COVERITY_PROJECT_NAME }}
+          coverity_stream_name: ${{ github.event.repository.name }}
+          # Optionally you may specify the ID number of a saved view to apply as a "break the build" policy.
+          # If any defects are found within this view when applied to the project, the build will be failed
+          # with an exit code.
+          #coverity_policy_view: 100001
+          # Below fields are optional
+          coverity_repository_name: ${{ secrets.COVERITY_REPOSITORY_NAME }}
+          coverity_branch_name: ${{ secrets.COVERITY_BRANCH_NAME }}
+
+          #------------------------------------------BLACKDUCK------------------------------------------
+          blackduck_apiToken: ${{ secrets.BLACKDUCK_API_TOKEN }}
+          blackduck_url: ${{ secrets.BLACKDUCK_URL }}
+
+          # Optional parameter. By default, pushes will initiate a full "intelligent" scan and pull requests
+          # will initiate a rapid scan.
+          blackduck_scan_full: false
+          # Required parameter if blackduck_automation_fixpr is enabled
+          # Make sure GITHUB_TOKEN have appropriate permissions
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Optional parameter. By default, create fix pull requests if vulnerabilities are reported
+          # Passing false will disable fix pull request creation
+          blackduck_automation_fixpr: true
+          # Optional parameter. The values could be. ALL|NONE|BLOCKER|CRITICAL|MAJOR|MINOR|OK|TRIVIAL|UNSPECIFIED
+          # Single parameter
+          blackduck_scan_failure_severities: "ALL"
+          # multiple parameters
+          # blackduck_scan_failure_severities: "BLOCKER,CRITICAL,TRIVIAL"
+
+          #------------------------------------------POLARIS------------------------------------------
+          polaris_serverUrl: ${{ secrets.POLARIS_SERVER_URL }}
+          polaris_accessToken: ${{ secrets.POLARIS_ACCESS_TOKEN }}
+          polaris_application_name: "testapp1"
+          polaris_project_name: "testproj1"
+          polaris_assessment_types: "SCA,SAST"
+
+
