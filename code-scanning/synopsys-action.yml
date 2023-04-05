@@ -39,5 +39,3 @@ jobs:
           polaris_application_name: "application_name"
           polaris_project_name: "project_name"
           polaris_assessment_types: "SCA,SAST"
-
-
