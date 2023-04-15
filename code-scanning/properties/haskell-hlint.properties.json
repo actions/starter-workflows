@@ -1,0 +1,11 @@
+{
+    "name": "Scan code with HLint",
+    "description": "Scan Haskell code for problems and suggest improvements using HLint.",
+    "iconName": "haskell",
+    "creator": "haskell-actions",
+    "categories": [
+        "Code Scanning",
+        "Code Quality",
+        "Haskell",
+    ]
+}
