@@ -21,8 +21,7 @@ name: Deploy container to Azure Functions App
 
 on:
   push:
-    branches:
-    - [$default-branch]
+    branches: [$default-branch]
 
 permissions:
   contents: read
