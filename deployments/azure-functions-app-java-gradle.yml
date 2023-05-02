@@ -20,8 +20,7 @@ name: Deploy Gradle Java project to Azure Function App
 
 on:
   push:
-    branches:
-    - [$default-branch]
+    branches: [$default-branch]
 
 permissions:
   contents: read
