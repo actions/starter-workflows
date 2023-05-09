@@ -1,0 +1,266 @@
+server:
+  port: ${PORT:8987}
+logging:
+  file:
+    name: cx-flow.log
+   
+
+cxflow:
+  #zip-exclude: .*\.PNG
+  bug-tracker: JIRA
+  bug-tracker-impl:
+    # - Azure
+    # - Csv
+    # - CxXml
+     #- GitHub
+    # - GitLab
+    #  - GitLabDashboard
+    # - GitLab
+    # - Rally
+    # - Json
+     -JIRA
+    # - SonarQube
+    # -GITHUBPULL
+  branches:
+  - master
+  - main
+  - dev\w+
+  - satyam
+  - myfeature
+  - feature_myfeature 
+  - feature
+  - mainbranch/gyym
+  - demo-master4
+  - release-\w+
+  - refs/heads/main
+  #scan-unprotected-branches: true 
+  #filter-severity:
+  #- High
+  #filter-category:
+  # - SQL_Injection
+  # - Stored_XSS
+  # - Reflected_XSS_All_Clients
+  #filter-cwe:
+  filter-severity:
+    - High
+    - Medium
+    - Low
+  filter-state:
+     - Confirmed
+     - Urgent
+     - Proposed Not Exploitable
+     - To verify
+  # - Urgent
+  # - Confirmed
+  # - To Verify
+  #mitre-url: https://cwe.mitre.org/data/definitions/%s.html
+  #wiki-url: https://custodela.atlassian.net/wiki/spaces/AS/pages/79462432/Remediation+Guidance
+  break-build: true
+  disable-break-build: false
+  #preserve-project-name: true
+  enabled-vulnerability-scanners:
+    - sast
+    #- sca
+  thresholds:
+    high: 1
+    medium: 1
+    low: 1
+  #comment-script: ScanComment.groovy  
+     
+
+checkmarx:
+  version: 9.4
+  username: admin@cx
+  password: Cx123456!
+  #username: admin
+  #password: Cx12345678!
+  #password: ENC(hoAQidE3GCYEiy7y5iy4z2yNoRTvz8fV)
+  client-id: resource_owner_client
+  client-secret: 014DF517-39D1-4453-B7B3-9930C563627C
+  scope: access_control_api sast_rest_api
+  #base-url: http://10.32.6.66
+  #base-url: http://10.32.0.176
+  #base-url: http://10.32.0.55
+  base-url: https://sast94.cxquality.com
+  #multi-tenant: true
+  configuration: Default Configuration
+  cx-branch: true
+  preserve-xml: true
+  team: /CxServer
+  url: ${checkmarx.base-url}/cxrestapi
+  scan-preset: Checkmarx Default
+  settings-override: true
+  #enable-post-action-monitor: true
+  #enable-post-action-event: true
+  post-action-postback-id: 1
+  incremental: false
+  #WSDL Config
+  #exclude-folders: src
+  portal-url: ${checkmarx.base-url}/cxwebinterface/Portal/CxWebService.asmx
+  sdk-url: ${checkmarx.base-url}/cxwebinterface/SDK/CxSDKWebService.asmx
+  portal-wsdl: ${checkmarx.base-url}/Portal/CxWebService.asmx?wsdl
+  sdk-wsdl: ${checkmarx.base-url}/SDK/CxSDKWebService.asmx?wsdl
+  scan-queuing: true
+  scan-queuing-timeout: 720
+  jira-custom-field: jira-fields
+  #project-script: projectscript.groovy
+  
+sca:
+  appUrl: https://sca.checkmarx.net
+  apiUrl: https://api-sca.checkmarx.net
+  accessControlUrl: https://platform.checkmarx.net
+  tenant: Plugins
+  username: hussains
+  password: Cx123456!
+  team: "/CxServer"
+  #enabled-zip-scan: true
+  #include-sources: true
+  #exclude-files: "**/*.xml"
+  #manifests-include-pattern: "!**/*.xml, **/*.yml"
+  #fingerprints-include-pattern: "**/*.yml"
+  #preserve-xml: true
+  filter-severity:
+  - High
+  #filter-policy-violation: true
+  enable-sca-resolver : false
+  #filter-dependency-type: Direct
+  filter-Out-Devdependency: true
+ # path-to-sca-resolver : C:\Users\satyamc\OneDrive - Checkmarx\Desktop\ScaResolver
+ # sca-resolver-add-parameters : "--cxuser admin@cx --cxpassword Cx123456! --cxprojectname URL_Shortner-master --cxserver http://10.32.0.176 --sast-result-path #C:\\Temp\\SAST\\results.json"
+  #thresholds-Score: 8.5
+  #filter-dependency-type: Direct
+  thresholds-severity:
+    high: 1
+    medium: 1
+    low: 1
+
+  sonarqube:
+    file-path: C:\Users\satyamc\OneDrive - Checkmarx\Desktop\Release 1.6.40\pr-sonarqubeissue\SonarQubejson\cxSonarQube.json
+  
+azure:
+  webhook-token: cxflow:12345
+  token: mbntwfykm6m5aolswfegyorqmxa354ej7662ovffm3h2fcrypnwa
+  url: https://dev.azure.com/
+  issue-type: Epic
+  api-version: 5.0
+  false-positive-label: false-positive
+  block-merge: true
+  closed-status: Done
+  open-status: "To Do"
+
+bitbucket:
+  webhook-token: 12345
+  #token: satyam7081255464:ATBByNKTLA3BgZ4Ze6Z3QrgWe7Kb99C28989
+  token: satyam:BBDC-ODYxMzkwOTE2NjA1Og48KYzLqXAYmTieXaJDjeNjuLOT  
+  #url: https://api.bitbucket.org
+  url: http://10.32.5.190:7990
+  api-path: /rest/api/1.0
+
+github:
+  webhook-token: 12345
+  token: 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
+  url: https://github.com
+  api-url: https://api.github.com/repos/
+  false-positive-label: false-positive
+  #block-merge: true
+  block-merge: true
+  error-merge: true
+  #max-description-length : 400
+  #error-merge: true
+  #cx-summary: true
+  max-delay : 3
+
+gitlab:
+  webhook-token: 12345
+  token: S5RCvCwfEX2cdok6jqMb 
+  #url:  https://salty-beds-tan-49-36-213-232.loca.lt
+  #api-url:  https://salty-beds-tan-49-36-213-232.loca.lt/api/v4/
+  url: https://gitlab.com
+  api-url: https://gitlab.com/api/v4/
+  false-positive-label: false-positive
+  block-merge: true
+  
+jira:
+  url: https://kedarbhujade.atlassian.net
+  username: kedar.bhujade6@gmail.com
+  token: WkTHeeomIzkPvWDqMxPoBD2D
+  project: SI
+  issue-type: Bug
+  #label-prefix: < CUSTOM PREFIX NAME >
+  #priorities:
+    #High: High
+    #Medium: Medium
+    #Low: Low
+    #Informational: Lowest
+  open-transition: To Do
+  close-transition: Done
+  sast-issue-summary-format: "[VULNERABILITY] in [PROJECT] with severity [SEVERITY] @ [FILENAME]"
+  sast-issue-summary-branch-format: "[VULNERABILITY] in [PROJECT] with severity [SEVERITY] @ [FILENAME][[BRANCH]]"
+  open-status:
+    - Backlog
+    - Selected for Development
+    - In Progress
+  closed-status:
+    - Done
+  fields:
+    - type: result
+      name: application
+      jira-field-name: Application 
+      jira-field-type: label
+    - type: result
+      name: similarity-id
+      jira-field-name: Similarity Id 
+      jira-field-type: label
+    - type: result
+      name: cwe
+      jira-field-name: CWEs
+      jira-field-type: label
+    - type: result
+      name: category
+      jira-field-name: Category
+      jira-field-type: label
+    - type: result
+      name: loc
+      jira-field-name: LOC
+      jira-field-type: label
+      jira-default-value: XXXXX
+    - type: sca-results
+      name: package-name
+      jira-field-name: Package Name
+      jira-field-type: label
+    - type: sca-results
+      name: current-version
+      jira-field-name: Current Version
+      jira-field-type: label
+    - type: sca-results
+      name: fixed-version
+      jira-field-name: Fixed Version
+      jira-field-type: label
+    - type: sca-results
+      name: newest-version
+      jira-field-name: Newest Version
+      jira-field-type: label
+    - type: sca-results
+      name: locations
+      jira-field-name: Locations
+      jira-field-type: label
+    - type: sca-results
+      name: risk-score
+      jira-field-name: Risk Score
+      jira-field-type: label
+    - type: sca-results
+      name: dev-dependency
+      jira-field-name: Development
+      jira-field-type: single-select
+    - type: sca-results
+      name: direct-dependency
+      jira-field-name: Direct
+      jira-field-type: single-select
+    - type: sca-results
+      name: outdated
+      jira-field-name: Outdated
+      jira-field-type: single-select
+    - type: sca-results
+      name: violates-policy
+      jira-field-name: Violates Policy
+      jira-field-type: single-selectm
