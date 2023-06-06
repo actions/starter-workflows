@@ -1,0 +1,45 @@
+name: Endor Labs OSS Governance Scan
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+  schedule:
+    - cron: $cron-weekly
+
+jobs:
+  scan:
+    permissions:
+      security-events: write # Used to upload sarif artifact to GitHub
+      contents: read # Used to checkout a private repository but actions/checkout. 
+      actions: read # Required for private repositories to upload sarif files. GitHub Advanced Security licenses are required.
+      id-token: write # Used for keyless authentication to Endor Labs
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3    
+    ### Install build tools and run build steps
+  # - name: Setup Java
+  #   uses: actions/setup-java@v3
+  #   with:
+  #     distribution: 'microsoft'
+  #     java-version: '17'
+  # - name: Compile Package
+  #   run: mvn clean install
+    - name: Endor Labs Scan Pull Request
+      if: github.event_name == 'pull_request'
+      uses: endorlabs/github-action@main
+      with:
+        namespace: "example" # Insert your namespace instead of example
+        sarif_file: findings.sarif
+    - name: Endor Labs Scan Push to main
+      if: github.event_name == 'push'
+      uses: endorlabs/github-action@main
+      with:
+        namespace: "example"
+        ci_run: "false"
+        sarif_file: findings.sarif
+    - name: Upload SARIF to github
+      uses: github/codeql-action/upload-sarif@9885f86fab4879632b7e44514f19148225dfbdcd
+      with:
+        sarif_file: findings.sarif
