@@ -35,7 +35,7 @@ jobs:
         sarif_file: findings.sarif
     - name: Endor Labs Scan Push to main
       if: github.event_name == 'push'
-      uses: endorlabs/github-action@main
+      uses: endorlabs/github-action@v1.0.0
       with:
         namespace: "example" # Modify the namespace to your Endor Labs tenant namespace. 
         ci_run: "false"
