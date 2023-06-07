@@ -29,13 +29,13 @@ jobs:
     #   run: mvn clean install
     - name: Endor Labs Scan Pull Request
       if: github.event_name == 'pull_request'
-      uses: endorlabs/github-action@main
+      uses: endorlabs/github-action@b51bd06466b545f01a6ac788e3e1147695d3936c
       with:
         namespace: "example" # Modify the namespace to your Endor Labs tenant namespace. 
         sarif_file: findings.sarif
-    - name: Endor Labs Scan Push to main
-      if: github.event_name == 'push'
-      uses: endorlabs/github-action@v1.0.0
+    - name: Endor Labs Scan Monitor
+      if: github.event_name == 'push' 
+      uses: endorlabs/github-action@b51bd06466b545f01a6ac788e3e1147695d3936c
       with:
         namespace: "example" # Modify the namespace to your Endor Labs tenant namespace. 
         ci_run: "false"
