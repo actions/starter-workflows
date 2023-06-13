@@ -1,4 +1,4 @@
-name: Endor Labs Scan
+name: Endor Labs
 on:
   push:
     branches: [ $default-branch ]
