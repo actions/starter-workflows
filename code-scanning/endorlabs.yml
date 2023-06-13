@@ -15,7 +15,7 @@ jobs:
       id-token: write # Used for keyless authentication to Endor Labs
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Repository
+    - name: Checkout repository
       uses: actions/checkout@v3
     #### Package Build Instructions
     ### Use this section to define the build steps used by your software package. 
@@ -27,13 +27,13 @@ jobs:
     #     java-version: '17'
     # - name: Build Package
     #   run: mvn clean install
-    - name: Endor Labs Scan Pull Request
+    - name: Endor Labs scan pull request
       if: github.event_name == 'pull_request'
       uses: endorlabs/github-action@b51bd06466b545f01a6ac788e3e1147695d3936c
       with:
         namespace: "example" # Modify the namespace to your Endor Labs tenant namespace. 
         sarif_file: findings.sarif
-    - name: Endor Labs Scan Monitor
+    - name: Endor Labs scan monitor
       if: github.event_name == 'push' 
       uses: endorlabs/github-action@b51bd06466b545f01a6ac788e3e1147695d3936c
       with:
