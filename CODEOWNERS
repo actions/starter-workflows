@@ -1,4 +1,4 @@
-* @actions/starter-workflows
+* @actions/actions-workflow-development-reviewers
 
-/code-scanning/ @actions/advanced-security-code-scanning @actions/starter-workflows
-/pages/ @actions/pages @actions/starter-workflows
+/code-scanning/ @actions/advanced-security-code-scanning @actions/actions-workflow-development-reviewers
+/pages/ @actions/pages @actions/actions-workflow-development-reviewers

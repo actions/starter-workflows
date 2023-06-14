@@ -1,7 +1,7 @@
 # This workflow will build a Java project and deploy it to an Azure Functions App on Windows or Linux when a commit is pushed to your default branch.
 #
-# This workflow assumes you have already created the target Azure Functions app.
-# For instructions see https://learn.microsoft.com/en-us/azure/azure-functions/create-first-function-vs-code-java
+# This workflow assumes you have already created the target Azure Functions app and applied azure functions plugin for gradle.
+# For instructions see https://learn.microsoft.com/en-us/azure/azure-functions/functions-create-first-java-gradle
 #
 # To configure this workflow:
 # 1. Set up the following secrets in your repository:
@@ -16,19 +16,24 @@
 #
 # For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples/tree/master/FunctionApp
 
-name: Deploy Java project to Azure Function App
+name: Deploy Gradle Java project to Azure Function App
 
 on:
   push:
     branches: [$default-branch]
 
+permissions:
+  contents: read
+
 env:
   AZURE_FUNCTIONAPP_NAME: 'your-app-name'   # set this to your function app name on Azure
-  POM_XML_DIRECTORY: '.'                    # set this to the directory which contains pom.xml file
+  BUILD_GRADLE_DIRECTORY: '.'               # set this to the directory which contains build.gradle file
   JAVA_VERSION: '8'                         # set this to the java version to use (e.g. '8', '11', '17')
 
 jobs:
   build-and-deploy:
+    permissions:
+      contents: none
     runs-on: windows-latest # For Linux, use ubuntu-latest
     environment: dev
     steps:
@@ -46,11 +51,13 @@ jobs:
       with:
         java-version: ${{ env.JAVA_VERSION }}
 
-    - name: 'Restore Project Dependencies Using Mvn'
+    # Build function project with functions gradle plugin
+    # For project with function plugin lower than 1.12.1, please make sure you have set same app name in gradle configuration
+    - name: 'Restore Project Dependencies Using Gradle Plugin for Azure Functions'
       shell: pwsh # For Linux, use bash
       run: |
-        pushd './${{ env.POM_XML_DIRECTORY }}'
-        mvn clean package
+        pushd './${{ env.BUILD_GRADLE_DIRECTORY }}'
+        gradle azureFunctionsPackage -DappName=${{ env.AZURE_FUNCTIONAPP_NAME }}
         popd
 
     - name: 'Run Azure Functions Action'
@@ -58,6 +65,5 @@ jobs:
       id: fa
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: '${{ env.POM_XML_DIRECTORY }}' # if there are multiple function apps in same project, then this path will be like './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }'
+        package: '${{ env.BUILD_GRADLE_DIRECTORY }}/build/azure-functions/${{ env.AZURE_FUNCTIONAPP_NAME }}'
         publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }} # Remove publish-profile to use Azure RBAC
-        respect-pom-xml: true
