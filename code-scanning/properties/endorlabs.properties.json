@@ -1,6 +1,6 @@
 {
-    "name": "Endor Labs Scan",
-    "creator": "EndorLabs",
+    "name": "Endor Labs scan",
+    "creator": "Endor Labs",
     "description": "Identify, prioritize and address open source and code governance issues with Endor Labs.",
     "iconName": "endorlabs",
     "categories": ["Code Scanning", "javascript", "python", "java", "php", "c#", "ruby", "go", "kotlin", "scala" ]
