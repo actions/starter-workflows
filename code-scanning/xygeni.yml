@@ -1,0 +1,88 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by separate terms of service,
+# privacy policy, and support documentation.
+
+# A sample workflow which sets up Xygeni to analyze the build & deploy system
+# (secret leaks, IaC flaws, code tampering, misconfigurations, risky components,
+# plus standards compliance and inventory). The results are then uploaded to Xygeni
+# and (optionally) to GitHub, either in Code Scanning or Commit Status.
+#
+# To use the Xygeni Action that runs the scan you will need an API token.
+# See https://docs.xygeni.io/xydocs/administration/administration.html#_generate_token_for_scanner
+# and https://github.com/marketplace/actions/xygeni-scanner#setting-api-token-as-encrypted-secret-in-github.
+#
+# For further details, read the documentation at:
+# - https://docs.xygeni.io/xydocs/integrations/ci/github_actions.html
+# - https://docs.xygeni.io/xydocs/howto/monitoring_pipelines.html
+
+name: Xygeni Security
+
+on:
+  push:
+    branches: [$default-branch, $protected-branches]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [$default-branch]
+  schedule:
+    - cron: $cron-weekly
+
+permissions:
+  contents: read
+
+jobs:
+  xygeni:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # to upload results to Code Scanning
+      actions: read # needed to get the Action run status
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        # You may instead pin an action SHA, like this:
+        # uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+        uses: actions/checkout@v3.5.3
+        with:
+          # Full git history for better code tampering detection.
+          fetch-depth: 0
+
+      - name: Xygeni scan
+        # You may instead pin an action SHA, like this:
+        # uses: xygeni/xygeni@4e94e5ea737f5ebfedac8b1a5b75d8c60c21932d
+        uses: xygeni/xygeni@2.1
+        with:
+          # Store you Xygeni api token as a repo/organization/environment secret
+          token: ${{ secrets.XYGENI_TOKEN }}
+          # For analyzing misconfigurations in your GitHub repos/organization you may use a token with more permissions
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
+
+          # Default: run all scans, upload to Xygeni, send findings to Code Scanning alerts
+          command: >
+            scan 
+              --name ${{ github.repository }} --dir /app 
+              --send-to=github/alerts --try-all-scans --never-fail
+
+          # Alternate command examples:
+          #   --run=inventory,codetamper,secrets,suspectdeps,iac,misconf,compliance
+          #   --send-to=github/alerts|github/status
+          #
+          ## Run partial scans and send findings to Commit status/comments
+          #command: >
+          #  scan
+          #    --run=inventory,codetamper,secrets,suspectdeps,iac
+          #    --name ${{ github.repository }} --dir /app
+          #    --send-to=github/status --try-all-scans --never-fail
+          #
+          ## Run partial scans, do not upload, send findings to Commit status/comments, fail the build if critical issue
+          #command: >
+          #  scan
+          #    --run=codetamper,secrets,misconf,suspectdeps,iac
+          #    --name ${{ github.repository }} --dir /app
+          #    --send-to=github/status --no-upload --try-all-scans --fail-on=critical
+          #
+          ## Run a single scan (codetamper) to check if a critical file was modified without review,
+          ## send to GitHub status, and break the build when a critical issue is found.
+          #command: >
+          #  codetamper -n ${{ github.repository }} -d /app --upload --send-to=github/status --fail-on=critical
+

@@ -1,0 +1,12 @@
+{
+    "name": "Xygeni",
+    "creator": "Xygeni Security",
+    "description": "Protect the integrity and security of your software assets, pipelines and infrastructure of the entire software supply chain.",
+    "iconName": "xygeni",
+    "categories": [
+      "Code Scanning",
+      "Build Security",
+      "CI/CD Security",
+      "Software Supply Chain"
+    ]
+}
