@@ -49,7 +49,7 @@ jobs:
 
       - name: Xygeni scan
         # You may instead pin an action SHA, like this:
-        # uses: xygeni/xygeni@4e94e5ea737f5ebfedac8b1a5b75d8c60c21932d
+        # uses: xygeni/xygeni-action@4e94e5ea737f5ebfedac8b1a5b75d8c60c21932d
         uses: xygeni/xygeni-action@v3.2.0
         with:
           # Store you Xygeni api token as a repo/organization/environment secret
