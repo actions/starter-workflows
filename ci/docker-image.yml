@@ -1,4 +1,5 @@
-name: Docker Image CI
+name: Docker Image CI veiw deploy  build: build matrix/docker image 
+
 
 on:
   push:
