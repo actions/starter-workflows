@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Close Issue
-      uses: peter-evans/close-issue@v2
+      uses: peter-evans/close-issue@v3
       if: contains(github.event.issue.labels.*.name, 'support')
       with:
         comment: |
