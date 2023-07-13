@@ -7,8 +7,7 @@
 # Uses JFrog Xray to scan the project.
 # Read more about Frogbot here - https://github.com/jfrog/frogbot#frogbot
 
-# Frogbot uses a frogbot-config.yml file to run. The following article will guide you through the process of creating this file:
-# https://github.com/jfrog/frogbot/blob/master/docs/frogbot-config.md
+# Some projects require creating a frogbot-config.yml file. Read more about it here - https://github.com/jfrog/frogbot/blob/master/docs/frogbot-config.md
 
 name: "Frogbot Scan Pull Request"
 on:
@@ -31,10 +30,17 @@ jobs:
 
       #  IMPORTANT:
       #  1. See the following link for information about the tools that need to be installed for Frogbot to work - https://github.com/jfrog/frogbot/tree/master/docs/templates/github-actions/scan-and-fix
-      #  2. Frogbot requires a frogbot-config.yml to run. Read more about in the following link - https://github.com/jfrog/frogbot/blob/master/docs/frogbot-config.md
+      #  2. Some projects require creating a frogbot-config.yml file. Read more about it here - https://github.com/jfrog/frogbot/blob/master/docs/frogbot-config.md
 
-      - uses: jfrog/frogbot@8daba7e9515dbc898012367c71c1018449cd7716
+      - uses: jfrog/frogbot@3395426f351556d4568e30a6dfd2909dbedae99e
         env:
+          # [Mandatory if the two conditions below are met]
+          # 1. The project uses npm, yarn 2, NuGet or .NET to download its dependencies
+          # 2. The `installCommand` variable isn't set in your frogbot-config.yml file.
+          #
+          # The command that installs the project dependencies (e.g "npm i", "nuget restore" or "dotnet restore")
+          # JF_INSTALL_DEPS_CMD: ""
+
           # [Mandatory]
           # JFrog platform URL
           JF_URL: ${{ secrets.JF_URL }}
@@ -43,10 +49,6 @@ jobs:
           # JFrog access token with 'read' permissions on Xray service
           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
 
-          # [Mandatory]
-          # The GitHub token automatically generated for the job
-          JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
           # [Mandatory if JF_ACCESS_TOKEN is not provided]
           # JFrog username with 'read' permissions for Xray. Must be provided with JF_PASSWORD
           # JF_USER: ${{ secrets.JF_USER }}
@@ -54,3 +56,19 @@ jobs:
           # [Mandatory if JF_ACCESS_TOKEN is not provided]
           # JFrog password. Must be provided with JF_USER
           # JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
+
+          # [Mandatory]
+          # The GitHub token automatically generated for the job
+          JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+          # [Optional]
+          # If the machine that runs Frogbot has no access to the internat, set the name of a remote repository
+          # in Artifactory, which proxies https://releases.jfrog.io/artifactory
+          # The 'frogbot' executable and other tools it needs will be downloaded through this repository.
+          # JF_RELEASES_REPO: ""
+
+          # [Optional]
+          # Frogbot will download the project dependencies, if they're not cached locally. To download the
+          # dependencies from a virtual repository in Artifactory, set the name of of the repository. There's no
+          # need to set this value, if it is set in the frogbot-config.yml file.
+          # JF_DEPS_REPO: ""
