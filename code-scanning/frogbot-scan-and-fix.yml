@@ -27,10 +27,10 @@ jobs:
       #  1. See the following link for information about the tools that need to be installed for Frogbot to work - https://github.com/jfrog/frogbot/tree/master/docs/templates/github-actions/scan-and-fix
       #  2. Some projects require creating a frogbot-config.yml file. Read more about it here - https://github.com/jfrog/frogbot/blob/master/docs/frogbot-config.md
 
-      - uses: jfrog/frogbot@8fbeca612957ae5f5f0c03a19cb6e59e237026f3  # v2.10.0
+      - uses: jfrog/frogbot@f40169ad3e81d367ff5cce6c22ba42b7619765d4  # v2.11.4
         env:
           # [Mandatory if the two conditions below are met]
-          # 1. The project uses npm, yarn 2, NuGet or .NET to download its dependencies
+          # 1. The project uses yarn 2, NuGet or .NET to download its dependencies
           # 2. The `installCommand` variable isn't set in your frogbot-config.yml file.
           #
           # The command that installs the project dependencies (e.g "npm i", "nuget restore" or "dotnet restore")
