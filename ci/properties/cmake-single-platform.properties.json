@@ -1,0 +1,6 @@
+{
+    "name": "CMake based, single-platform projects",
+    "description": "Build and test a CMake based project on a single-platform.",
+    "iconName": "cmake",
+    "categories": ["Continuous integration", "C", "C++"]
+}
