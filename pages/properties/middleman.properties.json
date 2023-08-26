@@ -1,0 +1,6 @@
+{
+    "name": "Middleman",
+    "description": "Package a Middleman site.",
+    "iconName": "middleman",
+    "categories": ["Pages", "Middleman"]
+}
