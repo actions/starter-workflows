@@ -1,7 +1,12 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
 # Sample workflow for building and deploying a Middleman site to GitHub Pages
-#
+
 # To get started with Middleman see: https://middlemanapp.com/
-#
+
 name: Deploy Middleman site to Pages
 
 on:
