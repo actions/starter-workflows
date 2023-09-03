@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.6.0
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1

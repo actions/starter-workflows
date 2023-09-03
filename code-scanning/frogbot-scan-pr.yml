@@ -24,7 +24,7 @@ jobs:
     # Read more here (Install Frogbot Using GitHub Actions): https://github.com/jfrog/frogbot/blob/master/docs/install-github.md
     environment: frogbot
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.6.0
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 

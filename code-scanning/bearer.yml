@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout project source
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.6.0
       # Scan code using Bearer CLI
       - name: Run Report
         id: report
