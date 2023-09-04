@@ -9,7 +9,7 @@ jobs:
       max-parallel: 5
 
     steps:
-    - uses: actions/checkout@v3.6.0
+    - uses: actions/checkout@v4.0.0
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
