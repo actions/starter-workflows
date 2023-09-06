@@ -1,0 +1,6 @@
+{
+  "name": "Publish Docker Container with ko",
+  "description": "Build, test and push Docker image to GitHub Packages.",
+  "iconName": "ko",
+  "categories": ["Continuous integration", "ko"]
+}

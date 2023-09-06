@@ -1,0 +1,96 @@
+name: Ko
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on:
+  schedule:
+    - cron: $cron-daily
+  push:
+    branches: [ $default-branch ]
+    # Publish semver tags as releases.
+    tags: [ 'v*.*.*' ]
+  pull_request:
+    branches: [ $default-branch ]
+
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Install the cosign tool except on PR
+      # https://github.com/sigstore/cosign-installer
+      - name: Install cosign
+        if: github.event_name != 'pull_request'
+        uses: sigstore/cosign-installer@6e04d228eb30da1757ee4e1dd75a0ec73a653e06 #v3.1.1
+        with:
+          cosign-release: 'v2.1.1'
+
+      # This installs the current latest release.
+      - uses: ko-build/setup-ko@ace48d793556083a76f1e3e6068850c1f4a369aa # v0.6
+        with:
+          version: v0.14.1
+
+      # Login against a Docker registry except on PR
+      # https://github.com/docker/login-action
+      - name: Log into registry ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        env:
+          KO_USER: ${{ github.actor }}
+          KO_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "${KO_PASSWORD}" | ko login {{ env.REGISTRY }} --username "${KO_USER}" --password-stdin
+
+      - name: Build and push Docker image
+        id: build
+        env:
+          KO_DOCKER_REPO: "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+          KO_USER: ${{ github.actor }}
+          KO_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          GIT_REF: ${{ github.ref }}
+        run: |
+          # get tag name without tags/refs/ prefix.
+          tag=$(echo ${GIT_REF} | cut -d'/' -f3)
+
+          # Build & push the image. Save the image name.
+          ko build --tags="${tag}" --tags latest  --image-refs .digest --bare .
+          echo "digest=$(cat .digest)" >> "$GITHUB_OUTPUT"
+
+
+      # Sign the resulting Docker image digest except on PRs.
+      # This will only write to the public Rekor transparency log when the Docker
+      # repository is public to avoid leaking data.  If you would like to publish
+      # transparency data even for private images, pass --force to cosign below.
+      # https://github.com/sigstore/cosign
+      - name: Sign the published Docker image
+        if: ${{ github.event_name != 'pull_request' }}
+        env:
+          # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
+          IMAGE: "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+          DIGEST: ${{ steps.build.outputs.digest }}
+        # This step uses the identity token to provision an ephemeral certificate
+        # against the sigstore community Fulcio instance.
+        run: |
+          cosign sign ${IMAGE}@${DIGEST} --yes \
+              -a sha=${{ github.sha }} \
+              -a run_id=${{ github.run_id }} \
+              -a run_attempt=${{ github.run_attempt }}
