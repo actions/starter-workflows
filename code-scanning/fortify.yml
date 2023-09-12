@@ -27,7 +27,6 @@ on:
     branches: [ $default-branch ]
   schedule:
     - cron: $cron-weekly
-    
 jobs:
   FoD-SAST-Scan:
     # Use the appropriate runner for building your source code.
