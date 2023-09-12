@@ -19,7 +19,6 @@ name: Fortify on Demand Scan
 
 # TODO: Customize trigger events based on your DevSecOps processes and typical FoD SAST scan time
 on:
-  workflow_dispatch:
   push:
     branches: [ $default-branch, $protected-branches ]
   pull_request:
@@ -27,6 +26,7 @@ on:
     branches: [ $default-branch ]
   schedule:
     - cron: $cron-weekly
+  workflow_dispatch:
 jobs:
   FoD-SAST-Scan:
     # Use the appropriate runner for building your source code.
@@ -52,9 +52,7 @@ jobs:
 
       # Prepare source+dependencies for upload. The default example is for a Maven project that uses pom.xml.
       # TODO: Update PACKAGE_OPTS based on the ScanCentral Client documentation for your project's included tech stack(s). Helpful hints:
-      #   ScanCentral Client will download dependencies for maven (-bt mvn) and gradle (-bt gradle).
-      #   ScanCentral Client can download dependencies for msbuild projects (-bt msbuild); however, you must convert the workflow to use a Windows runner.
-      #   ScanCentral has additional options that should be set for PHP and Python projects.
+      #   ScanCentral Client will automatically detect use of maven, gradle and msbuild to gather dependencies
       #   To include necessary files for Debricked Software Composition Analysis, ensure the -oss parameter is included.
       #   For other build tools, add your build commands to download necessary dependencies and prepare according to Fortify on Demand Packaging documentation.
       #   ScanCentral Client documentation is located at https://www.microfocus.com/documentation/fortify-software-security-center/
@@ -63,7 +61,7 @@ jobs:
       - name: Package Code + Dependencies
         run: scancentral package $PACKAGE_OPTS -o package.zip
         env:
-          PACKAGE_OPTS: "-bt mvn -oss"
+          PACKAGE_OPTS: "-oss"
 
       # Start Fortify on Demand SAST scan and wait until results complete. For more information on FoDUploader commands, see https://github.com/fod-dev/fod-uploader-java
       # TODO: Update ENV variables for your application and create the necessary GitHub Secrets.  Helpful hints:
