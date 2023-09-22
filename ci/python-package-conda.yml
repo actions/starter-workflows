@@ -1,4 +1,4 @@
-name: Python via miniconda
+name: Python Package using Anaconda
 
 on: [push]
 
