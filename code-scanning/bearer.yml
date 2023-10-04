@@ -32,6 +32,7 @@ jobs:
           api-key: ${{ secrets.BEARER_TOKEN }}
           format: sarif
           output: results.sarif
+          exit-code: 0
       # Upload SARIF file generated in previous step
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v2
