@@ -5,19 +5,17 @@
 
 ################################################################################################################################################
 # Fortify Application Security provides your team with solutions to empower DevSecOps practices, enable cloud transformation, and secure your  #
-# software supply chain. To learn more about Fortify, start a free trial or contact our sales team, visit fortify.com.                           #
+# software supply chain. To learn more about Fortify, start a free trial or contact our sales team, visit fortify.com.                         #
 #                                                                                                                                              #
-# Use this workflow template as a basis for integrating Fortify on Demand Static Application Security Testing(SAST) into your GitHub workflows.#
-# This template demonstrates the steps to prepare the code+dependencies, initiate a scan, download results once complete and import into       #
-# GitHub Security Code Scanning Alerts. Existing customers should review inputs and environment variables below to configure scanning against  #
-# an existing application in your Fortify on Demand tenant. Additional information is available in the comments throughout the workflow, the   #
-# documentation for the Fortify actions used, and the Fortify on Demand / ScanCentral Client product documentation. If you need additional     #
-# assistance with configuration, feel free to create a help ticket in the Fortify on Demand portal.                                            #
+# Use this starter workflow as a basis for integrating Fortify Application Security Testing into your GitHub workflows. This template          #
+# demonstrates the steps to package the code+dependencies, initiate a scan, and optionally import SAST vulnerabilities into GitHub Security    #
+# Code Scanning Alerts. Additional information is available in the comments throughout the workflow, the Fortify AST Action and Fortify        #
+# product documentation. If you need additional, please contact Fortify support.                                                               #
 ################################################################################################################################################
 
-name: Fortify on Demand Scan
+name: Fortify AST Scan
 
-# TODO: Customize trigger events based on your DevSecOps processes and typical FoD SAST scan time
+# Customize trigger events based on your DevSecOps process and/or policy
 on:
   push:
     branches: [ $default-branch, $protected-branches ]
@@ -27,10 +25,10 @@ on:
   schedule:
     - cron: $cron-weekly
   workflow_dispatch:
+
 jobs:
   FoD-SAST-Scan:
-    # Use the appropriate runner for building your source code.
-    # TODO: Use a Windows runner for .NET projects that use msbuild. Additional changes to RUN commands will be required to switch to Windows syntax.
+    # Use the appropriate runner for building your source code. Ensure dev tools required to build your code are present and configured appropriately (MSBuild, Python, etc).
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -42,57 +40,35 @@ jobs:
       - name: Check Out Source Code
         uses: actions/checkout@v3
 
-      # Java is required to run the various Fortify utilities.
-      # When scanning a Java application, please use the appropriate Java version for building your application.
+      # Java is required to run the various Fortify utilities. Ensuring proper version is installed on the runner.
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
-          java-version: 11
+          java-version: 17
           distribution: 'temurin'
 
-      # Prepare source+dependencies for upload. The default example is for a Maven project that uses pom.xml.
-      # TODO: Update PACKAGE_OPTS based on the ScanCentral Client documentation for your project's included tech stack(s). Helpful hints:
-      #   ScanCentral Client will automatically detect use of maven, gradle and msbuild to gather dependencies
-      #   To include necessary files for Debricked Software Composition Analysis, ensure the -oss parameter is included.
-      #   For other build tools, add your build commands to download necessary dependencies and prepare according to Fortify on Demand Packaging documentation.
-      #   ScanCentral Client documentation is located at https://www.microfocus.com/documentation/fortify-software-security-center/
-      - name: Download Fortify ScanCentral Client
-        uses: fortify/gha-setup-scancentral-client@71c3ccac3b0f0b87d9197b2b03c6f6c71b8397a8  # v2.2.2
-      - name: Package Code + Dependencies
-        run: scancentral package $PACKAGE_OPTS -o package.zip
-        env:
-          PACKAGE_OPTS: "-oss"
-
-      # Start Fortify on Demand SAST scan and wait until results complete. For more information on FoDUploader commands, see https://github.com/fod-dev/fod-uploader-java
-      # TODO: Update ENV variables for your application and create the necessary GitHub Secrets.  Helpful hints:
-      #   Credentials and release ID should be obtained from your FoD tenant (either Personal Access Token or API Key can be used).
-      #   Automated Audit preference should be configured for the release's Static Scan Settings in the Fortify on Demand portal.
-      - name: Download Fortify on Demand Universal CI Tool
-        uses: fortify/gha-setup-fod-uploader@16e5036c084b26cee63cb0c38cfc2101cc9fd13d  # v1.1.3
-      - name: Perform SAST Scan
-        run: java -jar $FOD_UPLOAD_JAR -z package.zip -aurl $FOD_API_URL -purl $FOD_URL -rid "$FOD_RELEASE_ID" -tc "$FOD_TENANT" -uc "$FOD_USER" "$FOD_PAT" $FOD_UPLOADER_OPTS -n "$FOD_UPLOADER_NOTES"
-        env:
-          FOD_URL: "https://ams.fortify.com/"
-          FOD_API_URL: "https://api.ams.fortify.com/"
-          FOD_TENANT: ${{ secrets.FOD_TENANT }}
-          FOD_USER: ${{ secrets.FOD_USER }}
-          FOD_PAT: ${{ secrets.FOD_PAT }}
-          FOD_RELEASE_ID: ${{ secrets.FOD_RELEASE_ID }}
-          FOD_UPLOADER_OPTS: "-ep 2 -pp 0 -I 1 -apf"
-          FOD_UPLOADER_NOTES: 'Triggered by GitHub Actions (${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})'
-
-      # Once scan completes, pull SAST issues from Fortify on Demand and generate SARIF output.
-      - name: Export results to GitHub-optimized SARIF
-        uses: fortify/gha-export-vulnerabilities@710c062be6afe6c5afc15adff75184760fb70493  # v1.0.2
+      # Perform SAST and optionally SCA scan via Fortify on Demand/Fortify Hosted/Software Security Center, then import SAST results into GitHub code scanning alerts
+      - name: Run FoD SAST Scan
+        uses: fortify/github-action@v1
         with:
-          fod_base_url: "https://ams.fortify.com/"
-          fod_tenant: ${{ secrets.FOD_TENANT }}
-          fod_user: ${{ secrets.FOD_USER }}
-          fod_password: ${{ secrets.FOD_PAT }}
-          fod_release_id: ${{ secrets.FOD_RELEASE_ID }}
-
-      # Import Fortify on Demand results to GitHub Security Code Scanning
-      - name: Import Results
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: ./gh-fortify-sast.sarif
+          sast-scan: true
+        env:
+          # Use the following variables when integrating with Fortify on Demand
+          FOD_URL: https://ams.fortify.com
+          FOD_TENANT: ${{secrets.FOD_TENANT}}
+          FOD_USER: ${{secrets.FOD_USER}}
+          FOD_PASSWORD: ${{secrets.FOD_PAT}}
+          # EXTRA_FOD_LOGIN_OPTS: --socket-timeout=60s
+          # FOD_RELEASE: MyApp:MyRelease
+          EXTRA_PACKAGE_OPTS: -oss
+          # DO_WAIT: true
+          DO_EXPORT: true
+          # *** Use the following variables when integrating with SSC or Fortify Hosted ***
+          # SSC_URL: ${{secrets.SSC_URL}}
+          # SSC_TOKEN: ${{secrets.SSC_TOKEN}}
+          # SC_SAST_CLIENT_AUTH_TOKEN: ${{secrets.CLIENT_AUTH_TOKEN}}
+          # EXTRA_SC_SAST_LOGIN_OPTS: --socket-timeout=60s
+          # SSC_APPVERSION: MyApp:MyVersion
+          # EXTRA_PACKAGE_OPTS: -oss
+          # DO_WAIT: true
+          # DO_EXPORT: true
