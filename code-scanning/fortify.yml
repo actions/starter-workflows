@@ -27,7 +27,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Fortify AST Scan:
+  Fortify-AST-Scan:
     # Use the appropriate runner for building your source code. Ensure dev tools required to build your code are present and configured appropriately (MSBuild, Python, etc).
     runs-on: ubuntu-latest
     permissions:
