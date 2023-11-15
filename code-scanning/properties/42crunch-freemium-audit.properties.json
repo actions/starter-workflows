@@ -1,0 +1,7 @@
+{
+    "name": "(Freemium) 42Crunch Static API Security Testing",
+    "creator": "42Crunch",
+    "description": "Use 42Crunch Audit to perform static API security testing (SAST) on OpenAPI/Swagger files",
+    "iconName": "42crunch",
+    "categories": ["Code Scanning"]
+}

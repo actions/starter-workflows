@@ -1,0 +1,69 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# This workflow locates REST API file contracts (Swagger or OpenAPI format, v2 and v3, JSON and YAML)
+# and runs 300+ security checks on them using 42Crunch Security Audit technology to uncover
+# potential vulnerabilities related to authentication, authorization as well as data validation.
+# 
+# Check https://42crunch.com/free-user-faq for an introduction to 42Crunch Audit and Scan services.
+#
+# This workflow leverages the Freemium version of 42Crunch Audit. This version is functionality equivalent
+# to the enterprise version, but comes with usage limitations:
+#
+# - Organizations on freemium services are limited to 25 audits per repository, with a maximum of
+#   three repositories per GitHub organization. The limit is reset every calendar month.
+# - Only the default security quality gates (SQGs) are included.
+# - Only the standard data dictionary is included.
+# 
+# Simply add this workflow to an existing repository and issues will be automatically reported to
+# GitHub Code Scanning when available. A SARIF version of the report is also available for download
+# and visualization in tools such as Visual Studio Code.
+#  
+# If you have any questions or need help, open an issue at: https://support.42crunch.com.
+
+name: "42Crunch Static API Security Testing"
+
+# follow standard Code Scanning triggers
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ $default-branch ]
+  schedule:
+    - cron: $cron-weekly
+
+  # Let's you run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run_42c_audit:
+    permissions:
+      contents: read # to allow actions/checkout to fetch code
+      security-events: write # to allow SARIF results upload to Github Code Scanning
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Audit API definition for security issues
+        uses: 42Crunch/api-security-audit-action-freemium@769e8975dfdf8437823ccae389abe722d5eb86e8
+        with:
+          # Upload results to Github Code Scanning
+          # Set to false if you don't have Github Advanced Security enabled.
+          upload-to-code-scanning: true
+          log-level: info
+          ## Save the SARIF file so that it can be exported as artifact
+          ## The file is written only if this input is provided.
+          sarif-report: 42Crunch_AuditReport_${{ github.run_id }}.SARIF
+      - name: save-audit-report
+        if: always()        
+        uses: actions/upload-artifact@v3
+        with:
+          name: 42Crunch_AuditReport_${{ github.run_id }}
+          path: 42Crunch_AuditReport_${{ github.run_id }}.SARIF
+          if-no-files-found: error
