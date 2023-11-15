@@ -61,7 +61,7 @@ jobs:
           ## The file is written only if this input is provided.
           sarif-report: 42Crunch_AuditReport_${{ github.run_id }}.SARIF
       - name: save-audit-report
-        if: always()        
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: 42Crunch_AuditReport_${{ github.run_id }}
