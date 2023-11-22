@@ -1,7 +1,10 @@
-# This workflow file requires a free account on Bearer.com to manage findings, notifications and more.
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
 #
+# This workflow file requires a free account on Bearer.com to manage findings, notifications and more.
 # See https://docs.bearer.com/guides/bearer-cloud/
-
 name: Bearer
 
 on:
@@ -27,11 +30,12 @@ jobs:
       # Scan code using Bearer CLI
       - name: Run Report
         id: report
-        uses: bearer/bearer-action@v2
+        uses: bearer/bearer-action@828eeb928ce2f4a7ca5ed57fb8b59508cb8c79bc
         with:
           api-key: ${{ secrets.BEARER_TOKEN }}
           format: sarif
           output: results.sarif
+          exit-code: 0
       # Upload SARIF file generated in previous step
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v2
