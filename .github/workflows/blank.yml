@@ -1,0 +1,14 @@
+name: blankworkflow
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  blankjob:
+    runs-on: self-hosted
+    steps:
+      - name: Run a one-line script
+        run: echo Hello, world!
+      - name: Run a multi-line script
+        run: |
+          echo line1
+          echo line2
