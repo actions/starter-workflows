@@ -9,8 +9,8 @@
 #                                                                                                                                              #
 # Use this starter workflow as a basis for integrating Fortify Application Security Testing into your GitHub workflows. This template          #
 # demonstrates the steps to package the code+dependencies, initiate a scan, and optionally import SAST vulnerabilities into GitHub Security    #
-# Code Scanning Alerts. Additional information is available in the comments throughout the workflow, the Fortify AST Action and Fortify        #
-# product documentation. If you need additional, please contact Fortify support.                                                               #
+# Code Scanning Alerts. Additional information is available in the workflow comments, the Fortify AST Action documentation and Fortify product #
+# documentation. If you need additional assistance, please contact Fortify support.                                                            #
 ################################################################################################################################################
 
 name: Fortify AST Scan
@@ -53,20 +53,22 @@ jobs:
         with:
           sast-scan: true
         env:
-          # Use the following variables when integrating with Fortify on Demand
+          # Required configuration when integrating with Fortify on Demand
           FOD_URL: https://ams.fortify.com
           FOD_TENANT: ${{secrets.FOD_TENANT}}
           FOD_USER: ${{secrets.FOD_USER}}
           FOD_PASSWORD: ${{secrets.FOD_PAT}}
+          # Optional configuration when integrating with Fortify on Demand
           # EXTRA_FOD_LOGIN_OPTS: --socket-timeout=60s
           # FOD_RELEASE: MyApp:MyRelease
           EXTRA_PACKAGE_OPTS: -oss
           # DO_WAIT: true
           DO_EXPORT: true
-          # *** Use the following variables when integrating with SSC or Fortify Hosted ***
+          # Required configuration when integrating with Fortify SSC (including Fortify Hosted)
           # SSC_URL: ${{secrets.SSC_URL}}
           # SSC_TOKEN: ${{secrets.SSC_TOKEN}}
           # SC_SAST_CLIENT_AUTH_TOKEN: ${{secrets.CLIENT_AUTH_TOKEN}}
+          # Optional configuration when integrating with Fortify SSC (including Fortify Hosted)
           # EXTRA_SC_SAST_LOGIN_OPTS: --socket-timeout=60s
           # SSC_APPVERSION: MyApp:MyVersion
           # EXTRA_PACKAGE_OPTS: -oss
