@@ -7,6 +7,10 @@
 name: 'Dependency Review'
 on: [pull_request]
 
+# If using a dependency submission action in this workflow this permission will need to be set to:
+# permissions:
+#   contents: write
+# https://docs.github.com/en/enterprise-cloud@latest/code-security/supply-chain-security/understanding-your-software-supply-chain/using-the-dependency-submission-api
 permissions:
   contents: read
 
@@ -15,6 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout Repository'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: 'Dependency Review'
         uses: actions/dependency-review-action@v3
+        # Commonly enabled options (https://github.com/actions/dependency-review-action#configuration-options)
+        # with:
+        #   comment-summary-in-pr: true
+        #   retry-on-snapshot-warnings: true
