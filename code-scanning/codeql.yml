@@ -15,8 +15,7 @@ on:
   push:
     branches: [ $default-branch, $protected-branches ]
   pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ $default-branch ]
+    branches: [ $default-branch, $protected-branches ]
   schedule:
     - cron: $cron-weekly
 
@@ -40,8 +39,8 @@ jobs:
       matrix:
         language: [ $detected-codeql-languages ]
         # CodeQL supports [ $supported-codeql-languages ]
-        # Use only 'java' to analyze code written in Java, Kotlin or both
-        # Use only 'javascript' to analyze code written in JavaScript, TypeScript or both
+        # Use only 'java-kotlin' to analyze code written in Java, Kotlin or both
+        # Use only 'javascript-typescript' to analyze code written in JavaScript, TypeScript or both
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
 
     steps:
