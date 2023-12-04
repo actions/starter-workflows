@@ -29,9 +29,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      MDBOOK_VERSION: 0.4.21
+      MDBOOK_VERSION: 0.4.36
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install mdBook
         run: |
           curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf -y | sh
@@ -39,7 +39,7 @@ jobs:
           cargo install --version ${MDBOOK_VERSION} mdbook
       - name: Setup Pages
         id: pages
-        uses: actions/configure-pages@v3
+        uses: actions/configure-pages@v4
       - name: Build with mdBook
         run: mdbook build
       - name: Upload artifact
@@ -57,4 +57,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v3
