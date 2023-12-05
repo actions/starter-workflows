@@ -9,7 +9,7 @@
 #                                                                                                                                              #
 # Use this starter workflow as a basis for integrating Fortify Application Security Testing into your GitHub workflows. This template          #
 # demonstrates the steps to package the code+dependencies, initiate a scan, and optionally import SAST vulnerabilities into GitHub Security    #
-# Code Scanning Alerts. Additional information is available in the workflow comments, the Fortify AST Action documentation and Fortify product #
+# Code Scanning Alerts. Additional information is available in the workflow comments and the Fortify AST Action / fcli / Fortify product       #
 # documentation. If you need additional assistance, please contact Fortify support.                                                            #
 ################################################################################################################################################
 
@@ -66,7 +66,8 @@ jobs:
           # EXTRA_PACKAGE_OPTS: -oss                       # Extra 'scancentral package' options, like '-oss'' if 
                                                            # Debricked SCA scan is enabled on Fortify on Demand
           # EXTRA_FOD_LOGIN_OPTS: --socket-timeout=60s     # Extra 'fcli fod session login' options
-          # FOD_RELEASE: MyApp:MyRelease                   # FoD release, default: <org>/<repo>:<branch>
+          # FOD_RELEASE: MyApp:MyRelease                   # FoD release name, default: <org>/<repo>:<branch>; may
+                                                           # replace app+release name with numeric release ID
           # DO_WAIT: true                                  # Wait for scan completion, implied if 'DO_EXPORT: true'
           # DO_EXPORT: true                                # Export SAST results to GitHub code scanning dashboard
           ### Required configuration when integrating with Fortify Hosted / Software Security Center & ScanCentral
