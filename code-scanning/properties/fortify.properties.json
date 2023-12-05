@@ -1,5 +1,5 @@
 {
-    "name": "Fortify on Demand Scan",
+    "name": "Fortify Scan",
     "creator": "OpenText",
     "description": "Integrate Fortify's comprehensive static code analysis (SAST) for 31+ languages into your DevSecOps workflows.",
     "iconName": "fortify",
