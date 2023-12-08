@@ -16,6 +16,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions: {}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
