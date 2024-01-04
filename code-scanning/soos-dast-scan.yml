@@ -18,7 +18,7 @@
 # 4. (Optional) If you'd like to upload SARIF results of DAST scans to GitHub, set SOOS_GITHUB_PAT with your Github Personal Access Token.
 #
 # NOTE: To get future updates automatically, use the latest major version syntax, e.g. 'uses: soos-io/soos-dast-github-action@v2' instead of the commit hash.
-#
+# NOTE: Check for the latest major version here: https://github.com/marketplace/actions/soos-dast
 
 name: "SOOS DAST Scan"
 
@@ -37,10 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run SOOS DAST Analysis
-        # NOTE: Check the latest version here: https://github.com/marketplace/actions/soos-dast
-        # NOTE: To get future updates automatically, use the latest major version syntax
-        # uses: soos-io/soos-dast-github-action@v2
-        uses: soos-io/soos-dast-github-action@d0ee0d8feb02c1881e6a1d785bf2078662631150 
+        uses: soos-io/soos-dast-github-action@d0ee0d8feb02c1881e6a1d785bf2078662631150 # NOTE: To get future updates automatically, use the latest major version syntax, e.g. uses: soos-io/soos-dast-github-action@v2
         with:
           client_id: ${{ secrets.SOOS_CLIENT_ID }}
           api_key: ${{ secrets.SOOS_API_KEY }}
