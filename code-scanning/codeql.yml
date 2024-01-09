@@ -30,9 +30,12 @@ jobs:
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
     permissions:
+      # required for all workflows
+      security-events: write
+
+      # only required for workflows in private repositories
       actions: read
       contents: read
-      security-events: write
 
     strategy:
       fail-fast: false
