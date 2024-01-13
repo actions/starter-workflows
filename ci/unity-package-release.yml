@@ -1,0 +1,31 @@
+# This workflow will update a release via a Unity package.kson file automagically by reading the version from package.json and creating a new tag.
+# This workflow will use softprops and jq.
+# For more information see: chat.openai.com/
+
+name: Unity Package Release
+on:
+  push:
+   branches:
+      - $default-branch  # Ensure this matches the case of your branch name
+
+jobs:
+  update-release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Read Version from package.json
+      id: package_version
+      run: echo "PACKAGE_VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
+
+    - name: Define new tag with package version
+      run: echo "NEW_TAG=v${{ env.PACKAGE_VERSION }}" >> $GITHUB_ENV
+
+    - name: Update Release using new tag
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ env.NEW_TAG }}
+        name: Release v${{ env.PACKAGE_VERSION }}
+        body: 'Release of version ${{ env.PACKAGE_VERSION }}'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
