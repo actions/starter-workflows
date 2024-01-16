@@ -3,29 +3,41 @@
 # For more information see: chat.openai.com/
 
 name: Unity Package Release
+
 on:
   push:
-   branches:
+    branches:
       - $default-branch  # Ensure this matches the case of your branch name
 
 jobs:
   update-release:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Read Version from package.json
       id: package_version
       run: echo "PACKAGE_VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
 
-    - name: Define new tag with package version
+    - name: Define new tag
       run: echo "NEW_TAG=v${{ env.PACKAGE_VERSION }}" >> $GITHUB_ENV
 
-    - name: Update Release using new tag
+    - name: Find UnityPackage
+      run: |
+        unitypackage=$(ls *.unitypackage 2> /dev/null | head -n 1)
+        echo "Found UnityPackage: $unitypackage"
+        if [ -n "$unitypackage" ]; then
+          new_name="RELEASE-${{ env.PACKAGE_VERSION }}.unitypackage"
+          mv $unitypackage $new_name
+          echo "unitypackage_path=$new_name" >> $GITHUB_ENV
+        fi
+
+    - name: Update Release
       uses: softprops/action-gh-release@v1
       with:
         tag_name: ${{ env.NEW_TAG }}
         name: Release v${{ env.PACKAGE_VERSION }}
         body: 'Release of version ${{ env.PACKAGE_VERSION }}'
+        files: ${{ steps.find_unitypackage.outputs.unitypackage_path }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
