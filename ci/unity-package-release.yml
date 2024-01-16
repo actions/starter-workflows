@@ -31,13 +31,17 @@ jobs:
           mv $unitypackage $new_name
           echo "unitypackage_path=$new_name" >> $GITHUB_ENV
         fi
-
+        
     - name: Update Release
       uses: softprops/action-gh-release@v1
       with:
         tag_name: ${{ env.NEW_TAG }}
         name: Release v${{ env.PACKAGE_VERSION }}
         body: 'Release of version ${{ env.PACKAGE_VERSION }}'
-        files: ${{ steps.find_unitypackage.outputs.unitypackage_path }}
+        files: ${{ env.unitypackage_path }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    
+    - name: List files in directory
+      run: ls -l
