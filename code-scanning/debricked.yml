@@ -25,11 +25,7 @@
 
 name: Debricked Scan
 
-on:
-  push:
-    branches: [ $default-branch, $protected-branches ]
-  schedule:
-    - cron: $cron-weekly
+on: [push]
 
 permissions:
   contents: read
@@ -40,6 +36,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: debricked/actions@94b22916d564d81be502987c0639785aee227d3c
+      - uses: debricked/actions@v3
         env:
           DEBRICKED_TOKEN: ${{ secrets.DEBRICKED_TOKEN }}
