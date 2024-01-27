@@ -1,0 +1,7 @@
+{
+    "name": "Sysdig Inline Scan",
+    "creator": "Sysdig",
+    "description": "Performs analysis on locally built container image and posts the results in SARIF report",
+    "iconName": "sysdig-scan",
+    "categories": ["Code Scanning", "Dockerfile", "C", "C#", "C++", "Go", "Java", "JavaScript", "Node", "Python", "Powershell", "Ruby"]
+}

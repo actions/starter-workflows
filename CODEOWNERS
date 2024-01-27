@@ -1,3 +1,4 @@
-* @actions/actions-experience
+* @actions/actions-workflow-development-reviewers
 
-/code-scanning/ @actions/advanced-security-code-scanning
+/code-scanning/ @actions/advanced-security-code-scanning @actions/actions-workflow-development-reviewers
+/pages/ @actions/pages @actions/actions-workflow-development-reviewers

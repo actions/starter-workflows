@@ -1,0 +1,7 @@
+{
+    "name": "42Crunch API Security Audit",
+    "creator": "42Crunch",
+    "description": "Use the 42Crunch Audit to perform static API security testing (SAST) on OpenAPI/Swagger files.",
+    "iconName": "42crunch",
+    "categories": ["Code Scanning"]
+}

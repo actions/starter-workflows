@@ -19,6 +19,10 @@ interface WorkflowProperties {
   iconName?: string;
 
   categories: string[] | null;
+
+  creator?: string;
+
+  enterprise?: boolean;
 }
 
 interface WorkflowsCheckResult {
@@ -28,12 +32,14 @@ interface WorkflowsCheckResult {
 
 async function checkWorkflows(
   folders: string[],
-  enabledActions: string[]
+  enabledActions: string[],
+  partners: string[]
 ): Promise<WorkflowsCheckResult> {
   const result: WorkflowsCheckResult = {
     compatibleWorkflows: [],
     incompatibleWorkflows: [],
   };
+  const partnersSet = new Set(partners.map((x) => x.toLowerCase()));
 
   for (const folder of folders) {
     const dir = await fs.readdir(folder, {
@@ -41,7 +47,7 @@ async function checkWorkflows(
     });
 
     for (const e of dir) {
-      if (e.isFile()) {
+      if (e.isFile() && extname(e.name) === ".yml") {
         const workflowFilePath = join(folder, e.name);
         const workflowId = basename(e.name, extname(e.name));
         const workflowProperties: WorkflowProperties = require(join(
@@ -51,11 +57,11 @@ async function checkWorkflows(
         ));
         const iconName: string | undefined = workflowProperties["iconName"];
 
-        const isBlankTemplate = workflowId === "blank";
-        const partnerWorkflow = workflowProperties.categories === null;
+        const isPartnerWorkflow = workflowProperties.creator ? partnersSet.has(workflowProperties.creator.toLowerCase()) : false;
 
         const enabled =
-          (isBlankTemplate || !partnerWorkflow) &&
+          !isPartnerWorkflow &&
+          (workflowProperties.enterprise === true || basename(folder) !== 'code-scanning') &&
           (await checkWorkflow(workflowFilePath, enabledActions));
 
         const workflowDesc: WorkflowDesc = {
@@ -90,7 +96,6 @@ async function checkWorkflow(
 ): Promise<boolean> {
   // Create set with lowercase action names for easier, case-insensitive lookup
   const enabledActionsSet = new Set(enabledActions.map((x) => x.toLowerCase()));
-
   try {
     const workflowFileContent = await fs.readFile(workflowPath, "utf8");
     const workflow = safeLoad(workflowFileContent);
@@ -102,7 +107,8 @@ async function checkWorkflow(
         if (!!step.uses) {
           // Check if allowed action
           const [actionName, _] = step.uses.split("@");
-          if (!enabledActionsSet.has(actionName.toLowerCase())) {
+          const actionNwo = actionName.split("/").slice(0, 2).join("/");
+          if (!enabledActionsSet.has(actionNwo.toLowerCase())) {
             console.info(
               `Workflow ${workflowPath} uses '${actionName}' which is not supported for GHES.`
             );
@@ -126,7 +132,8 @@ async function checkWorkflow(
 
     const result = await checkWorkflows(
       settings.folders,
-      settings.enabledActions
+      settings.enabledActions,
+      settings.partners
     );
 
     console.group(
