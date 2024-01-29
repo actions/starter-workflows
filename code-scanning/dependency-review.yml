@@ -28,7 +28,7 @@ jobs:
       - name: 'Checkout repository'
         uses: actions/checkout@v4
       - name: 'Dependency Review'
-        uses: actions/dependency-review-action@v3
+        uses: actions/dependency-review-action@v4
         # Commonly enabled options (https://github.com/actions/dependency-review-action#configuration-options)
         # with:
         #   comment-summary-in-pr: true
