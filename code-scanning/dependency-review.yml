@@ -31,5 +31,7 @@ jobs:
         uses: actions/dependency-review-action@v4
         # Commonly enabled options (https://github.com/actions/dependency-review-action#configuration-options)
         # with:
+        #   fail-on-severity: moderate
+        #   deny-licenses: GPL-1.0-or-later, LGPL-2.0-or-later
         #   comment-summary-in-pr: true
         #   retry-on-snapshot-warnings: true
