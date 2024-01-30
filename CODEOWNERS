@@ -1,4 +1,4 @@
 * @actions/actions-workflow-development-reviewers
 
-/code-scanning/ @actions/advanced-security-code-scanning @actions/actions-workflow-development-reviewers
+/code-scanning/ @actions/advanced-security-code-scanning @actions/actions-workflow-development-reviewers @actions/advanced-security-dependency-graph
 /pages/ @actions/pages @actions/actions-workflow-development-reviewers
