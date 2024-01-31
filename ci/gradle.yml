@@ -37,8 +37,7 @@ jobs:
       run: ./gradlew build
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
-    # If your project does not have the Gradle Wrapper configured, you can use the following configuration 
-    # to run Gradle with a specified version.
+    # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
     #
     # - name: Setup Gradle
     #   uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3.0.0
@@ -47,7 +46,7 @@ jobs:
     #
     # - name: Build with Gradle 8.5
     #   run: gradle build
-    
+
   dependency-submission:
 
     runs-on: ubuntu-latest
