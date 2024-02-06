@@ -17,8 +17,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    # The Dependency submission API requires write permission on the repository to submit dependencies
     permissions:
-      contents: read
+      contents: write
 
     steps:
     - uses: actions/checkout@v4
