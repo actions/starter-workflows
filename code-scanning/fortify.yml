@@ -42,7 +42,7 @@ jobs:
 
       # Java is required to run the various Fortify utilities. Ensuring proper version is installed on the runner.
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: 17
           distribution: 'temurin'
@@ -71,9 +71,11 @@ jobs:
           # DO_WAIT: true                                  # Wait for scan completion, implied if 'DO_EXPORT: true'
           # DO_EXPORT: true                                # Export SAST results to GitHub code scanning dashboard
           ### Required configuration when integrating with Fortify Hosted / Software Security Center & ScanCentral
-          # SSC_URL: ${{secrets.SSC_URL}}
-          # SSC_TOKEN: ${{secrets.SSC_TOKEN}}
-          # SC_SAST_CLIENT_AUTH_TOKEN: ${{secrets.CLIENT_AUTH_TOKEN}}
+          # SSC_URL: ${{secrets.SSC_URL}}                            # SSC URL
+          # SSC_TOKEN: ${{secrets.SSC_TOKEN}}                        # SSC CIToken or AutomationToken
+          # SC_SAST_TOKEN: ${{secrets.SC_SAST_TOKEN}}                # ScanCentral SAST client auth token
+          # SC_SAST_SENSOR_VERSION: ${{vars.SC_SAST_SENSOR_VERSION}} # Sensor version on which to run the scan;
+                                                                     # usually defined as organization or repo variable
           ### Optional configuration when integrating with Fortify Hosted / Software Security Center & ScanCentral
           # EXTRA_SC_SAST_LOGIN_OPTS: --socket-timeout=60s # Extra 'fcli sc-sast session login' options
           # SSC_APPVERSION: MyApp:MyVersion                # SSC application version, default: <org>/<repo>:<branch>
