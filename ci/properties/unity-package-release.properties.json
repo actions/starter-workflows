@@ -1,0 +1,13 @@
+{
+    "name": "unity-package-release",
+    "description": "This workflow uses actions to release a Unity package automagically by reading the version from package.json and creating a new tag. This workflow will use softprops and jq. For more information see: chat.openai.com/",
+    "iconName": "unity",
+    "creator": "Denchyaknow",
+    "categories": 
+    [
+        "Continuous integration",
+        "CSharp",
+        "Unity",
+        "npm"
+    ]
+}
