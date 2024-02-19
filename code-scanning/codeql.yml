@@ -42,6 +42,7 @@ jobs:
       matrix:
         $codeql-languages-matrix
         # CodeQL supports the following values keywords for 'language': $supported-codeql-languages
+        # Use `c-cpp` to analyze code written in C, C++ or both
         # Use 'java-kotlin' to analyze code written in Java, Kotlin or both
         # Use 'javascript-typescript' to analyze code written in JavaScript, TypeScript or both
         # To learn more about changing the languages that are analyzed or customizing the build mode for your analysis,
