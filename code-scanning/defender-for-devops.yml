@@ -7,16 +7,13 @@
 # MSDO installs, configures and runs the latest versions of static analysis tools
 # (including, but not limited to, SDL/security and compliance tools).
 #
-# The Microsoft Security DevOps action is currently in beta and runs on the windows-latest queue,
-# as well as Windows self hosted agents. ubuntu-latest support coming soon.
-#
 # For more information about the action , check out https://github.com/microsoft/security-devops-action
 #
 # Please note this workflow do not integrate your GitHub Org with Microsoft Defender For DevOps. You have to create an integration
 # and provide permission before this can report data back to azure.
 # Read the official documentation here : https://learn.microsoft.com/en-us/azure/defender-for-cloud/quickstart-onboard-github
 
-name: "Microsoft Defender For Devops"
+name: "Microsoft Security DevOps"
 
 on:
   push:
@@ -27,20 +24,20 @@ on:
     - cron: $cron-weekly
 
 jobs:
-  MSDO:
-    # currently only windows latest is supported
-    runs-on: windows-latest
+  MSDO:    
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: |
-          5.0.x
-          6.0.x
+    - uses: actions/checkout@v4
     - name: Run Microsoft Security DevOps
-      uses: microsoft/security-devops-action@v1.6.0
+      uses: microsoft/security-devops-action@v1.10.0
       id: msdo
+      # Override default configuration
+      # with: 
+      #     categories: code, artifacts, IaC, containers
+      #     languages: javascript, typescript  
+      #     tools: bandit, binskim, container-mapping, eslint, templateanalyzer, terrascan, trivy
+      #     includeTools: container-mapping
     - name: Upload results to Security tab
       uses: github/codeql-action/upload-sarif@v2
       with:
