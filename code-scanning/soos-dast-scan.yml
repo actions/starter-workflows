@@ -45,6 +45,6 @@ jobs:
           target_url: "https://www.example.com/"
           output_format: "sarif"
       - name: Upload SOOS DAST SARIF Report
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: results.sarif
