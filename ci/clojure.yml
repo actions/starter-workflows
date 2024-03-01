@@ -1,13 +1,13 @@
 name: Clojure CI
 
-on:
+  on:
   push:
-    branches: [ $default-branch ]
+   branches: [ $default-branch ]
   pull_request:
-    branches: [ $default-branch ]
+   branches: [ $default-branch ]
 
-jobs:
-  build:
+  jobs:
+   build:
 
     runs-on: ubuntu-latest
 
