@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run SOOS DAST Analysis
-        uses: soos-io/soos-dast-github-action@d0ee0d8feb02c1881e6a1d785bf2078662631150
+        uses: soos-io/soos-dast-github-action@a7f2cb2dfd143cb3224712d902ca0a1da0198ea9
         with:
           client_id: ${{ secrets.SOOS_CLIENT_ID }}
           api_key: ${{ secrets.SOOS_API_KEY }}
@@ -45,6 +45,6 @@ jobs:
           target_url: "https://www.example.com/"
           output_format: "sarif"
       - name: Upload SOOS DAST SARIF Report
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: results.sarif
