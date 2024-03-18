@@ -1,0 +1,6 @@
+{
+    "name": "Publish Python Package Using Poetry",
+    "description": "Publish a Python Package Using Poetry to PyPI on release.",
+    "iconName": "python",
+    "categories": ["Continuous integration", "Python"]
+}
