@@ -23,13 +23,13 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: build release distributions
+      - name: Build release distributions
         run: |
           # NOTE: put your own distribution build steps here.
           python -m pip install build
           python -m build
 
-      - name: upload distributions
+      - name: Upload distributions
         uses: actions/upload-artifact@v4
         with:
           name: release-dists
