@@ -43,6 +43,7 @@ jobs:
     needs:
       - release-build
     permissions:
+      # IMPORTANT: this permission is mandatory for trusted publishing
       id-token: write
 
     steps:
