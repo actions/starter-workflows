@@ -19,9 +19,9 @@ name: "Zimperium zScan"
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ $default-branch, $protected-branches ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ $default-branch ]
 
 permissions:
   contents: read
