@@ -4,18 +4,20 @@
 # documentation.
 #
 # SOOS is the easy-to-integrate and affordable software security solution for your whole team.
+#
 # Learn more at https://soos.io/
 #
 # To use this action, perform the following steps:
 #
-# 1.  Create an account on https://app.soos.io. SOOS offers a free 30 day trial for our SCA and DAST products.
+# 1. Create an account on https://app.soos.io. SOOS offers a free 30 day trial for our SCA, DAST, and SBOM products.
 #
-# 2.  Navigate to the "Integrate" page in the SOOS app (https://app.soos.io/integrate). Note the "API Credentials" section of this page; the keys you will need for the next step are here.
+# 2. Navigate to the "Integrate" page in the SOOS app (https://app.soos.io/integrate/dast/). Note the "API Credentials" section of this page; the keys you will need for the next step are here.
 #
 # 3. Set up your SOOS API Key and SOOS Client Id as Github Secrets named SOOS_API_KEY and SOOS_CLIENT_ID.
 #
 # 4. (Optional) If you'd like to upload SARIF results of DAST scans to GitHub, set SOOS_GITHUB_PAT with your Github Personal Access Token.
 #
+#  Check for the latest version here: https://github.com/marketplace/actions/soos-dast
 
 name: "SOOS DAST Scan"
 
@@ -30,11 +32,11 @@ jobs:
     permissions:
       security-events: write # for uploading code scanning alert info
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-    name: SOOS DAST Scan
+    name: SOOS DAST Analysis
     runs-on: ubuntu-latest
     steps:
-      - name: Run SOOS DAST Scan
-        uses: soos-io/soos-dast-github-action@3e71b27756f4ed77d7ad3c0ad92afddb47a40e4d # Use latest version from https://github.com/marketplace/actions/soos-dast
+      - name: Run SOOS DAST Analysis
+        uses: soos-io/soos-dast-github-action@d0ee0d8feb02c1881e6a1d785bf2078662631150
         with:
           client_id: ${{ secrets.SOOS_CLIENT_ID }}
           api_key: ${{ secrets.SOOS_API_KEY }}
