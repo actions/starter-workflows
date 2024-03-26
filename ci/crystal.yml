@@ -1,3 +1,10 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# This CI job installs Crystal and shard dependencies, then executes `crystal spec` to run the test suite
+# More configuration options are available at https://crystal-lang.github.io/install-crystal/configurator.html
 name: Crystal CI
 
 on:
@@ -7,16 +14,25 @@ on:
     branches: [ $default-branch ]
 
 jobs:
-  build:
-
+  test:
+        
     runs-on: ubuntu-latest
 
-    container:
-      image: crystallang/crystal
-
+    strategy:
+      fail-fast: false
+      matrix:
+        crystal: [latest, nightly]
+    
     steps:
-    - uses: actions/checkout@v3
-    - name: Install dependencies
-      run: shards install
-    - name: Run tests
-      run: crystal spec
+      - name: Download source
+        uses: actions/checkout@v4
+      - name: Install Crystal
+        uses: crystal-lang/install-crystal@e4c9d197a5d1fa8329b55dadf309d06050ef5d07 # v1.8.1
+        with:
+          crystal: ${{ matrix.crystal }}
+      - name: Install shards
+        run: shards update
+      - name: Run tests
+        run: crystal spec --order=random
+      - name: Check formatting
+        run: crystal tool format --check
