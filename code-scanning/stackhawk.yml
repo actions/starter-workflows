@@ -49,7 +49,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Start your service
         run: ./your-service.sh &                  # ✏️ Update this to run your own service to be scanned
