@@ -35,26 +35,27 @@ jobs:
       security-events: write  # for github/codeql-action/upload-sarif to upload SARIF results
       actions: read           # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Execute gradle build
-      run: ./gradlew build    # Change this to build your mobile application
+      #  - name: Execute gradle build
+      #    run: echo "./gradlew build"
 
-    - name: Run Zimperium zScan
-      uses: zimperium/zscanmarketplace@bfc6670f6648d796098c251ccefcfdb98983174d
-      timeout-minutes: 60
-      with:
-        # REPLACE: Zimperium Client Environment Name
-        client_env: env_string
-        # REPLACE: Zimperium Client ID
-        client_id: id_string
-        # REPLACE: Zimperium Client Secret
-        client_secret: ${{ secrets.ZSCAN_CLIENT_SECRET }}
-        # REPLACE: The path to an .ipa or .apk
-        app_file: app-release-unsigned.apk
+      - name: Run Zimperium zScan
+        uses: zimperium/zscanmarketplace@fdb690e663100206dd3d8abad03c05d00de69043
+        timeout-minutes: 60
+        with:
 
-    - name: Upload SARIF file
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: Zimperium.sarif
+          # REPLACE: Zimperium Client Environment Name
+          client_env: <Paste Client Env Name Here>
+          # REPLACE: Zimperium Client ID
+          client_id: <Paste CLIENT_ID Here>
+          # REPLACE: Zimperium Client Secret
+          client_secret: ${{ secrets.ZSCAN_CLIENT_SECRET }}
+          # REPLACE: The path to an .ipa or .apk
+          app_file: ./InsecureBankv2.apk
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: Zimperium.sarif
