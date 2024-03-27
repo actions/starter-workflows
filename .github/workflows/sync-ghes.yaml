@@ -15,7 +15,7 @@ jobs:
         git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
         git config user.email "cschleiden@github.com"
         git config user.name "GitHub Actions"
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
         node-version: '16'
         cache: 'npm'
