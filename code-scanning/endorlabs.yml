@@ -24,7 +24,7 @@ jobs:
       uses: actions/checkout@v3
     #### Package Build Instructions
     ### Use this section to define the build steps used by your software package.
-    ### Endor Labs builds your software for you where possible but the required build tools must be made availible.
+    ### Endor Labs builds your software for you where possible but the required build tools must be made available.
     # - name: Setup Java
     #   uses: actions/setup-java@v3
     #   with:
