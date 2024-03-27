@@ -1,0 +1,56 @@
+# This is a basic workflow to help you get started with MATLAB actions.
+# For more information, see https://github.com/matlab-actions.
+# 
+# This workflow uses actions that are not certified by GitHub. 
+# They are provided by a third-party and are governed by 
+# separate terms of service, privacy policy, and support 
+# documentation. 
+
+name: MATLAB
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up MATLAB
+        uses: matlab-actions/setup-matlab@v1
+
+      - name: Run tests and generate artifacts
+        uses: matlab-actions/run-tests@v1
+        with:
+          source-folder: mysource
+          code-coverage-cobertura: code-coverage/coverage.xml
+          test-results-junit: test-results/results.xml
+
+      - name: Upload code coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage
+          path: code-coverage/coverage.xml
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: test-results
+          path: test-results/results.xml
+
+      # As an alternative to run-tests, you can use run-command to execute a MATLAB script
+      # - name: Run script
+      #   uses: matlab-actions/run-command@v1
+      #   with:
+      #     command: myscript
+
+      # As an alternative to run-tests, you can use run-build to execute a MATLAB build
+      # - name: Run build
+      #   uses: matlab-actions/run-build@v1
