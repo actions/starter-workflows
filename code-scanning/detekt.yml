@@ -13,7 +13,7 @@
 # 4. Manually, on demand, via the "workflow_dispatch" event
 #
 # The workflow should work with no modifications, but you might like to use a
-# later version of the Detekt CLI by modifing the $DETEKT_RELEASE_TAG
+# later version of the Detekt CLI by modifying the $DETEKT_RELEASE_TAG
 # environment variable.
 name: Scan with Detekt
 
