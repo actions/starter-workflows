@@ -1,0 +1,6 @@
+{
+    "name": "Publish Python Package Using Twine",
+    "description": "Publish a Python Package Using Twine to PyPI on release.",
+    "iconName": "python",
+    "categories": ["Continuous integration", "Python"]
+}
