@@ -1,0 +1,7 @@
+{
+    "name": "OSV Scanner",
+    "creator": "Google",
+    "description": "Vulnerability scanner for your dependencies using data provided by https://osv.dev",
+    "iconName": "osv",
+    "categories": ["Code Scanning", "JavaScript", "Python", "Java", "PHP", "C#", "R", "Ruby", "Rust", "Swift", "Go", "TypeScript"]
+}
