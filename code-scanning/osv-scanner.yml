@@ -4,7 +4,7 @@
 # documentation.
 
 # A sample workflow which sets up periodic OSV-Scanner scanning for vulnerabilities,
-# in addition to a PR check which fails if new vulnerabilities are introduced. 
+# in addition to a PR check which fails if new vulnerabilities are introduced.
 #
 # For more examples and options, including how to ignore specific vulnerabilities,
 # see https://google.github.io/osv-scanner/github-action/
