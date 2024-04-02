@@ -1,6 +1,0 @@
-{
-    "name": "GitHub Pages Jekyll",
-    "description": "Package a Jekyll site with GitHub Pages dependencies preinstalled.",
-    "iconName": "jekyll-tube",
-    "categories": ["Pages", "Jekyll"]
-}
