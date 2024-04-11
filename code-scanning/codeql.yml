@@ -33,6 +33,9 @@ jobs:
       # required for all workflows
       security-events: write
 
+      # required to fetch internal or private CodeQL packs
+      packages: read
+
       # only required for workflows in private repositories
       actions: read
       contents: read
