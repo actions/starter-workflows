@@ -1,0 +1,7 @@
+{
+    "name": "Policy Validator for AWS IAM Policies in CloudFormation Templates",
+    "creator": "Amazon",
+    "description": "Policy Validator for AWS IAM Policies in CloudFormation Templates",
+    "iconName": "aws",
+    "categories": ["Code Scanning", "AWS", "Python"]
+}

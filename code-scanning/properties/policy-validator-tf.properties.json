@@ -1,0 +1,7 @@
+{
+    "name": "Policy Validator for AWS IAM Policies in Terraform Templates",
+    "creator": "Amazon",
+    "description": "Policy Validator for AWS IAM Policies in Terraform Templates",
+    "iconName": "aws",
+    "categories": ["Code Scanning", "AWS", "Python"]
+}
