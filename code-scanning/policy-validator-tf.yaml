@@ -4,53 +4,27 @@
 # documentation.
 
 # This workflow will validate the IAM policies in the terraform (TF) templates with using the standard and custom checks in AWS IAM Access Analyzer
-# To use this workflow, you will need to complete the following set-up steps:
+# To use this workflow, you will need to complete the following set up steps before start using it:
 # 1. Configure an AWS IAM role to use the Access Analyzer's ValidatePolicy, CheckNoNewAccess and CheckAccessNotGranted. This IAM role must be configured to call from the GitHub Actions, use the following [doc](https://aws.amazon.com/blogs/security/use-iam-roles-to-connect-github-actions-to-actions-in-aws/) for steps. In the below workflow, ARN of such role is stored in the GitHub secrets with name `POLICY_VALIDATOR_ROLE`
-# 2. Copy this workflow and add it under .github/workflows folder of your GitHub repository with name `policy-validator-iam-policies-tf.yaml`
-# 3. If you're using CheckNoNewAccess check, you need to create a reference policy. Use the guide [here](https://github.com/aws-samples/iam-access-analyzer-custom-policy-check-samples?tab=readme-ov-file#how-do-i-write-my-own-reference-policies)and store them in S3 bucket / GitHub secrets to compare them against the policies in the TF templates. In below workflow, we are storing the reference policy in the GitHub secrets with name `REFERENCE_IDENTITY_POLICY`
-# 4. If you're using the CheckAccessNotGranted check, identify the critical actions that shouldn't be granted access by the policies in the TF templates. Store these actions in S3 bucket / GitHub secrets to compare them against the policies in the TF templates. In the below workflow, we are storing the S3 bucket object containing the critical action in the GitHub secret with name `CRITICAL_ACTIONS`
-# 5. Create a new workflow under ./github/workflows and refer this workflow. Configure the workflow with events to run and the path to the terraform plan to be validated. Reference sample code:
-# ```
-# name: Policy Validator for AWS IAM policies in Terraform templates
-# on:
-#   pull_request:
-#     types: [opened, review_requested]
-#   push:
-#     branches:
-#       - 'main'
-# jobs:
-#     security-scanner-developers:
-#         uses: .github/workflows/policy-validator-iam-policies-tf.yaml@main
-#         secrets: inherit
-#         with:
-#             template-path: file-path-to-tf-plan.yaml #Path to the terraform plan
-#             region: us-west-2
-# ```
+# 2. If you're using CheckNoNewAccess check, you need to create a reference policy. Use the guide [here](https://github.com/aws-samples/iam-access-analyzer-custom-policy-check-samples?tab=readme-ov-file#how-do-i-write-my-own-reference-policies)and store it's path in S3 bucket / GitHub secrets/ in the GitHub repo to compare them against the policies in the TF templates. In below workflow, we are storing the path to reference policy in the GitHub secrets with name `REFERENCE_IDENTITY_POLICY` to illustrate
+# 3. If you're using the CheckAccessNotGranted check, identify the critical actions that shouldn't be granted access by the policies in the TF templates. Store these actions in S3 bucket / GitHub secrets to compare them against the policies in the TF templates. In the below workflow, we are storing the S3 bucket object containing the critical action in the GitHub secret with name `CRITICAL_ACTIONS`
 # 4. Start using the GitHub actions by generating the GitHub events matching the defined criteria in your workflow.
 
-name: Re-usable workflow for validating AWS IAM policies in Terraform templates using Policy Validator
+name: Validate AWS IAM policies in Terraform templates using Policy Validator
 on:
-  # This workflow is written to illustrate it to use it as re-usable workflow.
-  workflow_call:
-    inputs:
-      template-path:
-        required: true
-        type: string
-      region:
-        required: true
-        type: string
-    outputs:
-      result:
-        value: string
-  # Uncomment the below lines if you want to run this workflow as against push / pull request of default branch
-  # Note: Please pass the value of the inputs in the below workflow by replacing ${{ inputs.<variable> }} with value if you don't want to use it as a re-usable workflow
-  # push:
-  #   branches: [$default-branch, $protected-branches]
-  # pull_request:
-  #   # The branches below must be a subset of the branches above
-  #   branches: [$default-branch]
+  push:
+    branches: [$default-branch, $protected-branches]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [$default-branch]
+env:
+  REGION: MY_AWS_REGION # set this to your preferred AWS region where you plan to deploy your policies, e.g. us-west-1
+  TEMPLATE_PATH: FILE_PATH_TO_THE_TF_PLAN # set this to the file path to the terraform plan in JSON
+  REFERENCE_POLICY: REFERENCE_POLICY # set to pass a JSON formatted file that specifies the path to the reference policy that is used for a permissions comparison. For example, if you stored such path in a GitHub secret with name REFERENCE_IDENTITY_POLICY , you can pass ${{ secrets.REFERENCE_IDENTITY_POLICY }}. If not you have the reference policy in the repository, you can directly pass it's path. This is required if you are using `CHECK_NO_NEW_ACCESS_CHECK` policy-check-type.
+  REFERENCE_POLICY_TYPE: TYPE_OF_REFERENCE_POLICY # set to pass the policy type associated with the IAM policy under analysis and the reference policy. This is required if you are using `CHECK_NO_NEW_ACCESS_CHECK` policy-check-type.
+
 jobs:
-  security-scanner-shared:
+  policy-validator:
     runs-on: ubuntu-latest # Virtual machine to run the workflow (configurable)
     #https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#updating-your-github-actions-workflow
     #https://aws.amazon.com/blogs/security/use-iam-roles-to-connect-github-actions-to-actions-in-aws/
@@ -62,26 +36,26 @@ jobs:
     steps:
       # checkout the repo for workflow to access the contents
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       # Configure AWS Credentials. More configuration details here- https://github.com/aws-actions/configure-aws-credentials
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
         with:
           role-to-assume: ${{ secrets.POLICY_VALIDATOR_ROLE }}
-          aws-region: ${{ inputs.region }}
+          aws-region: ${{ env.REGION }}
       # Run the VALIDATE_POLICY check. More configuration details here - https://github.com/aws-actions/terraform-aws-iam-policy-validator
       - name: Run AWS AccessAnalyzer ValidatePolicy check
         id: run-aws-validate-policy
         uses: aws-actions/terraform-aws-iam-policy-validator@3e527234ccf8ca494450942c4a91d54b291b013e #v1.0.0
         with:
           policy-check-type: "VALIDATE_POLICY"
-          template-path: ${{ inputs.template-path }}
-          region: ${{ inputs.region }}
+          template-path: ${{ env.TEMPLATE_PATH }}
+          region: ${{ env.REGION }}
       # Print result from VALIDATE_POLICY check
       - name: Print the result for ValidatePolicy check
         if: success() || failure()
         run: echo "${{ steps.run-aws-validate-policy.outputs.result }}"
-      # Fetch the critial actions stored in S3, S3 URI is stored in GitHub secrets
+      # Fetch the critical actions stored in S3, S3 URI is stored in GitHub secrets
       - name: Fetch critical actions from s3
         id: getCriticalActions
         run: |
@@ -93,9 +67,9 @@ jobs:
         uses: aws-actions/terraform-aws-iam-policy-validator@3e527234ccf8ca494450942c4a91d54b291b013e #v1.0.0
         with:
           policy-check-type: "CHECK_ACCESS_NOT_GRANTED"
-          template-path: ${{ inputs.template-path }}
+          template-path: ${{ env.TEMPLATE_PATH }}
           actions: ${{ steps.getCriticalActions.outputs.actionsLst }}
-          region: ${{ inputs.region }}
+          region: ${{ env.REGION }}
       # Print result from CHECK_ACCESS_NOT_GRANTED check
       - name: Print the result for CheckAccessNotGranted check
         if: success() || failure()
@@ -107,10 +81,10 @@ jobs:
         uses: aws-actions/terraform-aws-iam-policy-validator@3e527234ccf8ca494450942c4a91d54b291b013e #v1.0.0
         with:
           policy-check-type: "CHECK_NO_NEW_ACCESS"
-          template-path: ${{ inputs.template-path }}
-          reference-policy: ${{ secrets.REFERENCE_IDENTITY_POLICY }}
-          reference-policy-type: "IDENTITY"
-          region: ${{ inputs.region }}
+          template-path: ${{ env.TEMPLATE_PATH }}
+          reference-policy: ${{ env.REFERENCE_POLICY }}
+          reference-policy-type: ${{ env.REFERENCE_POLICY_TYPE }}
+          region: ${{ env.REGION }}
       # Print result from CHECK_NO_NEW_ACCESS check
       - name: Print the result CheckNoNewAccess check
         if: success() || failure()
