@@ -3,7 +3,6 @@
     "../../ci",
     "../../automation",
     "../../code-scanning",
-    "../../pages"
   ],
   "enabledActions": [
     "actions/cache",
