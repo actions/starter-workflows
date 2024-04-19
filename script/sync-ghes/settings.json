@@ -10,7 +10,6 @@
     "actions/configure-pages",
     "actions/create-release",
     "actions/delete-package-versions",
-    "actions/deploy-pages",
     "actions/download-artifact",
     "actions/jekyll-build-pages",
     "actions/setup-dotnet",
@@ -21,7 +20,6 @@
     "actions/stale",
     "actions/starter-workflows",
     "actions/upload-artifact",
-    "actions/upload-pages-artifact",
     "actions/upload-release-asset",
     "github/codeql-action"
   ],
