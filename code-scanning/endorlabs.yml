@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     #### Package Build Instructions
     ### Use this section to define the build steps used by your software package.
     ### Endor Labs builds your software for you where possible but the required build tools must be made available.
