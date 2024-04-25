@@ -24,7 +24,7 @@ on:
     - cron: $cron-weekly
 
 jobs:
-  MSDO:    
+  MSDO:
     runs-on: ubuntu-latest
 
     steps:
