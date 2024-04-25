@@ -53,7 +53,7 @@ jobs:
       # and run them directly from within your pipeline; see https://github.com/fortify/github-action#readme for
       # details.
       - name: Run FoD SAST Scan
-        uses: fortify/github-action@v1
+        uses: fortify/github-action@a92347297e02391b857e7015792cd1926a4cd418
         with:
           sast-scan: true
         env:
