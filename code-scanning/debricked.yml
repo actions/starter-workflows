@@ -25,17 +25,19 @@
 
 name: Debricked Scan
 
-on: [push]
+on:
+  push:
 
 permissions:
   contents: read
 
 jobs:
   vulnerabilities-scan:
+    name: Vulnerabilities scan
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: debricked/actions@v3
         env:
           DEBRICKED_TOKEN: ${{ secrets.DEBRICKED_TOKEN }}
