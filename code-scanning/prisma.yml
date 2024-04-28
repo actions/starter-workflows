@@ -34,7 +34,7 @@ jobs:
     name: Run Prisma Cloud IaC Scan to check
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - id: iac-scan
         name: Run Scan on CFT files in the repository
         uses: prisma-cloud-shiftleft/iac-scan-action@53278c231c438216d99b463308a3cbed351ba0c3
