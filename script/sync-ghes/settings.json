@@ -2,7 +2,7 @@
   "folders": [
     "../../ci",
     "../../automation",
-    "../../code-scanning",
+    "../../code-scanning"
   ],
   "enabledActions": [
     "actions/cache",
