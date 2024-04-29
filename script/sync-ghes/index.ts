@@ -172,6 +172,8 @@ async function checkWorkflow(
       ]);
     });
 
+    throw 'x'
+
     console.log("Sync changes from main for compatible workflows");
     await exec("git", [
       "checkout",
