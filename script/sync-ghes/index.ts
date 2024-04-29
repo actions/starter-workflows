@@ -160,11 +160,17 @@ async function checkWorkflow(
     // just bring the compatible ones over from the main branch. We let git figure out
     // whether it's a deletion, add, or modify and commit the new state.
     console.log("Remove all workflows");
-    await exec("rm", ["-fr", ...(settings.folders.filter(x => !settings.readOnlyFolders.includes(x)))]);
+    await exec("rm", ["-fr", ...settings.folders]);
     await exec("rm", ["-fr", "../../icons"]);
 
-    // Ignore compatible workflows in a read-only folder
-    result.compatibleWorkflows = result.compatibleWorkflows.filter(x => !settings.readOnlyFolders.includes(x.folder));
+    // Bring back the read-only folders
+    console.log("Restore read-only folders");
+    settings.readOnlyFolders.forEach(async (folder) => {
+      await exec("git", [
+        "checkout",
+        folder
+      ]);
+    });
 
     console.log("Sync changes from main for compatible workflows");
     await exec("git", [
