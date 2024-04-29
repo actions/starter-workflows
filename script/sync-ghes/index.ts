@@ -153,7 +153,7 @@ async function checkWorkflow(
     console.groupEnd();
 
     console.log("Switch to GHES branch");
-    // await exec("git", ["checkout", "ghes"]);
+    await exec("git", ["checkout", "ghes"]);
 
     // In order to sync from main, we might need to remove some workflows, add some
     // and modify others. The lazy approach is to delete all workflows first, and then
