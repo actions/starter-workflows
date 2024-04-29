@@ -10,6 +10,7 @@
     "actions/configure-pages",
     "actions/create-release",
     "actions/delete-package-versions",
+    "actions/deploy-pages",
     "actions/download-artifact",
     "actions/jekyll-build-pages",
     "actions/setup-dotnet",
