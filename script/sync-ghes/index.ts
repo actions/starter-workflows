@@ -180,10 +180,13 @@ async function checkWorkflow(
       ...Array.prototype.concat.apply(
         [],
         result.compatibleWorkflows.map((x) => {
-          const r = [
-            join(x.folder, `${x.id}.yml`),
-            join(x.folder, "properties", `${x.id}.properties.json`),
-          ];
+          const r = [];
+
+          // Don't touch read-only folders
+          if (!settings.readOnlyFolders.includes(x.folder)) {
+            r.push(join(x.folder, `${x.id}.yml`));
+            r.push(join(x.folder, "properties", `${x.id}.properties.json`));
+          };
 
           if (x.iconType === "svg") {
             r.push(join("../../icons", `${x.iconName}.svg`));
