@@ -2,7 +2,11 @@
   "folders": [
     "../../ci",
     "../../automation",
-    "../../code-scanning"
+    "../../code-scanning",
+    "../../pages"
+  ],
+  "readOnlyFolders": [
+    "../../pages"
   ],
   "enabledActions": [
     "actions/cache",

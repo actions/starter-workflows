@@ -163,6 +163,9 @@ async function checkWorkflow(
     await exec("rm", ["-fr", ...settings.folders]);
     await exec("rm", ["-fr", "../../icons"]);
 
+    // Ignore read-only folders from compatible workflows list
+    result.compatibleWorkflows = result.compatibleWorkflows.filter(x => !settings.readOnlyFolders.includes(x.folder));
+
     console.log("Sync changes from main for compatible workflows");
     await exec("git", [
       "checkout",
@@ -184,6 +187,9 @@ async function checkWorkflow(
         })
       ),
     ]);
+
+    // Add back Pages icons
+
   } catch (e) {
     console.error("Unhandled error while syncing workflows", e);
     process.exitCode = 1;
