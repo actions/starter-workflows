@@ -196,9 +196,6 @@ async function checkWorkflow(
         })
       ),
     ]);
-
-    // Add back Pages icons
-
   } catch (e) {
     console.error("Unhandled error while syncing workflows", e);
     process.exitCode = 1;
