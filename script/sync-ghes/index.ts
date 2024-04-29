@@ -165,14 +165,12 @@ async function checkWorkflow(
 
     // Bring back the read-only folders
     console.log("Restore read-only folders");
-    await settings.readOnlyFolders.forEach(async (folder) => {
+    for (let i = 0; i < settings.readOnlyFolders.length; i++) {
       await exec("git", [
         "checkout",
-        folder
+        settings.readOnlyFolders[i]
       ]);
-    });
-
-    throw 'x'
+    }
 
     console.log("Sync changes from main for compatible workflows");
     await exec("git", [
