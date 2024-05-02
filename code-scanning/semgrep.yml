@@ -41,14 +41,14 @@ jobs:
 
     container:
       # A Docker image with Semgrep installed.
-      image: returntocorp/semgrep:71cfff54a7b4464fcefd0d27e70060dec57483ae6b4d42bfd107c0e24a27cf8d
+      image: returntocorp/semgrep:7843a979bf88d9d16c476e9f7f547b573187f395532b1f74825fd58c6463c5b0
 
     # Skip any PR created by dependabot to avoid permission issues:
     if: (github.actor != 'dependabot[bot]')
 
     steps:
       # Fetch project source with GitHub Actions Checkout.
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       # Run the "semgrep" command on the command line of the docker image.
       - run: semgrep . --sarif --output semgrep.sarif
         env:
