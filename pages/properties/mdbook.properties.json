@@ -1,6 +1,0 @@
-{
-    "name": "mdBook",
-    "description": "Package a site using mdBook.",
-    "iconName": "mdbook",
-    "categories": ["Pages", "mdBook"]
-}
