@@ -1,6 +1,0 @@
-{
-  "name": "Astro",
-  "description": "Deploy an Astro site.",
-  "iconName": "astro",
-  "categories": ["Pages", "Astro"]
-}
