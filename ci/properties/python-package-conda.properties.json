@@ -2,5 +2,5 @@
     "name": "Python Package using Anaconda",
     "description": "Create and test a Python package on multiple Python versions using Anaconda for package management.",
     "iconName": "python",
-    "categories": ["Python"]
+    "categories": ["Continuous integration", "Python"]
 }
