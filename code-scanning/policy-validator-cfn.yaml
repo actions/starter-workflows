@@ -77,7 +77,7 @@ jobs:
         with:
           policy-check-type: "CHECK_NO_NEW_ACCESS"
           template-path: ${{ env.TEMPLATE_PATH}}
-          reference-policy: ${{ env.REFERENCE }}
+          reference-policy: ${{ env.REFERENCE_POLICY }}
           reference-policy-type: ${{ env.REFERENCE_POLICY_TYPE }}
           region: ${{env.REGION }}
       # Print result from CHECK_NO_NEW_ACCESS check
