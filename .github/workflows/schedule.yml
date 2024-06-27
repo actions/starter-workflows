@@ -8,3 +8,4 @@ jobs:
     steps:
       - name: Echo current time
         run: echo "The current time $(date)"
+        
