@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: * * * * *
+    - cron: '* * * * *''
 
 jobs:
   hello_world:
