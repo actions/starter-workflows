@@ -18,4 +18,6 @@
         "TypeScript",
         "Node"
     ]
+    "labels": ["preview"]
+
 }
