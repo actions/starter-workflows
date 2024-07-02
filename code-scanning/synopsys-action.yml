@@ -22,19 +22,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Synopsys Action
-        uses: synopsys-sig/synopsys-action@v1.6.0
+        uses: synopsys-sig/synopsys-action@e17a353931c37b8507d717f49bce7b6ae8a2c053 #v1.9.0
         with:
           #------------------------------------------COVERITY-----------------------------------------
-          coverity_url: ${{ secrets.COVERITY_URL }}
+          coverity_url: ${{ vars.COVERITY_URL }}
           coverity_user: ${{ secrets.COVERITY_USER }}
           coverity_passphrase: ${{ secrets.COVERITY_PASSPHRASE }}
 
           #------------------------------------------BLACKDUCK----------------------------------------
           blackduck_token: ${{ secrets.BLACKDUCK_API_TOKEN }}
-          blackduck_url: ${{ secrets.BLACKDUCK_URL }}
+          blackduck_url: ${{ vars.BLACKDUCK_URL }}
 
           #------------------------------------------POLARIS------------------------------------------
-          polaris_server_url: ${{ secrets.POLARIS_SERVER_URL }}
+          polaris_server_url: ${{ vars.POLARIS_SERVER_URL }}
           polaris_access_token: ${{ secrets.POLARIS_ACCESS_TOKEN }}
           polaris_assessment_types: "SCA,SAST"
 
