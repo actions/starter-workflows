@@ -33,11 +33,13 @@ jobs:
       # required for all workflows
       security-events: write
 
+      # required to clean up CodeQL TRAP caches
+      actions: write
+
       # required to fetch internal or private CodeQL packs
       packages: read
 
       # only required for workflows in private repositories
-      actions: read
       contents: read
 
     strategy:
@@ -75,7 +77,8 @@ jobs:
     # to build your code.
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
-    - if: matrix.build-mode == 'manual'
+    - name: Run manual build steps
+      if: matrix.build-mode == 'manual'
       shell: bash
       run: |
         echo 'If you are using a "manual" build mode for one or more of the' \
