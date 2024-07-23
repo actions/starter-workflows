@@ -41,7 +41,7 @@ jobs:
         run: ./gradlew build                                         # Update this to build your Android or iOS application
         
       - name: Appknox GitHub action
-        uses: appknox/appknox-github-action@1.1.0
+        uses: appknox/appknox-github-action@535510dc34c81b2b7266fefbdd05eadeacd467ed
         with:
           appknox_access_token: ${{ secrets.APPKNOX_ACCESS_TOKEN }}
           file_path: app/build/outputs/apk/debug/app-debug.apk        # Specify the path to your .ipa or .apk here
