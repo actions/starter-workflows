@@ -76,7 +76,7 @@ jobs:
         tag: "${{ env.TAG }}"
 
     # 2.1 (Optional) Login to ACR EE
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Login to ACR EE with the AccessKey pair
       uses: aliyun/acr-login@v1
       with:

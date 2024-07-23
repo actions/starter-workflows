@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name : Code Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name : Zscaler IAC Scan
         uses : ZscalerCWP/Zscaler-IaC-Action@8d2afb33b10b4bd50e2dc2c932b37c6e70ac1087
         id : zscaler-iac-scan
