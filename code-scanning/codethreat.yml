@@ -16,7 +16,7 @@
 # - ORGNAME: Organization Name in the CodeThreat Platform
 
 
-name: CodeThreat Analysis
+name: CodeThreat analysis
 
 on:
   push:
@@ -34,7 +34,7 @@ permissions:
   actions: read # Only required for a private repository to get the Action run status
 
 jobs:
-  codethreat_scanner:
+  codethreat-scan:
     runs-on: ubuntu-latest
     name: CodeThreat Scan
     steps:
