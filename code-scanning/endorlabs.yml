@@ -46,6 +46,6 @@ jobs:
         ci_run: "false"
         sarif_file: findings.sarif
     - name: Upload SARIF to github
-      uses: github/codeql-action/upload-sarif@8f596b4ae3cb3c588a5c46780b86dd53fef16c52 # v3.25.2
+      uses: github/codeql-action/upload-sarif@v3
       with:
         sarif_file: findings.sarif
