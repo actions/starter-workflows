@@ -156,12 +156,21 @@ async function checkWorkflow(
     await exec("git", ["checkout", "ghes"]);
 
     // In order to sync from main, we might need to remove some workflows, add some
-    // and modify others. The lazy approach is to delete all workflows first, and then
+    // and modify others. The lazy approach is to delete all workflows first (except from read-only folders), and then
     // just bring the compatible ones over from the main branch. We let git figure out
     // whether it's a deletion, add, or modify and commit the new state.
     console.log("Remove all workflows");
     await exec("rm", ["-fr", ...settings.folders]);
     await exec("rm", ["-fr", "../../icons"]);
+
+    // Bring back the read-only folders
+    console.log("Restore read-only folders");
+    for (let i = 0; i < settings.readOnlyFolders.length; i++) {
+      await exec("git", [
+        "checkout",
+        settings.readOnlyFolders[i]
+      ]);
+    }
 
     console.log("Sync changes from main for compatible workflows");
     await exec("git", [
@@ -171,10 +180,13 @@ async function checkWorkflow(
       ...Array.prototype.concat.apply(
         [],
         result.compatibleWorkflows.map((x) => {
-          const r = [
-            join(x.folder, `${x.id}.yml`),
-            join(x.folder, "properties", `${x.id}.properties.json`),
-          ];
+          const r = [];
+
+          // Don't touch read-only folders
+          if (!settings.readOnlyFolders.includes(x.folder)) {
+            r.push(join(x.folder, `${x.id}.yml`));
+            r.push(join(x.folder, "properties", `${x.id}.properties.json`));
+          };
 
           if (x.iconType === "svg") {
             r.push(join("../../icons", `${x.iconName}.svg`));
