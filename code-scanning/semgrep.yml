@@ -11,35 +11,54 @@
 name: Semgrep
 
 on:
+  # Scan mainline branches and report all findings:
   push:
     branches: [ $default-branch, $protected-branches ]
+  # Scan changed files in PRs (diff-aware scanning):
+  # The branches below must be a subset of the branches above
   pull_request:
-    # The branches below must be a subset of the branches above
     branches: [ $default-branch ]
+  # Schedule the CI job (this method uses cron syntax):
   schedule:
     - cron: $cron-weekly
+  # Scan on-demand through GitHub Actions interface:
+  workflow_dispatch: {}
 
 permissions:
   contents: read
 
 jobs:
   semgrep:
+    # User definable name of this GitHub Actions job.
+    name: semgrep/ci 
+    # If you are self-hosting, change the following `runs-on` value: 
+    runs-on: ubuntu-latest
+    # Action permissions
     permissions:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-    name: Scan
-    runs-on: ubuntu-latest
-    steps:
-      # Checkout project source
-      - uses: actions/checkout@v4
 
-      # Scan code using project's configuration on https://semgrep.dev/manage
-      - uses: returntocorp/semgrep-action@fcd5ab7459e8d91cb1777481980d1b18b4fc6735
-        with:
-          publishToken: ${{ secrets.SEMGREP_APP_TOKEN }}
-          publishDeployment: ${{ secrets.SEMGREP_DEPLOYMENT_ID }}
-          generateSarif: "1"
+    container:
+      # A Docker image with Semgrep installed.
+      image: returntocorp/semgrep:7843a979bf88d9d16c476e9f7f547b573187f395532b1f74825fd58c6463c5b0
+
+    # Skip any PR created by dependabot to avoid permission issues:
+    if: (github.actor != 'dependabot[bot]')
+
+    steps:
+      # Fetch project source with GitHub Actions Checkout.
+      - uses: actions/checkout@v4
+      # Run the "semgrep" command on the command line of the docker image.
+      - run: semgrep . --sarif --output semgrep.sarif
+        env:
+          # Connect to Semgrep Cloud Platform through your SEMGREP_APP_TOKEN.
+          # Generate a token from Semgrep Cloud Platform > Settings
+          # and add it to your GitHub secrets.
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+          # Add the rules that Semgrep uses by setting the SEMGREP_RULES environment variable.
+          # more at semgrep.dev/explore
+          SEMGREP_RULES: p/default
 
       # Upload SARIF file generated in previous step
       - name: Upload SARIF file
