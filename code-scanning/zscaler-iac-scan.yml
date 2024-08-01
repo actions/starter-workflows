@@ -51,6 +51,6 @@ jobs:
       #Ensure that the following step is included in order to post the scan results under the code scanning alerts section within the repository.
       - name: Upload SARIF file
         if: ${{ success() || failure() && (steps.zscaler-iac-scan.outputs.sarif_file_path != '') }}
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: ${{ steps.zscaler-iac-scan.sarif_file_path }}

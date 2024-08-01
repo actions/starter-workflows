@@ -38,6 +38,6 @@ jobs:
           exit-code: 0
       # Upload SARIF file generated in previous step
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: results.sarif
