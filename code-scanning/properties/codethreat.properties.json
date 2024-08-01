@@ -1,0 +1,7 @@
+{
+    "name": "CodeThreat",
+    "creator": "CodeThreat",
+    "description": "Detect vulnerabilities, third-party library issues, hardcoded secrets, and code smells with CodeThreat",
+    "iconName": "codethreat",
+    "categories": ["Code Scanning", "JavaScript", "Python", "Java", "PHP", "C#", "C++", "C", "TypeScript", "Kotlin", "Swift"]
+}
