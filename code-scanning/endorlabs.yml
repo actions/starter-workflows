@@ -26,7 +26,7 @@ jobs:
     ### Use this section to define the build steps used by your software package.
     ### Endor Labs builds your software for you where possible but the required build tools must be made available.
     # - name: Setup Java
-    #   uses: actions/setup-java@v3
+    #   uses: actions/setup-java@v4
     #   with:
     #     distribution: 'microsoft'
     #     java-version: '17'
@@ -46,6 +46,6 @@ jobs:
         ci_run: "false"
         sarif_file: findings.sarif
     - name: Upload SARIF to github
-      uses: github/codeql-action/upload-sarif@9885f86fab4879632b7e44514f19148225dfbdcd
+      uses: github/codeql-action/upload-sarif@v3
       with:
         sarif_file: findings.sarif
