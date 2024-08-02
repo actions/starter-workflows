@@ -1,3 +1,8 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
 # Sample workflow for building and deploying a Nuxt site to GitHub Pages
 #
 # To get started with Nuxt see: https://nuxtjs.org/docs/get-started/installation
@@ -52,7 +57,7 @@ jobs:
           fi
       - name: Install pnpm
         if: ${{ steps.detect-package-manager.outputs.manager == 'pnpm' }}
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@fe02b34f77f8bc703788d5817da081398fad5dd2
         with:
           version: 9
       - name: Setup Node
