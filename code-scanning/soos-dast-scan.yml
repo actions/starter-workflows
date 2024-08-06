@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run SOOS DAST Analysis
-        uses: soos-io/soos-dast-github-action@9f72d077eada07555933fb92afc0106401bc3b6a
+        uses: soos-io/soos-dast-github-action@98fe27147ba6d2afeb4829e11c9b0d943b1b6330
         with:
           client_id: ${{ secrets.SOOS_CLIENT_ID }}
           api_key: ${{ secrets.SOOS_API_KEY }}
