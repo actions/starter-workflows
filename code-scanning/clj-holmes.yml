@@ -38,7 +38,7 @@ jobs:
           fail-on-result: 'false'
 
       - name: Upload analysis results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v1
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: ${{github.workspace}}/clj-holmes-results.sarif
           wait-for-processing: true
