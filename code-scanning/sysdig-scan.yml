@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Build the Docker image
       # Tag image to be built
@@ -55,7 +55,7 @@ jobs:
         # Sysdig inline scanner requires privileged rights
         run-as-user: root
 
-    - uses: github/codeql-action/upload-sarif@v2
+    - uses: github/codeql-action/upload-sarif@v3
       #Upload SARIF file
       if: always()
       with:

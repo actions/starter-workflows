@@ -25,7 +25,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Synopsys Intelligent Security Scan
       id: prescription
@@ -71,7 +71,7 @@ jobs:
 
     - name: Upload SARIF file
       if: ${{steps.prescription.outputs.sastScan == 'true' }}
-      uses: github/codeql-action/upload-sarif@v2
+      uses: github/codeql-action/upload-sarif@v3
       with:
         # Path to SARIF file relative to the root of the repository
         sarif_file: workflowengine-results.sarif.json
