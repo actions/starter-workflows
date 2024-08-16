@@ -1,11 +1,11 @@
 name: Ruby Gem
 
 on:
-  push:
-    branches: [ $default-branch ]
+  release:
+    types: [created]
 
 jobs:
-  build:
+  build-and-publish:
     name: Build + Publish
     runs-on: ubuntu-latest
     permissions:
