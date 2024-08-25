@@ -2,6 +2,7 @@
   "folders": [
     "../../ci",
     "../../automation",
+<<<<<<< HEAD
     "../../deployments",
     "../../code-scanning",
     "../../pages"
@@ -27,5 +28,8 @@
       "path": "../../pages",
       "categories": ["Pages"]
     }
+=======
+    "../../deployments"
+>>>>>>> Add_new
   ]
 }

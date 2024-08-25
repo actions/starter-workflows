@@ -2,11 +2,16 @@
   "folders": [
     "../../ci",
     "../../automation",
+<<<<<<< HEAD
     "../../code-scanning",
     "../../pages"
   ],
   "readOnlyFolders": [
     "../../pages"
+=======
+    "../../deployments",
+    "../../code-scanning"
+>>>>>>> Add_new
   ],
   "enabledActions": [
     "actions/cache",
@@ -25,7 +30,10 @@
     "actions/stale",
     "actions/starter-workflows",
     "actions/upload-artifact",
+<<<<<<< HEAD
     "actions/upload-pages-artifact",
+=======
+>>>>>>> Add_new
     "actions/upload-release-asset",
     "github/codeql-action"
   ],

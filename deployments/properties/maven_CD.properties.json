@@ -1,0 +1,7 @@
+{
+    "name": "CD Java with Maven",
+    "description": "CD Build and test a Java project with Apache Maven.",
+    "creator": "Amazon Web Services",
+    "iconName": "aws",
+    "categories": ["Deployment", "Java", "Maven", "Spring", "JSF"]
+}

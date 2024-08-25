@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+<<<<<<< HEAD
     - uses: actions/checkout@v4
 
     - name: configure
@@ -23,5 +24,18 @@ jobs:
     - name: Run check
       run: make check
 
+=======
+    - uses: actions/checkout@v2
+    
+    - name: configure
+      run: ./configure
+      
+    - name: Install dependencies
+      run: make
+      
+    - name: Run check
+      run: make check
+      
+>>>>>>> Add_new
     - name: Run distcheck
       run: make distcheck

@@ -3,5 +3,10 @@
     "description": "Deploy a container to an Amazon ECS service powered by AWS Fargate or Amazon EC2.",
     "creator": "Amazon Web Services",
     "iconName": "aws",
+<<<<<<< HEAD
     "categories": ["Deployment", "Dockerfile"]
 }
+=======
+    "categories": ["Deployment", "JavaScript", "npm"]
+}
+>>>>>>> Add_new
