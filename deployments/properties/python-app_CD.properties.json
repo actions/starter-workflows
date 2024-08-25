@@ -1,0 +1,7 @@
+{
+    "name": "CD Python application",
+    "description": "CD Create and test a Python application.",
+    "creator": "IBM",
+    "iconName": "ibm",
+    "categories": ["Deployment", "Python", "Bottle", "Flask"]
+}
