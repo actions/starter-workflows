@@ -36,6 +36,8 @@ jobs:
           npm install @microsoft/eslint-formatter-sarif@2.1.7
 
       - name: Run ESLint
+        env:
+          SARIF_ESLINT_IGNORE_SUPPRESSED: "true"
         run: npx eslint .
           --config .eslintrc.js
           --ext .js,.jsx,.ts,.tsx
