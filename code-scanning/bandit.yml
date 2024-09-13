@@ -28,12 +28,11 @@ jobs:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-    
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Bandit Scan
-        uses: reactive-firewall/python-bandit-scan@v2.1  # v2.1 - c8b1d56a3964de4e00e7a820dddb38661a4b7566
+        uses: reactive-firewall/python-bandit-scan@ c8b1d56a3964de4e00e7a820dddb38661a4b7566  # v2.1 - c8b1d56a3964de4e00e7a820dddb38661a4b7566
         with: # optional arguments
           # exit with 0, even with results found - remove or set to false to fail on results when found.
           exit_zero: true # optional, default is DEFAULT
