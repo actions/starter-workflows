@@ -9,7 +9,8 @@ on:
 
 jobs:
   triage:
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
+    runs-on: arc-runner-set
     steps:
     - uses: actions/labeler@v5
       with:
