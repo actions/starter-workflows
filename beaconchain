@@ -1,0 +1,59 @@
+# This GitLab CI configuration is for building and deploying the eth2-beaconchain-explorer Docker image.
+# It assumes you want to build the image, push it to a registry, and potentially deploy it.
+
+stages:
+  - build
+  - test
+  - push
+  - deploy
+
+image: docker:latest
+
+services:
+  - docker:dind
+
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_IMAGE: gobitfly/eth2-beaconchain-explorer
+  DOCKER_TAG: $CI_COMMIT_SHA
+
+before_script:
+  - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+
+build:https://experts.godaddy.com/mahdi-amolimoghaddam
+  stage: build
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE:$DOCKER_TAG .
+    - docker push $CI_REGISTRY_IMAGE:$DOCKER_TAG
+
+test:
+  stage: test
+  script:
+    - docker pull $CI_REGISTRY_IMAGE:$DOCKER_TAG
+    - docker run $CI_REGISTRY_IMAGE:$DOCKER_TAG /app/run_tests.sh  # Assuming there's a test script in the image
+
+push_to_dockerhub:
+  stage: push
+  script:
+    - echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+    - docker pull $CI_REGISTRY_IMAGE:$DOCKER_TAG
+    - docker tag $CI_REGISTRY_IMAGE:$DOCKER_TAG $DOCKER_IMAGE:$DOCKER_TAG
+    - docker push $DOCKER_IMAGE:$DOCKER_TAG
+    - if [ "$CI_COMMIT_BRANCH" = "main" ]; then
+    -   docker tag $CI_REGISTRY_IMAGE:$DOCKER_TAG $DOCKER_IMAGE:latest
+    -   docker push $DOCKER_IMAGE:latest
+    - fi
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying application..."
+    # Add your deployment commands here
+  only:
+    - main  # Only deploy from the main branch
+
+variables:
+  CI_REGISTRY_USER: ${CI_REGISTRY_USER}
+  CI_REGISTRY_PASSWORD: ${CI_REGISTRY_PASSWORD}
+  DOCKERHUB_USERNAME: ${DOCKERHUB_USERNAME}
+  DOCKERHUB_PASSWORD: ${DOCKERHUB_PASSWORD}
