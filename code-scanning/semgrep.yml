@@ -22,7 +22,7 @@ on:
     name: semgrep/ci
     # If you are self-hosting, change the following `runs-on` value:
     runs-on: ubuntu-latest
-    
+
     permissions:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
