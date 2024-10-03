@@ -29,8 +29,8 @@ on:
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
 
     container:
-      # A Docker image with Semgrep installed. Do not change this.
-      image: semgrep/semgrep
+      # A Docker image with Semgrep installed. See https://hub.docker.com/r/semgrep/semgrep/tags for latest tag.
+      image: semgrep/semgrep:pro-sha-2667d7d
 
     # Skip any PR created by dependabot to avoid permission issues:
     if: (github.actor != 'dependabot[bot]')
@@ -50,7 +50,7 @@ on:
       # Or use "semgrep" scan for OSS/community rules only with no upload to the Semgrep AppSec Platform
       # - run: semgrep scan --sarif > semgrep.sarif
       - name: Upload SARIF file for GitHub Advanced Security Dashboard
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: semgrep.sarif
         if: always()
