@@ -1,0 +1,6 @@
+{
+    "name": "Ruby on Rails",
+    "description": "Build, lint, and test a Rails application",
+    "iconName": "rails",
+    "categories": ["Continuous integration", "Ruby", "Rails"]
+}
