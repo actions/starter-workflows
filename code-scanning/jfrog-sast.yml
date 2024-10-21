@@ -1,0 +1,54 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# JFrog SAST performs 1st party source code security analysis
+# For more information, see
+# https://docs.jfrog-applications.jfrog.io/jfrog-security-features/sast
+
+name: "JFrog SAST Scan"
+
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    branches: [ $default-branch, $protected-branches ]
+  schedule:
+    - cron: $cron-weekly
+
+env:
+  # [Mandatory]
+  # JFrog platform URL and access token for
+  # a JFrog platform instance with active
+  # JFrog Advanced Security subscription
+  JF_URL: ${{ secrets.JF_URL }}
+  JF_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+
+    - name: Install and configure JFrog CLI
+      run: |
+        npm install -g jfrog-cli-v2-jf
+        jf c add --interactive=false --url=$JF_URL --access-token=$JF_TOKEN
+
+    - name: Run JFrog SAST
+      run: |
+        jf audit --sast --format=sarif > jfrog_sast.sarif
+
+
+    - name: Upload output to generate autofix
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: jfrog_sast.sarif

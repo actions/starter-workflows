@@ -1,0 +1,15 @@
+{
+    "name": "JFrog SAST",
+    "description": "Scan for security vulnerabilities in source code using JFrog SAST",
+    "iconName": "frogbot",
+    "categories":
+    [
+        "Code Scanning",
+        "python",
+        "java",
+        "javascript",
+        "typescript",
+        "go"
+    ],
+    "creator": "JFrog"
+}
