@@ -41,7 +41,7 @@ jobs:
     - name: Install and configure JFrog CLI
       run: |
         npm install -g jfrog-cli-v2-jf
-        jf c add --interactive=false --url=$JF_URL --access-token=$JF_TOKEN
+        echo $JF_TOKEN | jf c add --interactive=false --url=$JF_URL --access-token-stdin
 
     - name: Run JFrog SAST
       run: |
