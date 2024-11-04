@@ -2,6 +2,10 @@
   <img src="https://avatars0.githubusercontent.com/u/44036562?s=100&v=4"/> 
 </p>
 
+```json {"id":"01JA2JBFH6EHN76ZBJCHH05PT6"}
+
+```
+
 ## Starter Workflows
 
 These are the workflow files for helping people get started with GitHub Actions.  They're presented whenever you start to create a new GitHub Actions workflow.
@@ -32,6 +36,7 @@ For example: `ci/django.yml` and `ci/properties/django.properties.json`.
 * `categories`: the categories that it will be shown under. Choose at least one category from the list [here](#categories). Further, choose the categories from the list of languages available [here](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml) and the list of tech stacks available [here](https://github.com/github-starter-workflows/repo-analysis-partner/blob/main/tech_stacks.yml). When a user views the available templates, those templates that match the language and tech stacks will feature more prominently.
 
 ### Categories
+
 * continuous-integration
 * deployment
 * testing
@@ -45,6 +50,7 @@ For example: `ci/django.yml` and `ci/properties/django.properties.json`.
 * Hugo
 
 ### Variables
+
 These variables can be placed in the starter workflow and will be substituted as detailed below:
 
 * `$default-branch`: will substitute the branch from the repository, for example `main` and `master`
@@ -54,9 +60,11 @@ These variables can be placed in the starter workflow and will be substituted as
 ## How to test templates before publishing
 
 ### Disable template for public
+
 The template author adds a `labels` array in the template's `properties.json` file with a label `preview`. This will hide the template from users, unless user uses query parameter `preview=true` in the URL.
 Example `properties.json` file:
-```json
+
+```json {"id":"01JA2JADBK13S8Q7YS0GBGXEV6"}
 {
     "name": "Node.js",
     "description": "Build and test a Node.js project with npm.",
@@ -64,9 +72,11 @@ Example `properties.json` file:
     "categories": ["Continuous integration", "JavaScript", "npm", "React", "Angular", "Vue"],
     "labels": ["preview"]
 }
+
 ```
 
 For viewing the templates with `preview` label, provide query parameter `preview=true` to the  `new workflow` page URL. Eg. `https://github.com/<owner>/<repo_name>/actions/new?preview=true`.
 
 ### Enable template for public
+
 Remove the `labels` array from `properties.json` file to publish the template to public
