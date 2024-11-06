@@ -67,4 +67,4 @@ jobs:
       - name: Publish release distributions to PyPI
         # To automatically get updates, change this to:
         # uses: pypa/gh-action-pypi-publish@release/v1
-        uses: pypa/gh-action-pypi-publish@fb13cb306901256ace3dab689990e13a5550ffaa  # v1.11.0
+        uses: pypa/gh-action-pypi-publish@1f5d4ec244f65dce93685ee3e98e77123f090866  # v1.12.1
