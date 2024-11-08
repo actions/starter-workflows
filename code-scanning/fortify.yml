@@ -43,17 +43,17 @@ jobs:
 
       # Perform SAST and/or SCA scan via Fortify on Demand/Fortify Hosted/ScanCentral SAST/Debricked. Based on
       # configuration, the Fortify GitHub Action can optionally set up the application version/release, generate
-      # job summaries and Pull Request comments, and/or export SAST results to the GitHub code scanning dashboard. 
-      # The Fortify GitHub Action provides many customization capabilities, but in case further customization is 
+      # job summaries and Pull Request comments, and/or export SAST results to the GitHub code scanning dashboard.
+      # The Fortify GitHub Action provides many customization capabilities, but in case further customization is
       # required, you can use sub-actions like fortify/github-action/setup@v1 to set up the various Fortify tools
-      # and run them directly from within your pipeline. It is recommended to review the Fortify GitHub Action 
+      # and run them directly from within your pipeline. It is recommended to review the Fortify GitHub Action
       # documentation at https://github.com/fortify/github-action#readme for more information on the various
       # configuration options and available sub-actions.
       - name: Run Fortify Scan
         # Specify Fortify GitHub Action version to run. As per GitHub starter workflow requirements, this example
         # uses the commit id corresponding to version 1.5.2. It is recommended to check whether any later releases
         # are available at https://github.com/fortify/github-action/releases. Depending on the amount of stability
-        # required, you may want to consider using fortify/github-action@v1 instead to use the latest 1.x.y version 
+        # required, you may want to consider using fortify/github-action@v1 instead to use the latest 1.x.y version
         # of this action, allowing your workflows to automatically benefit from any new features and bug fixes.
         uses: fortify/github-action@afb2d9e467caf7c6ad273799fc1b65ac492b0de2
         with:
@@ -103,7 +103,7 @@ jobs:
           SC_SAST_TOKEN: ${{secrets.SC_CLIENT_AUTH_TOKEN}} # ScanCentral SAST client_auth_token, required if SAST scan is enabled
           DEBRICKED_TOKEN: ${{secrets.DEBRICKED_TOKEN}}    # Debricked token, required if Debricked scan is enabled
           SC_SAST_SENSOR_VERSION: 24.4.0                   # Sensor version to use for the scan, required if SAST scan is enabled
-          ### Optional configuration 
+          ### Optional configuration
           # SSC_LOGIN_EXTRA_OPTS: --socket-timeout=60s     # Extra 'fcli ssc session login' options
           # SC_SAST_LOGIN_EXTRA_OPTS: --socket-timeout=60s # Extra 'fcli sc-sast session login' options
           # SSC_APPVERSION: MyApp:MyVersion                # SSC application version name, default: <org>/<repo>:<branch>
