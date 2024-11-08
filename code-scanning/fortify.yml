@@ -93,7 +93,7 @@ jobs:
           # EXPORT_ACTION: <URL or file>                   # Customize export action
           # EXPORT_EXTRA_OPTS: --on-unsigned=ignore        # Pass extra options to export action
           # TOOL_DEFINITIONS: <URL>                        # URL from where to retrieve Fortify tool definitions
-          
+
           #############################################################
           ##### Fortify Hosted / Software Security Center & ScanCentral
           ##### Remove this section if you're integrating with Fortify on Demand (see above)
