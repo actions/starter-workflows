@@ -22,5 +22,6 @@ jobs:
       working-directory: ./script/sync-ghes
     - run: |
         git add -A
+        
         git commit -m "Updating GHES workflows"
     - run: git push
