@@ -1,8 +1,9 @@
 name: Mark stale issues and pull requests
 
 on:
-  schedule:
-  - cron: "21 4 * * *"
+  workflow_dispatch:
+  # schedule:
+  # - cron: "21 4 * * *"
 
 jobs:
   stale:
@@ -13,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/stale@v3
+    - uses: actions/stale@v8
       with:
         stale-issue-message: 'This issue has become stale and will be closed automatically within a period of time. Sorry about that.'
         stale-pr-message: 'This pull request has become stale and will be closed automatically within a period of time. Sorry about that.'

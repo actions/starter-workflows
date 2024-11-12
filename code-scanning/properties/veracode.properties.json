@@ -1,0 +1,7 @@
+{
+    "name": "Veracode Static Analysis",
+    "creator": "Veracode",
+    "description": "Get fast feedback on flaws with Veracode Static Analysis and the pipeline scan. Break the build based on flaw severity and CWE category.",
+    "iconName": "veracode",
+    "categories": ["Code Scanning", "javascript", "python", "java", "php", "c#", "c", "c++", "ruby", "swift", "go", "kotlin", "scala", "groovy", "tsql", "plsql", "perl", "cobol"]
+}
