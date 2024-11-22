@@ -51,11 +51,11 @@ jobs:
       # configuration options and available sub-actions.
       - name: Run Fortify Scan
         # Specify Fortify GitHub Action version to run. As per GitHub starter workflow requirements, this example
-        # uses the commit id corresponding to version 1.5.2. It is recommended to check whether any later releases
+        # uses the commit id corresponding to version 1.6.2. It is recommended to check whether any later releases
         # are available at https://github.com/fortify/github-action/releases. Depending on the amount of stability
         # required, you may want to consider using fortify/github-action@v1 instead to use the latest 1.x.y version
         # of this action, allowing your workflows to automatically benefit from any new features and bug fixes.
-        uses: fortify/github-action@afb2d9e467caf7c6ad273799fc1b65ac492b0de2
+        uses: fortify/github-action@d7cb5974c159fad242153f52f7c6fa4dda065b23
         with:
           sast-scan: true          # Run a SAST scan; if not specified or set to false, no SAST scan will be run
           debricked-sca-scan: true # For FoD, run an open-source scan as part of the SAST scan (ignored if SAST scan
@@ -76,7 +76,8 @@ jobs:
           # FOD_RELEASE: MyApp:MyRelease                   # FoD release name, default: <org>/<repo>:<branch>
           # DO_SETUP: true                                 # Setup FoD application, release & static scan configuration
           # SETUP_ACTION: <URL or file>                    # Customize setup action
-          # SETUP_EXTRA_OPTS: --on-unsigned=ignore         # Pass extra options to setup action
+                                                           # Pass extra options to setup action:
+          # SETUP_EXTRA_OPTS: --copy-from "${{ github.repository }}:${{ github.event.repository.default_branch }}"
           # PACKAGE_EXTRA_OPTS: -oss -bt mvn               # Extra 'scancentral package' options
           # FOD_SAST_SCAN_EXTRA_OPTS:                      # Extra 'fcli fod sast-scan start' options
           # DO_WAIT: true                                  # Wait for successful scan completion (implied if post-scan actions enabled)
