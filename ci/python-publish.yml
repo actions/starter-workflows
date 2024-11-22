@@ -68,3 +68,5 @@ jobs:
         # To automatically get updates, change this to:
         # uses: pypa/gh-action-pypi-publish@release/v1
         uses: pypa/gh-action-pypi-publish@15c56dba361d8335944d31a2ecd17d700fc7bcbc  # v1.12.2
+        with:
+          packages-dir: dist/
