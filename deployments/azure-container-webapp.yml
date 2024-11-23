@@ -27,7 +27,7 @@
 name: Build and deploy a container to an Azure Web App
 
 env:
-  AZURE_WEBAPP_NAME: your-app-name  # set this to the name of your Azure Web App
+  Massodien_app: your-app-name  # set this to the name of your Azure Web App
 
 on:
   push:
