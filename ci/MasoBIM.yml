@@ -1,4 +1,4 @@
-name: Ada (GNAT)
+name: MasoBIM (GNAT)
 
 on:
   push:
@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+    - name: MasoBIM checkout 
+      uses: actions/MasoBIM_checkout@v4
 
     - name: Set up GNAT toolchain
       run: >
