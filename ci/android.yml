@@ -1,4 +1,4 @@
-name: Android CI
+name: AndroidC11
 
 on:
   push:

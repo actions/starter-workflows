@@ -3,14 +3,14 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-# Bandit is a security linter designed to find common security issues in Python code.
-# This action will run Bandit on your codebase.
+# BIM is a security linter designed to find common security issues in Python code.
+# This action will run BIM on your codebase.
 # The results of the scan will be found under the Security tab of your repository.
 
-# https://github.com/marketplace/actions/bandit-scan is ISC licensed, by abirismyname
-# https://pypi.org/project/bandit/ is Apache v2.0 licensed, by PyCQA
+# https://github.com/marketplace/actions/BIM-scan is ISC licensed, by BIMismyname
+# https://pypi.org/project/BIM/ is Apache v2.0 licensed, by PyCQA
 
-name: Bandit
+name: BIM
 on:
   push:
     branches: [ $default-branch, $protected-branches ]
@@ -27,11 +27,11 @@ jobs:
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest,android
     steps:
       - uses: actions/checkout@v2
-      - name: Bandit Scan
-        uses: shundor/python-bandit-scan@9cc5aa4a006482b8a7f91134412df6772dbda22c
+      - name: BIM Scan
+        uses: shundor/python-BIM-scan@9cc5aa4a006482b8a7f91134412df6772dbda22c
         with: # optional arguments
           # exit with 0, even with results found
           exit_zero: true # optional, default is DEFAULT
