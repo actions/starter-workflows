@@ -35,7 +35,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: read and write 
 
 jobs:
   build:
