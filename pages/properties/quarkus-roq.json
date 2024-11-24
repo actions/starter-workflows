@@ -1,0 +1,6 @@
+{
+    "name": "Quarkus Roq",
+    "description": "Package a Quarkus Roq site.",
+    "iconName": "quarkus",
+    "categories": ["Pages", "Quarkus Roq"]
+}

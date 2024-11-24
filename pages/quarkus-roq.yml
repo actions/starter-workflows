@@ -1,0 +1,94 @@
+# Sample workflow for building and deploying a Quarkus Roq site to GitHub Pages
+#
+# To get started with Roq see:https://docs.quarkiverse.io/quarkus-roq/dev/index.html#getting-started
+#
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+#
+name: Deploy Quarkus Roq site to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: [$default-branch]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Build as a CLI to export the static website
+env:
+  QUARKUS_ROQ_GENERATOR_BATCH: true
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+# Default to bash
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+      - name: Get GitHub Pages URL
+        id: get_url
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          url=$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq '.html_url');echo "ghp-url=$url";
+          path=$(echo "$url" | sed -E 's|https?://[^/]+(/.*)?|\1|')
+          url=$(echo "$url" | sed -E 's|(https?://[^/]+).*|\1|')
+          if [ -z "$path" ]; then
+            path="/"
+          fi
+          echo "SITE_URL=$url"; echo "SITE_URL=$url" >> $GITHUB_ENV;
+          echo "SITE_PATH=$path"; echo "SITE_PATH=$path" >> $GITHUB_ENV;
+      - name: Build & Generate Blog
+        run: mvn -B package quarkus:run -DskipTests -Dquarkus.http.root-path=$SITE_PATH -Dsite.url=$SITE_URL
+      - name: Upload site as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: target/roq
+          retention-days: 1
+          
+  # Deployment job
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download Built Site
+        uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: _site
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
