@@ -2,9 +2,6 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
-
-# This workflow file requires a free account on Semgrep.dev to
-# manage rules, file ignores, notifications, and more.
 #
 # See https://semgrep.dev/docs
 
@@ -19,30 +16,40 @@ on:
   schedule:
     - cron: $cron-weekly
 
-permissions:
-  contents: read
-
-jobs:
+  jobs:
   semgrep:
+    # User definable name of this GitHub Actions job.
+    name: semgrep/ci
+    # If you are self-hosting, change the following `runs-on` value:
+    runs-on: ubuntu-latest
+
     permissions:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-    name: Scan
-    runs-on: ubuntu-latest
+
+    container:
+      # A Docker image with Semgrep installed. See https://hub.docker.com/r/semgrep/semgrep/tags for latest tag.
+      image: semgrep/semgrep:pro-sha-2667d7d
+
+    # Skip any PR created by dependabot to avoid permission issues:
+    if: (github.actor != 'dependabot[bot]')
+
     steps:
-      # Checkout project source
+      # Fetch project source with GitHub Actions Checkout.
       - uses: actions/checkout@v4
-
-      # Scan code using project's configuration on https://semgrep.dev/manage
-      - uses: returntocorp/semgrep-action@fcd5ab7459e8d91cb1777481980d1b18b4fc6735
-        with:
-          publishToken: ${{ secrets.SEMGREP_APP_TOKEN }}
-          publishDeployment: ${{ secrets.SEMGREP_DEPLOYMENT_ID }}
-          generateSarif: "1"
-
-      # Upload SARIF file generated in previous step
-      - name: Upload SARIF file
+      # Run the "semgrep ci" command on the command line of the docker image.
+      # This step requires a free account on Semgrep.dev to manage rules,
+      # file ignores, notifications, etc.
+      - run: semgrep ci --sarif > semgrep.sarif
+        env:
+          # Connect to Semgrep AppSec Platform through your SEMGREP_APP_TOKEN.
+          # Generate a token from Semgrep AppSec Platform > Settings
+          # and add it to your GitHub secrets.
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+      # Or use "semgrep" scan for OSS/community rules only with no upload to the Semgrep AppSec Platform
+      # - run: semgrep scan --sarif > semgrep.sarif
+      - name: Upload SARIF file for GitHub Advanced Security Dashboard
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: semgrep.sarif
