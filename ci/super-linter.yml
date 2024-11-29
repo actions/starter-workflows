@@ -1,5 +1,5 @@
-# This workflow executes several linters on changed files based on languages used in your code base whenever
-# you push a code or open a pull request.
+# This workflow executes several linters on changed files based on languages
+# used in your code base whenever you push a code or open a pull request.
 #
 # You can adjust the behavior by modifying this file.
 # For more information, see:
@@ -8,9 +8,13 @@ name: Lint Code Base
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches: [$default-branch]
   pull_request:
-    branches: [ $default-branch ]
+    branches: [$default-branch]
+
+permissions:
+  contents: read
+
 jobs:
   run-lint:
     runs-on: ubuntu-latest
@@ -18,7 +22,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          # Full git history is needed to get a proper list of changed files within `super-linter`
+          # Full git history is needed to get a proper list of changed files
+          # within `super-linter`
           fetch-depth: 0
 
       - name: Lint Code Base
