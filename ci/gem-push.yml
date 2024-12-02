@@ -1,13 +1,11 @@
 name: Ruby Gem
 
 on:
-  push:
-    branches: [ $default-branch ]
-  pull_request:
-    branches: [ $default-branch ]
+  release:
+    types: [created]
 
 jobs:
-  build:
+  build-and-publish:
     name: Build + Publish
     runs-on: ubuntu-latest
     permissions:
@@ -22,7 +20,7 @@ jobs:
     # uses: ruby/setup-ruby@v1
       uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf # v1.146.0
       with:
-        ruby-version: 2.6.x
+        ruby-version: "2.6"
 
     - name: Publish to GPR
       run: |
