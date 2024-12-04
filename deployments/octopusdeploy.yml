@@ -1,3 +1,7 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by separate terms of service, 
+# privacy policy, and support documentation.
+#
 # This workflow will build and publish a Docker container which is then deplyed through Octopus Deploy.
 #
 # The build job in this workflow currently assumes there is a Dockerfile that generates the relevant application image.
@@ -23,7 +27,7 @@
 #      OCTOPUS_ENVIRONMENT: update to the name of the environment to recieve the first deployment
 
 
-name: 'Build and Deploy to Cloud Run'
+name: 'Build and Deploy to Octopus Deploy'
 
 on:
   push:
@@ -86,21 +90,21 @@ jobs:
 
     steps:
       - name: Login to Octopus Deploy 
-        uses: OctopusDeploy/login@v1
+        uses: OctopusDeploy/login@34b6dcc1e86fa373c14e6a28c5507d221e4de629  #v1.0.2
         with: 
           server: '${{ env.OCTOPUS_URL }}'
           service_account_id: '${{ env.OCTOPUS_SERVICE_ACCOUNT }}'
 
       - name: Create Release
         id: create_release
-        uses: OctopusDeploy/create-release-action@v3.1.0
+        uses: OctopusDeploy/create-release-action@fea7e7b45c38c021b6bc5a14bd7eaa2ed5269214 #v3.2.2
         with:
           project: '${{ env.OCTOPUS_PROJECT }}'
           space: '${{ env.OCTOPUS_SPACE }}'
           packages: '*:${{ needs.build.outputs.image_tag }}'
 
       - name: Deploy Release
-        uses: OctopusDeploy/deploy-release-action@v3.1.0
+        uses: OctopusDeploy/deploy-release-action@b10a606c903b0a5bce24102af9d066638ab429ac #v3.2.1 
         with:
           project: '${{ env.OCTOPUS_PROJECT }}'
           space: '${{ env.OCTOPUS_SPACE }}'
