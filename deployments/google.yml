@@ -88,17 +88,15 @@ jobs:
           location: '${{ env.GKE_ZONE }}'
 
       # Build the Docker image
-      - name: 'Build and push Docker container'
-        run: |-
-          DOCKER_TAG="${GAR_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE}:${GITHUB_SHA}"
-
-          docker build \
-            --tag "${DOCKER_TAG}" \
-            --build-arg GITHUB_SHA="${GITHUB_SHA}" \
-            --build-arg GITHUB_REF="${GITHUB_REF}" \
-            .
-
-          docker push "${DOCKER_TAG}"
+      - name: Build and push Docker container
+        uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355 # v6.10.0
+        with:
+          context: .
+          push: true
+          tags: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:${{ env.GITHUB_SHA }}
+          build-args: |
+            GITHUB_SHA=${{ env.GITHUB_SHA }}
+            GITHUB_REF=${{ env.GITHUB_REF }}
 
       # Set up kustomize
       - name: 'Set up Kustomize'

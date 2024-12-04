@@ -30,10 +30,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Build the Docker image
-      # Tag image to be built
-      # Change ${{ github.repository }} variable by another image name if you want but don't forget changing also image-tag below
-      run: docker build . --file Dockerfile --tag ${{ github.repository }}:latest
+    # Tag image to be built
+    # Change ${{ github.repository }} variable by another image name if you want but don't forget changing also image-tag below
+    - name: Build Docker image
+      uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355 # v6.10.0
+      with:
+        context: .
+        tags: ${{ github.repository }}:latest
 
     - name: Sysdig Secure Inline Scan
       id: scan

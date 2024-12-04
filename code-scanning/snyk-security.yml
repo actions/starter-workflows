@@ -67,7 +67,11 @@ jobs:
 
         # Build the docker image for testing
       - name: Build a Docker image
-        run: docker build -t your/image-to-test .
+        uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355 # v6.10.0
+        with:
+          context: .
+          tags: your/image-to-test
+
         # Runs Snyk Container (Container and SCA) analysis and uploads result to Snyk.
       - name: Snyk Container monitor
         run: snyk container monitor your/image-to-test --file=Dockerfile
