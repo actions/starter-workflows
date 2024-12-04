@@ -51,16 +51,15 @@ jobs:
         ibmcloud cr login
 
     # Build the Docker image
-    - name: Build with Docker
-      run: |
-        docker build -t "$REGISTRY_HOSTNAME"/"$ICR_NAMESPACE"/"$IMAGE_NAME":"$GITHUB_SHA" \
-          --build-arg GITHUB_SHA="$GITHUB_SHA" \
-          --build-arg GITHUB_REF="$GITHUB_REF" .
-
-    # Push the image to IBM Container Registry
-    - name: Push the image to ICR
-      run: |
-        docker push $REGISTRY_HOSTNAME/$ICR_NAMESPACE/$IMAGE_NAME:$GITHUB_SHA
+    - name: Build and push with Docker
+      uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355 # v6.10.0
+      with:
+        context: .
+        push: true
+        tags: ${{ env.REGISTRY_HOSTNAME }}/${{ env.ICR_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ env.GITHUB_SHA }}
+        build-args: |
+          GITHUB_SHA=${{ env.GITHUB_SHA }}
+          GITHUB_REF=${{ env.GITHUB_REF }}
 
     # Deploy the Docker image to the IKS cluster
     - name: Deploy to IKS

@@ -61,9 +61,11 @@ jobs:
 
     # 1.2 Build and push image to ACR
     - name: Build and push image to ACR
-      run: |
-        docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE:$TAG" .
-        docker push "$REGISTRY/$NAMESPACE/$IMAGE:$TAG"
+      uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355 # v6.10.0
+      with:
+        context: .
+        push: true
+        tags: ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }}
 
     # 1.3 Scan image in ACR
     - name: Scan image in ACR
@@ -88,9 +90,12 @@ jobs:
 
     # 2.2 (Optional) Build and push image ACR EE
     - name: Build and push image to ACR EE
-      run: |
-        docker build -t "$ACR_EE_REGISTRY/$ACR_EE_NAMESPACE/$ACR_EE_IMAGE:$TAG" .
-        docker push "$ACR_EE_REGISTRY/$ACR_EE_NAMESPACE/$ACR_EE_IMAGE:$TAG"
+      uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355 # v6.10.0
+      with:
+        context: .
+        push: true
+        tags: ${{ env.ACR_EE_REGISTRY }}/${{ env.ACR_EE_NAMESPACE }}/${{ env.ACR_EE_IMAGE }}:${{ env.TAG }}
+
     # 2.3 (Optional) Scan image in ACR EE
     - name: Scan image in ACR EE
       uses: aliyun/acr-scan@v1
