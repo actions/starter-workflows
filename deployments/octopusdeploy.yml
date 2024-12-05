@@ -2,9 +2,9 @@
 # They are provided by a third-party and are governed by separate terms of service, 
 # privacy policy, and support documentation.
 #
-# This workflow will build and publish a Docker container which is then deplyed through Octopus Deploy.
+# This workflow will build and publish a Docker container which is then deployed through Octopus Deploy.
 #
-# The build job in this workflow currently assumes there is a Dockerfile that generates the relevant application image.
+# The build job in this workflow currently assumes that there is a Dockerfile that generates the relevant application image.
 # If required, this job can be modified to generate whatever alternative build artifact is required for your deployment.
 #
 # This workflow assumes you have already created a Project in Octopus Deploy.
@@ -82,8 +82,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ build ]
     env:
-      OCTOPUS_URL: 'https://your-octopus-url'             # TODO: update to your Octopus Instance Url
-      OCTOPUS_SERVICE_ACCOUNT: 'your-service-account-id'  # TODO update to your service account Id
+      OCTOPUS_URL: 'https://your-octopus-url'             # TODO: update to your Octopus Instance url
+      OCTOPUS_SERVICE_ACCOUNT: 'your-service-account-id'  # TODO: update to your service account Id
       OCTOPUS_SPACE: 'your-space'                         # TODO: update to the name of the space your project is configured in
       OCTOPUS_PROJECT: 'your-project'                     # TODO: update to the name of your Octopus project
       OCTOPUS_ENVIRONMENT: 'your-environment'             # TODO: update to the name of the environment to recieve the first deployment
