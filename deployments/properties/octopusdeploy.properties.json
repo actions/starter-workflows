@@ -2,6 +2,6 @@
     "name": "Build and Deploy with Octopus Deploy",
     "description": "Build a docker container, create a release in Octopus Deploy and deploy it to your environment.",
     "creator": "Octopus Deploy",
-    "iconName": "octopus-deploy",
+    "iconName": "octopusdeploy",
     "categories": ["Deployment", "Containers", "Dockerfile"]
 }
