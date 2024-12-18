@@ -1,0 +1,21 @@
+{
+    "name": "Black Duck Security Scan Workflow",
+    "description": "The Black Duck Security Scan GitHub Action allows you to configure your pipeline to run Black Duck Security Scan and take action on the security results",
+    "iconName": "black-duck-icon.png",
+    "categories": [
+      "Code Scanning", 
+      "C", 
+      "C++", 
+      "C#", 
+      "Go", 
+      "Java", 
+      "JavaScript", 
+      "Ruby", 
+      "PHP", 
+      "Swift", 
+      "Kotlin", 
+      "Python", 
+      "VB.NET", 
+      "Objective C"
+    ]
+}
