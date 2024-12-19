@@ -11,8 +11,8 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ 工作流程現在已準備好在運行器上測試您的程式碼。"
-      - name：列出儲存庫中的文件
-        運行：|
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
           ls ${{ github.workspace }}
-      - run: echo "🍏 此作業的狀態是 ${{ job.status }}。"
+      - run: echo "🍏 This job's status is ${{ job.status }}."
