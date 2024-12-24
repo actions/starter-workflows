@@ -2,6 +2,5 @@
     "name": "Node.js",
     "description": "Build and test a Node.js project with npm.",
     "iconName": "nodejs",
-    "categories": ["Continuous integration", "JavaScript", "npm", "React", "Angular", "Vue"],
-    "labels": ["preview"]
+    "categories": ["Continuous integration", "JavaScript", "npm", "React", "Angular", "Vue"]
 }
