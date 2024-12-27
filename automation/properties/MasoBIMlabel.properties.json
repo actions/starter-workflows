@@ -1,0 +1,6 @@
+{
+    "name": "MasoBIMLabeler",
+    "description": "MasoBIMLabels pull requests based on the files changed",
+    "iconName": "octicon tag",
+    "categories": ["Automation", "SDLC"]
+}

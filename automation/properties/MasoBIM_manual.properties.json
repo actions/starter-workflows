@@ -1,0 +1,6 @@
+{
+    "name": "MasoBIM Manual workflow",
+    "description": "Simple MasoBIM workflow that is manually triggered.",
+    "iconName": "octicon person",
+    "categories": ["Automation"]
+}
