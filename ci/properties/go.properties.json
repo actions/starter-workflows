@@ -1,6 +1,0 @@
-{
-    "name": "Go",
-    "description": "Build a Go project.",
-    "iconName": "go",
-    "categories": ["Continuous integration", "Go"]
-}

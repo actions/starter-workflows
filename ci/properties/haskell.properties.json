@@ -1,6 +1,0 @@
-{
-    "name": "Haskell",
-    "description": "Build and test a Haskell project with Cabal.",
-    "iconName": "haskell",
-    "categories": ["Continuous integration", "Haskell"]
-}

@@ -1,6 +1,0 @@
-{
-    "name": "Elixir",
-    "description": "Build and test an Elixir project with Mix.",
-    "iconName": "elixir",
-    "categories": ["Continuous integration", "Elixir", "Erlang"]
-}

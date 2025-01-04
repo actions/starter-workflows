@@ -1,6 +1,0 @@
-{
-    "name": "Pylint",
-    "description": "Lint a Python application with pylint.",
-    "iconName": "python",
-    "categories": ["Continuous integration", "Python", "Bottle", "Flask"]
-}
