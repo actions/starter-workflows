@@ -89,7 +89,7 @@ jobs:
       OCTOPUS_ENVIRONMENT: 'your-environment'             # TODO: update to the name of the environment to recieve the first deployment
 
     steps:
-      - name: Login to Octopus Deploy
+      - name: Log in to Octopus Deploy
         uses: OctopusDeploy/login@34b6dcc1e86fa373c14e6a28c5507d221e4de629  #v1.0.2
         with:
           server: '${{ env.OCTOPUS_URL }}'
