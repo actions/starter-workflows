@@ -46,7 +46,7 @@ jobs:
       contents: read # for actions/checkout to fetch code
       security-events: write # for stackhawk/hawkscan-action to upload code scanning alert info
     name: StackHawk
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
