@@ -60,7 +60,7 @@ jobs:
 
       # Upload SARIF file as an Artifact to download and view
       # - name: Upload SARIF as an Artifact
-      #   uses: actions/upload-artifact@v3
+      #   uses: actions/upload-artifact@v4
       #   with:
       #     name: sarif-file
       #     path: ${{ steps.run-analysis.outputs.sarif }}
