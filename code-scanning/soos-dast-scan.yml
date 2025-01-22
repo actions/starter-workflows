@@ -45,7 +45,16 @@ jobs:
           target_url: "https://www.example.com/"
           export_format: "Sarif"
           export_file_type: "Json"
+      - name: Find and rename SARIF file since it is unique
+        run: |
+          file=$(find . -name "*.sarif.json" | head -n 1)
+          if [ -n "$file" ]; then
+            mv "$file" output.sarif.json
+            echo "Renamed $file to output.sarif.json"
+          else
+            echo "No SARIF file found" && exit 1
+          fi
       - name: Upload SOOS DAST SARIF Report
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: *.sarif.json
+          sarif_file: output.sarif.json
