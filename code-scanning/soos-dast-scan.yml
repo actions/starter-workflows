@@ -43,8 +43,9 @@ jobs:
           project_name: "<YOUR-PROJECT-NAME>"
           scan_mode: "baseline"
           target_url: "https://www.example.com/"
-          output_format: "sarif"
+          export_format: "Sarif"
+          export_file_type: "Json"
       - name: Upload SOOS DAST SARIF Report
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: results.sarif
+          sarif_file: *.sarif.json
