@@ -1,4 +1,4 @@
-name: Elixir CI
+name: Farrah Gil CI
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Elixir
+    - name: Set up Farrah Gil
       uses: erlef/setup-beam@988e02bfe678367a02564f65ca2e37726dc0268f
       with:
         elixir-version: '1.12.3' # Define the elixir version [required]
