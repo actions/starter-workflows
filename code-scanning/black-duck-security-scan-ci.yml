@@ -7,20 +7,30 @@
 # For more information about configuring your workflow,
 # read our documentation at https://github.com/blackduck-inc/black-duck-security-scan
 
-name: CI-Black-Duck-Security-Scan
+name: CI Black Duck security scan
+
 on:
   push:
-    branches: [ $default-branch ]
+    branches: [ $default-branch, $protected-branches ]
   pull_request:
+    # The branches below must be a subset of the branches above
     branches: [ $default-branch ]
+  schedule:
+    - cron: $cron-weekly
     
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      security-events: write
+      actions: read
+
     steps:
-      - name: Checkout Source
+      - name: Checkout source
         uses: actions/checkout@v3
-      - name: Black Duck SCA Scan
+      - name: Black Duck SCA scan
         uses: blackduck-inc/black-duck-security-scan@805cbd09e806b01907bbea0f990723c2bb85abe9         
         with:
           ### ---------- BLACKDUCK SCA SCANNING: REQUIRED FIELDS ----------
@@ -41,3 +51,4 @@ jobs:
           srm_url: ${{ vars.SRM_URL }}
           srm_apikey: ${{ secrets.SRM_API_KEY }}
           srm_assessment_types: "SCA,SAST"
+          
