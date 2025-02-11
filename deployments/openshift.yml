@@ -67,17 +67,17 @@ jobs:
   # TODO: Make sure to add 'CRDA Scan' starter workflow from the 'Actions' tab.
   # For guide on adding new starter workflow visit https://docs.github.com/en/github-ae@latest/actions/using-workflows/using-starter-workflows
 
-  crda-scan:
-    uses: ./.github/workflows/crda.yml
-    secrets:
-      CRDA_KEY: ${{ secrets.CRDA_KEY }}
-      # SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}       # Either use SNYK_TOKEN or CRDA_KEY
+  #crda-scan:
+  #  uses: ./.github/workflows/crda.yml
+  #  secrets:
+  #    CRDA_KEY: ${{ secrets.CRDA_KEY }}
+  #    # SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}       # Either use SNYK_TOKEN or CRDA_KEY
 
   openshift-ci-cd:
     # 🖊️ Uncomment this if you are using CRDA scan step above
     # needs: crda-scan
     name: Build and deploy to OpenShift
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     environment: production
 
     outputs:

@@ -9,13 +9,11 @@
 #
 # To use this workflow, you will need to:
 #
-# 1. Create a Mayhem for API account at
-#    https://mayhem4api.forallsecure.com/signup
+# 1. Create a Mayhem account at https://app.mayhem.security
 #
-# 2. Create a service account token `mapi organization service-account create
-#    <org-name> <service-account-name>`
+# 2. Create an API token at https://app.mayhem.security/-/settings/user/api-tokens
 #
-# 3. Add the service account token as a secret in GitHub called "MAPI_TOKEN"
+# 3. Add the API token as a secret in GitHub called "MAYHEM_TOKEN"
 #
 # 4. Update the "Start your API" step to run your API in the background before
 #    starting the Mayhem for API scan, and update the `api-url` & `api-spec`
@@ -51,10 +49,10 @@ jobs:
         run: ./run_your_api.sh & # <- ✏️ update this
 
       - name: Mayhem for API
-        uses: ForAllSecure/mapi-action@193b709971cc377675e33284aecbf9229853e010
+        uses: ForAllSecure/mapi-action@v1
         continue-on-error: true
         with:
-          mapi-token: ${{ secrets.MAPI_TOKEN }}
+          mayhem-token: ${{ secrets.MAYHEM_TOKEN }}
           api-url: http://localhost:8080 # <- ✏️ update this
           api-spec: http://localhost:8080/openapi.json # <- ✏️ update this
           duration: 60
