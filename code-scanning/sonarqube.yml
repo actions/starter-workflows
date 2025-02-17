@@ -44,8 +44,8 @@ jobs:
       - name: Analyze with SonarQube
 
         # You can pin the exact commit or the version.
-        # uses: SonarSource/sonarqube-scan-action@v4.0.0
-        uses: SonarSource/sonarqube-scan-action@94d4f8ac4aaefccd7fb84bff00b0aeb2d65fcd49
+        # uses: SonarSource/sonarqube-scan-action@v5.0.0
+        uses: SonarSource/sonarqube-scan-action@0303d6b62e310685c0e34d0b9cde218036885c4d
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   # Generate a token on SonarQube, add it to the secrets of this repo with the name SONAR_TOKEN (Settings > Secrets > Actions > add new repository secret)
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}   # add the URL of your instance to the secrets of this repo with the name SONAR_HOST_URL (Settings > Secrets > Actions > add new repository secret)
