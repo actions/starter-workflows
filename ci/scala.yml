@@ -27,6 +27,11 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: 'sbt'
+    - name: Set up sbt
+    # To automatically get bug fixes for sbt/setup-sbt, change this to
+    # (see https://github.com/sbt/setup-sbt/releases):
+    # uses: sbt/setup-sbt@v1
+      uses: sbt/setup-sbt@96cf3f09dc501acdad7807fffe97dba9fa0709be
     - name: Run tests
       run: sbt test
       # Optional: This step uploads information to the GitHub dependency graph and unblocking Dependabot alerts for the repository
