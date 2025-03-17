@@ -55,7 +55,7 @@ jobs:
         # are available at https://github.com/fortify/github-action/releases. Depending on the amount of stability
         # required, you may want to consider using fortify/github-action@v1 instead to use the latest 1.x.y version
         # of this action, allowing your workflows to automatically benefit from any new features and bug fixes.
-        uses: fortify/github-action@d7cb5974c159fad242153f52f7c6fa4dda065b23
+        uses: fortify/github-action@ef5539bf4bd9c45c0bd971978f635a69eae55297
         with:
           sast-scan: true          # Run a SAST scan; if not specified or set to false, no SAST scan will be run
           debricked-sca-scan: true # For FoD, run an open-source scan as part of the SAST scan (ignored if SAST scan
