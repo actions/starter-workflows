@@ -196,6 +196,27 @@ async function checkWorkflow(
         })
       ),
     ]);
+
+    // The v4 versions of upload and download artifact are not yet supported on GHES
+    console.group("Updating all compatible workflows to use v3 of the artifact actions");
+    for (const workflow of result.compatibleWorkflows) {
+      const path = join(workflow.folder, `${workflow.id}.yml`);
+      console.log(`Updating ${path}`);
+      const contents = await fs.readFile(path, "utf8");
+
+      if (contents.includes("actions/upload-artifact@v4") || contents.includes("actions/download-artifact@v4")) {
+        console.log("Found v4 artifact actions, updating to v3");
+      } else {
+        continue;
+      }
+
+      let updatedContents = contents.replace(/actions\/upload-artifact@v4/g, "actions/upload-artifact@v3");
+      updatedContents = updatedContents.replace(/actions\/download-artifact@v4/g, "actions/download-artifact@v3");
+
+      await fs.writeFile(path, updatedContents);
+    }
+    console.groupEnd();
+
   } catch (e) {
     console.error("Unhandled error while syncing workflows", e);
     process.exitCode = 1;
