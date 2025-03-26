@@ -1,0 +1,63 @@
+name: CForge C/C++ Build
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  build:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {
+            name: "Windows MSVC", 
+            os: windows-latest,
+            build_type: "Release",
+            compiler: "msvc"
+          }
+          - {
+            name: "Linux GCC", 
+            os: ubuntu-latest,
+            build_type: "Release",
+            compiler: "gcc"
+          }
+          - {
+            name: "macOS Clang", 
+            os: macos-latest,
+            build_type: "Release",
+            compiler: "clang"
+          }
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Install CForge
+      shell: bash
+      run: |
+        # Check if beta is available
+        LATEST_BETA=$(cargo search cforge --limit 1 | grep -o "cforge = \"[0-9]*\.[0-9]*\.[0-9]*-beta.*\"" | cut -d'"' -f2)
+        
+        if [ -n "$LATEST_BETA" ]; then
+          echo "CForge beta available: $LATEST_BETA"
+          echo "Installing stable version first as fallback"
+          cargo install cforge || true
+          echo "Trying to install beta version"
+          cargo install cforge --version $LATEST_BETA || echo "Beta install failed, using stable"
+        else
+          echo "Installing latest stable CForge"
+          cargo install cforge
+        fi
+
+    - name: Build with CForge
+      shell: bash
+      run: |
+        cforge build --config ${{ matrix.config.build_type }}
+
+    - name: Run Tes
