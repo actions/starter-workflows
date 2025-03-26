@@ -1,6 +1,0 @@
-{
-    "name": "Docker image",
-    "description": "Build a Docker image to deploy, run, or push to a registry.",
-    "iconName": "docker",
-    "categories": ["Continuous integration", "Dockerfile"]
-}

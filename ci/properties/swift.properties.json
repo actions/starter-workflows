@@ -1,6 +1,0 @@
-{
-    "name": "Swift",
-    "description": "Build and test a Swift Package.",
-    "iconName": "swift",
-    "categories": ["Continuous integration", "Swift"]
-}
