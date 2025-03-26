@@ -1,72 +1,378 @@
-<p align="center">
-  <img src="https://avatars0.githubusercontent.com/u/44036562?s=100&v=4"/> 
-</p>
+flutter create givenchyco_app
+cd givenchyco_app
+flutter run
+import 'package:flutter/material.dart';
 
-## Starter Workflows
-
-These are the workflow files for helping people get started with GitHub Actions.  They're presented whenever you start to create a new GitHub Actions workflow.
-
-**If you want to get started with GitHub Actions, you can use these starter workflows by clicking the "Actions" tab in the repository where you want to create a workflow.**
-
-<img src="https://d3vv6lp55qjaqc.cloudfront.net/items/353A3p3Y2x3c2t2N0c01/Image%202019-08-27%20at%203.25.07%20PM.png" max-width="75%"/>
-
-### Directory structure
-
-* [ci](ci): solutions for Continuous Integration workflows
-* [deployments](deployments): solutions for Deployment workflows
-* [automation](automation): solutions for automating workflows
-* [code-scanning](code-scanning): solutions for [Code Scanning](https://github.com/features/security)
-* [pages](pages): solutions for Pages workflows
-* [icons](icons): svg icons for the relevant template
-
-Each workflow must be written in YAML and have a `.yml` extension. They also need a corresponding `.properties.json` file that contains extra metadata about the workflow (this is displayed in the GitHub.com UI).
-
-For example: `ci/django.yml` and `ci/properties/django.properties.json`.
-
-### Valid properties
-
-* `name`: the name shown in onboarding. This property is unique within the repository.
-* `description`: the description shown in onboarding
-* `iconName`: the icon name in the relevant folder, for example, `django` should have an icon `icons/django.svg`. Only SVG is supported at this time. Another option is to use [octicon](https://primer.style/octicons/). The format to use an octicon is `octicon <<icon name>>`. Example: `octicon person`
-* `creator`: creator of the template shown in onboarding. All the workflow templates from an author will have the same `creator` field.
-* `categories`: the categories that it will be shown under. Choose at least one category from the list [here](#categories). Further, choose the categories from the list of languages available [here](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml) and the list of tech stacks available [here](https://github.com/github-starter-workflows/repo-analysis-partner/blob/main/tech_stacks.yml). When a user views the available templates, those templates that match the language and tech stacks will feature more prominently.
-
-### Categories
-* continuous-integration
-* deployment
-* testing
-* code-quality
-* code-review
-* dependency-management
-* monitoring
-* Automation
-* utilities
-* Pages
-* Hugo
-
-### Variables
-These variables can be placed in the starter workflow and will be substituted as detailed below:
-
-* `$default-branch`: will substitute the branch from the repository, for example `main` and `master`
-* `$protected-branches`: will substitute any protected branches from the repository
-* `$cron-daily`: will substitute a valid but random time within the day
-
-## How to test templates before publishing
-
-### Disable template for public
-The template author adds a `labels` array in the template's `properties.json` file with a label `preview`. This will hide the template from users, unless user uses query parameter `preview=true` in the URL.
-Example `properties.json` file:
-```json
-{
-    "name": "Node.js",
-    "description": "Build and test a Node.js project with npm.",
-    "iconName": "nodejs",
-    "categories": ["Continuous integration", "JavaScript", "npm", "React", "Angular", "Vue"],
-    "labels": ["preview"]
+void main() {
+  runApp(GivenchycoApp());
 }
-```
 
-For viewing the templates with `preview` label, provide query parameter `preview=true` to the  `new workflow` page URL. Eg. `https://github.com/<owner>/<repo_name>/actions/new?preview=true`.
+class GivenchycoApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Givenchyco Shop',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: HomeScreen(),
+    );
+  }
+}
 
-### Enable template for public
-Remove the `labels` array from `properties.json` file to publish the template to public
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Welcome to Givenchyco')),
+      body: Center(child: Text('Shop for the best products here!')),
+    );
+  }
+}dependencies:
+  flutter:
+    sdk: flutter
+  http: ^0.13.6
+  flutter pub get
+  import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+class ApiService {
+  static const String baseUrl = "https://givenchyco.shop/api"; // Update if needed
+
+  // Fetch products
+  static Future<List<dynamic>> getProducts() async {
+    final response = await http.get(Uri.parse("$baseUrl/products"));
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to load products");
+    }
+  }
+
+  // Add item to cart
+  static Future<void> addToCart(String productId) async {
+    await http.post(Uri.parse("$baseUrl/cart/add"),
+        body: jsonEncode({"product_id": productId}),
+        headers: {"Content-Type": "application/json"});
+  }
+}import 'package:flutter/material.dart';
+import '../services/api_service.dart';
+
+class ProductScreen extends StatefulWidget {
+  @override
+  _ProductScreenState createState() => _ProductScreenState();
+}
+
+class _ProductScreenState extends State<ProductScreen> {
+  List<dynamic> products = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchProducts();
+  }
+
+  void fetchProducts() async {
+    try {
+      var productList = await ApiService.getProducts();
+      setState(() {
+        products = productList;
+      });
+    } catch (e) {
+      print("Error fetching products: $e");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Products")),
+      body: products.isEmpty
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                var product = products[index];
+                return ListTile(
+                  title: Text(product["name"]),
+                  subtitle: Text("\$${product["price"]}"),
+                  trailing: ElevatedButton(
+                    onPressed: () => ApiService.addToCart(product["id"]),
+                    child: Text("Add to Cart"),
+                  ),
+                );
+              },
+            ),
+    );
+  }import 'package:flutter/material.dart';
+import 'screens/product_screen.dart';
+
+void main() {
+  runApp(GivenchycoApp());
+}
+
+class GivenchycoApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Givenchyco Shop',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Welcome to Givenchyco')),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProductScreen()),
+            );
+          },
+          child: Text("Shop Now"),
+        ),
+      ),
+    );
+  }
+}
+}class ApiService {
+  static const String baseUrl = "https://givenchyco.shop/api"; // Adjust if needed
+
+  // Fetch cart items
+  static Future<List<dynamic>> getCart() async {
+    final response = await http.get(Uri.parse("$baseUrl/cart"));
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to load cart");
+    }
+  }
+
+  // Add item to cart
+  static Future<void> addToCart(String productId) async {
+    await http.post(Uri.parse("$baseUrl/cart/add"),
+        body: jsonEncode({"product_id": productId}),
+        headers: {"Content-Type": "application/json"});
+  }
+
+  // Remove item from cart
+  static Future<void> removeFromCart(String productId) async {
+    await http.post(Uri.parse("$baseUrl/cart/remove"),
+        body: jsonEncode({"product_id": productId}),
+        headers: {"Content-Type": "application/json"});
+  }
+}import 'package:flutter/material.dart';
+import 'package:flutterwave_standard/flutterwave.dart';
+
+class CheckoutScreen extends StatelessWidget {
+  final double amount;
+
+  CheckoutScreen({required this.amount});
+
+  void processPayment(BuildContext context) async {
+    final flutterwave = Flutterwave(
+      context: context,
+      publicKey: "YOUR_FLUTTERWAVE_PUBLIC_KEY", // Replace with your key
+      currency: "NGN",
+      amount: amount.toString(),
+      email: "customer@example.com", // Replace dynamically
+      txRef: DateTime.now().millisecondsSinceEpoch.toString(),
+      isTestMode: true,
+    );
+
+    final response = await flutterwave.charge();
+    if (response != null && response.status == "successful") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Payment Successful!")),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Payment Failed!")),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Checkout")),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () => processPayment(context),
+          child: Text("Pay ₦$amount"),
+        ),
+      ),
+    );
+  }import 'package:flutter/material.dart';
+import 'screens/product_screen.dart';
+import 'screens/cart_screen.dart';
+import 'screens/checkout_screen.dart';
+
+void main() {
+  runApp(GivenchycoApp());
+}
+
+class GivenchycoApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Givenchyco Shop',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: HomeScreen(),
+      routes: {
+        "/cart": (context) => CartScreen(),
+        "/checkout": (context) => CheckoutScreen(amount: 1000.0), // Sample
+      },
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Welcome to Givenchyco')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProductScreen()),
+                );
+              },
+              child: Text("Shop Now"),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, "/cart");
+              },
+              child: Text("View Cart"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}import 'package:flutter/material.dart';
+import 'screens/product_screen.dart';
+import 'screens/cart_screen.dart';
+import 'screens/checkout_screen.dart';
+
+void main() {
+  runApp(GivenchycoApp());
+}
+
+class GivenchycoApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Givenchyco Shop',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: HomeScreen(),
+      routes: {
+        "/cart": (context) => CartScreen(),
+        "/checkout": (context) => CheckoutScreen(amount: 1000.0), // Sample
+      },
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Welcome to Givenchyco')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProductScreen()),
+                );
+              },
+              child: Text("Shop Now"),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, "/cart");
+              },
+              child: Text("View Cart"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+}import 'package:flutter/material.dart';
+import 'screens/product_screen.dart';
+import 'screens/cart_screen.dart';
+import 'screens/checkout_screen.dart';
+
+void main() {
+  runApp(GivenchycoApp());
+}
+
+class GivenchycoApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Givenchyco Shop',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: HomeScreen(),
+      routes: {
+        "/cart": (context) => CartScreen(),
+        "/checkout": (context) => CheckoutScreen(amount: 1000.0), // Sample
+      },
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Welcome to Givenchyco')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProductScreen()),
+                );
+              },
+              child: Text("Shop Now"),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, "/cart");
+              },
+              child: Text("View Cart"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
