@@ -4,7 +4,6 @@ on:
   pull_request:
     types:
       - closed
-
 jobs:
   update_confluence:
     if: github.event.pull_request.merged == true  # Only run if PR is merged
