@@ -27,9 +27,8 @@ jobs:
       - name: Get PR Commit Messages
         id: get_commits
         run: |
-          echo "commit_messages<<EOF" >> $GITHUB_ENV
-          git log --pretty=format:"- %s" ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          echo "$(git log --pretty=format:"- %s" ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }})" > commit_messages.txt
+          echo "COMMIT_MESSAGES=$(cat commit_messages.txt)" >> $GITHUB_ENV
 
       - name: Update Confluence Page
         env:
@@ -40,7 +39,7 @@ jobs:
         run: |
           PAYLOAD=$(jq -n \
             --arg title "Changelog Updates" \
-            --arg body "${{ env.commit_messages }}" \
+            --arg body "$COMMIT_MESSAGES" \
             '{
               "version": { "number": 2 },
               "title": $title,
