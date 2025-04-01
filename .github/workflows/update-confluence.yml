@@ -29,18 +29,18 @@ jobs:
         run: |
           MODULE_NAME="${{ github.repository }}"  # Extracts repo name (Module Name)
           
-          # Start creating the table HTML
+          # Start the table HTML
           echo "<table>" > confluence_table.html
           echo "<tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>" >> confluence_table.html
           
-          # Add each commit to the table
+          # Add commit details to the table
           git log --pretty=format:"<tr><td>$MODULE_NAME</td><td>%H</td><td>%s</td><td>%cd</td></tr>" --date=local ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} >> confluence_table.html
           
-          # Close the table
+          # End the table HTML
           echo "</table>" >> confluence_table.html
           
-          # Read the generated table content into an environment variable
-          TABLE_CONTENT=$(cat confluence_table.html)
+          # Read the table content into a variable (passing the file directly)
+          TABLE_CONTENT=$(<confluence_table.html)
           echo "TABLE_CONTENT=$TABLE_CONTENT" >> $GITHUB_ENV
 
       - name: Update Confluence Page
