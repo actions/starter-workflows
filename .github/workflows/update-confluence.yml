@@ -50,12 +50,20 @@ jobs:
           TABLE_CONTENT=$(<confluence_table.html)
           echo "TABLE_CONTENT=$TABLE_CONTENT" >> $GITHUB_ENV
 
+      - name: Debug CONFLUENCE_BASE_URL
+        run: |
+          echo "Confluence Base URL: $CONFLUENCE_BASE_URL"
+
       - name: Fetch Confluence Page Version
         id: fetch_version
         run: |
+          # Construct the full URL using the base URL and page ID
+          PAGE_URL="$CONFLUENCE_BASE_URL/rest/api/content/$PAGE_ID"
+          echo "API URL: $PAGE_URL"
+          
           # Fetch the current version of the page
           RESPONSE=$(curl -u "$CONFLUENCE_USERNAME:$CONFLUENCE_API_KEY" \
-            "$CONFLUENCE_BASE_URL/rest/api/content/$PAGE_ID")
+            "$PAGE_URL")
           
           # Extract the version number from the response
           VERSION=$(echo $RESPONSE | jq '.version.number')
