@@ -13,6 +13,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full commit history
+
+      - name: Debug PR SHAs
+        run: |
+          echo "Base SHA: ${{ github.event.pull_request.base.sha }}"
+          echo "Head SHA: ${{ github.event.pull_request.head.sha }}"
+
+      - name: Fetch all commits
+        run: git fetch --unshallow || git fetch --all
 
       - name: Get PR Commit Messages
         id: get_commits
@@ -25,8 +35,8 @@ jobs:
         env:
           CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
           CONFLUENCE_API_KEY: ${{ secrets.CONFLUENCE_API_KEY }}
-          CONFLUENCE_BASE_URL: "https://airnewn.atlassian.net/wiki"  # Replace with your Confluence base URL
-          PAGE_ID: "98308" # Replace with your Confluence Page ID
+          CONFLUENCE_BASE_URL: "https://airnewn.atlassian.net/wiki"
+          PAGE_ID: "98308" # Replace with your actual Confluence Page ID
         run: |
           PAYLOAD=$(jq -n \
             --arg title "Changelog Updates" \
