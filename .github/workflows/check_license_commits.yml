@@ -1,0 +1,28 @@
+name: Check License File Commits
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'  # Runs every Monday at midnight UTC
+  workflow_dispatch:  # Enables manual execution
+
+jobs:
+  scan_commits:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for commits in the last week
+        run: |
+          FILE_TO_CHECK="LICENSE"  # Change this if your License file is in a subdirectory
+          LAST_WEEK=$(date --date="7 days ago" --iso-8601)
+
+          echo "🔍 Checking commits for $FILE_TO_CHECK since $LAST_WEEK"
+
+          if git log --since="$LAST_WEEK" --pretty=format:"%h - %an, %ar : %s" -- "$FILE_TO_CHECK" | grep -q .; then
+            echo "✅ Changes detected in $FILE_TO_CHECK in the last 7 days!"
+            git log --since="$LAST_WEEK" --pretty=format:"%h - %an, %ar : %s" -- "$FILE_TO_CHECK"
+          else
+            echo "🚫 No changes detected in $FILE_TO_CHECK in the last 7 days."
+          fi
