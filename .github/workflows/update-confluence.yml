@@ -101,7 +101,7 @@ jobs:
             -u "$CONFLUENCE_USERNAME:$CONFLUENCE_API_KEY" \
             -H "Content-Type: application/json" \
             --data "$PAYLOAD" \
-            "$CONFLUENCE_BASE_URL/rest/api/content/$PAGE_ID")
+            "https://airnewn.atlassian.net/wiki/rest/api/content/$PAGE_ID")
 
           # Print the response for debugging
           echo "Response from Confluence API:"
