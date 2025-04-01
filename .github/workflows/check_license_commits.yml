@@ -1,4 +1,4 @@
-name: Check License File Commits
+name: Check License File Commits in All User Repos
 
 on:
   schedule:
@@ -10,23 +10,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 100  # Ensures enough commit history is fetched
-
-      - name: Check for commits in the last week for LICENSE file
+      - name: Fetch all repositories
         run: |
-          FILE_TO_CHECK="LICENSE"  # Update this path if needed
+          GITHUB_USER="SoftNewWare"  # Replace with your GitHub username or org
+          GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"  # GitHub token for API access
+          FILE_TO_CHECK="LICENSE"
           LAST_WEEK=$(date -d "7 days ago" --iso-8601)
 
-          echo "🔍 Checking commits for $FILE_TO_CHECK since $LAST_WEEK"
+          echo "🔍 Fetching repositories for $GITHUB_USER..."
+          
+          # Get all repos using GitHub API
+          REPOS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            "https://api.github.com/users/$GITHUB_USER/repos?per_page=100" | \
+            jq -r '.[].name')
 
-          CHANGES=$(git log --since="$LAST_WEEK" --pretty=format:"%h - %an, %ar : %s" -- "$FILE_TO_CHECK")
+          for REPO in $REPOS; do
+            echo "🔍 Checking $GITHUB_USER/$REPO..."
+            
+            # Clone the repository
+            git clone --depth=100 "https://github.com/$GITHUB_USER/$REPO.git"
+            cd "$REPO"
 
-          if [[ -n "$CHANGES" ]]; then
-            echo "✅ Changes detected in $FILE_TO_CHECK in the last 7 days!"
-            echo "$CHANGES"
-          else
-            echo "🚫 No changes detected in $FILE_TO_CHECK in the last 7 days."
-          fi
+            # Check for file changes
+            if git log --since="$LAST_WEEK" --pretty=format:"%h - %an, %ar : %s" -- "$FILE_TO_CHECK" | grep -q .; then
+              echo "✅ Changes detected in $GITHUB_USER/$REPO/$FILE_TO_CHECK in the last 7 days!"
+              git log --since="$LAST_WEEK" --pretty=format:"%h - %an, %ar : %s" -- "$FILE_TO_CHECK"
+            else
+              echo "🚫 No changes detected in $GITHUB_USER/$REPO/$FILE_TO_CHECK in the last 7 days."
+            fi
+
+            # Clean up
+            cd ..
+            rm -rf "$REPO"
+          done
