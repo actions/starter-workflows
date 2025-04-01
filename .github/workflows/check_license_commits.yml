@@ -12,15 +12,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 100  # Ensures enough commit history is fetched
 
       - name: Check for commits in the last week for LICENSE file
         run: |
-          FILE_TO_CHECK="LICENSE"  # Update if the file is in a subdirectory
+          FILE_TO_CHECK="LICENSE"  # Update this path if needed
           LAST_WEEK=$(date -d "7 days ago" --iso-8601)
 
           echo "🔍 Checking commits for $FILE_TO_CHECK since $LAST_WEEK"
 
-          CHANGES=$(git log --follow --since="$LAST_WEEK" --pretty=format:"%h - %an, %ar : %s" -- "$FILE_TO_CHECK")
+          CHANGES=$(git log --since="$LAST_WEEK" --pretty=format:"%h - %an, %ar : %s" -- "$FILE_TO_CHECK")
 
           if [[ -n "$CHANGES" ]]; then
             echo "✅ Changes detected in $FILE_TO_CHECK in the last 7 days!"
