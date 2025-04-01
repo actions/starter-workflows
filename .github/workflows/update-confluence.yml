@@ -24,11 +24,21 @@ jobs:
       - name: Fetch all commits
         run: git fetch --unshallow || git fetch --all
 
-      - name: Get PR Commit Messages
-        id: get_commits
+      - name: Generate Confluence Table
+        id: generate_table
         run: |
-          echo "$(git log --pretty=format:"- %s" ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }})" > commit_messages.txt
-          echo "COMMIT_MESSAGES=$(cat commit_messages.txt)" >> $GITHUB_ENV
+          MODULE_NAME="${{ github.repository }}"  # Extracts repo name (Module Name)
+          
+          # Header Row
+          echo "<table>" > confluence_table.html
+          echo "<tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>" >> confluence_table.html
+          
+          # Commit Details
+          git log --pretty=format:"<tr><td>$MODULE_NAME</td><td>%H</td><td>%s</td><td>%cd</td></tr>" --date=local ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} >> confluence_table.html
+          
+          echo "</table>" >> confluence_table.html
+          
+          echo "TABLE_CONTENT=$(cat confluence_table.html)" >> $GITHUB_ENV
 
       - name: Update Confluence Page
         env:
@@ -39,7 +49,7 @@ jobs:
         run: |
           PAYLOAD=$(jq -n \
             --arg title "Changelog Updates" \
-            --arg body "$COMMIT_MESSAGES" \
+            --arg body "$TABLE_CONTENT" \
             '{
               "version": { "number": 2 },
               "title": $title,
