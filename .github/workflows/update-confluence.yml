@@ -49,25 +49,51 @@ jobs:
           TABLE_CONTENT=$(<confluence_table.html)
           echo "TABLE_CONTENT=$TABLE_CONTENT" >> $GITHUB_ENV
 
+      - name: Fetch Confluence Page Version
+        id: fetch_version
+        run: |
+          # Fetch the current version of the page
+          RESPONSE=$(curl -u "$CONFLUENCE_USERNAME:$CONFLUENCE_API_KEY" \
+            "$CONFLUENCE_BASE_URL/rest/api/content/$PAGE_ID")
+          
+          # Extract the version number from the response
+          VERSION=$(echo $RESPONSE | jq '.version.number')
+          echo "Current Version: $VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
       - name: Update Confluence Page
         env:
           CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
           CONFLUENCE_API_KEY: ${{ secrets.CONFLUENCE_API_KEY }}
           CONFLUENCE_BASE_URL: ${{ secrets.CONFLUENCE_BASE_URL }}
-          PAGE_ID: "98308" # Replace with your actual Confluence Page ID
+          PAGE_ID: "98308"  # Replace with your actual Confluence Page ID
+          VERSION: ${{ env.VERSION }}
         run: |
+          # Increment the version by 1
+          UPDATED_VERSION=$((VERSION + 1))
+
           PAYLOAD=$(jq -n \
             --arg title "Changelog Updates" \
             --arg body "$TABLE_CONTENT" \
+            --arg version "$UPDATED_VERSION" \
             '{
-              "version": { "number": 2 },
+              "version": { "number": ($version | tonumber) },
               "title": $title,
               "type": "page",
               "body": { "storage": { "value": $body, "representation": "wiki" } }
             }')
 
-          curl -X PUT \
+          # Print the payload for debugging
+          echo "Payload being sent to Confluence:"
+          echo "$PAYLOAD"
+
+          # Perform the API call and capture the response
+          RESPONSE=$(curl -X PUT \
             -u "$CONFLUENCE_USERNAME:$CONFLUENCE_API_KEY" \
             -H "Content-Type: application/json" \
             --data "$PAYLOAD" \
-            "$CONFLUENCE_BASE_URL/rest/api/content/$PAGE_ID"
+            "$CONFLUENCE_BASE_URL/rest/api/content/$PAGE_ID")
+
+          # Print the response for debugging
+          echo "Response from Confluence API:"
+          echo "$RESPONSE"
