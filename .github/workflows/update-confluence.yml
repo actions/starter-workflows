@@ -33,8 +33,42 @@ jobs:
           table="<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>"
 
           # Add each commit to the table
-          for commit in $(git log --pretty=format:"%H %s %cd" --date=local ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}); do
+          git log --pretty=format:"%H %s %cd" --date=local ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} | while read commit; do
             COMMIT_ID=$(echo $commit | cut -d' ' -f1)
             COMMIT_MSG=$(echo $commit | cut -d' ' -f2-)
             COMMIT_DATE=$(echo $commit | cut -d' ' -f3-)
-            table="$table<tr><td>$MODULE_NAME</td><td>$COMMIT_ID</td
+            table="$table<tr><td>$MODULE_NAME</td><td>$COMMIT_ID</td><td>$COMMIT_MSG</td><td>$COMMIT_DATE</td></tr>"
+          done
+
+          # Close the table HTML
+          table="$table</table>"
+
+          # Output table content into a file for later usage
+          echo "$table" > confluence_table.html
+
+          # Read the generated table content
+          TABLE_CONTENT=$(<confluence_table.html)
+          echo "TABLE_CONTENT=$TABLE_CONTENT" >> $GITHUB_ENV
+
+      - name: Update Confluence Page
+        env:
+          CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
+          CONFLUENCE_API_KEY: ${{ secrets.CONFLUENCE_API_KEY }}
+          CONFLUENCE_BASE_URL: ${{ secrets.CONFLUENCE_BASE_URL }}
+          PAGE_ID: "98308" # Replace with your actual Confluence Page ID
+        run: |
+          PAYLOAD=$(jq -n \
+            --arg title "Changelog Updates" \
+            --arg body "$TABLE_CONTENT" \
+            '{
+              "version": { "number": 2 },
+              "title": $title,
+              "type": "page",
+              "body": { "storage": { "value": $body, "representation": "wiki" } }
+            }')
+
+          curl -X PUT \
+            -u "$CONFLUENCE_USERNAME:$CONFLUENCE_API_KEY" \
+            -H "Content-Type: application/json" \
+            --data "$PAYLOAD" \
+            "$CONFLUENCE_BASE_URL/rest/api/content/$PAGE_ID"
