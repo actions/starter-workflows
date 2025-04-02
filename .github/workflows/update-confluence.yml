@@ -54,6 +54,8 @@ jobs:
 
           # Print debug info
           cat table.html
+      - name: Debug: Print Table Content
+        run: cat table.html
 
       - name: Update Confluence Page
         env:
