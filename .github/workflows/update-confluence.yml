@@ -41,7 +41,8 @@ jobs:
         id: generate_table
         run: |
           MODULE_NAME="${{ github.repository }}"  # Extract repo name
-
+          echo "Generated MODULE_NAME:"
+          echo "$MODULE_NAME"
           # Start HTML table
           table="<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>"
 
