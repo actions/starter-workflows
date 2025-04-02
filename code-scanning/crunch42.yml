@@ -3,23 +3,22 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-# This workflow locates REST API file contracts
-# (Swagger or OpenAPI format, v2 and v3, JSON and YAML)
-# and runs 200+ security checks on them using 42Crunch Security Audit technology.
+# This workflow locates REST API file contracts (Swagger or OpenAPI format, v2 and v3, JSON and YAML)
+# and runs 300+ security checks on them using 42Crunch Security Audit technology to uncover
+# potential vulnerabilities related to authentication, authorization as well as data validation.
 #
 # Documentation is located here: https://docs.42crunch.com/latest/content/tasks/integrate_github_actions.htm
 #
-# To use this workflow, you will need to complete the following setup steps.
+# To use this workflow, you need a 42Crunch platform account. If you do not have one, you can contact us
+# from this page: https://42crunch.com/request-demo.
 #
-# 1. Create a free 42Crunch account at https://platform.42crunch.com/register
-#
-# 2. Follow steps at https://docs.42crunch.com/latest/content/tasks/integrate_github_actions.htm
+# 1. Follow steps at https://docs.42crunch.com/latest/content/tasks/integrate_github_actions.htm
 #    to create an API Token on the 42Crunch platform
 #
-# 3. Add a secret in GitHub as explained in https://docs.42crunch.com/latest/content/tasks/integrate_github_actions.htm,
-#    store the 42Crunch API Token in that secret, and supply the secret's name as api-token parameter in this workflow
+# 2. Create an secret in GitHub as explained in https://docs.42crunch.com/latest/content/tasks/integrate_github_actions.htm
+#    and store the 42Crunch API Token in that secret. Expected default is API_TOKEN (see the api-token property in the task).
 #
-# If you have any questions or need help contact https://support.42crunch.com
+# If you have any questions or need help, open an issue at: https://support.42crunch.com.
 
 name: "42Crunch REST API Static Security Testing"
 
@@ -33,14 +32,20 @@ on:
   schedule:
     - cron: $cron-weekly
 
+permissions:
+  contents: read
+
 jobs:
   rest-api-static-security-testing:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for 42Crunch/api-security-audit-action to upload results to Github Code Scanning
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: 42Crunch REST API Static Security Testing
-        uses: 42Crunch/api-security-audit-action@96228d9c48873fe001354047d47fb62be42abeb1
+        uses: 42Crunch/api-security-audit-action@fc01ea7a89e6268875868f9d89598af7a9899ae0
         with:
           # Please create free account at https://platform.42crunch.com/register
           # Follow these steps to configure API_TOKEN https://docs.42crunch.com/latest/content/tasks/integrate_github_actions.htm

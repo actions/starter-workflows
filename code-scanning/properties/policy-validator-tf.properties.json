@@ -1,0 +1,7 @@
+{
+  "name": "Policy Validator for Terraform",
+  "creator": "Amazon Web Services",
+  "description": "Validate AWS IAM Policies in Terraform Templates powered IAM Access Analyzer",
+  "iconName": "aws",
+  "categories": ["Code Scanning", "AWS", "Python"]
+}

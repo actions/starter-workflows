@@ -20,14 +20,21 @@ env:
   # Path to the CMake build directory.
   build: '${{ github.workspace }}/build'
 
+permissions:
+  contents: read
+
 jobs:
   analyze:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
     name: Analyze
     runs-on: windows-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Configure CMake
         run: cmake -B ${{ env.build }}
@@ -47,13 +54,13 @@ jobs:
 
       # Upload SARIF file to GitHub Code Scanning Alerts
       - name: Upload SARIF to GitHub
-        uses: github/codeql-action/upload-sarif@v1
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: ${{ steps.run-analysis.outputs.sarif }}
 
       # Upload SARIF file as an Artifact to download and view
       # - name: Upload SARIF as an Artifact
-      #   uses: actions/upload-artifact@v2
+      #   uses: actions/upload-artifact@v4
       #   with:
       #     name: sarif-file
       #     path: ${{ steps.run-analysis.outputs.sarif }}

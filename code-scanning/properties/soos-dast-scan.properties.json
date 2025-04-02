@@ -1,0 +1,7 @@
+{
+    "name": "SOOS DAST Scan",
+    "creator": "SOOS",
+    "description": "SOOS DAST is the easy-to-integrate no-limit web vulnerability scanner. Integrate SOOS DAST with your CI pipeline to find vulnerabilities by scanning a web app or APIs.",
+    "iconName": "soos",
+    "categories": ["Code Scanning"]
+}
