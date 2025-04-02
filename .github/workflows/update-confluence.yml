@@ -44,7 +44,7 @@ jobs:
           echo "Generated MODULE_NAME:"
           echo "$MODULE_NAME"
           # Start HTML table
-          table="<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>"
+          table="<table><tr><th>Module Names</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>"
 
           # Fetch commits from merged PR
           git log --pretty=format:"%H|%s|%cd" --date=local ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} | while IFS='|' read -r COMMIT_ID COMMIT_MSG COMMIT_DATE; do
