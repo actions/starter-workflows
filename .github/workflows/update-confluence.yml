@@ -54,8 +54,11 @@ jobs:
 
           # Print debug info
           cat table.html
-      - name: Print Table Content
-        run: cat table.html
+      - name:  Print Git Log
+        run: |
+          echo "Fetching commits..."
+          git log --pretty=format:"%H | %s | %cd" --date=local -n 5
+
 
       - name: Update Confluence Page
         env:
