@@ -6,89 +6,70 @@ on:
       - closed
 
 jobs:
-  update_confluence:
-    if: github.event.pull_request.merged == true  # Only run if PR is merged
+  update-confluence:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Fetch full commit history
+          fetch-depth: 0  # Ensures full commit history is available
 
-      - name: Debug PR SHAs
+      - name: Fetch Latest Confluence Page Version
+        id: fetch_version
+        env:
+          CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
+          CONFLUENCE_API_KEY: ${{ secrets.CONFLUENCE_API_KEY }}
+          CONFLUENCE_BASE_URL: ${{ secrets.CONFLUENCE_BASE_URL }}
+          PAGE_ID: "98308"  # Replace with your actual Confluence page ID
         run: |
-          echo "Base SHA: ${{ github.event.pull_request.base.sha }}"
-          echo "Head SHA: ${{ github.event.pull_request.head.sha }}"
+          RESPONSE=$(curl -s -u "$CONFLUENCE_USERNAME:$CONFLUENCE_API_KEY" \
+            -X GET "$CONFLUENCE_BASE_URL/rest/api/content/$PAGE_ID?expand=version")
 
-      - name: Fetch all commits
-        run: git fetch --unshallow || git fetch --all
+          VERSION=$(echo "$RESPONSE" | jq -r '.version.number')
+
+          if [ "$VERSION" == "null" ]; then
+            echo "Error fetching version. Response: $RESPONSE"
+            exit 1
+          fi
+
+          echo "Current page version: $VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Generate Confluence Table
         id: generate_table
         run: |
-          MODULE_NAME="${{ github.repository }}"  # Extracts repo name (Module Name)
+          MODULE_NAME="${{ github.repository }}"  # Extract repo name
 
-          # Start the table HTML
+          # Start HTML table
           table="<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>"
 
-          # Add each commit to the table
-          git log --pretty=format:"%H %s %cd" --date=local ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} | while read commit; do
-            COMMIT_ID=$(echo $commit | cut -d' ' -f1)
-            COMMIT_MSG=$(echo $commit | cut -d' ' -f2-)
-            COMMIT_DATE=$(echo $commit | cut -d' ' -f3-)
+          # Fetch commits from merged PR
+          git log --pretty=format:"%H|%s|%cd" --date=local ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} | while IFS='|' read -r COMMIT_ID COMMIT_MSG COMMIT_DATE; do
             table="$table<tr><td>$MODULE_NAME</td><td>$COMMIT_ID</td><td>$COMMIT_MSG</td><td>$COMMIT_DATE</td></tr>"
           done
 
-          # Close the table HTML
           table="$table</table>"
 
-          # Output table content into a file for later usage
-          echo "$table" > confluence_table.html
+          # Print debug info
+          echo "Generated Table:"
+          echo "$table"
 
-          # Read the generated table content
-          TABLE_CONTENT=$(<confluence_table.html)
-          echo "TABLE_CONTENT=$TABLE_CONTENT" >> $GITHUB_ENV
-
-      - name: Debug CONFLUENCE_BASE_URL
-        env:
-          CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
-          CONFLUENCE_API_KEY: ${{ secrets.CONFLUENCE_API_KEY }}
-          CONFLUENCE_BASE_URL: ${{ secrets.CONFLUENCE_BASE_URL }}
-          PAGE_ID: "98308"  # Replace with your actual Confluence Page ID
-        run: |
-          echo "Confluence Base URL: $CONFLUENCE_BASE_URL"
-
-      - name: Fetch Confluence Page Version
-        env:
-          CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
-          CONFLUENCE_API_KEY: ${{ secrets.CONFLUENCE_API_KEY }}
-          CONFLUENCE_BASE_URL: ${{ secrets.CONFLUENCE_BASE_URL }}
-          PAGE_ID: "98308"  # Replace with your actual Confluence Page ID
-        id: fetch_version
-        run: |
-          # Construct the full URL using the base URL and page ID
-          PAGE_URL="https://airnewn.atlassian.net/wiki/rest/api/content/$PAGE_ID"
-          echo "API URL: $PAGE_URL"
-          
-          # Fetch the current version of the page
-          RESPONSE=$(curl -u "$CONFLUENCE_USERNAME:$CONFLUENCE_API_KEY" \
-            "$PAGE_URL")
-          
-          # Extract the version number from the response
-          VERSION=$(echo $RESPONSE | jq '.version.number')
-          echo "Current Version: $VERSION"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          # Store in environment variable
+          echo "TABLE_CONTENT<<EOF" >> $GITHUB_ENV
+          echo "$table" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Update Confluence Page
         env:
           CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
           CONFLUENCE_API_KEY: ${{ secrets.CONFLUENCE_API_KEY }}
           CONFLUENCE_BASE_URL: ${{ secrets.CONFLUENCE_BASE_URL }}
-          PAGE_ID: "98308"  # Replace with your actual Confluence Page ID
+          PAGE_ID: "98308"
           VERSION: ${{ env.VERSION }}
+          TABLE_CONTENT: ${{ env.TABLE_CONTENT }}
         run: |
-          # Increment the version by 1
           UPDATED_VERSION=$((VERSION + 1))
 
           PAYLOAD=$(jq -n \
@@ -99,20 +80,27 @@ jobs:
               "version": { "number": ($version | tonumber) },
               "title": $title,
               "type": "page",
-              "body": { "storage": { "value": $body, "representation": "wiki" } }
+              "body": { "storage": { "value": $body, "representation": "storage" } }
             }')
 
-          # Print the payload for debugging
-          echo "Payload being sent to Confluence:"
+          # Debug payload
+          echo "Final JSON Payload being sent to Confluence:"
           echo "$PAYLOAD"
 
-          # Perform the API call and capture the response
-          RESPONSE=$(curl -X PUT \
+          RESPONSE=$(curl -s -X PUT \
             -u "$CONFLUENCE_USERNAME:$CONFLUENCE_API_KEY" \
             -H "Content-Type: application/json" \
             --data "$PAYLOAD" \
-            "https://airnewn.atlassian.net/wiki/rest/api/content/$PAGE_ID")
+            "$CONFLUENCE_BASE_URL/rest/api/content/$PAGE_ID")
 
-          # Print the response for debugging
+          # Print Confluence response
           echo "Response from Confluence API:"
           echo "$RESPONSE"
+
+          # Check if Confluence updated successfully
+          if echo "$RESPONSE" | jq -e '.statusCode == 200 or .id' > /dev/null; then
+            echo "Confluence page updated successfully!"
+          else
+            echo "Error updating Confluence page. Response: $RESPONSE"
+            exit 1
+          fi
