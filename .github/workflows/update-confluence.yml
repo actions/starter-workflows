@@ -40,7 +40,7 @@ jobs:
       - name: Generate Confluence Table
         id: generate_table
         run: |
-          MODULE_NAME="${{ github.repository }}"  # Extract repo name
+          MODULE_NAME=MODULE_NAME=$(echo "${GITHUB_REPOSITORY}" | awk -F'/' '{print $2}') # Extract repo name
           echo "Generated MODULE_NAME:"
           echo "$MODULE_NAME"
           # Start HTML table
