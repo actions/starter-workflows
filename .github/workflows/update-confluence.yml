@@ -6,15 +6,15 @@ on:
       - closed
 
 jobs:
-  update-confluence:
+  update_confluence:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Ensures full commit history is available
+          fetch-depth: 0  # Ensure full commit history
 
       - name: Fetch Latest Confluence Page Version
         id: fetch_version
@@ -22,7 +22,7 @@ jobs:
           CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
           CONFLUENCE_API_KEY: ${{ secrets.CONFLUENCE_API_KEY }}
           CONFLUENCE_BASE_URL: ${{ secrets.CONFLUENCE_BASE_URL }}
-          PAGE_ID: "98308"  # Replace with your actual Confluence page ID
+          PAGE_ID: "98308"  # Replace with your actual Confluence Page ID
         run: |
           RESPONSE=$(curl -s -u "$CONFLUENCE_USERNAME:$CONFLUENCE_API_KEY" \
             -X GET "$CONFLUENCE_BASE_URL/rest/api/content/$PAGE_ID?expand=version")
@@ -40,27 +40,20 @@ jobs:
       - name: Generate Confluence Table
         id: generate_table
         run: |
-          MODULE_NAME=$(echo "${GITHUB_REPOSITORY}" | awk -F'/' '{print $2}') # Extract repo name
-          echo "Generated MODULE_NAME:"
-          echo "$MODULE_NAME"
+          MODULE_NAME=$(echo "${GITHUB_REPOSITORY}" | awk -F'/' '{print $2}')  # Extract repo name
+
           # Start HTML table
-          table="<table><tr><th>Module Names</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>"
+          echo '<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>' > table.html
 
           # Fetch commits from merged PR
           git log --pretty=format:"%H|%s|%cd" --date=local ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} | while IFS='|' read -r COMMIT_ID COMMIT_MSG COMMIT_DATE; do
-            table="$table<tr><td>$MODULE_NAME</td><td>$COMMIT_ID</td><td>$COMMIT_MSG</td><td>$COMMIT_DATE</td></tr>"
+            echo "<tr><td>$MODULE_NAME</td><td>$COMMIT_ID</td><td>$COMMIT_MSG</td><td>$COMMIT_DATE</td></tr>" >> table.html
           done
 
-          table="$table</table>"
+          echo '</table>' >> table.html
 
           # Print debug info
-          echo "Generated Table:"
-          echo "$table"
-
-          # Store in environment variable
-          echo "TABLE_CONTENT<<EOF" >> $GITHUB_ENV
-          echo "$table" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          cat table.html
 
       - name: Update Confluence Page
         env:
@@ -69,9 +62,11 @@ jobs:
           CONFLUENCE_BASE_URL: ${{ secrets.CONFLUENCE_BASE_URL }}
           PAGE_ID: "98308"
           VERSION: ${{ env.VERSION }}
-          TABLE_CONTENT: ${{ env.TABLE_CONTENT }}
         run: |
           UPDATED_VERSION=$((VERSION + 1))
+
+          # Read table content safely
+          TABLE_CONTENT=$(cat table.html)
 
           PAYLOAD=$(jq -n \
             --arg title "Changelog Updates" \
@@ -84,8 +79,8 @@ jobs:
               "body": { "storage": { "value": $body, "representation": "storage" } }
             }')
 
-          # Debug payload
-          echo "Final JSON Payload being sent to Confluence:"
+          # Debugging output
+          echo "Final JSON Payload:"
           echo "$PAYLOAD"
 
           RESPONSE=$(curl -s -X PUT \
@@ -94,12 +89,9 @@ jobs:
             --data "$PAYLOAD" \
             "$CONFLUENCE_BASE_URL/rest/api/content/$PAGE_ID")
 
-          # Print Confluence response
-          echo "Response from Confluence API:"
-          echo "$RESPONSE"
+          echo "Confluence Response: $RESPONSE"
 
-          # Check if Confluence updated successfully
-          if echo "$RESPONSE" | jq -e '.statusCode == 200 or .id' > /dev/null; then
+          if echo "$RESPONSE" | jq -e '.id' > /dev/null; then
             echo "Confluence page updated successfully!"
           else
             echo "Error updating Confluence page. Response: $RESPONSE"
