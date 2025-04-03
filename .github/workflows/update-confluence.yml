@@ -91,6 +91,9 @@ jobs:
           echo "📝 JSON PAYLOAD:"
           echo "$JSON_PAYLOAD"
 
+      - name: Debug Confluence URL
+        run: |
+          echo "🔍 Checking Confluence API URL: $CONFLUENCE_URL/rest/api/content/$PAGE_ID"
       - name: Update Confluence Page
         run: |
           RESPONSE=$(curl -s -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
