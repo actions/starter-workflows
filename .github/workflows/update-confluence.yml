@@ -100,6 +100,12 @@ jobs:
           echo "CONFLUENCE_URL=https://airnewn.atlassian.net/wiki" >> $GITHUB_ENV
           echo "PAGE_ID=98308" >> $GITHUB_ENV
 
+      - name: Fetch Page Info
+        run: |
+          curl -s -X GET "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
+            -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
+            -H "Accept: application/json"
+
       - name: Update Confluence Page
         run: |
           RESPONSE=$(curl -s -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
