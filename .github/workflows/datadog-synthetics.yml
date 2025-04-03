@@ -1,5 +1,5 @@
-# This workflow will trigger Datadog Synthetic tests within your Datadog organisation
-# For more information on running Synthetic tests within your GitHub workflows see: https://docs.datadoghq.com/synthetics/cicd_integrations/github_actions/
+ #This workflow will trigger Datadog Synthetic tests within your Datadog organisation
+# For more information on running Synthetic tests within your GitHub workflows see: https://github.com/Mzachky/starter-workflows/actions/workflows/sync-ghes.yaml
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
