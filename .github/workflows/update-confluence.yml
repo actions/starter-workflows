@@ -41,6 +41,12 @@ jobs:
         run: |
             echo "Fetching commits..."
             git log --pretty=format:"%H | %s | %cd" --date=local -n 5
+      - name: Debug: Check Loop Execution
+        run: |
+          echo "Checking commit loop execution..."
+          git log --pretty=format:"%H | %s | %cd" --date=local HEAD^..HEAD | while IFS='|' read -r COMMIT_ID COMMIT_MSG COMMIT_DATE; do
+            echo "Processing: $COMMIT_ID | $COMMIT_MSG | $COMMIT_DATE"
+          done
       - name: Generate Confluence Table
         id: generate_table
         run: |
