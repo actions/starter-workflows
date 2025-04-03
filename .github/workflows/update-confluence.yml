@@ -93,29 +93,19 @@ jobs:
 
       - name: Update Confluence Page
         run: |
-          PAGE_ID="98308"
-          CONFLUENCE_URL="https://airnewn.atlassian.net/wiki"
-
-          NEW_VERSION=$((PAGE_VERSION + 1))
-
-          # Convert table content to JSON-friendly format
-          HTML_CONTENT=$(jq -Rs . < table.html)
-
-          curl -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
+          RESPONSE=$(curl -s -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
             -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
+            -H "Accept: application/json" \
             -H "Content-Type: application/json" \
-            --data '{
-              "id": "'$PAGE_ID'",
-              "type": "page",
-              "title": "PR Commits Log",
-              "version": { "number": '$NEW_VERSION' },
-              "body": {
-                "storage": {
-                  "value": '$HTML_CONTENT',
-                  "representation": "storage"
-                }
-              }
-            }'
+            --data-raw "$JSON_PAYLOAD")
+
+          echo "🚀 API Response: $RESPONSE"
+
+          if echo "$RESPONSE" | grep -q "error"; then
+            echo "❌ Failed to update Confluence. Check response above."
+            exit 1
+          fi
+
 
       - name: Confirm Confluence Update
         run: echo "✅ Confluence page updated successfully!"
