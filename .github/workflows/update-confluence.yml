@@ -3,30 +3,30 @@ name: Update Confluence on PR Merge
 on:
   pull_request:
     types:
-      - closed  # Trigger only when PR is merged
+      - closed  # Runs only when a PR is merged
     branches:
-      - main  # Change to your main branch
+      - main  # Change this if your main branch has a different name
 
 jobs:
   update-confluence:
-    if: github.event.pull_request.merged == true  # Run only if PR is merged
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Fetch full history for accurate commit logs
+          fetch-depth: 0  # Fetches full history to get commit logs correctly
 
       - name: Fetch Commit Details
         run: |
-          MODULE_NAME=$(basename $GITHUB_REPOSITORY)  # Extract repo name
+          MODULE_NAME=$(basename $GITHUB_REPOSITORY)  # Extracts repo name
           echo "Module Name: $MODULE_NAME"
 
           # Start table structure
           echo '<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>' > table.html
 
-          # Get commit details from PR range
+          # Fetch commit details from PR range
           git log --pretty=format:"%H|%s|%cd" --date=iso ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} > commits.txt
 
           while IFS='|' read -r COMMIT_ID COMMIT_MSG COMMIT_DATE; do
@@ -44,17 +44,18 @@ jobs:
       - name: Fetch Current Confluence Page Version
         id: get_page
         run: |
-          PAGE_ID="98308"  # Change this to your actual Confluence Page ID
+          PAGE_ID="98308"  # Replace with your actual Confluence Page ID
           CONFLUENCE_URL="https://airnewn.atlassian.net/wiki"
-          
+
           RESPONSE=$(curl -s -X GET "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=version" \
             -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
             -H "Accept: application/json")
 
-          PAGE_VERSION=$(echo "$RESPONSE" | jq .version.number)
+          echo "API Response: $RESPONSE"
+
+          PAGE_VERSION=$(echo "$RESPONSE" | jq -r '.version.number // 1')
           echo "Current Page Version: $PAGE_VERSION"
 
-          # Save to GitHub environment
           echo "PAGE_VERSION=$PAGE_VERSION" >> $GITHUB_ENV
 
       - name: Update Confluence Page
