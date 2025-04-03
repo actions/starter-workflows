@@ -44,9 +44,11 @@ jobs:
       - name: Fetch Current Confluence Page Version
         id: get_page
         run: |
-          PAGE_ID="98308"  # Replace with your actual Confluence Page ID
+          PAGE_ID="98308"
           CONFLUENCE_URL="https://airnewn.atlassian.net/wiki"
 
+          echo "🔍 Checking authentication..."
+          
           RESPONSE=$(curl -s -X GET "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=version" \
             -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
             -H "Accept: application/json")
@@ -54,7 +56,7 @@ jobs:
           echo "API Response: $RESPONSE"
 
           if echo "$RESPONSE" | grep -q "Unauthorized"; then
-            echo "Authentication failed! Check your API token and username."
+            echo "❌ Authentication failed! Check your API token and username."
             exit 1
           fi
 
@@ -62,6 +64,7 @@ jobs:
           echo "Current Page Version: $PAGE_VERSION"
 
           echo "PAGE_VERSION=$PAGE_VERSION" >> $GITHUB_ENV
+
 
 
       - name: Update Confluence Page
