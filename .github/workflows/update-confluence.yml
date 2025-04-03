@@ -65,7 +65,31 @@ jobs:
 
           echo "PAGE_VERSION=$PAGE_VERSION" >> $GITHUB_ENV
 
+      - name: Debug JSON Payload
+        run: |
+          PAGE_ID="98308"
+          CONFLUENCE_URL="https://airnewn.atlassian.net/wiki"
+          PAGE_VERSION="3"  # Example version, replace dynamically if needed
 
+          JSON_PAYLOAD=$(cat <<EOF
+          {
+            "id": "$PAGE_ID",
+            "type": "page",
+            "title": "Your Page Title",
+            "space": { "key": "YOUR_SPACE_KEY" },
+            "version": { "number": $((PAGE_VERSION + 1)) },
+            "body": {
+              "storage": {
+                "value": "<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr><tr><td>TestModule</td><td>1234567</td><td>Fix bug</td><td>2025-04-02</td></tr></table>",
+                "representation": "storage"
+              }
+            }
+          }
+          EOF
+          )
+
+          echo "📝 JSON PAYLOAD:"
+          echo "$JSON_PAYLOAD"
 
       - name: Update Confluence Page
         run: |
