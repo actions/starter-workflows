@@ -42,26 +42,28 @@ jobs:
           cat table.html
 
       - name: Fetch Current Confluence Page Version
+        id: get_page
         run: |
+          PAGE_ID="98308"
+          CONFLUENCE_URL="https://airnewn.atlassian.net/wiki"
+
+          echo "🔍 Checking authentication..."
+          
           RESPONSE=$(curl -s -X GET "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=version" \
             -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
             -H "Accept: application/json")
 
           echo "API Response: $RESPONSE"
 
-          PAGE_VERSION=$(echo "$RESPONSE" | jq -r '.version.number')
-          
-          if [[ "$PAGE_VERSION" == "null" || -z "$PAGE_VERSION" ]]; then
-            PAGE_VERSION=1
-          else
-            PAGE_VERSION=$((PAGE_VERSION + 1))
+          if echo "$RESPONSE" | grep -q "Unauthorized"; then
+            echo "❌ Authentication failed! Check your API token and username."
+            exit 1
           fi
 
-          echo "Incremented Page Version: $PAGE_VERSION"
+          PAGE_VERSION=$(echo "$RESPONSE" | jq -r '.version.number // 1')
+          echo "Current Page Version: $PAGE_VERSION"
 
-          # Store PAGE_VERSION as an environment variable
           echo "PAGE_VERSION=$PAGE_VERSION" >> $GITHUB_ENV
-
 
       - name: Debug JSON Payload
         run: |
@@ -104,26 +106,36 @@ jobs:
             -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
             -H "Accept: application/json"
 
-      - name: Use Page Version in Confluence Update
+      - name: Update Confluence Page
         run: |
-          echo "Updating Confluence Page to Version: ${{ env.PAGE_VERSION }}"
-          curl -s -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
+          PAGE_ID="98308"
+          NEW_VERSION=$((6 + 1))  # Increment version
+
+          JSON_PAYLOAD=$(cat <<EOF
+          {
+            "id": "$PAGE_ID",
+            "type": "page",
+            "title": "Changelog Updates",
+            "space": { "key": "YOUR_SPACE_KEY" },
+            "version": { "number": $NEW_VERSION },
+            "body": {
+              "storage": {
+                "value": "<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr><tr><td>TestModule</td><td>1234567</td><td>Fix bug</td><td>2025-04-02</td></tr></table>",
+                "representation": "storage"
+              }
+            }
+          }
+          EOF
+          )
+
+          echo "📝 JSON Payload: $JSON_PAYLOAD"
+
+          RESPONSE=$(curl -s -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
             -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d '{
-              "id": "'$PAGE_ID'",
-              "type": "page",
-              "title": "Your Page Title",
-              "space": { "key": "YOUR_SPACE_KEY" },
-              "version": { "number": '${{ env.PAGE_VERSION }}' },
-              "body": {
-                "storage": {
-                  "value": "<p>Updated Content</p>",
-                  "representation": "storage"
-                }
-              }
-            }'
+            -d "$JSON_PAYLOAD")
 
+          echo "🚀 API Response: $RESPONSE"
 
 
 
