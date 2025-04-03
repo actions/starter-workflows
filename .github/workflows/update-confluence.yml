@@ -37,6 +37,10 @@ jobs:
           echo "Current page version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
+      - name: Debug Print Git Log
+        run: |
+            echo "Fetching commits..."
+            git log --pretty=format:"%H | %s | %cd" --date=local -n 5
       - name: Generate Confluence Table
         id: generate_table
         run: |
