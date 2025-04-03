@@ -94,6 +94,12 @@ jobs:
       - name: Debug Confluence URL
         run: |
           echo "🔍 Checking Confluence API URL: $CONFLUENCE_URL/rest/api/content/$PAGE_ID"
+
+      - name: Set Variables
+        run: |
+          echo "CONFLUENCE_URL=https://airnewn.atlassian.net/wiki" >> $GITHUB_ENV
+          echo "PAGE_ID=98308" >> $GITHUB_ENV
+
       - name: Update Confluence Page
         run: |
           RESPONSE=$(curl -s -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
