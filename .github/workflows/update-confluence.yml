@@ -108,18 +108,35 @@ jobs:
 
       - name: Update Confluence Page
         run: |
+          PAGE_ID="98308"
+          NEW_VERSION=$((6 + 1))  # Increment version
+
+          JSON_PAYLOAD=$(cat <<EOF
+          {
+            "id": "$PAGE_ID",
+            "type": "page",
+            "title": "Changelog Updates",
+            "space": { "key": "YOUR_SPACE_KEY" },
+            "version": { "number": $NEW_VERSION },
+            "body": {
+              "storage": {
+                "value": "<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr><tr><td>TestModule</td><td>1234567</td><td>Fix bug</td><td>2025-04-02</td></tr></table>",
+                "representation": "storage"
+              }
+            }
+          }
+          EOF
+          )
+
+          echo "📝 JSON Payload: $JSON_PAYLOAD"
+
           RESPONSE=$(curl -s -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
             -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
-            -H "Accept: application/json" \
             -H "Content-Type: application/json" \
-            --data-raw "$JSON_PAYLOAD")
+            -d "$JSON_PAYLOAD")
 
           echo "🚀 API Response: $RESPONSE"
 
-          if echo "$RESPONSE" | grep -q "error"; then
-            echo "❌ Failed to update Confluence. Check response above."
-            exit 1
-          fi
 
 
       - name: Confirm Confluence Update
