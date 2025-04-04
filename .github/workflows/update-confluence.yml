@@ -29,6 +29,12 @@ jobs:
           echo "$TABLE_HTML" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
+      - name: Debug ENV Vars (Safe Output)
+        run: |
+          echo "Checking if username is set: ${#CONFLUENCE_USERNAME}"
+          echo "Checking if token is set: ${#CONFLUENCE_API_TOKEN}"
+
+
       - name: Get Current Confluence Page Version
         id: get_version
         run: |
