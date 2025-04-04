@@ -43,24 +43,24 @@ jobs:
           PAGE_VERSION=${{ steps.version.outputs.version }}
 
           JSON=$(jq -n \
-            --arg id "$PAGE_ID" \
-            --arg title "$PAGE_TITLE" \
-            --arg space_key "$SPACE_KEY" \
-            --arg version "$PAGE_VERSION" \
-            --arg value "$TABLE_HTML" \
-            '{
-              id: $id,
-              type: "page",
-              title: $title,
-              space: { key: $space_key },
-              version: { number: ($version | tonumber) },
-              body: {
-                storage: {
-                  value: $value,
-                  representation: "storage"
-                }
+          --arg id "$PAGE_ID" \
+          --arg title "$PAGE_TITLE" \
+          --arg space_key "$SPACE_KEY" \
+          --arg version "$PAGE_VERSION" \
+          --arg value "$TABLE_HTML" \
+          '{
+            id: $id,
+            type: "page",
+            title: $title,
+            space: { key: $space_key },
+            version: { number: ($version | tonumber) },
+            body: {
+              storage: {
+                value: $value,
+                representation: "storage"
               }
-            }')
+            }
+          }')
 
           echo "$JSON" > payload.json
 
