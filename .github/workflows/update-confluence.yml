@@ -90,10 +90,15 @@ jobs:
 
           echo "📝 JSON PAYLOAD:"
           echo "$JSON_PAYLOAD"
-      - name: Get Commit Info
+      - name: Get Commit Info as HTML Table
         run: |
-          git log -n 5 --pretty=format:'<tr><td>${{ github.repository }}</td><td>%h</td><td>%s</td><td>%ad</td></tr>' --date=iso > commit_table.html
-          echo "TABLE_HTML=$(cat commit_table.html)" >> $GITHUB_ENV
+          git log -n 5 --pretty=format:'<tr><td>SoftNewWare/starter-workflows</td><td>%h</td><td>%s</td><td>%ad</td></tr>' --date=iso > commit_table.html
+          {
+            echo 'TABLE_HTML<<EOF'
+            cat commit_table.html
+            echo 'EOF'
+          } >> $GITHUB_ENV
+
       - name: Get Current Page Version
         id: get_version
         run: |
