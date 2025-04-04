@@ -47,7 +47,7 @@ jobs:
             --arg title "$PAGE_TITLE" \
             --arg space_key "$SPACE_KEY" \
             --arg version "$PAGE_VERSION" \
-            --argjson value "$TABLE_HTML" \
+            --arg value "$TABLE_HTML" \
             '{
               id: $id,
               type: "page",
@@ -68,6 +68,7 @@ jobs:
             -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
             -H "Content-Type: application/json" \
             -d @payload.json
+
 
 
 
