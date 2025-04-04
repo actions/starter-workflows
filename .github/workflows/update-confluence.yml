@@ -22,28 +22,29 @@ jobs:
         id: generate-table
         run: |
           MODULE_NAME="${{ github.repository }}"
-          TABLE_HTML="<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>"
+          echo "Generating commit table for: $MODULE_NAME"
+          TABLE="<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>"
           while IFS= read -r line; do
-            TABLE_HTML+="$line"
+            TABLE+="$line"
           done < <(git log -n 5 --pretty=format:"<tr><td>$MODULE_NAME</td><td>%h</td><td>%s</td><td>%ad</td></tr>" --date=iso)
-          TABLE_HTML+="</table>"
-          echo "TABLE_HTML<<EOF" >> $GITHUB_ENV
-          echo "$TABLE_HTML" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          TABLE+="</table>"
+          # Save table as step output
+          TABLE_ESCAPED=$(echo "$TABLE" | sed ':a;N;$!ba;s/\n/\\n/g' | sed 's/"/\\"/g')
+          echo "table_html=$TABLE_ESCAPED" >> $GITHUB_OUTPUT
 
       - name: Get Current Confluence Page Version
         id: get-version
         run: |
           RESPONSE=$(curl -s -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
             -X GET "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=version")
-          echo "API Response: $RESPONSE"
           VERSION=$(echo "$RESPONSE" | jq -r '.version.number')
-          NEW_VERSION=$((VERSION + 1))
           echo "Current Page Version: $VERSION"
-          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          echo "new_version=$((VERSION + 1))" >> $GITHUB_OUTPUT
 
       - name: Update Confluence Page
         run: |
+          TABLE_HTML="${{ steps.generate-table.outputs.table_html }}"
+          VERSION="${{ steps.get-version.outputs.new_version }}"
           curl -s -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
             -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
             -H 'Content-Type: application/json' \
@@ -52,10 +53,10 @@ jobs:
               "type": "page",
               "title": "'"$CONFLUENCE_TITLE"'",
               "space": { "key": "'"$CONFLUENCE_SPACE_KEY"'" },
-              "version": { "number": '${NEW_VERSION}' },
+              "version": { "number": '${VERSION}' },
               "body": {
                 "storage": {
-                  "value": "'"${TABLE_HTML//\"/\\\"}"'",
+                  "value": "'"$TABLE_HTML"'",
                   "representation": "storage"
                 }
               }
