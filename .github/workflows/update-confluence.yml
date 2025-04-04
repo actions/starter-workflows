@@ -39,12 +39,7 @@ jobs:
 
       - name: Update Confluence Page
         run: |
-          echo "Building payload..."
-
-          # Use actual HTML from earlier step
           TABLE_HTML=${{ steps.commits.outputs.table }}
-
-          # Use actual version from previous step
           PAGE_VERSION=${{ steps.version.outputs.version }}
 
           JSON=$(jq -n \
@@ -52,7 +47,7 @@ jobs:
             --arg title "$PAGE_TITLE" \
             --arg space_key "$SPACE_KEY" \
             --arg version "$PAGE_VERSION" \
-            --arg value "$TABLE_HTML" \
+            --argjson value "$TABLE_HTML" \
             '{
               id: $id,
               type: "page",
@@ -69,10 +64,10 @@ jobs:
 
           echo "$JSON" > payload.json
 
-          echo "Updating Confluence page..."
           curl -s -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
             -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
             -H "Content-Type: application/json" \
             -d @payload.json
+
 
 
