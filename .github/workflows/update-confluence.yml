@@ -37,7 +37,7 @@ jobs:
           VERSION=$(echo "$RESPONSE" | jq '.version.number')
           echo "version=$((VERSION + 1))" >> $GITHUB_OUTPUT
 
-      - name: Update Confluence page
+      - name: Update Confluence page 
         run: |
           TABLE=${{ steps.commits.outputs.table }}
           VERSION=${{ steps.version.outputs.version }}
