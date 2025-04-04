@@ -1,62 +1,69 @@
-name: Update Confluence Page with Commits
+name: Update Confluence with Git Commits
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   update-confluence:
     runs-on: ubuntu-latest
+
     env:
-      CONFLUENCE_URL: https://airnewn.atlassian.net/wiki
-      PAGE_ID: 98308
-      SPACE_KEY: "~7120201888c3feda8740dea868d9a13920847a"
-      PAGE_TITLE: "Changelog Updates"
+      CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
+      CONFLUENCE_API_TOKEN: ${{ secrets.CONFLUENCE_API_TOKEN }}
+      CONFLUENCE_PAGE_ID: ${{ secrets.CONFLUENCE_PAGE_ID }}
+      CONFLUENCE_SPACE_KEY: ${{ secrets.CONFLUENCE_SPACE_KEY }}
+      CONFLUENCE_BASE_URL: ${{ secrets.CONFLUENCE_BASE_URL }}
 
     steps:
-      - name: Checkout repo
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Generate commit table HTML
-        id: commits
+      - name: Generate HTML Commit Table
         run: |
-          echo "Generating HTML commit table..."
-          REPO_NAME="${{ github.repository }}"
-          echo "<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>" > table.html
-          git log -n 5 --pretty=format:"<tr><td>$REPO_NAME</td><td>%h</td><td>%s</td><td>%ad</td></tr>" --date=iso >> table.html
-          echo "</table>" >> table.html
+          TABLE_HTML="<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>"
+          TABLE_HTML+=$(git log -n 5 --pretty=format:'<tr><td>${{ github.repository }}</td><td>%h</td><td>%s</td><td>%ad</td></tr>' --date=iso)
+          TABLE_HTML+="</table>"
+          echo "TABLE_HTML<<EOF" >> $GITHUB_ENV
+          echo "$TABLE_HTML" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
-          # Convert table to escaped string for JSON
-          TABLE=$(jq -Rs '.' < table.html)
-          echo "table=$TABLE" >> $GITHUB_OUTPUT
-
-      - name: Get current page version
-        id: version
+      - name: Get Current Confluence Page Version
+        id: get_version
         run: |
-          RESPONSE=$(curl -s -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
-            "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=version")
-          VERSION=$(echo "$RESPONSE" | jq '.version.number')
-          echo "version=$((VERSION + 1))" >> $GITHUB_OUTPUT
+          AUTH=$(echo -n "$CONFLUENCE_USERNAME:$CONFLUENCE_API_TOKEN" | base64)
+          RESPONSE=$(curl -s -H "Authorization: Basic $AUTH" \
+                          -H "Accept: application/json" \
+                          "$CONFLUENCE_BASE_URL/rest/api/content/$CONFLUENCE_PAGE_ID?expand=version")
+          echo "API Response: $RESPONSE"
+          PAGE_VERSION=$(echo "$RESPONSE" | jq -r '.version.number')
+          echo "PAGE_VERSION=$PAGE_VERSION" >> $GITHUB_ENV
 
-      - name: Update Confluence page
+      - name: Update Confluence Page
         run: |
-          TABLE=${{ steps.commits.outputs.table }}
-          VERSION=${{ steps.version.outputs.version }}
-
-          echo "Updating Confluence page..."
-
-          curl -s -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
-            -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "id": "'"$PAGE_ID"'",
-              "type": "page",
-              "title": "'"$PAGE_TITLE"'",
-              "space": { "key": "'"$SPACE_KEY"'" },
-              "version": { "number": '"$VERSION"' },
-              "body": {
-                "storage": {
-                  "value": '"$TABLE"',
-                  "representation": "storage"
-                }
-              }
+          NEW_VERSION=$((PAGE_VERSION + 1))
+          PAYLOAD=$(jq -n \
+            --arg id "$CONFLUENCE_PAGE_ID" \
+            --arg title "Changelog Updates" \
+            --arg space "$CONFLUENCE_SPACE_KEY" \
+            --arg value "$TABLE_HTML" \
+            --argjson version "$NEW_VERSION" \
+            '{
+              id: $id,
+              type: "page",
+              title: $title,
+              space: { key: $space },
+              version: { number: $version },
+              body: { storage: { value: $value, representation: "storage" } }
             }'
+          )
+
+          AUTH=$(echo -n "$CONFLUENCE_USERNAME:$CONFLUENCE_API_TOKEN" | base64)
+
+          RESPONSE=$(curl -s -X PUT "$CONFLUENCE_BASE_URL/rest/api/content/$CONFLUENCE_PAGE_ID" \
+            -H "Authorization: Basic $AUTH" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD")
+
+          echo "🚀 API Response: $RESPONSE"
