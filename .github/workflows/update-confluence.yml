@@ -92,12 +92,11 @@ jobs:
           echo "$JSON_PAYLOAD"
       - name: Get Commit Info as HTML Table
         run: |
-          git log -n 5 --pretty=format:'<tr><td>SoftNewWare/starter-workflows</td><td>%h</td><td>%s</td><td>%ad</td></tr>' --date=iso > commit_table.html
-          {
-            echo 'TABLE_HTML<<EOF'
-            cat commit_table.html
-            echo 'EOF'
-          } >> $GITHUB_ENV
+          echo 'TABLE_HTML<<EOF' >> $GITHUB_ENV
+          git log -n 5 --pretty=format:'<tr><td>SoftNewWare/starter-workflows</td><td>%h</td><td>%s</td><td>%ad</td></tr>' --date=iso >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+      - name: Debug Table Output
+        run: echo "<table><tr><th>Module</th><th>Commit ID</th><th>Message</th><th>Date</th></tr>${TABLE_HTML}</table>"
 
       - name: Get Current Page Version
         id: get_version
