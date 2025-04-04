@@ -90,27 +90,10 @@ jobs:
 
           echo "📝 JSON PAYLOAD:"
           echo "$JSON_PAYLOAD"
-
-      - name: Debug Confluence URL
-        run: |
-          echo "🔍 Checking Confluence API URL: $CONFLUENCE_URL/rest/api/content/$PAGE_ID"
-
-      - name: Set Variables
-        run: |
-          echo "CONFLUENCE_URL=https://airnewn.atlassian.net/wiki" >> $GITHUB_ENV
-          echo "PAGE_ID=98308" >> $GITHUB_ENV
-
-      - name: Fetch Page Info
-        run: |
-          curl -s -X GET "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
-            -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
-            -H "Accept: application/json"
-
       - name: Get Commit Info
         run: |
           git log -n 5 --pretty=format:'<tr><td>${{ github.repository }}</td><td>%h</td><td>%s</td><td>%ad</td></tr>' --date=iso > commit_table.html
           echo "TABLE_HTML=$(cat commit_table.html)" >> $GITHUB_ENV
-
       - name: Get Current Page Version
         id: get_version
         run: |
@@ -123,60 +106,28 @@ jobs:
           NEW_VERSION=$(( ${{ steps.get_version.outputs.version }} + 1 ))
 
           JSON_PAYLOAD=$(jq -n --arg id "${{ env.PAGE_ID }}" \
-                        --arg title "Changelog Updates" \
-                        --arg spaceKey "${{ env.SPACE_KEY }}" \
-                        --arg version "$NEW_VERSION" \
-                        --arg body "<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>${{ env.TABLE_HTML }}</table>" \
-          '{
-          id: $id,
-          type: "page",
-          title: $title,
-          space: { key: $spaceKey },
-          version: { number: ($version | tonumber) },
-          body: {
-            storage: {
-              value: $body,
-              representation: "storage"
-            }
-          }
-          }')
-
-          curl -s -X PUT "${{ env.CONFLUENCE_URL }}/rest/api/content/${{ env.PAGE_ID }}" \
-          -u "${{ secrets.CONFLUENCE_USER }}:${{ secrets.CONFLUENCE_TOKEN }}" \
-          -H "Content-Type: application/json" \
-          -d "$JSON_PAYLOAD"
-
-        run: |
-            PAGE_ID="98308"
-            NEW_VERSION=$((6 + 1))  # Increment version
-
-            JSON_PAYLOAD=$(cat <<EOF
-            {
-              "id": "$PAGE_ID",
-              "type": "page",
-              "title": "Changelog Updates",
-              "space": { "key": "YOUR_SPACE_KEY" },
-              "version": { "number": $NEW_VERSION },
-              "body": {
-                "storage": {
-                  "value": "<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr><tr><td>TestModule</td><td>1234567</td><td>Fix bug</td><td>2025-04-02</td></tr></table>",
-                  "representation": "storage"
+                              --arg title "Changelog Updates" \
+                              --arg spaceKey "${{ env.SPACE_KEY }}" \
+                              --arg version "$NEW_VERSION" \
+                              --arg body "<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>${{ env.TABLE_HTML }}</table>" \
+            '{
+              id: $id,
+              type: "page",
+              title: $title,
+              space: { key: $spaceKey },
+              version: { number: ($version | tonumber) },
+              body: {
+                storage: {
+                  value: $body,
+                  representation: "storage"
                 }
               }
-            }
-            EOF
-            )
+            }')
 
-            echo "📝 JSON Payload: $JSON_PAYLOAD"
-
-            RESPONSE=$(curl -s -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
-              -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
-              -H "Content-Type: application/json" \
-              -d "$JSON_PAYLOAD")
-
-            echo "🚀 API Response: $RESPONSE"
-
-
+          curl -s -X PUT "${{ env.CONFLUENCE_URL }}/rest/api/content/${{ env.PAGE_ID }}" \
+            -u "${{ secrets.CONFLUENCE_USER }}:${{ secrets.CONFLUENCE_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "$JSON_PAYLOAD"
 
       - name: Confirm Confluence Update
         run: echo "✅ Confluence page updated successfully!"
