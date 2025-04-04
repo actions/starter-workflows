@@ -1,77 +1,62 @@
-name: Update Confluence Changelog
+name: Update Confluence Page with Commits
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   update-confluence:
     runs-on: ubuntu-latest
     env:
-      PAGE_ID: "98308" # replace with your actual page ID
+      CONFLUENCE_URL: https://airnewn.atlassian.net/wiki
+      PAGE_ID: 98308
+      SPACE_KEY: "~7120201888c3feda8740dea868d9a13920847a"
+      PAGE_TITLE: "Changelog Updates"
 
     steps:
-      - name: Checkout Repo
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Generate Commit Table HTML
+      - name: Generate commit table HTML
+        id: commits
         run: |
-          echo '<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>' > commit_table.html
-          git log -n 5 --pretty=format:'<tr><td>${{ github.repository }}</td><td>%h</td><td>%s</td><td>%ad</td></tr>' --date=iso >> commit_table.html
-          echo '</table>' >> commit_table.html
-          TABLE_HTML=$(cat commit_table.html)
-          echo "TABLE_HTML<<EOF" >> $GITHUB_ENV
-          echo "$TABLE_HTML" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          echo "Generating HTML commit table..."
+          REPO_NAME="${{ github.repository }}"
+          echo "<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>" > table.html
+          git log -n 5 --pretty=format:"<tr><td>$REPO_NAME</td><td>%h</td><td>%s</td><td>%ad</td></tr>" --date=iso >> table.html
+          echo "</table>" >> table.html
+
+          # Convert table to escaped string for JSON
+          TABLE=$(jq -Rs '.' < table.html)
+          echo "table=$TABLE" >> $GITHUB_OUTPUT
 
       - name: Get current page version
         id: version
         run: |
           RESPONSE=$(curl -s -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
             "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=version")
-          PAGE_VERSION=$(echo "$RESPONSE" | jq '.version.number')
-          echo "PAGE_VERSION=$((PAGE_VERSION + 1))" >> $GITHUB_OUTPUT
+          VERSION=$(echo "$RESPONSE" | jq '.version.number')
+          echo "version=$((VERSION + 1))" >> $GITHUB_OUTPUT
 
-      - name: Update Confluence Page
+      - name: Update Confluence page
         run: |
-          NEW_VERSION=$((PAGE_VERSION + 1))
+          TABLE=${{ steps.commits.outputs.table }}
+          VERSION=${{ steps.version.outputs.version }}
 
-          JSON_PAYLOAD=$(jq -n \
-            --arg id "$PAGE_ID" \
-            --arg title "Changelog Updates" \
-            --arg space_key "~7120201888c3feda8740dea868d9a13920847a" \
-            --arg value "$TABLE_HTML" \
-            --argjson version "$NEW_VERSION" \
-            '{
-              id: $id,
-              type: "page",
-              title: $title,
-              space: { key: $space_key },
-              version: { number: $version },
-              body: {
-                storage: {
-                  value: $value,
-                  representation: "storage"
+          echo "Updating Confluence page..."
+
+          curl -s -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
+            -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "id": "'"$PAGE_ID"'",
+              "type": "page",
+              "title": "'"$PAGE_TITLE"'",
+              "space": { "key": "'"$SPACE_KEY"'" },
+              "version": { "number": '"$VERSION"' },
+              "body": {
+                "storage": {
+                  "value": '"$TABLE"',
+                  "representation": "storage"
                 }
               }
-            }')
-
-          echo "📦 JSON Payload:"
-          echo "$JSON_PAYLOAD"
-
-          RESPONSE=$(curl -s -w "%{http_code}" -o response.txt -X PUT \
-            -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d "$JSON_PAYLOAD" \
-            "${{ secrets.CONFLUENCE_URL }}/rest/api/content/${PAGE_ID}")
-
-          STATUS=$(cat response.txt)
-          echo "Confluence Response: $STATUS"
-          
-          if [[ "$STATUS" != 200 ]]; then
-            echo "❌ Failed to update Confluence page."
-            cat response.txt
-            exit 1
-          fi
-
+            }'
