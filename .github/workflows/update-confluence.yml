@@ -43,14 +43,14 @@ jobs:
             --arg id "$PAGE_ID" \
             --arg title "Changelog Updates" \
             --arg space_key "~7120201888c3feda8740dea868d9a13920847a" \
-            --argjson version "$PAGE_VERSION" \
+            --arg version "$PAGE_VERSION" \
             --arg value "$TABLE_HTML" \
             '{
               id: $id,
               type: "page",
               title: $title,
               space: { key: $space_key },
-              version: { number: $version },
+              version: { number: ($version | tonumber) },
               body: {
                 storage: {
                   value: $value,
@@ -58,6 +58,8 @@ jobs:
                 }
               }
             }')
+
+          echo "$JSON" > payload.json
 
           curl -s -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
             -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
