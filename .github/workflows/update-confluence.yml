@@ -11,52 +11,53 @@ jobs:
     env:
       CONFLUENCE_URL: https://airnewn.atlassian.net/wiki
       PAGE_ID: 98308
-      CONFLUENCE_SPACE_KEY: "~7120201888c3feda8740dea868d9a13920847a"
-      CONFLUENCE_TITLE: "Changelog Updates"
+      SPACE_KEY: "~7120201888c3feda8740dea868d9a13920847a"
+      PAGE_TITLE: "Changelog Updates"
 
     steps:
-      - name: Checkout Code
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Generate HTML Table from Git Commits
-        id: generate-table
+      - name: Generate HTML Table
+        id: generate
         run: |
-          MODULE_NAME="${{ github.repository }}"
-          echo "Generating commit table for: $MODULE_NAME"
+          REPO="${{ github.repository }}"
           TABLE="<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>"
-          while IFS= read -r line; do
-            TABLE+="$line"
-          done < <(git log -n 5 --pretty=format:"<tr><td>$MODULE_NAME</td><td>%h</td><td>%s</td><td>%ad</td></tr>" --date=iso)
+
+          git log -n 5 --pretty=format:"<tr><td>$REPO</td><td>%h</td><td>%s</td><td>%ad</td></tr>" --date=iso >> table.html
+          TABLE+=$(cat table.html)
           TABLE+="</table>"
-          # Save table as step output
-          TABLE_ESCAPED=$(echo "$TABLE" | sed ':a;N;$!ba;s/\n/\\n/g' | sed 's/"/\\"/g')
+
+          TABLE_ESCAPED=$(echo "$TABLE" | jq -Rs .)
           echo "table_html=$TABLE_ESCAPED" >> $GITHUB_OUTPUT
 
-      - name: Get Current Confluence Page Version
-        id: get-version
+      - name: Get Current Page Version
+        id: version
         run: |
           RESPONSE=$(curl -s -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
             -X GET "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=version")
-          VERSION=$(echo "$RESPONSE" | jq -r '.version.number')
-          echo "Current Page Version: $VERSION"
-          echo "new_version=$((VERSION + 1))" >> $GITHUB_OUTPUT
+
+          PAGE_VERSION=$(echo "$RESPONSE" | jq -r '.version.number')
+          echo "Current version: $PAGE_VERSION"
+          echo "new_version=$((PAGE_VERSION + 1))" >> $GITHUB_OUTPUT
 
       - name: Update Confluence Page
         run: |
-          TABLE_HTML="${{ steps.generate-table.outputs.table_html }}"
-          VERSION="${{ steps.get-version.outputs.new_version }}"
+          BODY=${{ steps.generate.outputs.table_html }}
+          VERSION=${{ steps.version.outputs.new_version }}
+
           curl -s -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
             -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
-            -H 'Content-Type: application/json' \
+            -H "Content-Type: application/json" \
             -d '{
-              "id": "'$PAGE_ID'",
+              "id": "'"$PAGE_ID"'",
               "type": "page",
-              "title": "'"$CONFLUENCE_TITLE"'",
-              "space": { "key": "'"$CONFLUENCE_SPACE_KEY"'" },
-              "version": { "number": '${VERSION}' },
+              "title": "'"$PAGE_TITLE"'",
+              "space": { "key": "'"$SPACE_KEY"'" },
+              "version": { "number": '"$VERSION"' },
               "body": {
                 "storage": {
-                  "value": "'"$TABLE_HTML"'",
+                  "value": '"$BODY"',
                   "representation": "storage"
                 }
               }
