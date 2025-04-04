@@ -25,17 +25,13 @@ jobs:
           echo "$TABLE_HTML" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: Fetch Current Page Version
+      - name: Get current page version
+        id: version
         run: |
           RESPONSE=$(curl -s -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
-            -H "Accept: application/json" \
-            "${{ secrets.CONFLUENCE_URL }}/rest/api/content/${PAGE_ID}?expand=version")
-
-          echo "API RESPONSE: $RESPONSE"
-
-          PAGE_VERSION=$(echo "$RESPONSE" | jq -r '.version.number')
-          echo "Current Page Version: $PAGE_VERSION"
-          echo "PAGE_VERSION=$PAGE_VERSION" >> $GITHUB_ENV
+            "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=version")
+          PAGE_VERSION=$(echo "$RESPONSE" | jq '.version.number')
+          echo "PAGE_VERSION=$((PAGE_VERSION + 1))" >> $GITHUB_OUTPUT
 
       - name: Update Confluence Page
         run: |
