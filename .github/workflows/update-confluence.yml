@@ -39,29 +39,39 @@ jobs:
 
       - name: Update Confluence Page
         run: |
-          JSON=$(jq -n \
-            --arg id "$PAGE_ID" \
-            --arg title "Changelog Updates" \
-            --arg space_key "~7120201888c3feda8740dea868d9a13920847a" \
-            --arg version "$PAGE_VERSION" \
-            --arg value "$TABLE_HTML" \
-            '{
-              id: $id,
-              type: "page",
-              title: $title,
-              space: { key: $space_key },
-              version: { number: ($version | tonumber) },
-              body: {
-                storage: {
-                  value: $value,
-                  representation: "storage"
+            echo "Sanitizing table HTML..."
+            TABLE_HTML=$(cat <<EOF
+            <table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>
+            <tr><td>SoftNewWare/starter-workflows</td><td>ceaef87</td><td>Merge pull request</td><td>2025-04-04 11:54:58 +0530</td></tr>
+            </table>
+            EOF
+            )
+
+            JSON=$(jq -n \
+              --arg id "$PAGE_ID" \
+              --arg title "Changelog Updates" \
+              --arg space_key "~7120201888c3feda8740dea868d9a13920847a" \
+              --arg version "${PAGE_VERSION:-1}" \
+              --arg value "$TABLE_HTML" \
+              '{
+                id: $id,
+                type: "page",
+                title: $title,
+                space: { key: $space_key },
+                version: { number: ($version | tonumber) },
+                body: {
+                  storage: {
+                    value: $value,
+                    representation: "storage"
+                  }
                 }
-              }
-            }')
+              }')
 
-          echo "$JSON" > payload.json
+            echo "$JSON" > payload.json
 
-          curl -s -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
-            -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d "$JSON"
+            echo "Updating Confluence page..."
+            curl -s -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
+              -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
+              -H "Content-Type: application/json" \
+              -d @"payload.json"
+
