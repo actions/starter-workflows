@@ -1,9 +1,7 @@
-name: Update Confluence Changelog
+name: Update Confluence Page with Commits
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   update-confluence:
@@ -15,36 +13,36 @@ jobs:
       PAGE_TITLE: "Changelog Updates"
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Generate HTML Table
-        id: generate
+      - name: Generate commit table HTML
+        id: commits
         run: |
-          REPO="${{ github.repository }}"
-          TABLE="<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>"
+          echo "Generating HTML commit table..."
+          REPO_NAME="${{ github.repository }}"
+          echo "<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>" > table.html
+          git log -n 5 --pretty=format:"<tr><td>$REPO_NAME</td><td>%h</td><td>%s</td><td>%ad</td></tr>" --date=iso >> table.html
+          echo "</table>" >> table.html
 
-          git log -n 5 --pretty=format:"<tr><td>$REPO</td><td>%h</td><td>%s</td><td>%ad</td></tr>" --date=iso >> table.html
-          TABLE+=$(cat table.html)
-          TABLE+="</table>"
+          # Convert table to escaped string for JSON
+          TABLE=$(jq -Rs '.' < table.html)
+          echo "table=$TABLE" >> $GITHUB_OUTPUT
 
-          TABLE_ESCAPED=$(echo "$TABLE" | jq -Rs .)
-          echo "table_html=$TABLE_ESCAPED" >> $GITHUB_OUTPUT
-
-      - name: Get Current Page Version
+      - name: Get current page version
         id: version
         run: |
           RESPONSE=$(curl -s -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
-            -X GET "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=version")
+            "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=version")
+          VERSION=$(echo "$RESPONSE" | jq '.version.number')
+          echo "version=$((VERSION + 1))" >> $GITHUB_OUTPUT
 
-          PAGE_VERSION=$(echo "$RESPONSE" | jq -r '.version.number')
-          echo "Current version: $PAGE_VERSION"
-          echo "new_version=$((PAGE_VERSION + 1))" >> $GITHUB_OUTPUT
-
-      - name: Update Confluence Page
+      - name: Update Confluence page
         run: |
-          BODY=${{ steps.generate.outputs.table_html }}
-          VERSION=${{ steps.version.outputs.new_version }}
+          TABLE=${{ steps.commits.outputs.table }}
+          VERSION=${{ steps.version.outputs.version }}
+
+          echo "Updating Confluence page..."
 
           curl -s -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
             -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
@@ -57,7 +55,7 @@ jobs:
               "version": { "number": '"$VERSION"' },
               "body": {
                 "storage": {
-                  "value": '"$BODY"',
+                  "value": '"$TABLE"',
                   "representation": "storage"
                 }
               }
