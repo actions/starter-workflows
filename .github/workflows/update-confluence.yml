@@ -42,29 +42,38 @@ jobs:
       - name: Update Confluence page
         run: |
           echo "Preparing payload..."
-          JSON=$(jq -n \
-            --arg id "$PAGE_ID" \
-            --arg title "$PAGE_TITLE" \
-            --arg space_key "$SPACE_KEY" \
-            --arg version "$PAGE_VERSION" \
-            --arg value "$TABLE_HTML" \
-            '{
-              id: $id,
-              type: "page",
-              title: $title,
-              space: { key: $space_key },
-              version: { number: ($version | tonumber) },
-              body: {
-                storage: {
-                  value: $value,
-                  representation: "storage"
-                }
+
+          # Build escaped HTML content from file (json-safe string)
+          HTML=$(jq -Rs . < table.html)
+
+          JSON=$(cat <<EOF
+          {
+            "id": "$PAGE_ID",
+            "type": "page",
+            "title": "$PAGE_TITLE",
+            "space": {
+              "key": "$SPACE_KEY"
+            },
+            "version": {
+              "number": $PAGE_VERSION
+            },
+            "body": {
+              "storage": {
+            "value": $HTML,
+            "representation": "storage"
               }
-            }')
+            }
+          }
+          EOF
+          )
 
           echo "$JSON" > payload.json
+
           echo "Sending update request..."
           curl -s -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
-            -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            --data @"payload.json"
+              -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
+              -H "Content-Type: application/json" \
+              --data @"payload.json"
+
+          echo "$JSON" > payload.json
+
