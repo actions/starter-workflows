@@ -36,26 +36,30 @@ jobs:
             "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=version")
           VERSION=$(echo "$RESPONSE" | jq '.version.number')
           echo "version=$((VERSION + 1))" >> $GITHUB_OUTPUT
+
       - name: Update Confluence Page
         run: |
-          JSON_PAYLOAD=$(cat <<EOF
-          {
-            "id": "$PAGE_ID",
-            "type": "page",
-            "title": "Changelog Updates",
-            "space": { "key": "$SPACE_KEY" },
-            "version": { "number": $(($PAGE_VERSION + 1)) },
-            "body": {
-              "storage": {
-                "value": "$TABLE_HTML",
-                "representation": "storage"
+          JSON=$(jq -n \
+            --arg id "$PAGE_ID" \
+            --arg title "Changelog Updates" \
+            --arg space_key "~7120201888c3feda8740dea868d9a13920847a" \
+            --argjson version "$PAGE_VERSION" \
+            --arg value "$TABLE_HTML" \
+            '{
+              id: $id,
+              type: "page",
+              title: $title,
+              space: { key: $space_key },
+              version: { number: $version },
+              body: {
+                storage: {
+                  value: $value,
+                  representation: "storage"
+                }
               }
-            }
-          }
-          EOF
-                )
-                echo "Updating Confluence page..."
-                curl -s -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
-                  -u "$CONFLUENCE_USERNAME:$CONFLUENCE_API_TOKEN" \
-                  -H "Content-Type: application/json" \
-                  -d "$JSON_PAYLOAD"
+            }')
+
+          curl -s -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
+            -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "$JSON"
