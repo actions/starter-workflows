@@ -1,6 +1,8 @@
 name: Update Confluence Page with Commits
 
 on:
+  workflow_dispatch:  # Allow manual trigger
+
   pull_request:
     types: [closed]
     branches:
@@ -10,7 +12,7 @@ on:
 
 jobs:
   update-confluence:
-    if: github.event.pull_request.merged == true
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     env:
       CONFLUENCE_URL: https://airnewn.atlassian.net/wiki
@@ -53,7 +55,7 @@ jobs:
           FULL_TABLE="<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>"
           FULL_TABLE+="$rows"
 
-          if [[ "$old_table" =~ <table>(.*)</table> ]]; then
+          if [ -n "$old_table" ]; then
             EXISTING_ROWS=$(echo "$old_table" | sed -n '/<tr>/,$p' | sed '1d')
             FULL_TABLE+="$EXISTING_ROWS"
           fi
