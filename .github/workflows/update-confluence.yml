@@ -54,19 +54,21 @@ jobs:
             "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=body.storage,version")
 
           VERSION=$(echo "$RESPONSE" | jq '.version.number')
-          echo "version=$((VERSION + 1))" >> $GITHUB_OUTPUT
-
           CONTENT=$(echo "$RESPONSE" | jq -r '.body.storage.value')
-          echo "$CONTENT" > content.html
+
+          echo "version=$((VERSION + 1))" >> $GITHUB_OUTPUT
+          echo "CONTENT<<EOF" >> $GITHUB_ENV
+          echo "$CONTENT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Append new commit rows or create new table
         run: |
           NEW_ROWS=$(cat table_rows.html)
-          CONTENT=$(cat content.html)
+          CONTENT="${{ env.CONTENT }}"
 
           if echo "$CONTENT" | grep -q "</table>"; then
             echo "Existing table found. Appending rows..."
-            ROW_COUNT=$(echo "$CONTENT" | grep -o '<tr>' | wc -l)
+            ROW_COUNT=$(echo "$CONTENT" | grep -c '<tr>')
             SERIAL=1
             UPDATED_ROWS=""
             while read -r ROW; do
@@ -74,6 +76,7 @@ jobs:
               SERIAL=$((SERIAL + 1))
             done <<< "$NEW_ROWS"
             UPDATED_CONTENT=$(echo "$CONTENT" | sed "s|</table>|$UPDATED_ROWS</table>|")
+            UPDATED_CONTENT="<![CDATA[$UPDATED_CONTENT]]>"
           else
             echo "No table found. Creating new table..."
             SERIAL=1
@@ -82,7 +85,7 @@ jobs:
               UPDATED_ROWS+=$(echo "$ROW" | sed "s|<tr><td></td>|<tr><td>$SERIAL</td>|")
               SERIAL=$((SERIAL + 1))
             done <<< "$NEW_ROWS"
-            UPDATED_CONTENT="<table><tr><th>Serial</th><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Pull Request</th><th>Commit Author</th><th>Commit Date & Time</th></tr>$UPDATED_ROWS</table>"
+            UPDATED_CONTENT="<![CDATA[<table><tr><th>Serial</th><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Pull Request</th><th>Commit Author</th><th>Commit Date & Time</th></tr>$UPDATED_ROWS</table>]]>"
           fi
 
           JSON=$(jq -n \
