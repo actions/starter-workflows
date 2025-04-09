@@ -1,10 +1,14 @@
 name: Update Confluence Page with Commits
 
 on:
-  workflow_dispatch:
+  pull_request:
+    types: [closed]
+    branches:
+      - main  # or whatever branch you want to monitor
 
 jobs:
   update-confluence:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     env:
       CONFLUENCE_URL: https://airnewn.atlassian.net/wiki
