@@ -16,9 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CONFLUENCE_URL: https://airnewn.atlassian.net/wiki
-      PAGE_ID: 98308
+      PAGE_ID: 2228225
       SPACE_KEY: "~7120201888c3feda8740dea868d9a13920847a"
-      PAGE_TITLE: "Changelog Updates"
+      PAGE_TITLE: "Changelog Updates S"
 
     steps:
       - name: Checkout repo
