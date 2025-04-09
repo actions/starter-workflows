@@ -4,7 +4,9 @@ on:
   pull_request:
     types: [closed]
     branches:
-      - main  # or whatever branch you want to monitor
+      - main
+    paths:
+      - '**'
 
 jobs:
   update-confluence:
@@ -20,57 +22,67 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Generate commit table HTML
-        id: commits
-        run: |
-          echo "Generating HTML commit table..."
-          REPO_NAME="${{ github.repository }}"
-          {
-            echo "<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>"
-            git log -n 5 --pretty=format:"<tr><td>$REPO_NAME</td><td>%h</td><td>%s</td><td>%ad</td></tr>" --date=iso
-            echo "</table>"
-          } > table.html
-
-      - name: Get current page version
-        id: version
+      - name: Fetch current Confluence content
+        id: fetch
         run: |
           RESPONSE=$(curl -s -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
-            "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=version")
+            "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=body.storage,version")
+
+          echo "$RESPONSE" > confluence.json
+
+          OLD_TABLE=$(echo "$RESPONSE" | jq -r '.body.storage.value' | grep -oP '(?s)<table>.*?</table>' || echo "")
           VERSION=$(echo "$RESPONSE" | jq '.version.number')
+
+          echo "old_table<<EOF" >> $GITHUB_ENV
+          echo "$OLD_TABLE" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
           echo "version=$((VERSION + 1))" >> $GITHUB_OUTPUT
 
-      - name: Update Confluence Page
+      - name: Generate new commit rows
+        id: commits
         run: |
-          echo "Building JSON payload..."
-          
-          # Escape the HTML content
-          HTML=$(jq -Rs . < table.html)
+          REPO_NAME="${{ github.repository }}"
+          NEW_ROWS=$(git log -n 5 --pretty=format:"<tr><td>$REPO_NAME</td><td>%h</td><td>%s</td><td>%ad</td></tr>" --date=iso)
 
-          JSON=$(cat <<EOF
-          {
-            "id": "$PAGE_ID",
-            "type": "page",
-            "title": "$PAGE_TITLE",
-            "space": {
-              "key": "$SPACE_KEY"
-            },
-            "version": {
-              "number": ${{ steps.version.outputs.version }}
-            },
-            "body": {
-              "storage": {
-                "value": $HTML,
-                "representation": "storage"
+          echo "rows<<EOF" >> $GITHUB_ENV
+          echo "$NEW_ROWS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Merge and update Confluence page
+        run: |
+          FULL_TABLE="<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>"
+          FULL_TABLE+="$rows"
+
+          if [[ "$old_table" =~ <table>(.*)</table> ]]; then
+            EXISTING_ROWS=$(echo "$old_table" | sed -n '/<tr>/,$p' | sed '1d')
+            FULL_TABLE+="$EXISTING_ROWS"
+          fi
+
+          FULL_TABLE+="</table>"
+
+          JSON=$(jq -n \
+            --arg id "$PAGE_ID" \
+            --arg title "$PAGE_TITLE" \
+            --arg space_key "$SPACE_KEY" \
+            --arg version "${{ steps.fetch.outputs.version }}" \
+            --arg value "$FULL_TABLE" \
+            '{
+              id: $id,
+              type: "page",
+              title: $title,
+              space: { key: $space_key },
+              version: { number: ($version | tonumber) },
+              body: {
+                storage: {
+                  value: $value,
+                  representation: "storage"
+                }
               }
-            }
-          }
-          EOF
-          )
+            }')
 
           echo "$JSON" > payload.json
 
-          echo "Updating Confluence page..."
           curl -s -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
             -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
             -H "Content-Type: application/json" \
-            --data @"payload.json"
+            -d @payload.json
