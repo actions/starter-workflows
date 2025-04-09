@@ -38,14 +38,17 @@ jobs:
 
           echo "PAGE_ID=$PAGE_ID" >> $GITHUB_ENV
 
-      - name: Generate commit table rows
+      - name: Generate commit markdown rows
         id: commits
         run: |
-          echo "Generating HTML commit table rows..."
+          echo "Generating Markdown commit table rows..."
           REPO_NAME="${{ github.repository }}"
           PR_LINK="https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}"
 
-          git log -n 5 --pretty=format:"<tr><td></td><td>$REPO_NAME</td><td>%h</td><td>%s</td><td><a href='$PR_LINK'>$PR_LINK</a></td><td>%an</td><td>%ad</td></tr>" --date=iso > table_rows.html
+          echo "| Serial | Module Name | Commit ID | Commit Message | Pull Request | Commit Author | Commit Date & Time |" > table_rows.md
+          echo "|--------|-------------|-----------|----------------|--------------|----------------|----------------------|" >> table_rows.md
+
+          git log -n 5 --pretty=format:"| | $REPO_NAME | %h | %s | [$PR_LINK]($PR_LINK) | %an | %ad |" --date=iso >> table_rows.md
 
       - name: Get current page content and version
         id: page
@@ -61,32 +64,16 @@ jobs:
           echo "$CONTENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: Append new commit rows or create new table
+      - name: Append new commit rows in markdown format
         run: |
-          NEW_ROWS=$(cat table_rows.html)
+          NEW_ROWS=$(cat table_rows.md)
           CONTENT="${{ env.CONTENT }}"
 
-          if echo "$CONTENT" | grep -q "</table>"; then
-            echo "Existing table found. Appending rows..."
-            ROW_COUNT=$(echo "$CONTENT" | grep -c '<tr>')
-            SERIAL=1
-            UPDATED_ROWS=""
-            while read -r ROW; do
-              UPDATED_ROWS+=$(echo "$ROW" | sed "s|<tr><td></td>|<tr><td>$((ROW_COUNT + SERIAL - 1))</td>|")
-              SERIAL=$((SERIAL + 1))
-            done <<< "$NEW_ROWS"
-            UPDATED_CONTENT=$(echo "$CONTENT" | sed "s|</table>|$UPDATED_ROWS</table>|")
-            UPDATED_CONTENT="<![CDATA[$UPDATED_CONTENT]]>"
-          else
-            echo "No table found. Creating new table..."
-            SERIAL=1
-            UPDATED_ROWS=""
-            while read -r ROW; do
-              UPDATED_ROWS+=$(echo "$ROW" | sed "s|<tr><td></td>|<tr><td>$SERIAL</td>|")
-              SERIAL=$((SERIAL + 1))
-            done <<< "$NEW_ROWS"
-            UPDATED_CONTENT="<![CDATA[<table><tr><th>Serial</th><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Pull Request</th><th>Commit Author</th><th>Commit Date & Time</th></tr>$UPDATED_ROWS</table>]]>"
-          fi
+          # Remove any html tags if present (basic cleanup)
+          SANITIZED_CONTENT=$(echo "$CONTENT" | sed 's/<[^>]*>//g')
+
+          # Append markdown content
+          UPDATED_CONTENT="$SANITIZED_CONTENT\n\n$NEW_ROWS"
 
           JSON=$(jq -n \
             --arg id "$PAGE_ID" \
@@ -103,7 +90,7 @@ jobs:
               body: {
                 storage: {
                   value: $value,
-                  representation: "storage"
+                  representation: "wiki"
                 }
               }
             }')
