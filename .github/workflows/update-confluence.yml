@@ -24,14 +24,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Generate commit table HTML
+      - name: Generate commit table rows
         id: commits
         run: |
-          echo "Generating HTML commit table..."
+          echo "Generating HTML commit table rows..."
           REPO_NAME="${{ github.repository }}"
-          echo "<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>" > table.html
-          git log -n 5 --pretty=format:"<tr><td>$REPO_NAME</td><td>%h</td><td>%s</td><td>%ad</td></tr>" --date=iso >> table.html
-          echo "</table>" >> table.html
+          git log -n 5 --pretty=format:"<tr><td>$REPO_NAME</td><td>%h</td><td>%s</td><td>%ad</td></tr>" --date=iso > table_rows.html
 
       - name: Get current page content and version
         id: page
@@ -43,21 +41,23 @@ jobs:
           CONTENT=$(echo "$RESPONSE" | jq -r '.body.storage.value')
 
           echo "version=$((VERSION + 1))" >> $GITHUB_OUTPUT
-          echo "content<<EOF" >> $GITHUB_ENV
+          echo "CONTENT<<EOF" >> $GITHUB_ENV
           echo "$CONTENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: Append new commits to existing content and update Confluence Page
+      - name: Append new commit rows to existing table and update Confluence Page
         run: |
-          TABLE_HTML=$(cat table.html)
-          NEW_CONTENT="${{ env.content }}${TABLE_HTML}"
+          NEW_ROWS=$(cat table_rows.html)
+
+          # Insert new rows before the closing </table> tag
+          UPDATED_CONTENT=$(echo "${{ env.CONTENT }}" | sed "s|</table>|$NEW_ROWS</table>|")
 
           JSON=$(jq -n \
             --arg id "$PAGE_ID" \
             --arg title "$PAGE_TITLE" \
             --arg space_key "$SPACE_KEY" \
             --arg version "${{ steps.page.outputs.version }}" \
-            --arg value "$NEW_CONTENT" \
+            --arg value "$UPDATED_CONTENT" \
             '{
               id: $id,
               type: "page",
