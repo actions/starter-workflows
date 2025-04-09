@@ -16,27 +16,41 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CONFLUENCE_URL: https://airnewn.atlassian.net/wiki
-      PAGE_ID: 98308
-      SPACE_KEY: "~7120201888c3feda8740dea868d9a13920847a"
+      SPACE_KEY: "ENG"
       PAGE_TITLE: "Changelog Updates"
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
+      - name: Get Page ID from title
+        id: get_page
+        run: |
+          RESPONSE=$(curl -s -H "Authorization: Bearer ${{ secrets.CONFLUENCE_PAT }}" \
+            "$CONFLUENCE_URL/rest/api/content?title=${PAGE_TITLE// /%20}&spaceKey=$SPACE_KEY")
+
+          PAGE_ID=$(echo "$RESPONSE" | jq -r '.results[0].id')
+
+          if [ "$PAGE_ID" = "null" ] || [ -z "$PAGE_ID" ]; then
+            echo "Page not found. You must manually create the page first."
+            exit 1
+          fi
+
+          echo "PAGE_ID=$PAGE_ID" >> $GITHUB_ENV
+
       - name: Generate commit table rows
         id: commits
         run: |
           echo "Generating HTML commit table rows..."
           REPO_NAME="${{ github.repository }}"
-          AUTHOR_NAME="${{ github.actor }}"
           PR_LINK="https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}"
+
           git log -n 5 --pretty=format:"<tr><td></td><td>$REPO_NAME</td><td>%h</td><td>%s</td><td><a href='$PR_LINK'>$PR_LINK</a></td><td>%an</td><td>%ad</td></tr>" --date=iso > table_rows.html
 
       - name: Get current page content and version
         id: page
         run: |
-          RESPONSE=$(curl -s -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
+          RESPONSE=$(curl -s -H "Authorization: Bearer ${{ secrets.CONFLUENCE_PAT }}" \
             "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=body.storage,version")
 
           VERSION=$(echo "$RESPONSE" | jq '.version.number')
@@ -54,7 +68,6 @@ jobs:
 
           if echo "$CONTENT" | grep -q "</table>"; then
             echo "Existing table found. Appending rows..."
-            # Insert before closing </table> and also add serial numbers
             ROW_COUNT=$(echo "$CONTENT" | grep -c '<tr>')
             SERIAL=1
             UPDATED_ROWS=""
@@ -97,6 +110,6 @@ jobs:
           echo "$JSON" > payload.json
 
           curl -s -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
-            -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
+            -H "Authorization: Bearer ${{ secrets.CONFLUENCE_PAT }}" \
             -H "Content-Type: application/json" \
             -d @payload.json
