@@ -13,37 +13,33 @@ jobs:
       PAGE_TITLE: "Changelog Updates"
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Generate commit table HTML
-        id: generate
+        id: commits
         run: |
-          echo "Generating commit table..."
-          REPO="${{ github.repository }}"
+          echo "Generating HTML commit table..."
+          REPO_NAME="${{ github.repository }}"
           {
             echo "<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>"
-            git log -n 5 --pretty=format:"<tr><td>$REPO</td><td>%h</td><td>%s</td><td>%ad</td></tr>" --date=iso
+            git log -n 5 --pretty=format:"<tr><td>$REPO_NAME</td><td>%h</td><td>%s</td><td>%ad</td></tr>" --date=iso
             echo "</table>"
           } > table.html
 
-          TABLE_HTML=$(jq -Rs < table.html)
-          echo "TABLE_HTML=${TABLE_HTML}" >> $GITHUB_ENV
-
-      - name: Get current Confluence page version
-        id: get-version
+      - name: Get current page version
+        id: version
         run: |
-          echo "Fetching current page version..."
           RESPONSE=$(curl -s -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
             "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=version")
           VERSION=$(echo "$RESPONSE" | jq '.version.number')
-          echo "PAGE_VERSION=$((VERSION + 1))" >> $GITHUB_ENV
+          echo "version=$((VERSION + 1))" >> $GITHUB_OUTPUT
 
-      - name: Update Confluence page
+      - name: Update Confluence Page
         run: |
-          echo "Preparing payload..."
-
-          # Build escaped HTML content from file (json-safe string)
+          echo "Building JSON payload..."
+          
+          # Escape the HTML content
           HTML=$(jq -Rs . < table.html)
 
           JSON=$(cat <<EOF
@@ -55,12 +51,12 @@ jobs:
               "key": "$SPACE_KEY"
             },
             "version": {
-              "number": $PAGE_VERSION
+              "number": ${{ steps.version.outputs.version }}
             },
             "body": {
               "storage": {
-            "value": $HTML,
-            "representation": "storage"
+                "value": $HTML,
+                "representation": "storage"
               }
             }
           }
@@ -69,11 +65,8 @@ jobs:
 
           echo "$JSON" > payload.json
 
-          echo "Sending update request..."
+          echo "Updating Confluence page..."
           curl -s -X PUT "$CONFLUENCE_URL/rest/api/content/$PAGE_ID" \
-              -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
-              -H "Content-Type: application/json" \
-              --data @"payload.json"
-
-          echo "$JSON" > payload.json
-
+            -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            --data @"payload.json"
