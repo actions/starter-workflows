@@ -54,21 +54,19 @@ jobs:
             "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=body.storage,version")
 
           VERSION=$(echo "$RESPONSE" | jq '.version.number')
-          CONTENT=$(echo "$RESPONSE" | jq -r '.body.storage.value')
-
           echo "version=$((VERSION + 1))" >> $GITHUB_OUTPUT
-          echo "CONTENT<<EOF" >> $GITHUB_ENV
-          echo "$CONTENT" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+
+          CONTENT=$(echo "$RESPONSE" | jq -r '.body.storage.value')
+          echo "$CONTENT" > content.html
 
       - name: Append new commit rows or create new table
         run: |
           NEW_ROWS=$(cat table_rows.html)
-          CONTENT="${{ env.CONTENT }}"
+          CONTENT=$(cat content.html)
 
           if echo "$CONTENT" | grep -q "</table>"; then
             echo "Existing table found. Appending rows..."
-            ROW_COUNT=$(echo "$CONTENT" | grep -c '<tr>')
+            ROW_COUNT=$(echo "$CONTENT" | grep -o '<tr>' | wc -l)
             SERIAL=1
             UPDATED_ROWS=""
             while read -r ROW; do
