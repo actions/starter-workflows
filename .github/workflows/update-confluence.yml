@@ -2,7 +2,6 @@ name: Update Confluence Page with Commits
 
 on:
   workflow_dispatch:  # Allow manual trigger
-
   pull_request:
     types: [closed]
     branches:
