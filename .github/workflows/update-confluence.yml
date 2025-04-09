@@ -38,49 +38,41 @@ jobs:
 
           echo "PAGE_ID=$PAGE_ID" >> $GITHUB_ENV
 
-      - name: Generate commit markdown rows
-        id: commits
+      - name: Append commit details to Confluence page
         run: |
-          echo "Generating Markdown commit table rows..."
-          REPO_NAME="${{ github.repository }}"
-          PR_LINK="https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}"
+          NEW_ROWS=""
+          SERIAL=1
 
-          echo "| Serial | Module Name | Commit ID | Commit Message | Pull Request | Commit Author | Commit Date & Time |" > table_rows.md
-          echo "|--------|-------------|-----------|----------------|--------------|----------------|----------------------|" >> table_rows.md
+          while read -r LINE; do
+            COMMIT_ID=$(echo "$LINE" | cut -d '|' -f1)
+            MESSAGE=$(echo "$LINE" | cut -d '|' -f2)
+            PR_LINK="https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}"
+            AUTHOR=$(echo "$LINE" | cut -d '|' -f3)
+            DATE=$(echo "$LINE" | cut -d '|' -f4)
+            NEW_ROWS+="| $SERIAL | ${{ github.repository }} | $COMMIT_ID | $MESSAGE | [$PR_LINK]($PR_LINK) | $AUTHOR | $DATE |
+"
+            SERIAL=$((SERIAL + 1))
+          done < <(git log -n 5 --pretty=format:"%h|%s|%an|%ad" --date=iso)
 
-          git log -n 5 --pretty=format:"| | $REPO_NAME | %h | %s | [$PR_LINK]($PR_LINK) | %an | %ad |" --date=iso >> table_rows.md
-
-      - name: Get current page content and version
-        id: page
-        run: |
           RESPONSE=$(curl -s -H "Authorization: Bearer ${{ secrets.CONFLUENCE_PAT }}" \
             "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=body.storage,version")
 
+          OLD_CONTENT=$(echo "$RESPONSE" | jq -r '.body.storage.value')
           VERSION=$(echo "$RESPONSE" | jq '.version.number')
-          CONTENT=$(echo "$RESPONSE" | jq -r '.body.storage.value')
 
-          echo "version=$((VERSION + 1))" >> $GITHUB_OUTPUT
-          echo "CONTENT<<EOF" >> $GITHUB_ENV
-          echo "$CONTENT" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-
-      - name: Append new commit rows in markdown format
-        run: |
-          NEW_ROWS=$(cat table_rows.md)
-          CONTENT="${{ env.CONTENT }}"
-
-          # Remove any html tags if present (basic cleanup)
-          SANITIZED_CONTENT=$(echo "$CONTENT" | sed 's/<[^>]*>//g')
-
-          # Append markdown content
-          UPDATED_CONTENT="$SANITIZED_CONTENT\n\n$NEW_ROWS"
+          if ! echo "$OLD_CONTENT" | grep -q "|| Serial ||"; then
+            HEADER="|| Serial || Module Name || Commit ID || Commit Message || Pull Request || Commit Author || Commit Date & Time ||"
+            FINAL_CONTENT="$HEADER"$'\n'"$NEW_ROWS"
+          else
+            FINAL_CONTENT="$OLD_CONTENT"$'\n'"$NEW_ROWS"
+          fi
 
           JSON=$(jq -n \
             --arg id "$PAGE_ID" \
             --arg title "$PAGE_TITLE" \
             --arg space_key "$SPACE_KEY" \
-            --arg version "${{ steps.page.outputs.version }}" \
-            --arg value "$UPDATED_CONTENT" \
+            --arg version "$((VERSION + 1))" \
+            --arg value "$FINAL_CONTENT" \
             '{
               id: $id,
               type: "page",
