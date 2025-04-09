@@ -16,9 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CONFLUENCE_URL: https://airnewn.atlassian.net/wiki
-      PAGE_ID: 2228225
+      PAGE_ID: 98308
       SPACE_KEY: "~7120201888c3feda8740dea868d9a13920847a"
-      PAGE_TITLE: "Changelog Updates S"
+      PAGE_TITLE: "Changelog Updates"
 
     steps:
       - name: Checkout repo
@@ -45,12 +45,18 @@ jobs:
           echo "$CONTENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: Append new commit rows to existing table and update Confluence Page
+      - name: Append new commit rows or create new table
         run: |
           NEW_ROWS=$(cat table_rows.html)
+          CONTENT="${{ env.CONTENT }}"
 
-          # Insert new rows before the closing </table> tag
-          UPDATED_CONTENT=$(echo "${{ env.CONTENT }}" | sed "s|</table>|$NEW_ROWS</table>|")
+          if echo "$CONTENT" | grep -q "</table>"; then
+            echo "Existing table found. Appending rows..."
+            UPDATED_CONTENT=$(echo "$CONTENT" | sed "s|</table>|$NEW_ROWS</table>|")
+          else
+            echo "No table found. Creating new table..."
+            UPDATED_CONTENT="<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>$NEW_ROWS</table>"
+          fi
 
           JSON=$(jq -n \
             --arg id "$PAGE_ID" \
