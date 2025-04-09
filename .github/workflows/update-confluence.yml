@@ -1,6 +1,6 @@
 name: Update Confluence Page with Commits
 
-on: 
+on:
   workflow_dispatch:  # Allow manual trigger
 
   pull_request:
@@ -24,50 +24,40 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Fetch current Confluence content
-        id: fetch
+      - name: Generate commit table HTML
+        id: commits
+        run: |
+          echo "Generating HTML commit table..."
+          REPO_NAME="${{ github.repository }}"
+          echo "<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>" > table.html
+          git log -n 5 --pretty=format:"<tr><td>$REPO_NAME</td><td>%h</td><td>%s</td><td>%ad</td></tr>" --date=iso >> table.html
+          echo "</table>" >> table.html
+
+      - name: Get current page content and version
+        id: page
         run: |
           RESPONSE=$(curl -s -u "${{ secrets.CONFLUENCE_USERNAME }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
             "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=body.storage,version")
 
-          echo "$RESPONSE" > confluence.json
-
-          OLD_TABLE=$(echo "$RESPONSE" | jq -r '.body.storage.value' | grep -oP '(?s)<table>.*?</table>' || echo "")
           VERSION=$(echo "$RESPONSE" | jq '.version.number')
+          CONTENT=$(echo "$RESPONSE" | jq -r '.body.storage.value')
 
-          echo "old_table<<EOF" >> $GITHUB_ENV
-          echo "$OLD_TABLE" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
           echo "version=$((VERSION + 1))" >> $GITHUB_OUTPUT
-
-      - name: Generate new commit rows
-        id: commits
-        run: |
-          REPO_NAME="${{ github.repository }}"
-          NEW_ROWS=$(git log -n 5 --pretty=format:"<tr><td>$REPO_NAME</td><td>%h</td><td>%s</td><td>%ad</td></tr>" --date=iso)
-
-          echo "rows<<EOF" >> $GITHUB_ENV
-          echo "$NEW_ROWS" >> $GITHUB_ENV
+          echo "content<<EOF" >> $GITHUB_ENV
+          echo "$CONTENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: Merge and update Confluence page
+      - name: Append new commits to existing content and update Confluence Page
         run: |
-          FULL_TABLE="<table><tr><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Commit Date & Time</th></tr>"
-          FULL_TABLE+="$rows"
-
-          if [ -n "$old_table" ]; then
-            EXISTING_ROWS=$(echo "$old_table" | sed -n '/<tr>/,$p' | sed '1d')
-            FULL_TABLE+="$EXISTING_ROWS"
-          fi
-
-          FULL_TABLE+="</table>"
+          TABLE_HTML=$(cat table.html)
+          NEW_CONTENT="${{ env.content }}${TABLE_HTML}"
 
           JSON=$(jq -n \
             --arg id "$PAGE_ID" \
             --arg title "$PAGE_TITLE" \
             --arg space_key "$SPACE_KEY" \
-            --arg version "${{ steps.fetch.outputs.version }}" \
-            --arg value "$FULL_TABLE" \
+            --arg version "${{ steps.page.outputs.version }}" \
+            --arg value "$NEW_CONTENT" \
             '{
               id: $id,
               type: "page",
