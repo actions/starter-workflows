@@ -24,8 +24,9 @@ jobs:
             -H "Authorization: Bearer $LITELLM_TOKEN" \
             -d "{\"model\": \"gpt-4o\", \"prompt\": \"$PROMPT\", \"max_tokens\": 100}")
 
+          echo "🔄 RESPONSE: $RESPONSE"
           SUMMARY=$(echo "$RESPONSE" | jq -r '.choices[0].text')
-          echo "AI_SUMMARY=$SUMMARY" >> $GITHUB_ENV
+          echo "summary=$SUMMARY" >> $GITHUB_OUTPUT
 
       - name: Announce to Slack
         env:
@@ -34,11 +35,12 @@ jobs:
         run: |
           PR_TITLE="${{ github.event.pull_request.title }}"
           PR_URL="${{ github.event.pull_request.html_url }}"
+          AI_SUMMARY="${{ steps.ai.outputs.summary }}"
 
           curl -X POST https://slack.com/api/chat.postMessage \
             -H "Authorization: Bearer $SLACK_TOKEN" \
             -H "Content-type: application/json" \
             --data "{
               \"channel\": \"${SLACK_CHANNEL}\",
-              \"text\": \"🚀 Releasing to monoweb - ${PR_URL} - ${PR_TITLE}\n🤖 $AI_SUMMARY\"
+              \"text\": \"🚀 Releasing to monoweb - ${PR_URL} - ${PR_TITLE}\n🤖 ${AI_SUMMARY}\"
             }"
