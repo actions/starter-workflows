@@ -1,4 +1,4 @@
-name: Release Announcement
+name: Release Announcement with AI Summary
 
 on:
   pull_request:
@@ -24,9 +24,8 @@ jobs:
             -H "Authorization: Bearer $LITELLM_TOKEN" \
             -d "{\"model\": \"gpt-4o\", \"prompt\": \"$PROMPT\", \"max_tokens\": 100}")
 
-          echo "🔄 RESPONSE: $RESPONSE"
-          SUMMARY=$(echo "$RESPONSE" | jq -r '.choices[0].text')
-          echo "summary=$SUMMARY" >> $GITHUB_OUTPUT
+          echo "summary=$(echo \"$RESPONSE\" | jq -r '.choices[0].text // \"❌ No summary - check logs or response format.\"')" >> $GITHUB_OUTPUT
+          echo "raw_response=$RESPONSE" >> $GITHUB_OUTPUT
 
       - name: Announce to Slack
         env:
@@ -36,11 +35,12 @@ jobs:
           PR_TITLE="${{ github.event.pull_request.title }}"
           PR_URL="${{ github.event.pull_request.html_url }}"
           AI_SUMMARY="${{ steps.ai.outputs.summary }}"
+          RAW_RESPONSE="${{ steps.ai.outputs.raw_response }}"
 
           curl -X POST https://slack.com/api/chat.postMessage \
             -H "Authorization: Bearer $SLACK_TOKEN" \
             -H "Content-type: application/json" \
             --data "{
               \"channel\": \"${SLACK_CHANNEL}\",
-              \"text\": \"🚀 Releasing to monoweb - ${PR_URL} - ${PR_TITLE}\n🤖 ${AI_SUMMARY}\"
+              \"text\": \"🚀 Releasing to monoweb - ${PR_URL} - ${PR_TITLE}\n🤖 ${AI_SUMMARY}\n🪵 LiteLLM Raw Output:\n${RAW_RESPONSE}\"
             }"
