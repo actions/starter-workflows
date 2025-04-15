@@ -42,5 +42,5 @@ jobs:
             -H "Content-type: application/json" \
             --data "{
               \"channel\": \"${SLACK_CHANNEL}\",
-              \"text\": \"🚀 Releasing to monoweb - ${PR_URL} - ${PR_TITLE}\n🤖 ${AI_SUMMARY}\n🪵 LiteLLM Raw Output:\n${RAW_RESPONSE}\"
+              \"text\": \"🚀 Releasing to Monoweb - ${PR_URL} - ${PR_TITLE}\n🤖 ${AI_SUMMARY}\n🪵 LiteLLM Raw Output:\n${RAW_RESPONSE}\"
             }"
