@@ -1,0 +1,44 @@
+name: Release Announcement
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  announce-release:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate AI Summary with LiteLLM
+        id: ai
+        env:
+          LITELLM_TOKEN: ${{ secrets.LITELLM_API_KEY }}
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_BODY="${{ github.event.pull_request.body }}"
+          PROMPT="Summarize this GitHub pull request in one sentence.\nPR Title: $PR_TITLE\nPR Description: $PR_BODY"
+
+          RESPONSE=$(curl -s -X POST https://litellm.fcm.digital/v1/completions \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $LITELLM_TOKEN" \
+            -d "{\"model\": \"gpt-4o\", \"prompt\": \"$PROMPT\", \"max_tokens\": 100}")
+
+          SUMMARY=$(echo "$RESPONSE" | jq -r '.choices[0].text')
+          echo "AI_SUMMARY=$SUMMARY" >> $GITHUB_ENV
+
+      - name: Announce to Slack
+        env:
+          SLACK_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL: "#monoweb-release"
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_URL="${{ github.event.pull_request.html_url }}"
+
+          curl -X POST https://slack.com/api/chat.postMessage \
+            -H "Authorization: Bearer $SLACK_TOKEN" \
+            -H "Content-type: application/json" \
+            --data "{
+              \"channel\": \"${SLACK_CHANNEL}\",
+              \"text\": \"🚀 Releasing to monoweb - ${PR_URL} - ${PR_TITLE}\n🤖 $AI_SUMMARY\"
+            }"
