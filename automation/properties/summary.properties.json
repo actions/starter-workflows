@@ -1,0 +1,7 @@
+{
+    "name": "AI issue summary",
+    "description": "Summarizes new issues",
+    "iconName": "octicon ai-model",
+    "categories": ["Automation", "SDLC"],
+    "labels": ["preview"]
+}
