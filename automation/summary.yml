@@ -14,8 +14,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        
-      - name: Run AI Inference
+
+      - name: Run AI inference
         id: inference
         uses: actions/ai-inference@v1
         with:
@@ -25,7 +25,7 @@ jobs:
             Title: ${{ github.event.issue.title }}
             Body: ${{ github.event.issue.body }}
 
-      - name: Comment with AI Summary
+      - name: Comment with AI summary
         run: |
           gh issue comment $ISSUE_NUMBER --body '${{ steps.inference.outputs.response }}'
         env:
