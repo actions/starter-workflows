@@ -44,6 +44,6 @@ jobs:
                     organization: ${{ secrets.CODESCAN_ORGANIZATION_KEY }}
                     projectKey: ${{ secrets.CODESCAN_PROJECT_KEY }}
             -   name: Upload SARIF file
-                uses: github/codeql-action/upload-sarif@v2
+                uses: github/codeql-action/upload-sarif@v3
                 with:
                     sarif_file: codescan.sarif

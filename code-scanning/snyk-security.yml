@@ -43,9 +43,9 @@ jobs:
 
         # For Snyk Open Source you must first set up the development environment for your application's dependencies
         # For example for Node
-        #- uses: actions/setup-node@v3
+        #- uses: actions/setup-node@v4
         #  with:
-        #    node-version: 16
+        #    node-version: 20
 
         env:
           # This is where you will need to introduce the Snyk API token created with your Snyk account
@@ -74,6 +74,6 @@ jobs:
 
         # Push the Snyk Code results into GitHub Code Scanning tab
       - name: Upload result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: snyk-code.sarif

@@ -36,15 +36,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run SOOS DAST Analysis
-        uses: soos-io/soos-dast-github-action@a7f2cb2dfd143cb3224712d902ca0a1da0198ea9
+        uses: soos-io/soos-dast-github-action@a7eb40b94c1c81eb76b178ba1befdc21823f86fa
         with:
           client_id: ${{ secrets.SOOS_CLIENT_ID }}
           api_key: ${{ secrets.SOOS_API_KEY }}
           project_name: "<YOUR-PROJECT-NAME>"
           scan_mode: "baseline"
           target_url: "https://www.example.com/"
-          output_format: "sarif"
+          export_format: "Sarif"
+          export_file_type: "Json"
+      - name: Find and rename SARIF file since it is unique
+        run: |
+          file=$(find . -name "*.sarif.json" | head -n 1)
+          if [ -n "$file" ]; then
+            mv "$file" output.sarif.json
+            echo "Renamed $file to output.sarif.json"
+          else
+            echo "No SARIF file found" && exit 1
+          fi
       - name: Upload SOOS DAST SARIF Report
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: results.sarif
+          sarif_file: output.sarif.json

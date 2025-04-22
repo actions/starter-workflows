@@ -47,6 +47,6 @@ jobs:
           group_id: {{ groupId }}                 # Update this to your desired Platform group ID
 
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: NowSecure.sarif

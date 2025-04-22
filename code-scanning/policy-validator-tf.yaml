@@ -21,7 +21,8 @@ env:
   AWS_ROLE: MY_ROLE # set this with the role ARN which has permissions to invoke access-analyzer:ValidatePolicy,access-analyzer:CheckNoNewAccess, access-analyzer:CheckAccessNotGranted and can be used in GitHub actions
   REGION: MY_AWS_REGION # set this to your preferred AWS region where you plan to deploy your policies, e.g. us-west-1
   TEMPLATE_PATH: FILE_PATH_TO_THE_TF_PLAN # set this to the file path to the terraform plan in JSON
-  ACTIONS: MY_LIST_OF_ACTIONS # set to pass list of actions in the format action1, action2,.. This is required if you are using `CHECK_ACCESS_NOT_GRANTED` policy-check-type.
+  ACTIONS: MY_LIST_OF_ACTIONS # set to pass list of actions in the format action1, action2,.. One of `ACTIONS` or `RESOURCES` is required if you are using `CHECK_ACCESS_NOT_GRANTED` policy-check-type.
+  RESOURCES: MY_LIST_OF_RESOURCES # set to pass list of resource ARNs in the format resource1, resource2,.. One of `ACTIONS` or `RESOURCES` is required if you are using `CHECK_ACCESS_NOT_GRANTED` policy-check-type.
   REFERENCE_POLICY: REFERENCE_POLICY # set to pass a JSON formatted file that specifies the path to the reference policy that is used for a permissions comparison. For example, if you stored such path in a GitHub secret with name REFERENCE_IDENTITY_POLICY , you can pass ${{ secrets.REFERENCE_IDENTITY_POLICY }}. If not you have the reference policy in the repository, you can directly pass it's path. This is required if you are using `CHECK_NO_NEW_ACCESS_CHECK` policy-check-type.
   REFERENCE_POLICY_TYPE: TYPE_OF_REFERENCE_POLICY # set to pass the policy type associated with the IAM policy under analysis and the reference policy. This is required if you are using `CHECK_NO_NEW_ACCESS_CHECK` policy-check-type.
 
@@ -48,7 +49,7 @@ jobs:
       # Run the VALIDATE_POLICY check. More configuration details here - https://github.com/aws-actions/terraform-aws-iam-policy-validator
       - name: Run AWS AccessAnalyzer ValidatePolicy check
         id: run-aws-validate-policy
-        uses: aws-actions/terraform-aws-iam-policy-validator@3e527234ccf8ca494450942c4a91d54b291b013e #v1.0.0
+        uses: aws-actions/terraform-aws-iam-policy-validator@26797c40250bf1ee50af8996a2475b9b5a8b8927 #v1.0.2
         with:
           policy-check-type: "VALIDATE_POLICY"
           template-path: ${{ env.TEMPLATE_PATH }}
@@ -60,11 +61,12 @@ jobs:
       # Run the CHECK_ACCESS_NOT_GRANTED check. More configuration details here - https://github.com/aws-actions/terraform-aws-iam-policy-validator
       - name: Run AWS AccessAnalyzer CheckAccessNotGranted check
         id: run-aws-check-access-not-granted
-        uses: aws-actions/terraform-aws-iam-policy-validator@3e527234ccf8ca494450942c4a91d54b291b013e #v1.0.0
+        uses: aws-actions/terraform-aws-iam-policy-validator@26797c40250bf1ee50af8996a2475b9b5a8b8927 #v1.0.2
         with:
           policy-check-type: "CHECK_ACCESS_NOT_GRANTED"
           template-path: ${{ env.TEMPLATE_PATH }}
           actions: ${{ env.ACTIONS }}
+          resources: ${{ env.RESOURCES }}
           region: ${{ env.REGION }}
       # Print result from CHECK_ACCESS_NOT_GRANTED check
       - name: Print the result for CheckAccessNotGranted check
@@ -74,7 +76,7 @@ jobs:
       # reference-policy is stored in GitHub secrets
       - name: Run AWS AccessAnalyzer CheckNoNewAccess check
         id: run-aws-check-no-new-access
-        uses: aws-actions/terraform-aws-iam-policy-validator@3e527234ccf8ca494450942c4a91d54b291b013e #v1.0.0
+        uses: aws-actions/terraform-aws-iam-policy-validator@26797c40250bf1ee50af8996a2475b9b5a8b8927 #v1.0.2
         with:
           policy-check-type: "CHECK_NO_NEW_ACCESS"
           template-path: ${{ env.TEMPLATE_PATH }}
@@ -85,3 +87,15 @@ jobs:
       - name: Print the result CheckNoNewAccess check
         if: success() || failure()
         run: echo "${{ steps.run-aws-check-no-new-access.outputs.result }}"
+      # Run the CHECK_NO_PUBLIC_ACCESS check. More configuration details here - https://github.com/aws-actions/terraform-aws-iam-policy-validator
+      - name: Run AWS AccessAnalyzer CheckNoPublicAccess check
+        id: run-aws-check-no-public-access
+        uses: aws-actions/terraform-aws-iam-policy-validator@26797c40250bf1ee50af8996a2475b9b5a8b8927 #v1.0.2
+        with:
+          policy-check-type: "CHECK_NO_PUBLIC_ACCESS"
+          template-path: ${{ env.TEMPLATE_PATH }}
+          region: ${{ env.REGION }}
+      # Print result from CHECK_NO_PUBLIC_ACCESS check
+      - name: Print the result for CheckNoPublicAccess check
+        if: success() || failure()
+        run: echo "${{ steps.run-aws-check-no-public-access.outputs.result }}"

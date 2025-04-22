@@ -5,6 +5,9 @@
     "../../code-scanning",
     "../../pages"
   ],
+  "readOnlyFolders": [
+    "../../pages"
+  ],
   "enabledActions": [
     "actions/cache",
     "actions/checkout",
