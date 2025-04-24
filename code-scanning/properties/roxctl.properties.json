@@ -1,0 +1,7 @@
+{
+  "name": "Roxctl",
+  "creator": "Stackrox",
+  "description": "Scan your container images with roxctl to detect security issues",
+  "iconName": "roxctl",
+  "categories": ["Code Scanning"]
+}
