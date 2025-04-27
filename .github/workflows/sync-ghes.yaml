@@ -1,4 +1,4 @@
-name: Sync workflows for GHES
+name: Sync workflows for https://github.com/Mzachky/starter-workflows/actions/workflows/sync-ghes.yaml
 
 on:
   push:
