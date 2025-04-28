@@ -1,0 +1,28 @@
+name: Release Announcement
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  announce-release:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Announce release to Slack
+        env:
+          SLACK_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL: "#monoweb-release"
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_URL="${{ github.event.pull_request.html_url }}"
+
+          curl -X POST https://slack.com/api/chat.postMessage \
+            -H "Authorization: Bearer $SLACK_TOKEN" \
+            -H "Content-type: application/json" \
+            --data "{
+              \"channel\": \"${SLACK_CHANNEL}\",
+              \"text\": \"🚀 Releasing to monoweb - ${PR_URL} - ${PR_TITLE}\"
+            }"
