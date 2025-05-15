@@ -7,7 +7,13 @@
 These are the workflow files for helping people get started with GitHub Actions.  They're presented whenever you start to create a new GitHub Actions workflow.
 
 **If you want to get started with GitHub Actions, you can use these starter workflows by clicking the "Actions" tab in the repository where you want to create a workflow.**
-
+{
+    "name": "Node.js",
+    "description": "Build and test a Node.js project with npm.",
+    "iconName": "nodejs",
+    "categories": ["Continuous integration", "JavaScript", "npm", "React", "Angular", "Vue"],
+    "labels": ["preview"]
+}
 <img src="https://d3vv6lp55qjaqc.cloudfront.net/items/353A3p3Y2x3c2t2N0c01/Image%202019-08-27%20at%203.25.07%20PM.png" max-width="75%"/>
 
 ### Directory structure
