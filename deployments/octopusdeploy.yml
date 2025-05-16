@@ -1,5 +1,5 @@
 # This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by separate terms of service, 
+# They are provided by a third-party and are governed by separate terms of service,
 # privacy policy, and support documentation.
 #
 # This workflow will build and publish a Docker container which is then deployed through Octopus Deploy.
@@ -12,13 +12,13 @@
 #
 # To configure this workflow:
 #
-# 1. Decide where you are going to host your image. 
+# 1. Decide where you are going to host your image.
 #    This template uses the GitHub Registry for simplicity but if required you can update the relevant DOCKER_REGISTRY variables below.
 #
-# 2. Create and configure an OIDC credential for a service account in Octopus. 
+# 2. Create and configure an OIDC credential for a service account in Octopus.
 #    This allows for passwordless authentication to your Octopus instance through a trust relationship configured between Octopus, GitHub and your GitHub Repository.
-#    https://octopus.com/docs/octopus-rest-api/openid-connect/github-actions 
-#  
+#    https://octopus.com/docs/octopus-rest-api/openid-connect/github-actions
+#
 # 3. Configure your Octopus project details below:
 #      OCTOPUS_URL: update to your Octopus Instance Url
 #      OCTOPUS_SERVICE_ACCOUNT: update to your service account Id
@@ -42,14 +42,14 @@ jobs:
       packages: write
       contents: read
     env:
-      DOCKER_REGISTRY: ghcr.io                                # TODO: Update to your docker registry uri 
+      DOCKER_REGISTRY: ghcr.io                                # TODO: Update to your docker registry uri
       DOCKER_REGISTRY_USERNAME: ${{ github.actor }}           # TODO: Update to your docker registry username
       DOCKER_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}   # TODO: Update to your docker registry password
     outputs:
       image_tag: ${{ steps.meta.outputs.version }}
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226 # v3.0.0
 
@@ -64,7 +64,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
-          images: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }} 
+          images: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}
           tags: type=semver,pattern={{version}},value=v1.0.0-{{sha}}
 
       - name: Build and push Docker image
@@ -74,7 +74,7 @@ jobs:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}      
+          labels: ${{ steps.meta.outputs.labels }}
   deploy:
     name: Deploy
     permissions:
@@ -89,9 +89,9 @@ jobs:
       OCTOPUS_ENVIRONMENT: 'your-environment'             # TODO: update to the name of the environment to recieve the first deployment
 
     steps:
-      - name: Login to Octopus Deploy 
+      - name: Log in to Octopus Deploy
         uses: OctopusDeploy/login@34b6dcc1e86fa373c14e6a28c5507d221e4de629  #v1.0.2
-        with: 
+        with:
           server: '${{ env.OCTOPUS_URL }}'
           service_account_id: '${{ env.OCTOPUS_SERVICE_ACCOUNT }}'
 
@@ -104,7 +104,7 @@ jobs:
           packages: '*:${{ needs.build.outputs.image_tag }}'
 
       - name: Deploy Release
-        uses: OctopusDeploy/deploy-release-action@b10a606c903b0a5bce24102af9d066638ab429ac #v3.2.1 
+        uses: OctopusDeploy/deploy-release-action@b10a606c903b0a5bce24102af9d066638ab429ac #v3.2.1
         with:
           project: '${{ env.OCTOPUS_PROJECT }}'
           space: '${{ env.OCTOPUS_SPACE }}'
