@@ -1,72 +1,50 @@
-<p align="center">
-  <img src="https://avatars0.githubusercontent.com/u/44036562?s=100&v=4"/> 
-</p>
+# 🏠 VIVIA RENTAL
 
-## Starter Workflows
+**LISTING AND MANAGING RENTAL PROPERTY**  
+Building rental infrastructure with seamless Stripe integration. Empowering property owners and renters through modern, secure financial tools.
 
-These are the workflow files for helping people get started with GitHub Actions.  They're presented whenever you start to create a new GitHub Actions workflow.
+---
 
-**If you want to get started with GitHub Actions, you can use these starter workflows by clicking the "Actions" tab in the repository where you want to create a workflow.**
+## 🌟 About Us
 
-<img src="https://d3vv6lp55qjaqc.cloudfront.net/items/353A3p3Y2x3c2t2N0c01/Image%202019-08-27%20at%203.25.07%20PM.png" max-width="75%"/>
+**VIVIA RENTAL** is a tech-driven real estate company offering an end-to-end platform for rentals, property management, and listing syndication.  
+We equip real estate professionals and property owners with advanced tools to streamline every aspect of rental management.
 
-### Directory structure
+---
 
-* [ci](ci): solutions for Continuous Integration workflows
-* [deployments](deployments): solutions for Deployment workflows
-* [automation](automation): solutions for automating workflows
-* [code-scanning](code-scanning): solutions for [Code Scanning](https://github.com/features/security)
-* [pages](pages): solutions for Pages workflows
-* [icons](icons): svg icons for the relevant template
+### 💡 What We Offer
 
-Each workflow must be written in YAML and have a `.yml` extension. They also need a corresponding `.properties.json` file that contains extra metadata about the workflow (this is displayed in the GitHub.com UI).
+- **Listing Syndication:** Sync listings to Flexmls, Facebook Marketplace, Redfin, Zumper, and more
+- **Partner Integrations:** Verified partners get GitHub automation, Stripe billing, and XML feed integration
+- **Financial Tools:** Secure, modern payments and invoicing via Stripe
+- **Automation:** SAML, webhook, and API integrations for seamless workflow
+- **Rental Types:** Supporting both short-term and long-term rentals
 
-For example: `ci/django.yml` and `ci/properties/django.properties.json`.
+---
 
-### Valid properties
+## 🚀 Tech Highlights
 
-* `name`: the name shown in onboarding. This property is unique within the repository.
-* `description`: the description shown in onboarding
-* `iconName`: the icon name in the relevant folder, for example, `django` should have an icon `icons/django.svg`. Only SVG is supported at this time. Another option is to use [octicon](https://primer.style/octicons/). The format to use an octicon is `octicon <<icon name>>`. Example: `octicon person`
-* `creator`: creator of the template shown in onboarding. All the workflow templates from an author will have the same `creator` field.
-* `categories`: the categories that it will be shown under. Choose at least one category from the list [here](#categories). Further, choose the categories from the list of languages available [here](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml) and the list of tech stacks available [here](https://github.com/github-starter-workflows/repo-analysis-partner/blob/main/tech_stacks.yml). When a user views the available templates, those templates that match the language and tech stacks will feature more prominently.
+- **Node.js & TypeScript backend**
+- **REST APIs for custom integrations**
+- **Cloud automation for listings and billing**
+- **Security-first design**
 
-### Categories
-* continuous-integration
-* deployment
-* testing
-* code-quality
-* code-review
-* dependency-management
-* monitoring
-* Automation
-* utilities
-* Pages
-* Hugo
+---
 
-### Variables
-These variables can be placed in the starter workflow and will be substituted as detailed below:
+## 🔥 Featured Project
 
-* `$default-branch`: will substitute the branch from the repository, for example `main` and `master`
-* `$protected-branches`: will substitute any protected branches from the repository
-* `$cron-daily`: will substitute a valid but random time within the day
+- [`viviarentals-backend`](https://github.com/viviarentals/viviarentals-backend):  
+  Core API powering listing syndication, partner automation, and secure Stripe-enabled transactions.
 
-## How to test templates before publishing
+---
 
-### Disable template for public
-The template author adds a `labels` array in the template's `properties.json` file with a label `preview`. This will hide the template from users, unless user uses query parameter `preview=true` in the URL.
-Example `properties.json` file:
-```json
-{
-    "name": "Node.js",
-    "description": "Build and test a Node.js project with npm.",
-    "iconName": "nodejs",
-    "categories": ["Continuous integration", "JavaScript", "npm", "React", "Angular", "Vue"],
-    "labels": ["preview"]
-}
-```
+## 🌐 Connect With Us
 
-For viewing the templates with `preview` label, provide query parameter `preview=true` to the  `new workflow` page URL. Eg. `https://github.com/<owner>/<repo_name>/actions/new?preview=true`.
+- 🌎 [viviarentals.com](https://www.viviarentals.com)
+- 💼 [LinkedIn](https://www.linkedin.com/company/viviarentals)
+- 🐦 [Twitter](https://twitter.com/viviarentals)
+- 📧 [Contact Us](https://www.viviarentals.com/contact)
 
-### Enable template for public
-Remove the `labels` array from `properties.json` file to publish the template to public
+---
+
+> “Empowering property owners and renters through modern, secure financial tools.”
