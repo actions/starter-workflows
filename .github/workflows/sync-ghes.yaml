@@ -13,7 +13,7 @@ jobs:
     - uses: actions/checkout@v4
     - run: |
         git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
-        git config user.email "cschleiden@github.com"
+        git config user.email "josemolina17301@gmail.com"
         git config user.name "GitHub Actions"
     - uses: actions/setup-node@v4
       with:
