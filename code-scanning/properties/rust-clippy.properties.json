@@ -1,0 +1,9 @@
+{
+    "name": "rust-clippy",
+    "description": "A collection of lints to catch common mistakes and improve your Rust code.",
+    "iconName": "rust",
+    "categories": [
+        "Code Scanning",
+        "rust"
+    ]
+}

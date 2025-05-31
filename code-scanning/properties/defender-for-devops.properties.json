@@ -1,0 +1,7 @@
+{
+    "name": "Microsoft Defender For DevOps Scan",
+    "creator": "Microsoft",
+    "description": "Defender for DevOps helps integrate multiple tools with GitHub Advanced Security and sends the results to Defender for Cloud dashboard.",
+    "iconName": "microsoft",
+    "categories": ["Code Scanning", "HCL","Dockerfile", "Python", "JavaScript", "EcmaScript", "TypeScript"]
+}

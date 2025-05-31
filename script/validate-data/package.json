@@ -14,7 +14,7 @@
     "typescript": "^3.9.2"
   },
   "dependencies": {
-    "@actions/core": "^1.2.6",
+    "@actions/core": "^1.9.1",
     "js-yaml": "^3.13.1",
     "jsonschema": "^1.2.6"
   }

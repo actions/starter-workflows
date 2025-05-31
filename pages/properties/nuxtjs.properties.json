@@ -1,0 +1,6 @@
+{
+    "name": "NuxtJS",
+    "description": "Package a NuxtJS site.",
+    "iconName": "nuxtjs",
+    "categories": ["Pages", "Nuxt"]
+}

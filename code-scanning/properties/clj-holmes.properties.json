@@ -1,0 +1,10 @@
+{
+    "name": "clj-holmes",
+    "creator": "Matheus Bernardes",
+    "description": "A Static Application Security Testing tool to find vulnerable Clojure code via rules that use a simple pattern language.",
+    "iconName": "clj-holmes",
+    "categories": [
+        "Code Scanning",
+        "clojure"
+    ]
+}

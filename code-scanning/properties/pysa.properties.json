@@ -1,0 +1,7 @@
+{
+    "name": "Pysa",
+    "creator": "Meta",
+    "description": "Python Static Analyzer (Pysa) is a security-focused static analysis tool that tracks flows of data from where they originate to where they terminate in a dangerous location.",
+    "iconName": "pysa",
+    "categories": ["Code Scanning", "Python"]
+}

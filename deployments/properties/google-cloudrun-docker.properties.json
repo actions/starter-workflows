@@ -1,0 +1,7 @@
+{
+  "name": "Build and Deploy to Cloud Run",
+  "description": "Build a Docker container, publish it to Google Artifact Registry, and deploy to Google Cloud Run.",
+  "creator": "Google Cloud",
+  "iconName": "google-cloud",
+  "categories": ["Deployment", "Containers", "Dockerfile", "Cloud Run", "Serverless"]
+}

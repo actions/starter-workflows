@@ -1,0 +1,6 @@
+{
+  "name": "PHPMD",
+  "description": "A spin-off project of PHP Depend and aims to be a PHP equivalent of the well known Java tool PMD.",
+  "iconName": "phpmd",
+  "categories": [ "Code Scanning", "PHP" ]
+}
