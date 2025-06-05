@@ -1,7 +1,7 @@
 name: Update Confluence Page with Commits
 
 on:
-  workflow_dispatch:  # Allow manual trigger
+  workflow_dispatch:
 
   pull_request:
     types: [closed]
@@ -40,8 +40,11 @@ jobs:
 
       - name: Append commit details to Confluence page
         run: |
+          HEADER="<table><tr><th>Serial</th><th>Module Name</th><th>Commit ID</th><th>Commit Message</th><th>Pull Request</th><th>Author</th><th>Date</th></tr>"
           NEW_ROWS=""
           SERIAL=1
+
+          git fetch origin main
 
           while read -r LINE; do
             COMMIT_ID=$(echo "$LINE" | cut -d '|' -f1)
@@ -49,9 +52,12 @@ jobs:
             PR_LINK="https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}"
             AUTHOR=$(echo "$LINE" | cut -d '|' -f3)
             DATE=$(echo "$LINE" | cut -d '|' -f4)
-            NEW_ROWS+="| $SERIAL | ${{ github.repository }} | $COMMIT_ID | $MESSAGE | [$PR_LINK]($PR_LINK) | $AUTHOR | $DATE |"
+            NEW_ROWS+="<tr><td>$SERIAL</td><td>${{ github.repository }}</td><td>$COMMIT_ID</td><td>$MESSAGE</td><td><a href='$PR_LINK'>$PR_LINK</a></td><td>$AUTHOR</td><td>$DATE</td></tr>"
             SERIAL=$((SERIAL + 1))
-          done < <(git log -n 5 --pretty=format:"%h|%s|%an|%ad" --date=iso)
+          done < <(git log --pretty=format:"%h|%s|%an|%ad" --date=iso \
+            ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.merge_commit_sha }})
+
+          TABLE="$HEADER$NEW_ROWS</table>"
 
           RESPONSE=$(curl -s -H "Authorization: Bearer ${{ secrets.CONFLUENCE_PAT }}" \
             "$CONFLUENCE_URL/rest/api/content/$PAGE_ID?expand=body.storage,version")
@@ -59,12 +65,7 @@ jobs:
           OLD_CONTENT=$(echo "$RESPONSE" | jq -r '.body.storage.value')
           VERSION=$(echo "$RESPONSE" | jq '.version.number')
 
-          if ! echo "$OLD_CONTENT" | grep -q "|| Serial ||"; then
-            HEADER="|| Serial || Module Name || Commit ID || Commit Message || Pull Request || Commit Author || Commit Date & Time ||"
-            FINAL_CONTENT="$HEADER"$'\n'"$NEW_ROWS"
-          else
-            FINAL_CONTENT="$OLD_CONTENT"$'\n'"$NEW_ROWS"
-          fi
+          FINAL_CONTENT="$OLD_CONTENT<br/><br/>$TABLE"
 
           JSON=$(jq -n \
             --arg id "$PAGE_ID" \
@@ -81,7 +82,7 @@ jobs:
               body: {
                 storage: {
                   value: $value,
-                  representation: "wiki"
+                  representation: "storage"
                 }
               }
             }')
