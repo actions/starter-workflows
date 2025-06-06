@@ -1,0 +1,119 @@
+https://github.com/actions/starter-workflows.git
+# Generate fully working dns_watchdog.py with .env support for API keys
+
+import os
+from pathlib import Path
+
+# Folder setup
+project_root = "/mnt/data/fortress-dns-secure-auto"
+os.makedirs(project_root, exist_ok=True)
+
+# Main script with .env support
+watchdog_script = """\
+import os
+import socket
+import requests
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DOMAIN = "thefortressapp.com"
+ABUSE_API_KEY = os.getenv("ABUSEIPDB_API_KEY")
+CF_ZONE_ID = os.getenv("CLOUDFLARE_ZONE_ID")
+CF_API_TOKEN = os.getenv("CLOUDFLARE_API_TOKEN")
+
+def check_blocklists():
+    try:
+        ip = socket.gethostbyname(DOMAIN)
+        print(f"🔍 Checking blocklists for IP: {ip}")
+        headers = {
+            "Key": ABUSE_API_KEY,
+            "Accept": "application/json"
+        }
+        url = f"https://api.abuseipdb.com/api/v2/check?ipAddress={ip}"
+        r = requests.get(url, headers=headers)
+        data = r.json()
+        score = data.get("data", {}).get("abuseConfidenceScore", "N/A")
+        print(f"🛡️ AbuseIPDB Score: {score}")
+    except Exception as e:
+        print(f"❌ Blocklist check failed: {e}")
+
+def check_nameservers():
+    try:
+        socket.gethostbyname("a1.share-dns.com")
+        print("✅ NS a1.share-dns.com is reachable")
+    except:
+        print("❌ NS a1.share-dns.com is unreachable")
+
+def list_cloudflare_dns():
+    try:
+        print("🌐 Fetching DNS from Cloudflare")
+        headers = {
+            "Authorization": f"Bearer {CF_API_TOKEN}",
+            "Content-Type": "application/json"
+        }
+        url = f"https://api.cloudflare.com/client/v4/zones/{CF_ZONE_ID}/dns_records"
+        r = requests.get(url, headers=headers)
+        for record in r.json().get("result", []):
+            print(f"{record['type']} {record['name']} ➝ {record['content']}")
+    except Exception as e:
+        print(f"❌ Cloudflare DNS fetch failed: {e}")
+
+if __name__ == "__main__":
+    check_blocklists()
+    check_nameservers()
+    list_cloudflare_dns()
+"""
+
+# .env.example
+env_example = """\
+# 🔐 Fortress DNS AI Core Secrets (example)
+
+ABUSEIPDB_API_KEY=your_abuseipdb_key
+CLOUDFLARE_ZONE_ID=your_zone_id_here
+CLOUDFLARE_API_TOKEN=your_cloudflare_token_here
+"""
+
+# README
+readme = """\
+# Fortress DNS AI Core — Auto Secure Watchdog
+
+This tool automatically monitors:
+
+- AbuseIPDB blocklist score
+- Name server reachability
+- Cloudflare DNS zone records
+
+## 🔧 Setup
+
+1. Copy `.env.example` → `.env`
+2. Fill in your real API credentials
+
+## ✅ Usage
+
+```bash
+pip install -r requirements.txt
+python dns_watchdog.py
+```
+
+## 🔐 Secrets Required
+
+- `ABUSEIPDB_API_KEY`: [abuseipdb.com](https://www.abuseipdb.com/)
+- `CLOUDFLARE_ZONE_ID`: From your Cloudflare domain settings
+- `CLOUDFLARE_API_TOKEN`: Create token with DNS read permissions
+"""
+
+# requirements.txt
+requirements = "python-dotenv\nrequests\n"
+
+# Write files
+Path(os.path.join(project_root, "dns_watchdog.py")).write_text(watchdog_script)
+Path(os.path.join(project_root, ".env.example")).write_text(env_example)
+Path(os.path.join(project_root, "README.md")).write_text(readme)
+Path(os.path.join(project_root, "requirements.txt")).write_text(requirements)
+
+# Zip it
+zip_path = "/mnt/data/fortress-dns-secure-auto.zip"
+shutil.make_archive(zip_path.replace(".zip", ""), 'zip', project_root)
+
+zip_path
