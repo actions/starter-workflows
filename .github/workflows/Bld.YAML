@@ -1,4 +1,4 @@
-name: Lint
+name: Bld
 
 on:
   pull_request:
