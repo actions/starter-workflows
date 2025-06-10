@@ -10,7 +10,7 @@ It is not:
 
 ## Pre-requisites
 
-- [ ] Prior to submitting a new workflow, please apply to join the GitHub Technology Partner Program: [partner.github.com/apply](https://partner.github.com/apply?partnershipType=Technology+Partner).
+- [x] Prior to submitting a new workflow, please apply to join the GitHub Technology Partner Program: [partner.github.com/apply](https://partner.github.com/apply?partnershipType=Technology+Partner).
 
 ---
 
@@ -22,19 +22,19 @@ It is not:
 
 **For _all_ workflows, the workflow:**
 
-- [ ] Should be contained in a `.yml` file with the language or platform as its filename, in lower, [_kebab-cased_](https://en.wikipedia.org/wiki/Kebab_case) format (for example, [`docker-image.yml`](https://github.com/actions/starter-workflows/blob/main/ci/docker-image.yml)).  Special characters should be removed or replaced with words as appropriate (for example, "dotnet" instead of ".NET").
-- [ ] Should use sentence case for the names of workflows and steps (for example, "Run tests").
-- [ ] Should be named _only_ by the name of the language or platform (for example, "Go", not "Go CI" or "Go Build").
-- [ ] Should include comments in the workflow for any parts that are not obvious or could use clarification.
-- [ ] Should specify least privileged [permissions](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token) for `GITHUB_TOKEN` so that the workflow runs successfully.
+- [x] Should be contained in a `.yml` file with the language or platform as its filename, in lower, [_kebab-cased_](https://en.wikipedia.org/wiki/Kebab_case) format (for example, [`docker-image.yml`](https://github.com/actions/starter-workflows/blob/main/ci/docker-image.yml)).  Special characters should be removed or replaced with words as appropriate (for example, "dotnet" instead of ".NET").
+- [x] Should use sentence case for the names of workflows and steps (for example, "Run tests").
+- [x] Should be named _only_ by the name of the language or platform (for example, "Go", not "Go CI" or "Go Build").
+- [x] Should include comments in the workflow for any parts that are not obvious or could use clarification.
+- [x] Should specify least privileged [permissions](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token) for `GITHUB_TOKEN` so that the workflow runs successfully.
 
 **For _CI_ workflows, the workflow:**
 
-- [ ] Should be preserved under [the `ci` directory](https://github.com/actions/starter-workflows/tree/main/ci).
-- [ ] Should include a matching `ci/properties/*.properties.json` file (for example, [`ci/properties/docker-publish.properties.json`](https://github.com/actions/starter-workflows/blob/main/ci/properties/docker-publish.properties.json)).
-- [ ] Should run on `push` to `branches: [ $default-branch ]` and `pull_request` to `branches: [ $default-branch ]`.
-- [ ] Packaging workflows should run on `release` with `types: [ created ]`.
-- [ ] Publishing workflows should have a filename that is the name of the language or platform, in lower case, followed by "-publish" (for example, [`docker-publish.yml`](https://github.com/actions/starter-workflows/blob/main/ci/docker-publish.yml)).
+- [x] Should be preserved under [the `ci` directory](https://github.com/actions/starter-workflows/tree/main/ci).
+- [x] Should include a matching `ci/properties/*.properties.json` file (for example, [`ci/properties/docker-publish.properties.json`](https://github.com/actions/starter-workflows/blob/main/ci/properties/docker-publish.properties.json)).
+- [x] Should run on `push` to `branches: [ $default-branch ]` and `pull_request` to `branches: [ $default-branch ]`.
+- [x] Packaging workflows should run on `release` with `types: [ created ]`.
+- [x] Publishing workflows should have a filename that is the name of the language or platform, in lower case, followed by "-publish" (for example, [`docker-publish.yml`](https://github.com/actions/starter-workflows/blob/main/ci/docker-publish.yml)).
 
 **For _Code Scanning_ workflows, the workflow:**
 
@@ -49,13 +49,13 @@ It is not:
 
 **Some general notes:**
 
-- [ ] This workflow must _only_ use actions that are produced by GitHub, [in the `actions` organization](https://github.com/actions), **or**
-- [ ] This workflow must _only_ use actions that are produced by the language or ecosystem that the workflow supports.  These actions must be [published to the GitHub Marketplace](https://github.com/marketplace?type=actions).  We require that these actions be referenced using the full 40 character hash of the action's commit instead of a tag.  Additionally, workflows must include the following comment at the top of the workflow file:
+- [x] This workflow must _only_ use actions that are produced by GitHub, [in the `actions` organization](https://github.com/actions), **or**
+- [x] This workflow must _only_ use actions that are produced by the language or ecosystem that the workflow supports.  These actions must be [published to the GitHub Marketplace](https://github.com/marketplace?type=actions).  We require that these actions be referenced using the full 40 character hash of the action's commit instead of a tag.  Additionally, workflows must include the following comment at the top of the workflow file:
     ```
     # This workflow uses actions that are not certified by GitHub.
     # They are provided by a third-party and are governed by
     # separate terms of service, privacy policy, and support
     # documentation.
     ```
-- [ ] Automation and CI workflows should not send data to any 3rd party service except for the purposes of installing dependencies.
-- [ ] Automation and CI workflows cannot be dependent on a paid service or product.
+- [x] Automation and CI workflows should not send data to any 3rd party service except for the purposes of installing dependencies.
+- [x] Automation and CI workflows cannot be dependent on a paid service or product.
