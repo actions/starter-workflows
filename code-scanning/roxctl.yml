@@ -1,0 +1,71 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# This workflow integrates roxctl with GitHub's Code Scanning
+# feature.
+#
+# roxctl is the CLI of StackRox, a container security platform.
+# roxctl will scan container images for vulnerabilities.
+#
+# See https://www.stackrox.io/docs/ for more on StackRox.
+#
+# See https://github.com/stackrox/roxctl-installer-action for
+# more on the roxctl-installer action and its parameters.
+
+name: roxctl
+
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    branches: [ $default-branch ]
+  schedule:
+    - cron: $cron-weekly
+
+jobs:
+  roxctl-image-scan:
+    permissions:
+      # Only required for private repositories by github/codeql-action/upload-sarif
+      # to get the Action run status.
+      actions: read
+      # Required for actions/checkout to fetch code.
+      contents: read
+      # Required for github/codeql-action/upload-sarif to upload SARIF results.
+      security-events: write
+      # Required for stackrox/central-login to authenticate with StackRox instance.
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Authenticate against StackRox instance
+        # See https://github.com/stackrox/central-login for more on the actions parameters
+        # and how to configure your StackRox instance for authentication.
+        uses: stackrox/central-login@e42ff66baa0b899d4841f2887d92708be70c26e6
+        with:
+          # Placeholder value for the StackRox instance.
+          endpoint: https://stackrox.io
+
+      - name: Setup roxctl
+        uses: stackrox/roxctl-installer-action@b9f8bcdb7555131276e045b471b47be4ad05b44e
+        with:
+          # Download the roxctl binary from your StackRox instance.
+          # You may also omit these values to download the binary from the public mirror.
+          # See https://github.com/stackrox/roxctl-installer-action for more on the
+          # actions parameters.
+          central-endpoint: ${{ env.ROX_ENDPOINT }}
+          central-token: ${{ env.ROX_API_TOKEN }}
+
+      - name: Scan images for vulnerabilities
+        run: |
+          roxctl image scan \
+              --image=octo-org/sample-image:latest \
+              -o=sarif > results.sarif
+
+      - name: Upload vulnerability report
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: results.sarif
