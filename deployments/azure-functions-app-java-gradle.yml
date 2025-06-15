@@ -1,4 +1,4 @@
-# This workflow will build a Java project and deploy it to an Azure Functions App on Windows or Linux when a commit is pushed to your default branch.
+deployments/azure-functions-app-java-gradle.yml# This workflow will build a Java project and deploy it to an Azure Functions App on Windows or Linux when a commit is pushed to your default branch.
 #
 # This workflow assumes you have already created the target Azure Functions app and applied azure functions plugin for gradle.
 # For instructions see https://learn.microsoft.com/en-us/azure/azure-functions/functions-create-first-java-gradle
