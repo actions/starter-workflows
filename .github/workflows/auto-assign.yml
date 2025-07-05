@@ -6,5 +6,5 @@ on:
 jobs:
   add-reviews:
     runs-on: ubuntu-latest
-    steps:
+    steps: 
       - uses: kentaro-m/auto-assign-action@v1.2.2
