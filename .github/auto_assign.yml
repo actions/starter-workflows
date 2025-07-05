@@ -1,17 +1,10 @@
-# Set to true to add reviewers to pull requests
-addReviewers: true
+name: 'Auto Assign'
+on:
+  pull_request_target:
+    types: [opened, ready_for_review]
 
-# Set to true to add assignees to pull requests
-addAssignees: false
-
-# A list of reviewers to be added to pull requests (GitHub user name)
-reviewers:
-  - phantsure
-  - anuragc617
-  - tiwarishub
-  - vsvipul
-  - bishal-pdmsft
-
-# A number of reviewers added to the pull request
-# Set 0 to add all the reviewers (default: 0)
-numberOfReviewers: 1
+jobs:
+  add-reviews:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: kentaro-m/auto-assign-action@v1.2.2
