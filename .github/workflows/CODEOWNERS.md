@@ -1,5 +1,0 @@
-* @actions/actions-workflow-development-reviewers @actions/starter-workflows
-
-/code-scanning/ @actions/advanced-security-code-scanning @actions/actions-workflow-development-reviewers @actions/advanced-security-dependency-graph @actions/starter-workflows
-/code-scanning/dependency-review.yml @actions/actions-workflow-development-reviewers @actions/advanced-security-dependency-graph @actions/starter-workflows
-/pages/ @actions/pages @actions/actions-workflow-development-reviewers @actions/starter-workflows
