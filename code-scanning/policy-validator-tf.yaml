@@ -39,17 +39,17 @@ jobs:
     steps:
       # checkout the repo for workflow to access the contents
       - name: Checkout
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        uses: action/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       # Configure AWS Credentials. More configuration details here- https://github.com/aws-actions/configure-aws-credentials
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
+        uses: aws-action/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
         with:
           role-to-assume: ${{ env.AWS_ROLE }}
           aws-region: ${{ env.REGION }}
       # Run the VALIDATE_POLICY check. More configuration details here - https://github.com/aws-actions/terraform-aws-iam-policy-validator
       - name: Run AWS AccessAnalyzer ValidatePolicy check
         id: run-aws-validate-policy
-        uses: aws-actions/terraform-aws-iam-policy-validator@26797c40250bf1ee50af8996a2475b9b5a8b8927 #v1.0.2
+        uses: aws-action/terraform-aws-iam-policy-validator@26797c40250bf1ee50af8996a2475b9b5a8b8927 #v1.0.2
         with:
           policy-check-type: "VALIDATE_POLICY"
           template-path: ${{ env.TEMPLATE_PATH }}
@@ -61,7 +61,7 @@ jobs:
       # Run the CHECK_ACCESS_NOT_GRANTED check. More configuration details here - https://github.com/aws-actions/terraform-aws-iam-policy-validator
       - name: Run AWS AccessAnalyzer CheckAccessNotGranted check
         id: run-aws-check-access-not-granted
-        uses: aws-actions/terraform-aws-iam-policy-validator@26797c40250bf1ee50af8996a2475b9b5a8b8927 #v1.0.2
+        uses: aws-action/terraform-aws-iam-policy-validator@26797c40250bf1ee50af8996a2475b9b5a8b8927 #v1.0.2
         with:
           policy-check-type: "CHECK_ACCESS_NOT_GRANTED"
           template-path: ${{ env.TEMPLATE_PATH }}
@@ -76,7 +76,7 @@ jobs:
       # reference-policy is stored in GitHub secrets
       - name: Run AWS AccessAnalyzer CheckNoNewAccess check
         id: run-aws-check-no-new-access
-        uses: aws-actions/terraform-aws-iam-policy-validator@26797c40250bf1ee50af8996a2475b9b5a8b8927 #v1.0.2
+        uses: aws-action/terraform-aws-iam-policy-validator@26797c40250bf1ee50af8996a2475b9b5a8b8927 #v1.0.2
         with:
           policy-check-type: "CHECK_NO_NEW_ACCESS"
           template-path: ${{ env.TEMPLATE_PATH }}
@@ -90,7 +90,7 @@ jobs:
       # Run the CHECK_NO_PUBLIC_ACCESS check. More configuration details here - https://github.com/aws-actions/terraform-aws-iam-policy-validator
       - name: Run AWS AccessAnalyzer CheckNoPublicAccess check
         id: run-aws-check-no-public-access
-        uses: aws-actions/terraform-aws-iam-policy-validator@26797c40250bf1ee50af8996a2475b9b5a8b8927 #v1.0.2
+        uses: aws-action/terraform-aws-iam-policy-validator@26797c40250bf1ee50af8996a2475b9b5a8b8927 #v1.0.2
         with:
           policy-check-type: "CHECK_NO_PUBLIC_ACCESS"
           template-path: ${{ env.TEMPLATE_PATH }}

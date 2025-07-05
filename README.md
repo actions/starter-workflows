@@ -1,3 +1,11 @@
+[![Auto Assign](https://github.com/actions/starter-workflows/actions/workflows/auto-assign.yml/badge.svg)](https://github.com/actions/starter-workflows/actions/workflows/auto-assign.yml)
+[![Pull Request Labeler](https://github.com/actions/starter-workflows/actions/workflows/labeler-triage.yml/badge.svg)](https://github.com/actions/starter-workflows/actions/workflows/labeler-triage.yml)
+[![Lint](https://github.com/actions/starter-workflows/actions/workflows/lint.yaml/badge.svg)](https://github.com/actions/starter-workflows/actions/workflows/lint.yaml)
+[![Validate Data](https://github.com/actions/starter-workflows/actions/workflows/validate-data.yaml/badge.svg)](https://github.com/actions/starter-workflows/actions/workflows/validate-data.yaml)
+
+_______________________________________
+
+
 <p align="center">
   <img src="https://avatars0.githubusercontent.com/u/44036562?s=100&v=4"/> 
 </p>
