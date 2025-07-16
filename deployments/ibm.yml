@@ -1,4 +1,4 @@
-# This workflow will build a docker container, publish it to IBM Container Registry, and deploy it to IKS when a release is created
+# This workflow will build a docker container, publish it to IBM Container Registry, and deploy it to IKS when there is a push to the $default-branch branch.
 #
 # To configure this workflow:
 #
@@ -9,8 +9,8 @@
 name: Build and Deploy to IKS
 
 on:
-  release:
-    types: [created]
+  push:
+    branches: [ $default-branch ]
 
 # Environment variables available to all jobs and steps in this workflow
 env:
@@ -32,7 +32,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     # Download and Install IBM Cloud CLI
     - name: Install IBM Cloud CLI

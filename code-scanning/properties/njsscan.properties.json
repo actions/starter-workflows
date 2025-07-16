@@ -1,0 +1,7 @@
+{
+    "name": "njsscan",
+    "creator": "NodeJSScan",
+    "description": "nodejsscan is a static security code scanner that finds insecure code patterns in your Node.js applications.",
+    "iconName": "njsscan",
+    "categories": ["Code Scanning", "JavaScript", "TypeScript"]
+}

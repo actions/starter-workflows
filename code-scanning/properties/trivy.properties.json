@@ -1,0 +1,8 @@
+{
+    "name": "Trivy",
+    "creator": "Aqua Security",
+    "description": "Scan Docker container images for vulnerabilities in OS packages and language dependencies with Trivy from Aqua Security.",
+    "iconName": "trivy",
+    "categories": ["Code Scanning", "dockerfile"],
+    "enterprise_requirements": ["docker"]
+}

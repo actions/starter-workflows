@@ -1,0 +1,7 @@
+{
+    "name": "Anchore Grype Vulnerability Scan",
+    "creator": "Anchore",
+    "description": "Produce source and container vulnerability reports based on Anchore's open source Grype tool.",
+    "iconName": "anchore",
+    "categories": ["Code Scanning", "dockerfile"]
+}

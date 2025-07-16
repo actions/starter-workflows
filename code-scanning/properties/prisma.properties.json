@@ -1,0 +1,7 @@
+{
+    "name": "Prisma Cloud IaC Scan",
+    "creator": "Palo Alto Prisma Cloud",
+    "description": "Scan your Infrastructure as Code files with Prisma Cloud to detect security issues",
+    "iconName": "prisma",
+    "categories": ["Code Scanning"]
+}

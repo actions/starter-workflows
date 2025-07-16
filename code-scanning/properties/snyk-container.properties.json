@@ -1,0 +1,7 @@
+{
+    "name": "Snyk Container",
+    "creator": "Snyk",
+    "description": "Detect vulnerabilities in your container images and surface the issues in GitHub code scanning.",
+    "iconName": "snyk",
+    "categories": ["Code Scanning", "dockerfile"]
+}

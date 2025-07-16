@@ -1,0 +1,34 @@
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1" id="svg79" xml:space="preserve" width="533.33331" height="533.33331" viewBox="0 0 533.33331 533.33331" style="color: #23292e;"><title>microsoft</title>
+  <metadata id="metadata85">
+    <rdf:rdf>
+      <cc:work rdf:about="">
+        <dc:format>
+          image/svg+xml
+        </dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"></dc:type>
+        <dc:title></dc:title>
+      </cc:work>
+    </rdf:rdf>
+  </metadata>
+  <defs id="defs83">
+    <clipPath clipPathUnits="userSpaceOnUse" id="clipPath105">
+      <path d="M 0,400 H 400 V 0 H 0 Z" id="path103"></path>
+    </clipPath>
+    <clipPath clipPathUnits="userSpaceOnUse" id="clipPath119">
+      <path d="M 80.797,80.296 H 319.705 V 319.204 H 80.797 Z" id="path117"></path>
+    </clipPath>
+    <clipPath clipPathUnits="userSpaceOnUse" id="clipPath253">
+      <path d="M 0,400 H 400 V 0 H 0 Z" id="path251"></path>
+    </clipPath>
+    <clipPath clipPathUnits="userSpaceOnUse" id="clipPath403">
+      <path d="M 0,400 H 400 V 0 H 0 Z" id="path401"></path>
+    </clipPath>
+  </defs>
+  <g id="g87" transform="matrix(1.3333333,0,0,-1.3333333,0,533.33333)">
+    <path d="M 0,0 H 400 V 400 H 0 Z" style="fill-opacity: 1; fill-rule: nonzero; stroke: none;" id="path89" fill="#FFFFFF"></path>
+    <path d="M 194.342,205.658 H 80.796 v 113.546 h 113.546 z" style="fill-opacity: 1; fill-rule: nonzero; stroke: none;" id="path91" fill="#F25022"></path>
+    <path d="M 319.704,205.658 H 206.158 v 113.546 h 113.546 z" style="fill-opacity: 1; fill-rule: nonzero; stroke: none;" id="path93" fill="#7FBA00"></path>
+    <path d="M 194.342,80.296 H 80.796 v 113.546 h 113.546 z" style="fill-opacity: 1; fill-rule: nonzero; stroke: none;" id="path95" fill="#00A4EF"></path>
+    <path d="M 319.704,80.296 H 206.158 v 113.546 h 113.546 z" style="fill-opacity: 1; fill-rule: nonzero; stroke: none;" id="path97" fill="#FFB900"></path>
+  </g>
+</svg>

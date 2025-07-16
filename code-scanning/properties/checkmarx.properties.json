@@ -1,0 +1,7 @@
+{
+    "name": "CxSAST",
+    "creator": "Checkmarx",
+    "description": "Scan your code with Checkmarx CxSAST and see your results in the GitHub security tab.",
+    "iconName": "checkmarx",
+    "categories": ["Code Scanning", "javascript", "python", "java", "php", "c#", "c", "c++", "ruby", "swift", "go", "json", "kotlin", "apex", "scala", "perl"]
+}

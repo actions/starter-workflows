@@ -1,13 +1,13 @@
-# This workflow will build a docker container, publish and deploy it to Tencent Kubernetes Engine (TKE).
+# This workflow will build a docker container, publish and deploy it to Tencent Kubernetes Engine (TKE) when there is a push to the $default-branch branch.
 #
 # To configure this workflow:
 #
-# 1. Ensure that your repository contains the necessary configuration for your Tencent Kubernetes Engine cluster, 
+# 1. Ensure that your repository contains the necessary configuration for your Tencent Kubernetes Engine cluster,
 #    including deployment.yml, kustomization.yml, service.yml, etc.
 #
-# 2. Set up secrets in your workspace: 
+# 2. Set up secrets in your workspace:
 #    - TENCENT_CLOUD_SECRET_ID with Tencent Cloud secret id
-#    - TENCENT_CLOUD_SECRET_KEY with Tencent Cloud secret key 
+#    - TENCENT_CLOUD_SECRET_KEY with Tencent Cloud secret key
 #    - TENCENT_CLOUD_ACCOUNT_ID with Tencent Cloud account id
 #    - TKE_REGISTRY_PASSWORD with TKE registry password
 #
@@ -16,8 +16,8 @@
 name: Tencent Kubernetes Engine
 
 on:
-  release:
-    types: [created]
+  push:
+    branches: [ $default-branch ]
 
 # Environment variables available to all jobs and steps in this workflow
 env:
@@ -25,6 +25,9 @@ env:
   TKE_REGION: ap-guangzhou
   TKE_CLUSTER_ID: cls-mywebapp
   DEPLOYMENT_NAME: tke-test
+
+permissions:
+  contents: read
 
 jobs:
   setup-build-publish-deploy:
@@ -34,11 +37,11 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v2
-      
+      uses: actions/checkout@v4
+
     # Build
     - name: Build Docker image
-      run: |        
+      run: |
         docker build -t ${TKE_IMAGE_URL}:${GITHUB_SHA} .
 
     - name: Login TKE Registry
@@ -62,7 +65,7 @@ jobs:
         secret_key: ${{ secrets.TENCENT_CLOUD_SECRET_KEY }}
         tke_region: ${{ env.TKE_REGION }}
         cluster_id: ${{ env.TKE_CLUSTER_ID }}
-    
+
     - name: Switch to TKE context
       run: |
         kubectl config use-context ${TKE_CLUSTER_ID}-context-default

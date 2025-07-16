@@ -1,7 +1,7 @@
 #!/usr/bin/env npx ts-node
 import { promises as fs } from "fs";
 import { safeLoad } from "js-yaml";
-import { basename, extname, join } from "path";
+import { basename, extname, join, dirname } from "path";
 import { Validator as validator } from "jsonschema";
 import { endGroup, error, info, setFailed, startGroup } from '@actions/core';
 
@@ -14,6 +14,7 @@ interface WorkflowWithErrors {
 interface WorkflowProperties {
   name: string;
   description: string;
+  creator: string;
   iconName: string;
   categories: string[];
 }
@@ -40,7 +41,7 @@ const propertiesSchema = {
   }
 }
 
-async function checkWorkflows(folders: string[]): Promise<WorkflowWithErrors[]> {
+async function checkWorkflows(folders: string[], allowed_categories: object[]): Promise<WorkflowWithErrors[]> {
   const result: WorkflowWithErrors[] = []
   const workflow_template_names = new Set()
   for (const folder of folders) {
@@ -49,13 +50,13 @@ async function checkWorkflows(folders: string[]): Promise<WorkflowWithErrors[]> 
     });
 
     for (const e of dir) {
-      if (e.isFile()) {
+      if (e.isFile() && [".yml", ".yaml"].includes(extname(e.name))) {
         const fileType = basename(e.name, extname(e.name))
 
         const workflowFilePath = join(folder, e.name);
         const propertiesFilePath = join(folder, "properties", `${fileType}.properties.json`)
 
-        const workflowWithErrors = await checkWorkflow(workflowFilePath, propertiesFilePath);
+        const workflowWithErrors = await checkWorkflow(workflowFilePath, propertiesFilePath, allowed_categories);
         if(workflowWithErrors.name && workflow_template_names.size == workflow_template_names.add(workflowWithErrors.name).size) {
           workflowWithErrors.errors.push(`Workflow template name "${workflowWithErrors.name}" already exists`) 
         }
@@ -69,13 +70,12 @@ async function checkWorkflows(folders: string[]): Promise<WorkflowWithErrors[]> 
   return result;
 }
 
-async function checkWorkflow(workflowPath: string, propertiesPath: string): Promise<WorkflowWithErrors> {
+async function checkWorkflow(workflowPath: string, propertiesPath: string, allowed_categories: object[]): Promise<WorkflowWithErrors> {
   let workflowErrors: WorkflowWithErrors = {
     id: workflowPath,
     name: null,
     errors: []
   }
-
   try {
     const workflowFileContent = await fs.readFile(workflowPath, "utf8");
     safeLoad(workflowFileContent); // Validate yaml parses without error
@@ -105,6 +105,20 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string): Prom
       }
       
     }
+    var path = dirname(workflowPath)
+    var folder_categories = allowed_categories.find( category => category["path"] == path)["categories"]
+    if (!workflowPath.endsWith("blank.yml")) {
+      if(!properties.categories || properties.categories.length == 0) {
+        workflowErrors.errors.push(`Workflow categories cannot be null or empty`)
+      } 
+      else if(!folder_categories.some(category => properties.categories[0].toLowerCase() == category.toLowerCase())) {
+        workflowErrors.errors.push(`The first category in properties.json categories for workflow in ${basename(path)} folder must be one of "${folder_categories}. Either move the workflow to an appropriate directory or change the category."`)
+      }
+    }
+
+    if(basename(path).toLowerCase() == 'deployments' && !properties.creator) {
+      workflowErrors.errors.push(`The "creator" in properties.json must be present.`)
+    }
   } catch (e) {
     workflowErrors.errors.push(e.toString())
   }
@@ -115,7 +129,7 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string): Prom
   try {
     const settings = require("./settings.json");
     const erroredWorkflows = await checkWorkflows(
-      settings.folders
+      settings.folders, settings.allowed_categories
     )
 
     if (erroredWorkflows.length > 0) {

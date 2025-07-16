@@ -6,20 +6,23 @@ on:
   pull_request:
     branches: [ $default-branch ]
 
+permissions:
+  contents: read
+
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - uses: actions/setup-haskell@v1
       with:
         ghc-version: '8.10.3'
         cabal-version: '3.2'
 
     - name: Cache
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       env:
         cache-name: cache-cabal
       with:

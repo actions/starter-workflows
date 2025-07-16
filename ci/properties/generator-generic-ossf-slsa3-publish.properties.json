@@ -1,0 +1,7 @@
+{
+    "name": "SLSA Generic generator",
+    "creator": "Open Source Security Foundation (OpenSSF)",
+    "description": "Generate SLSA3 provenance for your existing release workflows",
+    "iconName": "generator-generic-ossf-slsa3-publish",
+    "categories": ["Continuous integration", "Go", "Elixir", "Erlang", "PHP", "Haskell", "Rust", "Java", "Scala", "Gradle", "Maven", "Python", "C", "C++", "TypeScript", "JavaScript", "npm", "Ruby", "HTML", "Composer", "Makefile", "Ada"]
+}

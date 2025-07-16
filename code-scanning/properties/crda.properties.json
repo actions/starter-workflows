@@ -1,0 +1,7 @@
+{
+    "name": "Red Hat CodeReady Dependency Analytics",
+    "creator": "Red Hat",
+    "description": "Scan your project's dependencies with CodeReady Dependency Analytics.",
+    "iconName": "openshift",
+    "categories": ["Code Scanning", "Go", "Python", "Node.js", "Java"]
+}

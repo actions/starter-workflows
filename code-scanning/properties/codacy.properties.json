@@ -1,0 +1,7 @@
+{
+    "name": "Codacy Security Scan",
+    "creator": "Codacy",
+    "description": "Free, out-of-the-box, security analysis provided by multiple open source static analysis tools.",
+    "iconName": "codacy",
+    "categories": ["Code Scanning", "apex", "bash", "c", "coffeescript", "c++", "c#", "crystal", "dockerfile", "elixir", "go", "groovy", "java", "javascript", "jsp", "kotlin", "markdown", "php", "plsql", "powershell", "python", "ruby", "scala", "swift", "tsql", "typescript", "velocity", "vba", "xml"]
+}

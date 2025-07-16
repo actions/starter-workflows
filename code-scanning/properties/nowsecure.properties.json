@@ -1,0 +1,21 @@
+{
+    "name": "NowSecure",
+    "creator": "NowSecure",
+    "description": "The NowSecure Action delivers fast, accurate, automated security analysis of iOS and Android apps coded in any language",
+    "iconName": "nowsecure",
+    "categories": [
+        "Code Scanning",
+        "Java",
+        "Kotlin",
+        "Scala",
+        "Swift",
+        "Objective C",
+        "C",
+        "C++",
+        "C#",
+        "Rust",
+        "JavaScript",
+        "TypeScript",
+        "Node"
+    ]
+}

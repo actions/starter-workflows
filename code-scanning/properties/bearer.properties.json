@@ -1,0 +1,7 @@
+{
+  "name": "Bearer",
+  "creator": "Bearer",
+  "description": "Continuously run Bearer code security scanning tool (SAST) to discover, filter and prioritize security and privacy risks.",
+  "iconName": "bearer",
+  "categories": ["Code Scanning", "JavaScript", "TypeScript", "Java", "Ruby"]
+}

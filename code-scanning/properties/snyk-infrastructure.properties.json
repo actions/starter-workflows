@@ -1,0 +1,7 @@
+{
+    "name": "Snyk Infrastructure as Code",
+    "creator": "Snyk",
+    "description": "Detect vulnerabilities in your infrastructure as code files and surface the issues in GitHub code scanning.",
+    "iconName": "snyk",
+    "categories": ["Code Scanning"]
+}

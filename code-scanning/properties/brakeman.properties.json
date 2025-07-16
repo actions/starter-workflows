@@ -1,0 +1,7 @@
+{
+    "name": "Brakeman",
+    "creator": "Brakeman",
+    "description": "Brakeman is a static analysis security vulnerability scanner for Ruby on Rails applications.",
+    "iconName": "brakeman",
+    "categories": ["Code Scanning", "ruby"]
+}
