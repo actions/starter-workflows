@@ -1,0 +1,6 @@
+{
+    "name": "CMake based projects",
+    "description": "Build and test a CMake based project.",
+    "iconName": "cmake",
+    "categories": ["Continuous integration", "C", "C++"]
+}
