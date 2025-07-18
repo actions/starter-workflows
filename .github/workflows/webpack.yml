@@ -1,5 +1,8 @@
 name: NodeJS with Webpack
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [ "main" ]
