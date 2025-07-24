@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Bandit Scan
-        uses: reactive-firewall/python-bandit-scan@c8b1d56a3964de4e00e7a820dddb38661a4b7566  # v2.1 - c8b1d56a3964de4e00e7a820dddb38661a4b7566
+        uses: reactive-firewall/python-bandit-scan@c56ff8d84b6e111989d803bbd884a7969363332c # v2.3 c56ff8d84b6e111989d803bbd884a7969363332c
         with: # optional arguments
           # exit with 0, even with results found - remove or set to false to fail on results when found.
           exit_zero: true # optional, default is DEFAULT
