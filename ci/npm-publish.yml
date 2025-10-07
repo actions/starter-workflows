@@ -7,6 +7,11 @@ on:
   release:
     types: [created]
 
+permissions:
+  contents: read
+  # IMPORTANT: this permission is mandatory for trusted publishing
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,7 +32,10 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
+      # Ensure npm 11.5.1 or later is installed
+      - name: Update npm
+        run: npm install -g npm@latest
       - run: npm ci
+      # It is recommend to publish to npm using trusted publishing; for details,
+      # see: https://docs.npmjs.com/trusted-publishers
       - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
