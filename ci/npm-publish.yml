@@ -39,3 +39,8 @@ jobs:
       # It is recommend to publish to npm using trusted publishing; for details,
       # see: https://docs.npmjs.com/trusted-publishers
       - run: npm publish
+      # If you are unable to use trusted publishing, you can uncomment the lines
+      # below to publish with a npm granular access token that you manage; for
+      # details, see: https://docs.npmjs.com/about-access-tokens
+      #  env:
+      #    NODE_AUTH_TOKEN: ${{secrets.npm_token}}
