@@ -36,8 +36,8 @@ jobs:
       - name: Update npm
         run: npm install -g npm@latest
       - run: npm ci
-      # It is recommend to publish to npm using trusted publishing; for details,
-      # see: https://docs.npmjs.com/trusted-publishers
+      # It is recommended to publish to npm using trusted publishing; for
+      # details, see: https://docs.npmjs.com/trusted-publishers
       - run: npm publish
       # If you are unable to use trusted publishing, you can uncomment the lines
       # below to publish with a npm granular access token that you manage; for
