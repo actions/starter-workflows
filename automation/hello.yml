@@ -1,0 +1,13 @@
+name: Exemple Hello World
+
+on: [push]
+
+jobs:
+  hello_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du dépôt
+        uses: actions/checkout@v4
+
+      - name: Afficher un message
+        run: echo "Hello, GitHub Actions !"
