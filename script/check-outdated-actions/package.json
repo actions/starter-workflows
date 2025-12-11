@@ -1,0 +1,19 @@
+{
+    "name": "check-outdated-actions",
+    "version": "1.0.0",
+    "main": "index.ts",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "github/c2c-actions-experience",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/js-yaml": "^4.0.9",
+        "@types/node": "^20.9.0",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.7.2"
+    },
+    "dependencies": {
+        "js-yaml": "^4.1.0"
+    }
+}
