@@ -43,7 +43,7 @@ jobs:
 
         # For Snyk Open Source you must first set up the development environment for your application's dependencies
         # For example for Node
-        #- uses: actions/setup-node@v4
+        #- uses: actions/setup-node@v6
         #  with:
         #    node-version: 20
 
