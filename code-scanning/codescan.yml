@@ -31,7 +31,7 @@ jobs:
             -   name: Checkout repository
                 uses: actions/checkout@v6
             -   name: Cache files
-                uses: actions/cache@v4
+                uses: actions/cache@v5
                 with:
                     path: |
                         ~/.sonar
