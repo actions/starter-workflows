@@ -59,7 +59,7 @@ jobs:
 
     steps:
       - name: Retrieve release distributions
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: release-dists
           path: dist/
