@@ -43,7 +43,7 @@ jobs:
     #     creds: ${{ secrets.AZURE_RBAC_CREDENTIALS }} # set up AZURE_RBAC_CREDENTIALS secrets in your repository
 
     - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v5
       with:
         distribution: ${{ env.DISTRIBUTION }}
         java-version: ${{ env.JAVA_VERSION }}
