@@ -65,7 +65,7 @@ jobs:
 
     steps:
     - name: Download artifact from build job
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v6
       with:
         name: node-app
 
