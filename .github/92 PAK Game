@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Trading Session</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .container {
+            position: relative;
+            z-index: 10;
+        }
+        #loginPage {
+            padding-top: 5%; /* سب کچھ کافی اوپر کیا تاکہ موبائل اور لیپ ٹاپ پر سب دکھائی دے */
+        }
+        #gamePage {
+            display: none;
+            padding-top: 5%;
+        }
+        input[type="password"] {
+            padding: 15px;
+            font-size: 24px;
+            margin: 15px 0;
+            background: #000;
+            border: 3px solid #0f0;
+            color: #0f0;
+            width: 300px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 24px;
+            margin: 10px;
+            background: #000;
+            border: 3px solid #0f0;
+            color: #0f0;
+            cursor: pointer;
+        }
+        a.link-btn {
+            display: block;
+            width: 350px;
+            margin: 15px auto; /* مارجن کم کیا تاکہ سب اوپر رہیں */
+            padding: 20px;
+            font-size: 24px;
+            background: #0f0;
+            color: #000;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        #title {
+            font-size: 50px;
+            margin: 20px 0;
+            text-shadow: 0 0 10px #0f0;
+        }
+        #numberBox {
+            padding: 15px;
+            font-size: 30px;
+            width: 300px;
+            background: #000;
+            border: 3px solid #0f0;
+            color: #0f0;
+            margin: 20px auto;
+        }
+        #checkBtn {
+            padding: 20px 40px;
+            font-size: 30px;
+        }
+        #result {
+            font-size: 80px;
+            margin: 40px 0;
+            height: 100px;
+            text-shadow: 0 0 20px;
+        }
+        #feeson {
+            font-size: 50px;
+            margin: 30px 0;
+            color: #0ff;
+        }
+        .big-red { color: #f00; text-shadow: 0 0 20px #f00; }
+        .big-green { color: #0f0; text-shadow: 0 0 20px #0f0; }
+        .small-red { color: #f88; }
+        .small-green { color: #8f8; }
+    </style>
+</head>
+<body>
+
+    <canvas id="matrix"></canvas>
+
+    <div id="loginPage" class="container">
+        <h1 style="font-size:48px; color:#0f0;">Enter Password</h1>
+        <input type="password" id="password" placeholder="Password">
+        <br>
+        <button onclick="checkPassword()">Submit</button>
+
+        <a href="https://whatsapp.com/channel/YOUR_WHATSAPP_LINK" class="link-btn" target="_blank">Join WhatsApp Channel</a>
+        <a href="https://your-game-link.com" class="link-btn" target="_blank">Play Game</a>
+        <a href="https://www.youtube.com/@YOUR_YOUTUBE_CHANNEL" class="link-btn" target="_blank">YouTube Channel</a>
+    </div>
+
+    <div id="gamePage" class="container">
+        <div id="title">Color Trading Session Live</div>
+        
+        <input type="text" id="numberBox" placeholder="Enter any numbers here (e.g. 3 4 8)">
+        
+        <button id="checkBtn" onclick="generateResult()">Check Result</button>
+        
+        <div id="result">Press Button</div>
+        
+        <div id="feeson">Feeson: <span id="feesonNum">0</span></div>
+    </div>
+
+    <script>
+        // Matrix Rain Background
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const matrix = "0123456789";
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0f0';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrix[Math.floor(Math.random() * matrix.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        setInterval(draw, 35);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Password Check
+        function checkPassword() {
+            const pass = document.getElementById('password').value;
+            if (pass === '575758') {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('gamePage').style.display = 'block';
+            } else {
+                alert('Wrong Password!');
+            }
+        }
+
+        // Generate Result
+        function generateResult() {
+            const results = [
+                {text: 'BIG RED', class: 'big-red'},
+                {text: 'BIG GREEN', class: 'big-green'},
+                {text: 'SMALL RED', class: 'small-red'},
+                {text: 'SMALL GREEN', class: 'small-green'}
+            ];
+            const randomResult = results[Math.floor(Math.random() * results.length)];
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = randomResult.text;
+            resultDiv.className = randomResult.class;
+
+            const feeson = Math.floor(Math.random() * 100) + 1;
+            document.getElementById('feesonNum').textContent = feeson;
+        }
+    </script>
+
+</body>
+</html>
