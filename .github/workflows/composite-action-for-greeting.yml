@@ -1,4 +1,4 @@
-name: Test Composite Action
+name: Composite action for greeting
 on: [push, workflow_dispatch]
 
 jobs:
