@@ -1,0 +1,13 @@
+name: 'Composite action for greeting'
+description: 'Greets the user using a composite shell step'
+inputs:
+  user_name:
+    description: 'The name of the person to greet'
+    required: true
+    default: 'World'
+runs:
+  using: 'composite'
+  steps:
+    - name: Print Greeting
+      run: echo "Hello ${{ inputs.user_name }}"
+      shell: bash
