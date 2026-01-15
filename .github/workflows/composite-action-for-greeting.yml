@@ -1,0 +1,14 @@
+name: Test Composite Action
+on: [push, workflow_dispatch]
+
+jobs:
+  greet_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run Greeting
+        uses: ./
+        with:
+          user_name: 'Gemini User'
