@@ -9,6 +9,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Greeting
-        uses: ./
+        uses: test-edship-org/github-actions-starter@main
         with:
           user_name: 'Gemini User'
