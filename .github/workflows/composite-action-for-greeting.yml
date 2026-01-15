@@ -1,5 +1,13 @@
 name: Composite action for greeting
-on: [push, workflow_dispatch]
+on:
+  # This adds the "Run workflow" button and the input popup
+  workflow_dispatch:
+    inputs:
+      user_name:
+        description: 'Who should I greet?'
+        required: true
+        default: 'World'
+        type: string
 
 jobs:
   greet_job:
