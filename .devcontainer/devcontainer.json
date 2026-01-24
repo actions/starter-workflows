@@ -1,0 +1,52 @@
+{
+  "name": "Starter Workflows Dev Container",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/node:18": {
+      "version": "18"
+    }
+  },
+  
+  "containerEnv": {
+    "NODE_ENV": "development"
+  },
+  
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "GitHub.copilot",
+        "GitHub.vscode-github-actions",
+        "ms-vscode.makefile-tools",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint"
+      ],
+      "settings": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": true
+        }
+      }
+    }
+  },
+  
+  "postCreateCommand": "npm install",
+  
+  "remoteUser": "vscode",
+  
+  "forwardPorts": [3000, 8080],
+  
+  "portsAttributes": {
+    "3000": {
+      "label": "Application",
+      "onAutoForward": "notify"
+    },
+    "8080": {
+      "label": "API Server",
+      "onAutoForward": "notify"
+    }
+  }
+}
