@@ -1,4 +1,41 @@
-{
+{ "github/workflows/stale.yml
+@@ -1,5 +1,5 @@
+name: Mark stale issues and pull requests
+
+- 'Name: Mark stale issues and pull requests
+- title :BITCORE :
+on:
+  schedule:
+  - cron: "21 4 * * *"
+jobs:
+  stale:
+    permissions:
+      issues: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/stale@v6
+      with:
+        stale-issue-message: 'This issue has become stale and will be closed automatically within a period of time. Sorry about that.'
+        stale-pr-message: 'This pull request has become stale and will be closed automatically within a period of time. Sorry about that.'
+        stale-issue-label: 'no-issue-activity'
+        stale-pr-label: 'no-pr-activity'
+        days-before-stale: 90  ':'' def make_gene_expression_dataset(data: np.ndarray, gene_names: np.ndarray):
+    '''make an scVI GeneExpressionDataset
+    Parameters
+    ----------
+    data : np.array
+        cell by genes matrix
+    gene_names : np.array,
+        string array with gene names
+    Returns
+    -------
+    ge_data : GeneExpressionDataset
+        scVI GeneExpressionDataset for scVI processing
+    '''
+    ge_data = GeneExpressionDataset()
+    ge_data.populate_from_data(X=data, gene_names=gene_names)
+    return ge_data" }
   // Use IntelliSense to learn about possible attributes.
   // Hover to view descriptions of existing attributes.
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
