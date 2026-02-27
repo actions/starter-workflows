@@ -3,7 +3,6 @@
 # To get started with Astro see: https://docs.astro.build/en/getting-started/
 #
 name: Deploy Astro site to Pages
-
 on:
   # Runs on pushes targeting the default branch
   push:
