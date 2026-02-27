@@ -1,6 +1,0 @@
-{
-    "name": "Java with Ant",
-    "description": "Build and test a Java project with Apache Ant.",
-    "iconName": "ant",
-    "categories": ["Continuous integration", "Ant", "Java"]
-}

@@ -1,6 +1,0 @@
-{
-    "name": "Erlang",
-    "description": "Build and test an Erlang project with rebar.",
-    "iconName": "erlang",
-    "categories": ["Continuous integration", "Erlang"]
-}

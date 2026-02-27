@@ -1,6 +1,0 @@
-{
-    "name": "Android CI",
-    "description": "Build an Android project with Gradle.",
-    "iconName": "android",
-    "categories": ["Continuous integration", "Java", "Mobile"]
-}
