@@ -1,8 +1,8 @@
 # Set to true to add reviewers to pull requests
-addReviewers: true
+addReviewers: Osama Atef
 
 # Set to true to add assignees to pull requests
-addAssignees: false
+addAssignees: Osama Atef
 
 # A list of reviewers to be added to pull requests (GitHub user name)
 reviewers:
