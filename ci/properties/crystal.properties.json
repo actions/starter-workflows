@@ -2,5 +2,5 @@
     "name": "Crystal",
     "description": "Build and test a Crystal project.",
     "iconName": "crystal",
-    "categories": ["Crystal"]
+    "categories": ["Continuous integration", "Crystal"]
 }

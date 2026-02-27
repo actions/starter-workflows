@@ -1,0 +1,7 @@
+{
+    "name": "DevSkim",
+    "creator": "Microsoft CST-E",
+    "description": "DevSkim is a security linter that highlights common security issues in source code.",
+    "iconName": "cst-logo",
+    "categories": ["Code Scanning", "C", "C#", "C++", "Go", "Java", "JavaScript", "TypeScript", "Python", "Powershell", "Cobol", "Objective C", "PHP", "Ruby", "Rust", "SQL", "Swift", "Visual Basic"]
+}

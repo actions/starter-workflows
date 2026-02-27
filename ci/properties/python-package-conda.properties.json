@@ -1,0 +1,6 @@
+{
+    "name": "Python Package using Anaconda",
+    "description": "Create and test a Python package on multiple Python versions using Anaconda for package management.",
+    "iconName": "python",
+    "categories": ["Continuous integration", "Python"]
+}

@@ -1,0 +1,6 @@
+{
+    "name": "Webpack",
+    "description": "Build a NodeJS project with npm and webpack.",
+    "iconName": "webpack",
+    "categories": ["Continuous integration", "JavaScript", "TypeScript", "npm", "Webpack"]
+}

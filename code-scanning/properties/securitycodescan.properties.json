@@ -1,0 +1,7 @@
+{
+    "name": "SecurityCodeScan",
+    "creator": "@security-code-scan",
+    "description": "Vulnerability Patterns Detector for C# and VB.NET",
+    "iconName": "securitycodescan",
+    "categories": ["Code Scanning", "C#", "Visual Basic .NET"]
+}

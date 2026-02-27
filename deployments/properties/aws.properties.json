@@ -1,0 +1,7 @@
+{
+    "name": "Deploy to Amazon ECS",
+    "description": "Deploy a container to an Amazon ECS service powered by AWS Fargate or Amazon EC2.",
+    "creator": "Amazon Web Services",
+    "iconName": "aws",
+    "categories": ["Deployment", "Dockerfile"]
+}

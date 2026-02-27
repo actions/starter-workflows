@@ -1,0 +1,7 @@
+{
+    "name": "Fortify Scan",
+    "creator": "OpenText",
+    "description": "Integrate Fortify's comprehensive static code analysis (SAST) for 33+ languages into your DevSecOps workflows.",
+    "iconName": "fortify",
+    "categories": ["Code Scanning", "ABAP", "ActionScript", "Bicep", "Apex", "C#", "C", "C++", "COBOL", "ColdFusion", "Dockerfile", "Dart", "Go", "HCL", "HTML", "Java", "JavaScript", "JSON", "Java Server Pages", "Kotlin", "MXML", "Objective-C", "PHP", "PLSQL", "Python", "Ruby", "Scala", "Solidity", "Swift", "TSQL", "TypeScript", "VBScript", "Visual Basic .NET", "Visual Basic", "XML", "YAML"]
+}

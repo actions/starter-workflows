@@ -1,0 +1,7 @@
+{
+    "name": "Synopsys Action",
+    "creator": "Synopsys",
+    "description": "The Synopsys GitHub Action allows you to configure your pipeline to run Synopsys security testing and take action on the security results",
+    "iconName": "synopsys-action",
+    "categories": ["Code Scanning", "C", "C++", "C#", "Go", "Java", "JavaScript", "Ruby", "PHP", "Swift", "Kotlin" , "Python", "VB.NET", "Objective C"]
+}

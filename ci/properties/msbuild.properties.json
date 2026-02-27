@@ -1,0 +1,6 @@
+{
+    "name": "MSBuild based projects",
+    "description": "Build a MSBuild based project.",
+    "iconName": "c-cpp",
+    "categories": ["Continuous integration", "C", "C++"]
+}

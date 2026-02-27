@@ -1,0 +1,7 @@
+{
+    "name": "Flawfinder",
+    "creator": "David A. Wheeler",
+    "description": "Flawfinder is a simple program that scans C/C++ source code and reports potential security flaws.",
+    "iconName": "flawfinder",
+    "categories": [ "Code Scanning", "C", "C++" ]
+}

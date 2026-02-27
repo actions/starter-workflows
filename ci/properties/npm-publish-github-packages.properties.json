@@ -1,0 +1,6 @@
+{
+    "name": "Publish Node.js Package to GitHub Packages",
+    "description": "Publishes a Node.js package to GitHub Packages.",
+    "iconName": "node-package-transparent",
+    "categories": ["Continuous integration", "JavaScript", "npm"]
+}

@@ -1,0 +1,7 @@
+{
+    "name": "PSScriptAnalyzer",
+    "creator": "Microsoft Corporation",
+    "description": "A static code checker for PowerShell modules and scripts. PSScriptAnalyzer checks the quality of PowerShell code by running a set of rules.",
+    "iconName": "powershell",
+    "categories": ["Code Scanning", "PowerShell"]
+}

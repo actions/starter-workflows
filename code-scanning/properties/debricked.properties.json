@@ -1,0 +1,19 @@
+{
+  "name": "Debricked Scan",
+  "creator": "OpenText",
+  "description": "Integrate with Debricked's state of the art AI-powered Software Composition Analysis to automate your security.",
+  "iconName": "debricked",
+  "categories": [
+    "Code Scanning",
+    "Python",
+    "JavaScript",
+    "Java",
+    "PHP",
+    "Ruby",
+    "Go",
+    "Rust",
+    "Swift",
+    "C#",
+    "Objective-C"
+  ]
+}

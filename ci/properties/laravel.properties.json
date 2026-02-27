@@ -1,0 +1,10 @@
+{
+    "name": "Laravel",
+    "description": "Test a Laravel project.",
+    "iconName": "php",
+    "categories": [
+        "Continuous integration",
+        "PHP",
+        "Laravel"
+    ]
+}

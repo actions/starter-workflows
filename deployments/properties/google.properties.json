@@ -1,0 +1,7 @@
+{
+    "name": "Build and Deploy to GKE",
+    "description": "Build a docker container, publish it to Google Container Registry, and deploy to GKE.",
+    "creator": "Google Cloud",
+    "iconName": "google-cloud",
+    "categories": ["Deployment", "Dockerfile", "Kubernetes", "Kustomize"]
+}

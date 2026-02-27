@@ -1,0 +1,7 @@
+{
+    "name": "Deploy to AKS with Kompose",
+    "description": "Deploy an application to an Azure Kubernetes Service cluster using Kompose",
+    "creator": "Microsoft Azure",
+    "iconName": "azure",
+    "categories": ["Deployment", "Kompose", "Kubernetes", "Dockerfile"]
+}
