@@ -12,7 +12,6 @@ jobs:
     steps:
     - uses: actions/stale@v3
       with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
         stale-issue-message: 'This issue has become stale and will be closed automatically within a period of time. Sorry about that.'
         stale-pr-message: 'This pull request has become stale and will be closed automatically within a period of time. Sorry about that.'
         stale-issue-label: 'no-issue-activity'

@@ -1,3 +1,8 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
 name: Dart
 
 on:
@@ -10,18 +15,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # Note that this workflow uses the latest stable version of the Dart SDK.
-    # Docker images for other release channels - like dev and beta - are also
-    # available. See https://hub.docker.com/r/google/dart/ for the available
-    # images.
-    container:
-      image:  google/dart:latest
-
     steps:
       - uses: actions/checkout@v2
 
-      - name: Print Dart SDK version
-        run: dart --version
+      # Note: This workflow uses the latest stable version of the Dart SDK.
+      # You can specify other versions if desired, see documentation here:
+      # https://github.com/dart-lang/setup-dart/blob/main/README.md
+      # - uses: dart-lang/setup-dart@v1
+      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
 
       - name: Install dependencies
         run: dart pub get

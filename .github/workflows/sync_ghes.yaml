@@ -14,7 +14,7 @@ jobs:
         git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
         git config user.email "cschleiden@github.com"
         git config user.name "GitHub Actions"
-    - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v2
       with:
         node-version: '12'
     - name: Check starter workflows for GHES compat
