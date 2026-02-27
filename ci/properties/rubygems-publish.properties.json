@@ -1,0 +1,6 @@
+{
+    "name": "Ruby Gem Publish",
+    "description": "Publishes a Ruby Gem to RubyGems and GitHub Packages.",
+    "iconName": "ruby-gems",
+    "categories": ["Ruby", "SDLC"]
+}
