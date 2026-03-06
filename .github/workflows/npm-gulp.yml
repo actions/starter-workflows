@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ "main" ]
 
-jobs:
+jobs:[![NodeJS with Gulp](https://github.com/Apostles1/Apostles-white-horse/actions/workflows/npm-gulp.yml/badge.svg?event=workflow_run)](https://github.com/Apostles1/Apostles-white-horse/actions/workflows/npm-gulp.yml)
   build:
     runs-on: ubuntu-latest
 
