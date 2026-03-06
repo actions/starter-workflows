@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "hexstrike-ai": {
+      "command": "node",
+      "args": [
+        "C:\\users\\nilhem\\hexstrike-ai\\mcp-server\\index.js"
+      ],
+      "env": {
+        "HEXSTRIKE_ROOT": "C:\\users\\nilhem\\hexstrike-ai"
+      }
+    },
+    "hexstrike-filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "C:\\users\\nilhem\\hexstrike-ai"
+      ]
+    }
+  }
+}
