@@ -1,0 +1,7 @@
+{
+    "name": "CrowdStrike FCS Container Image Scanning",
+    "creator": "CrowdStrike",
+    "description": "Detect vulnerabilities in your container images and surface the issues in GitHub code scanning with CrowdStrike Falcon Cloud Security.",
+    "iconName": "crowdstrike",
+    "categories": ["Code Scanning", "dockerfile"]
+}
