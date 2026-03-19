@@ -1,3 +1,6 @@
 {
-    "github.copilot.chat.getSearchViewResultsSkill.enabled": true
+    "github.copilot.chat.getSearchViewResultsSkill.enabled": true,
+    "githubPullRequests.ignoredPullRequestBranches": [
+        "main"
+    ]
 }
