@@ -1,0 +1,7 @@
+{
+    "name": "Gitleaks",
+    "creator": "Gitleaks",
+    "description": "Detect hardcoded secrets like passwords, API keys, and tokens in your Git repository using Gitleaks.",
+    "iconName": "octicon key",
+    "categories": ["Code Scanning", "Security"]
+}
