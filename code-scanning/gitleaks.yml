@@ -35,9 +35,14 @@ jobs:
 
       - name: Checkout code (full history for scheduled scan)
         if: github.event_name == 'schedule'
+        if: github.event_name != 'schedule'
+        uses: actions/checkout@v4
+
+      - name: Checkout code (full history for scheduled scan)
+        if: github.event_name == 'schedule'
         uses: actions/checkout@v4
         with:
-          # Fetch full history so Gitleaks can scan all commits, not just HEAD
+          # Fetch full history so Gitleaks can scan all commits during scheduled scans
           fetch-depth: 0
 
       - name: Run Gitleaks
