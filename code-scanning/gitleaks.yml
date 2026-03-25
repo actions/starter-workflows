@@ -16,7 +16,7 @@ on:
     # The branches below must be a subset of the branches above
     branches: [ $default-branch ]
   schedule:
-    - cron: $cron-daily
+    - cron: $cron-weekly
 
 permissions:
   contents: read
