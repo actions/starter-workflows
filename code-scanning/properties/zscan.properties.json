@@ -1,0 +1,14 @@
+{
+    "name": "zScan",
+    "creator": "Zimperium",
+    "description": "The zimperium-zscan GitHub action scans your mobile app binary (iOS or Android) and identifies security, privacy, and compliance-related vulnerabilities. ​",
+    "iconName": "zscan",
+    "categories": [
+        "Code Scanning",
+        "Java",
+        "Kotlin",
+        "Scala",
+        "Swift",
+        "Objective C"
+    ]
+}

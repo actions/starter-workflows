@@ -1,0 +1,60 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+#
+# SOOS is the easy-to-integrate and affordable software security solution for your whole team.
+#
+# Learn more at https://soos.io/
+#
+# To use this action, perform the following steps:
+#
+# 1. Create an account on https://app.soos.io. SOOS offers a free 30 day trial for our SCA, DAST, and SBOM products.
+#
+# 2. Navigate to the "Integrate" page in the SOOS app (https://app.soos.io/integrate/dast/). Note the "API Credentials" section of this page; the keys you will need for the next step are here.
+#
+# 3. Set up your SOOS API Key and SOOS Client Id as Github Secrets named SOOS_API_KEY and SOOS_CLIENT_ID.
+#
+# 4. (Optional) If you'd like to upload SARIF results of DAST scans to GitHub, set SOOS_GITHUB_PAT with your Github Personal Access Token.
+#
+#  Check for the latest version here: https://github.com/marketplace/actions/soos-dast
+
+name: "SOOS DAST Scan"
+
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  soos:
+    permissions:
+      security-events: write # for uploading code scanning alert info
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+    name: SOOS DAST Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run SOOS DAST Analysis
+        uses: soos-io/soos-dast-github-action@a7eb40b94c1c81eb76b178ba1befdc21823f86fa
+        with:
+          client_id: ${{ secrets.SOOS_CLIENT_ID }}
+          api_key: ${{ secrets.SOOS_API_KEY }}
+          project_name: "<YOUR-PROJECT-NAME>"
+          scan_mode: "baseline"
+          target_url: "https://www.example.com/"
+          export_format: "Sarif"
+          export_file_type: "Json"
+      - name: Find and rename SARIF file since it is unique
+        run: |
+          file=$(find . -name "*.sarif.json" | head -n 1)
+          if [ -n "$file" ]; then
+            mv "$file" output.sarif.json
+            echo "Renamed $file to output.sarif.json"
+          else
+            echo "No SARIF file found" && exit 1
+          fi
+      - name: Upload SOOS DAST SARIF Report
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: output.sarif.json

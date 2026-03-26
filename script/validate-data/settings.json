@@ -3,12 +3,29 @@
     "../../ci",
     "../../automation",
     "../../deployments",
-    "../../code-scanning"
+    "../../code-scanning",
+    "../../pages"
   ],
-  "allowed_categories" : [
-    "Continuous integration",
-    "Deployment",
-    "Code Scanning",
-    "Automation"
+  "allowed_categories": [
+    {
+      "path": "../../ci",
+      "categories":  ["Continuous integration"]
+    },
+    {
+      "path": "../../automation",
+      "categories": ["Automation"]
+    },
+    {       
+      "path": "../../deployments",
+      "categories": ["Deployment"]
+    },
+    { 
+      "path": "../../code-scanning",
+      "categories": ["Code Scanning", "Dependency review"]
+    },
+    { 
+      "path": "../../pages",
+      "categories": ["Pages"]
+    }
   ]
 }

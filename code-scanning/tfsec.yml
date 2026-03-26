@@ -9,7 +9,7 @@ on:
   push:
     branches: [ $default-branch, $protected-branches ]
   pull_request:
-    branches: [ $default-branch ]  
+    branches: [ $default-branch ]
   schedule:
     - cron: $cron-weekly
 
@@ -24,15 +24,15 @@ jobs:
 
     steps:
       - name: Clone repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Run tfsec
-        uses: tfsec/tfsec-sarif-action@9a83b5c3524f825c020e356335855741fd02745f
+        uses: aquasecurity/tfsec-sarif-action@21ded20e8ca120cd9d3d6ab04ef746477542a608
         with:
-          sarif_file: tfsec.sarif         
+          sarif_file: tfsec.sarif
 
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v1
+        uses: github/codeql-action/upload-sarif@v3
         with:
           # Path to SARIF file relative to the root of the repository
-          sarif_file: tfsec.sarif  
+          sarif_file: tfsec.sarif

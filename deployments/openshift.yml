@@ -54,15 +54,30 @@ env:
 
 on:
   # https://docs.github.com/en/actions/reference/events-that-trigger-workflows
+  workflow_dispatch:
   push:
     # Edit to the branch(es) you want to build and deploy on each push.
     branches: [ $default-branch ]
 
 jobs:
+  # 🖊️ EDIT if you want to run vulnerability check on your project before deploying
+  # the application. Please uncomment the below CRDA scan job and configure to run it in
+  # your workflow. For details about CRDA action visit https://github.com/redhat-actions/crda/blob/main/README.md
+  #
+  # TODO: Make sure to add 'CRDA Scan' starter workflow from the 'Actions' tab.
+  # For guide on adding new starter workflow visit https://docs.github.com/en/github-ae@latest/actions/using-workflows/using-starter-workflows
+
+  #crda-scan:
+  #  uses: ./.github/workflows/crda.yml
+  #  secrets:
+  #    CRDA_KEY: ${{ secrets.CRDA_KEY }}
+  #    # SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}       # Either use SNYK_TOKEN or CRDA_KEY
+
   openshift-ci-cd:
+    # 🖊️ Uncomment this if you are using CRDA scan step above
+    # needs: crda-scan
     name: Build and deploy to OpenShift
-    # ubuntu-20.04 can also be used.
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     environment: production
 
     outputs:
@@ -71,7 +86,7 @@ jobs:
 
     steps:
     - name: Check for required secrets
-      uses: actions/github-script@v4
+      uses: actions/github-script@v6
       with:
         script: |
           const secrets = {
@@ -109,7 +124,7 @@ jobs:
           }
 
     - name: Check out repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Determine app name
       if: env.APP_NAME == ''

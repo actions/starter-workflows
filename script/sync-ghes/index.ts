@@ -21,6 +21,8 @@ interface WorkflowProperties {
   categories: string[] | null;
 
   creator?: string;
+
+  enterprise?: boolean;
 }
 
 interface WorkflowsCheckResult {
@@ -59,6 +61,7 @@ async function checkWorkflows(
 
         const enabled =
           !isPartnerWorkflow &&
+          (workflowProperties.enterprise === true || basename(folder) !== 'code-scanning') &&
           (await checkWorkflow(workflowFilePath, enabledActions));
 
         const workflowDesc: WorkflowDesc = {
@@ -153,12 +156,21 @@ async function checkWorkflow(
     await exec("git", ["checkout", "ghes"]);
 
     // In order to sync from main, we might need to remove some workflows, add some
-    // and modify others. The lazy approach is to delete all workflows first, and then
+    // and modify others. The lazy approach is to delete all workflows first (except from read-only folders), and then
     // just bring the compatible ones over from the main branch. We let git figure out
     // whether it's a deletion, add, or modify and commit the new state.
     console.log("Remove all workflows");
     await exec("rm", ["-fr", ...settings.folders]);
     await exec("rm", ["-fr", "../../icons"]);
+
+    // Bring back the read-only folders
+    console.log("Restore read-only folders");
+    for (let i = 0; i < settings.readOnlyFolders.length; i++) {
+      await exec("git", [
+        "checkout",
+        settings.readOnlyFolders[i]
+      ]);
+    }
 
     console.log("Sync changes from main for compatible workflows");
     await exec("git", [
@@ -168,10 +180,13 @@ async function checkWorkflow(
       ...Array.prototype.concat.apply(
         [],
         result.compatibleWorkflows.map((x) => {
-          const r = [
-            join(x.folder, `${x.id}.yml`),
-            join(x.folder, "properties", `${x.id}.properties.json`),
-          ];
+          const r = [];
+
+          // Don't touch read-only folders
+          if (!settings.readOnlyFolders.includes(x.folder)) {
+            r.push(join(x.folder, `${x.id}.yml`));
+            r.push(join(x.folder, "properties", `${x.id}.properties.json`));
+          };
 
           if (x.iconType === "svg") {
             r.push(join("../../icons", `${x.iconName}.svg`));
@@ -181,6 +196,27 @@ async function checkWorkflow(
         })
       ),
     ]);
+
+    // The v4 versions of upload and download artifact are not yet supported on GHES
+    console.group("Updating all compatible workflows to use v3 of the artifact actions");
+    for (const workflow of result.compatibleWorkflows) {
+      const path = join(workflow.folder, `${workflow.id}.yml`);
+      console.log(`Updating ${path}`);
+      const contents = await fs.readFile(path, "utf8");
+
+      if (contents.includes("actions/upload-artifact@v4") || contents.includes("actions/download-artifact@v4")) {
+        console.log("Found v4 artifact actions, updating to v3");
+      } else {
+        continue;
+      }
+
+      let updatedContents = contents.replace(/actions\/upload-artifact@v4/g, "actions/upload-artifact@v3");
+      updatedContents = updatedContents.replace(/actions\/download-artifact@v4/g, "actions/download-artifact@v3");
+
+      await fs.writeFile(path, updatedContents);
+    }
+    console.groupEnd();
+
   } catch (e) {
     console.error("Unhandled error while syncing workflows", e);
     process.exitCode = 1;
