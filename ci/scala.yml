@@ -27,6 +27,8 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: 'sbt'
+    - name: Set up sbt launcher
+      uses: sbt/setup-sbt@v1
     - name: Run tests
       run: sbt test
       # Optional: This step uploads information to the GitHub dependency graph and unblocking Dependabot alerts for the repository
