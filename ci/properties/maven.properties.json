@@ -1,6 +1,6 @@
 {
-    "name": "Maven",
+    "name": "Java with Maven",
     "description": "Build and test a Java project with Apache Maven.",
     "iconName": "maven",
-    "categories": ["Java", "Maven"]
+    "categories": ["Continuous integration", "Java", "Maven", "Spring", "JSF"]
 }

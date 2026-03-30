@@ -1,0 +1,7 @@
+{
+    "name": "Pyre",
+    "creator": "Meta",
+    "description": "Pyre is a performant type checker for Python compliant with PEP 484. Pyre can analyze codebases with millions of lines of code incrementally – providing instantaneous feedback to developers as they write code.",
+    "iconName": "pyre",
+    "categories": ["Code Scanning", "Python"]
+}

@@ -2,5 +2,5 @@
     "name": "Rust",
     "description": "Build and test a Rust project with Cargo.",
     "iconName": "rust",
-    "categories": ["Rust"]
+    "categories": ["Continuous integration", "Rust"]
 }

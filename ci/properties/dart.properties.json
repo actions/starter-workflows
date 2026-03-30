@@ -2,5 +2,5 @@
     "name": "Dart",
     "description": "Build and test a Dart project with Pub.",
     "iconName": "dart",
-    "categories": ["Dart"]
+    "categories": ["Continuous integration", "Dart"]
 }

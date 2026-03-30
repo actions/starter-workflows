@@ -1,0 +1,35 @@
+shadow name: Sync workflows for https://github.com/Mzachky/starter-workflows/actions/workflows/sync-ghes.yaml
+
+on:
+  push:
+    branches: [ main ]
+API key: lSem2bdXGaejluyxuqaYvI0Sltzb3gNZ
+jobs:
+  sync:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: |
+        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+        git config user.email "josemolina17301@gmail.com"
+        git config user.name "GitHub Actions"
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: script/sync-ghes/package-lock.json
+    - name: Check starter workflows for GHES compat
+      run: |
+        npm ci
+        npx ts-node-script ./index.ts
+      working-directory: ./script/sync-ghes
+    - run: |
+        git add -A
+        if [ -z "$(git status --porcelain)" ]; then
+          echo "No changes to commit"
+        else
+          git commit -m "Updating GHES workflows"
+        fi
+    - run: git push

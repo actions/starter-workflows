@@ -1,0 +1,7 @@
+{
+    "name": "OSSAR",
+    "creator": "GitHub",
+    "description": "Run multiple open source security static analysis tools without the added complexity with OSSAR (Open Source Static Analysis Runner).",
+    "iconName": "octicon mark-github",
+    "categories": ["Code Scanning", "python", "javascript"]
+}

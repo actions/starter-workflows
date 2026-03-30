@@ -2,5 +2,5 @@
     "name": "Swift",
     "description": "Build and test a Swift Package.",
     "iconName": "swift",
-    "categories": ["Swift"]
+    "categories": ["Continuous integration", "Swift"]
 }

@@ -3,17 +3,20 @@
 #
 # To use this workflow, you will need to set up a .github/labeler.yml
 # file with configuration.  For more information, see:
-# https://github.com/actions/labeler/blob/master/README.md
+# https://github.com/actions/labeler
 
 name: Labeler
-on: [pull_request]
+on: [pull_request_target]
 
 jobs:
   label:
 
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
 
     steps:
-    - uses: actions/labeler@v2
+    - uses: actions/labeler@v4
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"

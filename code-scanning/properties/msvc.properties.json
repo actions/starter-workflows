@@ -1,0 +1,7 @@
+{
+    "name": "Microsoft C++ Code Analysis",
+    "creator": "Microsoft",
+    "description": "Code Analysis with the Microsoft C & C++ Compiler for CMake based projects.",
+    "iconName": "microsoft",
+    "categories": ["Code Scanning", "C", "C++"]
+}
