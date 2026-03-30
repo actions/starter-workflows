@@ -1,90 +1,190 @@
-<p align="center">
-  <img src="https://avatars0.githubusercontent.com/u/44036562?s=100&v=4"/> 
-</p>
+# CardJs
 
-## Starter Workflows
+A simple, clean, credit card form for your website. Includes number formatting, validation and automatic card type detection.
 
-These are the workflow files for helping people get started with GitHub Actions.  They're presented whenever you start to create a new GitHub Actions workflow.
+[View working example >](https://cardjs.co.uk/)
 
-**If you want to get started with GitHub Actions, you can use these starter workflows by clicking the "Actions" tab in the repository where you want to create a workflow.**
+![Example](img/example.png)
 
-<img src="https://d3vv6lp55qjaqc.cloudfront.net/items/353A3p3Y2x3c2t2N0c01/Image%202019-08-27%20at%203.25.07%20PM.png" max-width="75%"/>
 
-### Note
+By [Zara 4 image compression](https://zara4.com) service
 
-Thank you for your interest in this GitHub repo, however, right now we are not taking contributions. 
 
-We continue to focus our resources on strategic areas that help our customers be successful while making developers' lives easier. While GitHub Actions remains a key part of this vision, we are allocating resources towards other areas of Actions and are not taking contributions to this repository at this time. The GitHub public roadmap is the best place to follow along for any updates on features we’re working on and what stage they’re in.
+# Installation
 
-We are taking the following steps to better direct requests related to GitHub Actions, including:
+- Bower: `bower install card-js --save`
+- NPM: `npm install card-js`
+- Zip: [Download](https://github.com/CardJs/CardJs/archive/master.zip)
 
-1. We will be directing questions and support requests to our [Community Discussions area](https://github.com/orgs/community/discussions/categories/actions)
+You will need to include both `card-js.min.js` and `card-js.min.css` into your web page.
 
-2. High Priority bugs can be reported through Community Discussions or you can report these to our support team https://support.github.com/contact/bug-report.
 
-3. Security Issues should be handled as per our [security.md](security.md)
 
-We will still provide security updates for this project and fix major breaking changes during this time.
 
-You are welcome to still raise bugs in this repo.
+# Usage
 
-### Directory structure
+For working examples of using CardJs, see the [examples](examples) folder of this project.
 
-* [ci](ci): solutions for Continuous Integration workflows
-* [deployments](deployments): solutions for Deployment workflows
-* [automation](automation): solutions for automating workflows
-* [code-scanning](code-scanning): solutions for [Code Scanning](https://github.com/features/security)
-* [pages](pages): solutions for Pages workflows
-* [icons](icons): svg icons for the relevant template
+## Automatic Insertion
+Any elements with the class `card-js` will be automatically converted into a basic credit card input with the expiry date and CVC check.
 
-Each workflow must be written in YAML and have a `.yml` extension. They also need a corresponding `.properties.json` file that contains extra metadata about the workflow (this is displayed in the GitHub.com UI).
-
-For example: `ci/django.yml` and `ci/properties/django.properties.json`.
-
-### Valid properties
-
-* `name`: the name shown in onboarding. This property is unique within the repository.
-* `description`: the description shown in onboarding
-* `iconName`: the icon name in the relevant folder, for example, `django` should have an icon `icons/django.svg`. Only SVG is supported at this time. Another option is to use [octicon](https://primer.style/octicons/). The format to use an octicon is `octicon <<icon name>>`. Example: `octicon person`
-* `creator`: creator of the template shown in onboarding. All the workflow templates from an author will have the same `creator` field.
-* `categories`: the categories that it will be shown under. Choose at least one category from the list [here](#categories). Further, choose the categories from the list of languages available [here](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml) and the list of tech stacks available [here](https://github.com/github-starter-workflows/repo-analysis-partner/blob/main/tech_stacks.yml). When a user views the available templates, those templates that match the language and tech stacks will feature more prominently.
-
-### Categories
-* continuous-integration
-* deployment
-* testing
-* code-quality
-* code-review
-* dependency-management
-* monitoring
-* Automation
-* utilities
-* Pages
-* Hugo
-
-### Variables
-These variables can be placed in the starter workflow and will be substituted as detailed below:
-
-* `$default-branch`: will substitute the branch from the repository, for example `main` and `master`
-* `$protected-branches`: will substitute any protected branches from the repository
-* `$cron-daily`: will substitute a valid but random time within the day
-
-## How to test templates before publishing
-
-### Disable template for public
-The template author adds a `labels` array in the template's `properties.json` file with a label `preview`. This will hide the template from users, unless user uses query parameter `preview=true` in the URL.
-Example `properties.json` file:
-```json
-{
-    "name": "Node.js",
-    "description": "Build and test a Node.js project with npm.",
-    "iconName": "nodejs",
-    "categories": ["Continuous integration", "JavaScript", "npm", "React", "Angular", "Vue"],
-    "labels": ["preview"]
-}
+The easiest way to get started with CardJs is to insert the snippet of code:
+```html
+<div class="card-js"></div>
 ```
 
-For viewing the templates with `preview` label, provide query parameter `preview=true` to the  `new workflow` page URL. Eg. `https://github.com/<owner>/<repo_name>/actions/new?preview=true`.
+## Manual Insertion
 
-### Enable template for public
-Remove the `labels` array from `properties.json` file to publish the template to public
+If you wish to manually alter the fields used by CardJs to add additional classes or set the input field name or id etc,
+you can pre-populate the form fields as show below.
+
+```html
+<div class="card-js">
+  <input class="card-number my-custom-class" name="card-number">
+  <input class="name" id="the-card-name-id" name="card-holders-name" placeholder="Name on card">
+  <input class="expiry-month" name="expiry-month">
+  <input class="expiry-year" name="expiry-year">
+  <input class="cvc" name="cvc">
+</div>
+```
+
+
+
+
+
+
+# Reading Values
+
+CardJs provides functionality allowing you to read the form field values directly with JavaScript. This can be useful if
+you wish to submit the values via Ajax.
+
+Create a CardJs element and give it a unique id (in this example `my-card`)
+
+```html
+<div class="card-js" id="my-card" data-capture-name="true"></div>
+```
+
+The javascript below demonstrates how to read each value of the form into local variables.
+
+```javascript
+var myCard = $('#my-card');
+
+var cardNumber = myCard.CardJs('cardNumber');
+var cardType = myCard.CardJs('cardType');
+var name = myCard.CardJs('name');
+var expiryMonth = myCard.CardJs('expiryMonth');
+var expiryYear = myCard.CardJs('expiryYear');
+var cvc = myCard.CardJs('cvc');
+```
+
+
+
+
+
+
+# Functions
+
+To call a function on a CardJs element, follow the pattern below.
+Replace the text 'function' with the name of the function you wish to call.
+
+```javascript
+$('#my-card').CardJs('function')
+```
+
+The functions available are listed below:
+
+| Function    | Description                                    |
+| :---------- | :--------------------------------------------- |
+| cardNumber  | Get the card number entered                    |
+| cardType    | Get the type of the card number entered        |
+| name        | Get the name entered                           |
+| expiryMonth | Get the expiry month entered                   |
+| expiryYear  | Get the expiry year entered                    |
+| cvc         | Get the CVC entered                            |
+
+
+
+## CardType Function
+
+The `cardType` function will return one of the following strings based on the card number entered.
+If the card type cannot be determined an empty string will be given instead.
+
+| Card Type              |
+| :--------------------- |
+| AMEX                   |
+| Diners                 |
+| Diners - Carte Blanche |
+| Discover               |
+| JCB                    |
+| Mastercard             |
+| Visa                   |
+| Visa Electron          |
+
+
+
+
+
+# Static functions
+
+If you just want to perform simple operations without the CardJs form, there are a number of static functions provided
+by the CardJs library that are made available.
+
+
+## Card Type from Card Number
+```javascript
+var cardNumber = '4242 4242 4242 4242'; // Spacing is not important
+var cardType = CardJs.cardTypeFromNumber(cardNumber);
+```
+
+## Cleaning and Masking
+```javascript
+// var formatMask = 'XXXX XXXX XXXX XXXX'; // You can manually define an input mask
+// var formatMask = 'XX+X X XXXX XXXX XXXX'; // You can add characters other than spaces to the mask
+var formatMask = CardJs.CREDIT_CARD_NUMBER_VISA_MASK; // Or use a standard mask.
+var cardNumber = '424 2424242 42   42 42';
+var cardNumberWithoutSpaces = CardJs.numbersOnlyString(cardNumber);
+var formattedCardNumber = CardJs.applyFormatMask(cardNumberWithoutSpaces, formatMask);
+```
+
+### Masks
+
+| Variable Name                             | Mask
+| :---------------------------------------- | :------------------ |
+| CardJs.CREDIT_CARD_NUMBER_DEFAULT_MASK    | XXXX XXXX XXXX XXXX |
+| CardJs.CREDIT_CARD_NUMBER_VISA_MASK       | XXXX XXXX XXXX XXXX |
+| CardJs.CREDIT_CARD_NUMBER_MASTERCARD_MASK | XXXX XXXX XXXX XXXX |
+| CardJs.CREDIT_CARD_NUMBER_DISCOVER_MASK   | XXXX XXXX XXXX XXXX |
+| CardJs.CREDIT_CARD_NUMBER_JCB_MASK        | XXXX XXXX XXXX XXXX |
+| CardJs.CREDIT_CARD_NUMBER_AMEX_MASK       | XXXX XXXXXX XXXXX   |
+| CardJs.CREDIT_CARD_NUMBER_DINERS_MASK     | XXXX XXXX XXXX XX   |
+
+
+
+# Card Expiry Validation
+The expiry month can be in the range: 1 = January to 12 = December
+
+```javascript
+var month = 3;
+var year = 2019;
+var valid = CardJs.isExpiryValid(month, year);
+```
+
+The expiry month and year can be either and integer or a string.
+```javascript
+var month = "3";
+var year = "2019";
+var valid = CardJs.isExpiryValid(month, year);
+```
+
+The expiry year can be either 4 digits or 2 digits long.
+```javascript
+var month = "3";
+var year = "19";
+var valid = CardJs.isExpiryValid(month, year);
+```
+
+
+
+# License
+
+CardJs is released under the MIT license. [View license](https://github.com/CardJs/CardJs/blob/master/LICENSE.md)
