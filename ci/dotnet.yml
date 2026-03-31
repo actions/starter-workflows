@@ -9,6 +9,11 @@ on:
   pull_request:
     branches: [ $default-branch ]
 
+# Set minimal required permissions for the workflow.
+# This follows the principle of least privilege and improves security.
+permissions:
+  contents: read
+  
 jobs:
   build:
 
