@@ -2,6 +2,10 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
+#
+# The differences from jekyll-gh-pages.yml are explained at
+#
+# https://jekyllrb.com/docs/continuous-integration/github-actions/
 
 # Sample workflow for building and deploying a Jekyll site to GitHub Pages
 name: Deploy Jekyll site to Pages
