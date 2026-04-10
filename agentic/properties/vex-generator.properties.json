@@ -1,6 +1,0 @@
-{
-  "name": "VEX Generator",
-  "description": "Auto-generate OpenVEX statements for dismissed Dependabot alerts, capturing security assessments in a machine-readable format.",
-  "iconName": "lucide shield-check",
-  "categories": ["Agentic", "Security"]
-}

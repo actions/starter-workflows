@@ -1,6 +1,0 @@
-{
-  "name": "Plan Command",
-  "description": "Break down issues into actionable sub-tasks with /plan command.",
-  "iconName": "lucide clipboard-pen-line",
-  "categories": ["Agentic", "Research & Planning"]
-}

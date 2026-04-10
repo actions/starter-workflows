@@ -1,6 +1,0 @@
-{
-  "name": "Contribution Check",
-  "description": "Regularly review batches of open PRs against contribution guidelines and create prioritized reports.",
-  "iconName": "lucide list-checks",
-  "categories": ["Agentic", "Code Review"]
-}

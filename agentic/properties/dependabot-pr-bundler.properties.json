@@ -1,6 +1,0 @@
-{
-  "name": "Dependabot PR Bundler",
-  "description": "Create pull requests to bundle together as many dependabot updates as possible.",
-  "iconName": "lucide git-pull-request",
-  "categories": ["Agentic", "Dependency Management"]
-}

@@ -1,6 +1,0 @@
-{
-  "name": "Contribution Guidelines Checker",
-  "description": "Review pull requests for compliance with contribution guidelines.",
-  "iconName": "lucide badge-check",
-  "categories": ["Agentic", "Code Review"]
-}

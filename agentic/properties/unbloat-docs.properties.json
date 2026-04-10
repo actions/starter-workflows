@@ -1,6 +1,0 @@
-{
-  "name": "Documentation Unbloat",
-  "description": "Automatically simplify documentation by reducing verbosity while maintaining clarity.",
-  "iconName": "lucide scan-text",
-  "categories": ["Agentic", "Code Improvement"]
-}

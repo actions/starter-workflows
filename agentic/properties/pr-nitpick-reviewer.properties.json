@@ -1,6 +1,0 @@
-{
-  "name": "PR Nitpick Reviewer",
-  "description": "On-demand fine-grained code review focusing on style, conventions, and subtle improvements.",
-  "iconName": "lucide search",
-  "categories": ["Agentic", "Code Review"]
-}

@@ -1,6 +1,0 @@
-{
-  "name": "Lean Squad",
-  "description": "Progressively apply Lean 4 formal verification to your codebase: research targets, extract specs, write Lean propositions, translate implementations, and attempt proofs — finding bugs or issuing stamps of confidence.",
-  "iconName": "lucide sigma",
-  "categories": ["Agentic", "Formal Verification"]
-}

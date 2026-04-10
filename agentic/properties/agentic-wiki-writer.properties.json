@@ -1,6 +1,0 @@
-{
-  "name": "Agentic Wiki Writer",
-  "description": "Automatically generate and maintain GitHub wiki pages from source code.",
-  "iconName": "lucide notebook-pen",
-  "categories": ["Agentic", "Code Improvement"]
-}

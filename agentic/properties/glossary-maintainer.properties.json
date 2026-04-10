@@ -1,6 +1,0 @@
-{
-  "name": "Glossary Maintainer",
-  "description": "Automatically maintain project glossary based on codebase changes.",
-  "iconName": "lucide library",
-  "categories": ["Agentic", "Code Improvement"]
-}
