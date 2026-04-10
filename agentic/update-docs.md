@@ -25,7 +25,7 @@ tools:
   github:
     toolsets: [all]
   web-fetch:
-  # By default this workflow allows all bash commands within the confine of Github Actions VM 
+  # By default this workflow allows all bash commands within the confines of GitHub Actions VM 
   bash: true
 
 timeout-minutes: 15
