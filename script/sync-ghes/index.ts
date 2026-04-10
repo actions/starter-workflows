@@ -30,6 +30,19 @@ interface WorkflowsCheckResult {
   incompatibleWorkflows: WorkflowDesc[];
 }
 
+function normalizeSvgIconName(iconName?: string): string | undefined {
+  if (!iconName || iconName.startsWith("octicon")) {
+    return iconName;
+  }
+
+  if (iconName.startsWith("lucide ")) {
+    const lucideName = iconName.slice("lucide ".length).split(".")[0].trim();
+    return lucideName ? `lucide-${lucideName}` : undefined;
+  }
+
+  return iconName;
+}
+
 async function checkWorkflows(
   folders: string[],
   enabledActions: string[],
@@ -56,6 +69,7 @@ async function checkWorkflows(
           `${workflowId}.properties.json`
         ));
         const iconName: string | undefined = workflowProperties["iconName"];
+        const normalizedSvgIconName = normalizeSvgIconName(iconName);
 
         const isPartnerWorkflow = workflowProperties.creator ? partnersSet.has(workflowProperties.creator.toLowerCase()) : false;
 
@@ -67,7 +81,7 @@ async function checkWorkflows(
         const workflowDesc: WorkflowDesc = {
           folder,
           id: workflowId,
-          iconName,
+          iconName: normalizedSvgIconName,
           iconType:
             iconName && iconName.startsWith("octicon") ? "octicon" : "svg",
         };
@@ -192,7 +206,7 @@ async function checkWorkflow(
             r.push(
               join(
                 "../../icons",
-                `${x.iconName && x.iconName.startsWith("lucide ") ? `lucide-${x.iconName.slice("lucide ".length).trim()}` : x.iconName}.svg`
+                `${x.iconName}.svg`
               )
             );
           }
