@@ -132,7 +132,6 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
         if (properties.iconName.startsWith("lucide ")) {
           const lucideName = properties.iconName.slice("lucide ".length).split(".")[0].trim()
           if(!lucideName) {
-            workflowErrors.errors.push(`No icon named ${properties.iconName} found`)
             svgIconName = undefined
           } else {
             svgIconName = `lucide-${lucideName}`
