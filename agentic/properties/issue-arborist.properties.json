@@ -1,0 +1,6 @@
+{
+  "name": "Issue Arborist",
+  "description": "Automatically organize issues by linking related issues as parent-child sub-issues.",
+  "iconName": "lucide tree-pine",
+  "categories": ["Agentic", "Issue Management"]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Grumpy Reviewer",
+  "description": "On-demand opinionated code review by a grumpy but thorough senior developer.",
+  "iconName": "lucide angry",
+  "categories": ["Agentic", "Code Review"]
+}

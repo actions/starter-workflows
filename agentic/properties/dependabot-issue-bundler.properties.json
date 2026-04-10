@@ -1,0 +1,6 @@
+{
+  "name": "Dependabot Issue Bundler",
+  "description": "Create issues that group together dependabot updates related to the same ecosystem.",
+  "iconName": "lucide package-search",
+  "categories": ["Agentic", "Dependency Management"]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Daily Malicious Code Scan",
+  "description": "Daily scan of recent code changes for suspicious patterns indicating malicious activity or supply chain attacks.",
+  "iconName": "lucide shield-alert",
+  "categories": ["Agentic", "Security"]
+}

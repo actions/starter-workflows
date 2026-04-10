@@ -1,0 +1,6 @@
+{
+  "name": "Discussion Task Miner",
+  "description": "Extract actionable improvement tasks from GitHub Discussions and create tracked issues.",
+  "iconName": "lucide messages-square",
+  "categories": ["Agentic", "Research & Planning"]
+}

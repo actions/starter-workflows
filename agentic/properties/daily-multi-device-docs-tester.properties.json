@@ -1,0 +1,6 @@
+{
+  "name": "Multi-Device Docs Tester",
+  "description": "Test documentation sites across mobile, tablet, and desktop viewports for responsive layout and interaction issues.",
+  "iconName": "lucide monitor-smartphone",
+  "categories": ["Agentic", "Quality Review"]
+}

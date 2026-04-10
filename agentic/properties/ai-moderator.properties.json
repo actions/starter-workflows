@@ -1,0 +1,6 @@
+{
+  "name": "AI Moderator",
+  "description": "Automatically detect and moderate spam, link spam, and AI-generated content.",
+  "iconName": "lucide shield",
+  "categories": ["Agentic", "Maintainer"]
+}

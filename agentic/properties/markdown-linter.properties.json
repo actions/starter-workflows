@@ -1,0 +1,6 @@
+{
+  "name": "Markdown Linter",
+  "description": "Run Markdown quality checks on all documentation files and get a prioritized issue report of violations.",
+  "iconName": "lucide file-check",
+  "categories": ["Agentic", "Code Improvement"]
+}

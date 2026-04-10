@@ -1,0 +1,6 @@
+{
+  "name": "Repository Quality Improver",
+  "description": "Daily rotating analysis of repository quality across code, documentation, testing, security, and custom dimensions.",
+  "iconName": "lucide chart-column",
+  "categories": ["Agentic", "Code Improvement"]
+}

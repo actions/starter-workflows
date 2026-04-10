@@ -1,0 +1,6 @@
+{
+  "name": "Code Simplifier",
+  "description": "Automatically simplify recently modified code for improved clarity and maintainability.",
+  "iconName": "lucide wand-sparkles",
+  "categories": ["Agentic", "Code Improvement"]
+}

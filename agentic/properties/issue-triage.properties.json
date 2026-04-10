@@ -1,0 +1,6 @@
+{
+  "name": "Issue Triage",
+  "description": "Triage labelling of issues and pull requests and not much more.",
+  "iconName": "lucide tag",
+  "categories": ["Agentic", "Maintainer"]
+}

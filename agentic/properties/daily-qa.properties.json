@@ -1,0 +1,6 @@
+{
+  "name": "Daily Adhoc QA",
+  "description": "Perform adhoc explorative quality assurance tasks.",
+  "iconName": "lucide file-search",
+  "categories": ["Agentic", "Quality Review"]
+}

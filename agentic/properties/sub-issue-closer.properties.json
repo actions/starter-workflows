@@ -1,0 +1,6 @@
+{
+  "name": "Sub-Issue Closer",
+  "description": "Automatically close parent issues when all their sub-issues are complete.",
+  "iconName": "lucide lock",
+  "categories": ["Agentic", "Issue Management"]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Agentic Wiki Coder",
+  "description": "Implement code changes described in GitHub wiki edits.",
+  "iconName": "lucide file-code",
+  "categories": ["Agentic", "Code Improvement"]
+}

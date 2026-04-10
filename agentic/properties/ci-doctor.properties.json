@@ -1,0 +1,6 @@
+{
+  "name": "CI Doctor",
+  "description": "Monitor CI workflows and investigate failures automatically.",
+  "iconName": "lucide stethoscope",
+  "categories": ["Agentic", "Fault Analysis"]
+}

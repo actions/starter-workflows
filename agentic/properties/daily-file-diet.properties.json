@@ -1,0 +1,6 @@
+{
+  "name": "Daily File Diet",
+  "description": "Monitor for oversized source files and create targeted refactoring issues.",
+  "iconName": "lucide dumbbell",
+  "categories": ["Agentic", "Code Improvement"]
+}

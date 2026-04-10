@@ -1,0 +1,6 @@
+{
+  "name": "Link Checker",
+  "description": "Daily automated link checker that finds and fixes broken links in documentation.",
+  "iconName": "lucide link",
+  "categories": ["Agentic", "Code Improvement"]
+}

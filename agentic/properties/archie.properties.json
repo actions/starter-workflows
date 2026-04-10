@@ -1,0 +1,6 @@
+{
+  "name": "Archie",
+  "description": "Generate Mermaid diagrams to visualize issue and pull request relationships with /archie command.",
+  "iconName": "lucide route",
+  "categories": ["Agentic", "Research & Planning"]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Daily Accessibility Review",
+  "description": "Review application accessibility by automatically running and using the application.",
+  "iconName": "lucide accessibility",
+  "categories": ["Agentic", "Quality Review"]
+}
