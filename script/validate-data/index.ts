@@ -91,10 +91,25 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
     
     if (properties.iconName) {
       if(! /^octicon\s+/.test(properties.iconName)) {
-        try {
-          await fs.access(`../../icons/${properties.iconName}.svg`)
-        } catch (e) {
+        let svgIconName: string | undefined = properties.iconName
+        if (properties.iconName.startsWith("lucide ")) {
+          const lucideName = properties.iconName.slice("lucide ".length).split(".")[0].trim()
+          if(!lucideName) {
+            workflowErrors.errors.push(`No icon named ${properties.iconName} found`)
+            svgIconName = undefined
+          } else {
+            svgIconName = `lucide-${lucideName}`
+          }
+        }
+
+        if(!svgIconName) {
           workflowErrors.errors.push(`No icon named ${properties.iconName} found`)
+        } else {
+          try {
+            await fs.access(`../../icons/${svgIconName}.svg`)
+          } catch (e) {
+            workflowErrors.errors.push(`No icon named ${properties.iconName} found`)
+          }
         }
       }
       else {

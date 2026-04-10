@@ -189,7 +189,12 @@ async function checkWorkflow(
           };
 
           if (x.iconType === "svg") {
-            r.push(join("../../icons", `${x.iconName}.svg`));
+            r.push(
+              join(
+                "../../icons",
+                `${x.iconName && x.iconName.startsWith("lucide ") ? `lucide-${x.iconName.slice("lucide ".length).trim()}` : x.iconName}.svg`
+              )
+            );
           }
 
           return r;
