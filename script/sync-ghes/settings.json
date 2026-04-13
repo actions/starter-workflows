@@ -3,7 +3,8 @@
     "../../ci",
     "../../automation",
     "../../code-scanning",
-    "../../pages"
+    "../../pages",
+    "../../agentic"
   ],
   "readOnlyFolders": [
     "../../pages"
