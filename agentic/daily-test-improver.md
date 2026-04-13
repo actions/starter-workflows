@@ -20,7 +20,14 @@ on:
 
 timeout-minutes: 30
 
-permissions: read-all
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+  checks: read
+  actions: read
+  discussions: read
+  security-events: read
 
 network:
   allowed:
@@ -57,7 +64,6 @@ safe-outputs:
 
 tools:
   web-fetch:
-  bash: true
   github:
     toolsets: [all]
   repo-memory: true

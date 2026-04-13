@@ -17,9 +17,11 @@ on:
 # Only trigger for failures - check in the workflow body
 if: ${{ github.event.workflow_run.conclusion == 'failure' }}
 
-permissions: read-all
-
-network: defaults
+permissions:
+  contents: read
+  actions: read
+  issues: read
+  checks: read
 
 safe-outputs:
   create-issue:

@@ -22,8 +22,6 @@ permissions:
 tools:
   github:
     toolsets: [default]
-  edit:
-  bash: true
 
 timeout-minutes: 30
 

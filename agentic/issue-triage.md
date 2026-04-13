@@ -12,9 +12,9 @@ on:
     types: [opened, reopened]
   reaction: eyes
 
-permissions: read-all
-
-network: defaults
+permissions:
+  contents: read
+  issues: read
 
 safe-outputs:
   add-labels:

@@ -16,8 +16,6 @@ permissions:
   issues: read
   pull-requests: read
 
-network: defaults
-
 tools:
   github:
     min-integrity: none # This workflow is allowed to examine and comment on any issues

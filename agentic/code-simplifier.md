@@ -14,7 +14,10 @@ network:
   - rust
   - java
 
-permissions: read-all
+permissions:
+  contents: read
+  pull-requests: read
+  issues: read
 
 tracker-id: code-simplifier
 

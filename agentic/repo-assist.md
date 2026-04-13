@@ -23,7 +23,14 @@ on:
 
 timeout-minutes: 60
 
-permissions: read-all
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+  checks: read
+  actions: read
+  discussions: read
+  security-events: read
 
 network:
   allowed:
@@ -43,7 +50,6 @@ tools:
   github:
     toolsets: [all]
     min-integrity: none # This workflow is allowed to examine and comment on any issues or PRs
-  bash: true
   repo-memory: true
 
 safe-outputs:

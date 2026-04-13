@@ -15,8 +15,6 @@ permissions:
   issues: read
   pull-requests: read
 
-network: defaults
-
 tools:
   github:
     # If in a public repo, setting `lockdown: false` allows

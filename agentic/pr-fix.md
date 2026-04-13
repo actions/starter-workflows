@@ -12,13 +12,15 @@ on:
     name: pr-fix
   reaction: "eyes"
 
-permissions: read-all
-
-network: defaults
+permissions:
+  contents: read
+  pull-requests: read
+  actions: read
+  checks: read
+  issues: read
 
 tools:
   web-fetch:
-  bash: true
   github:
     min-integrity: none # This workflow is allowed to examine any PR because it's invoked by a repo maintainer
 
