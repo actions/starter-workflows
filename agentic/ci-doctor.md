@@ -8,7 +8,7 @@ description: |
 
 on:
   workflow_run:
-    workflows: ["Daily Perf Improver", "Daily Test Coverage Improver"]  # Monitor the CI workflow specifically
+    workflows: ["CI"]  # TODO: Replace with the workflow name(s) you want to monitor
     types:
       - completed
     branches:
