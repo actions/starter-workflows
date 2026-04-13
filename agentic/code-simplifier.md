@@ -18,10 +18,6 @@ permissions: read-all
 
 tracker-id: code-simplifier
 
-imports:
-  - shared/formatting.md
-  - shared/reporting.md
-
 safe-outputs:
   create-pull-request:
     title-prefix: "[code-simplifier] "
