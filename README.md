@@ -48,7 +48,10 @@ For example: `ci/django.yml` and `ci/properties/django.properties.json`, or `age
 
 * `name`: the name shown in onboarding. This property is unique within the repository.
 * `description`: the description shown in onboarding
-* `iconName`: the icon name in the relevant folder, for example, `django` should have an icon `icons/django.svg`. Only SVG is supported at this time. Another option is to use [octicon](https://primer.style/octicons/). The format to use an octicon is `octicon <<icon name>>`. Example: `octicon person`
+* `iconName`: the icon name in the relevant folder, for example, `django` should have an icon `icons/django.svg`. Supported formats:
+  - **Local SVG**: Use the file name without extension (e.g., `django` for `icons/django.svg`)
+  - **Octicon**: Use `octicon <<icon name>>` (e.g., `octicon person`). See [octicons](https://primer.style/octicons/).
+  - **Lucide**: Use `lucide <<icon name>>` (e.g., `lucide bug`). See [lucide icons](https://lucide.dev/icons/).
   Another option is to use [lucide](https://lucide.dev/icons/). The format to use a lucide icon is `lucide <<icon name>>`. Example: `lucide bug`.
 * `creator`: creator of the template shown in onboarding. All the workflow templates from an author will have the same `creator` field.
 * `categories`: the categories that it will be shown under. Choose at least one category from the list [here](#categories). Further, choose the categories from the list of languages available [here](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml) and the list of tech stacks available [here](https://github.com/github-starter-workflows/repo-analysis-partner/blob/main/tech_stacks.yml). When a user views the available templates, those templates that match the language and tech stacks will feature more prominently.
