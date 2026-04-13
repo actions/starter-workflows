@@ -1,4 +1,5 @@
 ---
+name: PR Fix
 description: |
   This workflow makes fixes to pull requests on-demand by the '/pr-fix' command.
   Analyzes failing CI checks, identifies root causes from error logs, implements fixes,

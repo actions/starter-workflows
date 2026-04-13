@@ -1,4 +1,5 @@
 ---
+name: CI Doctor
 description: |
   This workflow is an automated CI failure investigator that triggers when monitored workflows fail.
   Performs deep analysis of GitHub Actions workflow failures to identify root causes,

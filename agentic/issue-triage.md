@@ -1,4 +1,5 @@
 ---
+name: Issue Triage
 description: |
   Intelligent issue triage assistant that processes new and reopened issues.
   Analyzes issue content, selects appropriate labels, detects spam, gathers context

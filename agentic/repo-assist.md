@@ -1,4 +1,5 @@
 ---
+name: Repo Assist
 description: |
   A friendly repository assistant that runs 2 times a day to support contributors and maintainers.
   Can also be triggered on-demand via '/repo-assist <instructions>' to perform specific tasks.
