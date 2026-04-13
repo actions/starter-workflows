@@ -58,6 +58,9 @@ async function checkWorkflows(
         ));
         const iconName: string | undefined = workflowProperties["iconName"];
         const normalizedSvgIconName = normalizeSvgIconName(iconName);
+        if (iconName && !normalizedSvgIconName) {
+          console.warn(`Warning: could not normalize icon "${iconName}" for workflow ${workflowId}, skipping icon sync`);
+        }
 
         const isPartnerWorkflow = workflowProperties.creator ? partnersSet.has(workflowProperties.creator.toLowerCase()) : false;
 
@@ -71,7 +74,7 @@ async function checkWorkflows(
           id: workflowId,
           iconName: normalizedSvgIconName,
           iconType:
-            iconName && iconName.startsWith("octicon") ? "octicon" : "svg",
+            normalizedSvgIconName && normalizedSvgIconName.startsWith("octicon") ? "octicon" : "svg",
         };
 
         if (!enabled) {
@@ -190,7 +193,7 @@ async function checkWorkflow(
             r.push(join(x.folder, "properties", `${x.id}.properties.json`));
           };
 
-          if (x.iconType === "svg") {
+          if (x.iconType === "svg" && x.iconName) {
             r.push(
               join(
                 "../../icons",
