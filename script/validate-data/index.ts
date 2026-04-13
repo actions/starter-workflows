@@ -4,6 +4,7 @@ import { safeLoad } from "js-yaml";
 import { basename, extname, join, dirname } from "path";
 import { Validator as validator } from "jsonschema";
 import { endGroup, error, info, setFailed, startGroup } from '@actions/core';
+import { normalizeSvgIconName } from '../shared/icon-utils';
 
 interface WorkflowWithErrors {
   id: string;
@@ -128,15 +129,7 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
     
     if (properties.iconName) {
       if(! /^octicon\s+/.test(properties.iconName)) {
-        let svgIconName: string | undefined = properties.iconName
-        if (properties.iconName.startsWith("lucide ")) {
-          const lucideName = properties.iconName.slice("lucide ".length).split(".")[0].trim()
-          if(!lucideName) {
-            svgIconName = undefined
-          } else {
-            svgIconName = `lucide-${lucideName}`
-          }
-        }
+        const svgIconName = normalizeSvgIconName(properties.iconName);
 
         if(!svgIconName) {
           workflowErrors.errors.push(`No icon named ${properties.iconName} found`)

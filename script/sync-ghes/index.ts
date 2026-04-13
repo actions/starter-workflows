@@ -3,6 +3,7 @@ import { promises as fs } from "fs";
 import { safeLoad } from "js-yaml";
 import { basename, extname, join } from "path";
 import { exec } from "./exec";
+import { normalizeSvgIconName } from "../shared/icon-utils";
 
 interface WorkflowDesc {
   folder: string;
@@ -28,19 +29,6 @@ interface WorkflowProperties {
 interface WorkflowsCheckResult {
   compatibleWorkflows: WorkflowDesc[];
   incompatibleWorkflows: WorkflowDesc[];
-}
-
-function normalizeSvgIconName(iconName?: string): string | undefined {
-  if (!iconName || iconName.startsWith("octicon")) {
-    return iconName;
-  }
-
-  if (iconName.startsWith("lucide ")) {
-    const lucideName = iconName.slice("lucide ".length).split(".")[0].trim();
-    return lucideName ? `lucide-${lucideName}` : undefined;
-  }
-
-  return iconName;
 }
 
 async function checkWorkflows(
