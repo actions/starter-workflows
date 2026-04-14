@@ -1,6 +1,6 @@
 {
   "name": "PR Fix",
   "description": "Analyze failing CI checks and implement fixes for pull requests.",
-  "iconName": "lucide wrench",
+  "iconName": "octicon tools",
   "categories": ["Agentic", "Fault Analysis"]
 }

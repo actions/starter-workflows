@@ -3,7 +3,6 @@ import { promises as fs } from "fs";
 import { safeLoad } from "js-yaml";
 import { basename, extname, join } from "path";
 import { exec } from "./exec";
-import { normalizeSvgIconName } from "../shared/icon-utils";
 
 interface WorkflowDesc {
   folder: string;
@@ -59,10 +58,6 @@ async function checkWorkflows(
           `${workflowId}.properties.json`
         ));
         const iconName: string | undefined = workflowProperties["iconName"];
-        const normalizedSvgIconName = normalizeSvgIconName(iconName);
-        if (iconName && !normalizedSvgIconName) {
-          console.warn(`Warning: could not normalize icon "${iconName}" for workflow ${workflowId}, skipping icon sync`);
-        }
 
         const isPartnerWorkflow = workflowProperties.creator ? partnersSet.has(workflowProperties.creator.toLowerCase()) : false;
 
@@ -75,9 +70,9 @@ async function checkWorkflows(
           folder,
           id: workflowId,
           fileExtension,
-          iconName: normalizedSvgIconName,
+          iconName,
           iconType:
-            normalizedSvgIconName && normalizedSvgIconName.startsWith("octicon") ? "octicon" : "svg",
+            iconName && iconName.startsWith("octicon") ? "octicon" : "svg",
         };
 
         if (!enabled) {
@@ -196,13 +191,8 @@ async function checkWorkflow(
             r.push(join(x.folder, "properties", `${x.id}.properties.json`));
           };
 
-          if (x.iconType === "svg" && x.iconName) {
-            r.push(
-              join(
-                "../../icons",
-                `${x.iconName}.svg`
-              )
-            );
+          if (x.iconType === "svg") {
+            r.push(join("../../icons", `${x.iconName}.svg`));
           }
 
           return r;

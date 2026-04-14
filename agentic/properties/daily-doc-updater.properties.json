@@ -1,6 +1,6 @@
 {
   "name": "Daily Documentation Updater",
   "description": "Automatically update documentation based on recent code changes and merged PRs.",
-  "iconName": "lucide scroll-text",
+  "iconName": "octicon book",
   "categories": ["Agentic", "Code Improvement"]
 }

@@ -1,6 +1,6 @@
 {
   "name": "Daily Test Improver",
   "description": "Improve test coverage by adding meaningful tests to under-tested areas.",
-  "iconName": "lucide test-tube",
+  "iconName": "octicon beaker",
   "categories": ["Agentic", "Code Improvement"]
 }

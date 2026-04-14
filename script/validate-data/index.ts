@@ -4,7 +4,6 @@ import { safeLoad } from "js-yaml";
 import { basename, extname, join, dirname } from "path";
 import { Validator as validator } from "jsonschema";
 import { endGroup, error, info, setFailed, startGroup } from '@actions/core';
-import { normalizeSvgIconName } from '../shared/icon-utils';
 
 interface WorkflowWithErrors {
   id: string;
@@ -129,16 +128,10 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
     
     if (properties.iconName) {
       if(! /^octicon\s+/.test(properties.iconName)) {
-        const svgIconName = normalizeSvgIconName(properties.iconName);
-
-        if(!svgIconName) {
+        try {
+          await fs.access(`../../icons/${properties.iconName}.svg`)
+        } catch (e) {
           workflowErrors.errors.push(`No icon named ${properties.iconName} found`)
-        } else {
-          try {
-            await fs.access(`../../icons/${svgIconName}.svg`)
-          } catch (e) {
-            workflowErrors.errors.push(`No icon named ${properties.iconName} found`)
-          }
         }
       }
       else {
