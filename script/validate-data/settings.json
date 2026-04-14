@@ -1,5 +1,6 @@
 {
   "folders": [
+    "../../agentic",
     "../../ci",
     "../../automation",
     "../../deployments",
@@ -7,6 +8,10 @@
     "../../pages"
   ],
   "allowed_categories": [
+    {
+      "path": "../../agentic",
+      "categories": ["Agentic"]
+    },
     {
       "path": "../../ci",
       "categories":  ["Continuous integration"]
