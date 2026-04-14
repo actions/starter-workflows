@@ -38,11 +38,9 @@ You are welcome to still raise bugs in this repo.
 * [pages](pages): solutions for Pages workflows
 * [icons](icons): svg icons for the relevant template
 
-Starter workflow templates in this repository need a corresponding `.properties.json` file that contains extra metadata about the workflow (this is displayed in the GitHub.com UI).
+Each workflow must be written in YAML and have a `.yml` extension. They also need a corresponding `.properties.json` file that contains extra metadata about the workflow (this is displayed in the GitHub.com UI).
 
-Most starter workflows are written in YAML and use a `.yml` extension. Agentic starter workflows in [agentic](agentic) are authored as Markdown templates with YAML frontmatter and use a `.md` extension.
-
-For example: `ci/django.yml` and `ci/properties/django.properties.json`, or `agentic/daily-repo-status.md` and `agentic/properties/daily-repo-status.properties.json`.
+For example: `ci/django.yml` and `ci/properties/django.properties.json`.
 
 ### Valid properties
 
