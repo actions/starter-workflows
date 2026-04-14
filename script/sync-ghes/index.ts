@@ -7,7 +7,6 @@ import { exec } from "./exec";
 interface WorkflowDesc {
   folder: string;
   id: string;
-  fileExtension: string;
   iconName?: string;
   iconType?: "svg" | "octicon";
 }
@@ -48,10 +47,9 @@ async function checkWorkflows(
     });
 
     for (const e of dir) {
-      if (e.isFile() && (".yml" === extname(e.name) || ".md" === extname(e.name))) {
-        const fileExtension = extname(e.name);
+      if (e.isFile() && extname(e.name) === ".yml") {
         const workflowFilePath = join(folder, e.name);
-        const workflowId = basename(e.name, fileExtension);
+        const workflowId = basename(e.name, extname(e.name));
         const workflowProperties: WorkflowProperties = require(join(
           folder,
           "properties",
@@ -64,12 +62,11 @@ async function checkWorkflows(
         const enabled =
           !isPartnerWorkflow &&
           (workflowProperties.enterprise === true || basename(folder) !== 'code-scanning') &&
-          (fileExtension === ".md" || await checkWorkflow(workflowFilePath, enabledActions));
+          (await checkWorkflow(workflowFilePath, enabledActions));
 
         const workflowDesc: WorkflowDesc = {
           folder,
           id: workflowId,
-          fileExtension,
           iconName,
           iconType:
             iconName && iconName.startsWith("octicon") ? "octicon" : "svg",
@@ -187,7 +184,7 @@ async function checkWorkflow(
 
           // Don't touch read-only folders
           if (!settings.readOnlyFolders.includes(x.folder)) {
-            r.push(join(x.folder, `${x.id}${x.fileExtension}`));
+            r.push(join(x.folder, `${x.id}.yml`));
             r.push(join(x.folder, "properties", `${x.id}.properties.json`));
           };
 
@@ -203,7 +200,6 @@ async function checkWorkflow(
     // The v4 versions of upload and download artifact are not yet supported on GHES
     console.group("Updating all compatible workflows to use v3 of the artifact actions");
     for (const workflow of result.compatibleWorkflows) {
-      if (workflow.fileExtension !== ".yml") continue;
       const path = join(workflow.folder, `${workflow.id}.yml`);
       console.log(`Updating ${path}`);
       const contents = await fs.readFile(path, "utf8");
