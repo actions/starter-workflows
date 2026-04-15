@@ -1,0 +1,7 @@
+{
+    "name": "CrowdStrike FCS Infrastructure as Code",
+    "creator": "CrowdStrike",
+    "description": "Detect misconfigurations and security vulnerabilities in your infrastructure as code files and surface the issues in GitHub code scanning.",
+    "iconName": "crowdstrike",
+    "categories": ["Code Scanning"]
+}

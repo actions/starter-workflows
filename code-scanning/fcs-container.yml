@@ -1,0 +1,58 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# A sample workflow which checks out the code, builds a container
+# image using Docker, and scans that image for vulnerabilities using
+# CrowdStrike Falcon Cloud Security (FCS). The results are then
+# uploaded to GitHub Security Code Scanning.
+#
+# To use this action, you will need a CrowdStrike API Client ID and Secret.
+# See https://github.com/CrowdStrike/fcs-action#prerequisites for setup instructions.
+#
+# For more examples, see https://github.com/CrowdStrike/fcs-action
+
+name: CrowdStrike FCS Container Image Scanning
+
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ $default-branch ]
+  schedule:
+    - cron: $cron-weekly
+
+permissions:
+  contents: read
+
+jobs:
+  fcs-container:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build a Docker image
+        run: docker build -t your/image-to-test .
+
+      - name: Run CrowdStrike FCS to check Docker image for vulnerabilities
+        uses: crowdstrike/fcs-action@0e9d7bba776ed4dc623f8d0c5f0888f36e090d90
+        with:
+          falcon_client_id: ${{ vars.FALCON_CLIENT_ID }}
+          falcon_region: 'us-1'
+          scan_type: image
+          image: your/image-to-test
+          report_formats: sarif
+          output_path: ./fcs-container-results.sarif
+        env:
+          FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
+
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: fcs-container-results.sarif
