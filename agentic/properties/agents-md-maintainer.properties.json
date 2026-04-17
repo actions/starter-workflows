@@ -1,0 +1,6 @@
+{
+  "name": "AGENTS.md Maintainer",
+  "description": "Keep AGENTS.md and related maintainer guidance aligned with the repository.",
+  "iconName": "octicon copilot",
+  "categories": ["Agentic", "Maintainer"]
+}
