@@ -1,6 +1,0 @@
-{
-  "name": "Duplicate Code Detector",
-  "description": "Identify duplicate code patterns and suggest refactoring opportunities.",
-  "iconName": "octicon search",
-  "categories": ["Agentic", "Code Improvement"]
-}
