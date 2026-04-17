@@ -1,0 +1,6 @@
+{
+    "name": "Activity Report",
+    "description": "Create a recurring issue summarizing recent repository activity.",
+    "iconName": "octicon graph",
+    "categories": ["Agentic", "Research & Planning"]
+}

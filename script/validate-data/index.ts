@@ -81,16 +81,6 @@ async function checkWorkflows(folders: string[], allowed_categories: object[]): 
   return result;
 }
 
-function getMarkdownFrontmatter(workflowPath: string, workflowFileContent: string): string {
-  const frontmatterMatch = workflowFileContent.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/);
-
-  if (!frontmatterMatch) {
-    throw new Error(`Markdown workflow ${workflowPath} must start with valid YAML frontmatter`);
-  }
-
-  return frontmatterMatch[1];
-}
-
 function validateWorkflowContent(workflowPath: string, workflowFileContent: string): void {
   const extension = extname(workflowPath).toLowerCase();
 
@@ -100,7 +90,22 @@ function validateWorkflowContent(workflowPath: string, workflowFileContent: stri
   }
 
   if (extension === ".md") {
-    safeLoad(getMarkdownFrontmatter(workflowPath, workflowFileContent));
+    if (workflowFileContent.trim().length === 0) {
+      throw new Error(`Markdown workflow ${workflowPath} must not be empty`);
+    }
+    if (/^---\r?\n/.test(workflowFileContent)) {
+      throw new Error(`Markdown prompt ${workflowPath} must not start with YAML frontmatter`);
+    }
+    const nonBlankLines = workflowFileContent
+      .split(/\r?\n/)
+      .map(line => line.trim())
+      .filter(line => line.length > 0);
+    if (nonBlankLines[0] !== "{{ create_workflow_prefix }}") {
+      throw new Error(`Markdown prompt ${workflowPath} must start with {{ create_workflow_prefix }}`);
+    }
+    if (nonBlankLines.length < 2) {
+      throw new Error(`Markdown prompt ${workflowPath} must include prompt text after {{ create_workflow_prefix }}`);
+    }
     return;
   }
 
@@ -148,7 +153,7 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
       if(!properties.categories || properties.categories.length == 0) {
         workflowErrors.errors.push(`Workflow categories cannot be null or empty`)
       } 
-      else if(!folder_categories.some(category => properties.categories[0].toLowerCase() == category.toLowerCase())) {
+      else if(!folder_categories.some((category: string) => properties.categories[0].toLowerCase() == category.toLowerCase())) {
         workflowErrors.errors.push(`The first category in properties.json categories for workflow in ${basename(path)} folder must be one of "${folder_categories}. Either move the workflow to an appropriate directory or change the category."`)
       }
     }

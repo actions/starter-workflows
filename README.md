@@ -38,7 +38,7 @@ You are welcome to still raise bugs in this repo.
 * [pages](pages): solutions for Pages workflows
 * [icons](icons): svg icons for the relevant template
 
-Each workflow must be written in YAML and have a `.yml` extension. They also need a corresponding `.properties.json` file that contains extra metadata about the workflow (this is displayed in the GitHub.com UI).
+Each workflow must be written in YAML and have a `.yml` extension. In `agentic/`, prompt-source markdown files are also supported. Templates also need a corresponding `.properties.json` file that contains extra metadata about the workflow (this is displayed in the GitHub.com UI).
 
 For example: `ci/django.yml` and `ci/properties/django.properties.json`.
 
