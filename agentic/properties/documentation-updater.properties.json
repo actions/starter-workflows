@@ -1,6 +1,6 @@
 {
-  "name": "Documentation Updater",
-  "description": "Review recent changes and open a docs update pull request when needed.",
-  "iconName": "octicon book",
-  "categories": ["Agentic", "Code Improvement"]
+    "name": "Documentation Updater",
+    "description": "Review recent changes and open a docs update pull request when needed.",
+    "iconName": "octicon book",
+    "categories": ["Agentic", "Code Improvement"]
 }
