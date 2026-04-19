@@ -1,0 +1,9 @@
+{
+  "folders": [
+    "../../ci",
+    "../../automation",
+    "../../deployments",
+    "../../code-scanning",
+    "../../pages"
+  ]
+}
