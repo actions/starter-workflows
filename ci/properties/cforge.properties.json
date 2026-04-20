@@ -1,0 +1,12 @@
+{
+    "name": "CForge C/C++ Build",
+    "description": "Build and test a C/C++ project using CForge with vcpkg and git integration.",
+    "iconName": "cforge",
+    "categories": [
+      "Continuous integration", 
+      "C", 
+      "C++",
+      "CMake"
+    ],
+    "creator": "ChaseSunstrom"
+  }
