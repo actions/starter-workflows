@@ -1,4 +1,4 @@
-name: Close as a feature
+name: Close as a feature1
 on:
   issues:
     types: [labeled]
