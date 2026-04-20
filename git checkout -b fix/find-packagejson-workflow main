@@ -1,0 +1,3 @@
+git add .github/workflows/webpack.yml
+git commit -m "ci: make webpack workflow resilient when package.json is in subfolder or missing"
+git push origin fix/find-packagejson-workflow
