@@ -4,13 +4,13 @@
 # https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
 version: 2
-updates:
+updates:@965022-oss/starter-workflows
   - package-ecosystem: "npm"
     directory: "/"
-    schedule:
+    schedule:UTC+8(10:00PM UTC)
       interval: "weekly"
 
   - package-ecosystem: "github-actions"
     directory: "/"
-    schedule:
+    schedule:UTC+8(10:00PM UTC)
       interval: "weekly"
