@@ -1,0 +1,24 @@
+name: Semgrep SAST Scan
+on:
+ push:
+ branches:
+ - main
+ - develop
+ pull_request:
+jobs:
+ semgrep:
+ runs-on: ubuntu-latest
+ steps:
+ - name: Clonar el código
+ uses: actions/checkout@v4
+ - name: Instalar Semgrep
+ run: pip install semgrep
+ - name: Ejecutar análisis de seguridad
+ run: semgrep --config=auto --json --output=semgrep-results.json
+ - name: Mostrar resultados en la salida de GitHub Actions
+ run: cat semgrep-results.json
+ - name: Guardar reporte de Semgrep como artefacto
+ uses: actions/upload-artifact@v3
+ with:
+ name: semgrep-report
+ path: semgrep-results.json
