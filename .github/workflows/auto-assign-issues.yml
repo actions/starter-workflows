@@ -1,5 +1,9 @@
 name: Issue assignment
 
+permissions:
+    contents: read
+    issues: write
+
 on:
     issues:
         types: [opened]
@@ -9,7 +13,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: 'Auto-assign issue'
-              uses: pozil/auto-assign-issue@v1.11.0
+              uses: pozil/auto-assign-issue@v2.2.0
               with:
                   assignees: phantsure,tiwarishub,anuragc617,vsvipul,bishal-pdmsft
                   numOfAssignee: 1
