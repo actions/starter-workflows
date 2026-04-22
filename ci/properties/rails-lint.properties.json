@@ -1,0 +1,6 @@
+{
+    "name": "Rails - Build and Run Linters",
+    "description": "Build Rails application and run linters",
+    "iconName": "ruby",
+    "categories": ["Continuous integration", "Ruby", "Rails"]
+}

@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\.github",
+    "\\ci",
+    "\\deployments",
+    "\\deployments\\properties",
+    "\\script",
+    "\\script\\sync-ghes"
+  ],
+  "SelectedNode": "\\script\\sync-ghes\\package.json",
+  "PreviewInSolutionExplorer": false
+}
