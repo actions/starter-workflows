@@ -1,0 +1,7 @@
+{
+    "name": "Anchore Syft SBOM Scan",
+    "creator": "Anchore",
+    "description": "Produce Software Bills of Materials based on Anchore's open source Syft tool.",
+    "iconName": "anchore",
+    "categories": ["Code Scanning", "dockerfile", "dependency-management"]
+}

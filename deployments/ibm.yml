@@ -10,8 +10,7 @@ name: Build and Deploy to IKS
 
 on:
   push:
-    branches:
-      - $default-branch
+    branches: [ $default-branch ]
 
 # Environment variables available to all jobs and steps in this workflow
 env:
@@ -33,7 +32,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     # Download and Install IBM Cloud CLI
     - name: Install IBM Cloud CLI

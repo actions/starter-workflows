@@ -1,0 +1,7 @@
+{
+    "name": "Deploy web app to Azure Static Web Apps",
+    "description": "Build and deploy web application to an Azure Static Web App.",
+    "creator": "Microsoft Azure",
+    "iconName": "azure-staticwebapp",
+    "categories": ["Deployment", "React", "Angular", "Vue", "Svelte", "Gatsby", "Next", "Nuxt", "Jekyll", "Blazor"]
+}
