@@ -1,0 +1,17 @@
+{
+  "name": "CodeIgniter CI",
+  "description": "Build, lint, and test a CodeIgniter 4 PHP application using Composer and PHPUnit across multiple PHP versions.",
+  "iconName": "php",
+  "categories": [
+    "PHP",
+    "CodeIgniter",
+    "Testing",
+    "CI"
+  ],
+  "filePatterns": [
+    "composer.json",
+    "spark",
+    "app/Config/**.php",
+    "phpunit.xml.dist"
+  ]
+}
