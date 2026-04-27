@@ -1,0 +1,106 @@
+# This workflow will install PHP dependencies using Composer, run tests with
+# PHPUnit, and lint code with PHP_CodeSniffer for a CodeIgniter 4 project.
+#
+# For more information see:
+# https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-php
+# https://codeigniter4.github.io/userguide/
+
+name: CodeIgniter CI
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: PHP ${{ matrix.php-version }} – ${{ matrix.os }}
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        php-version: ['8.1', '8.2', '8.3']
+
+    steps:
+      # ── 1. Checkout ──────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. PHP Setup ─────────────────────────────────────────────────────────
+      - name: Set up PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: intl, json, mbstring, mysqlnd, xml, xdebug
+          coverage: xdebug
+          tools: composer:v2, phpcs
+
+      # ── 3. Validate composer files ───────────────────────────────────────────
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
+
+      # ── 4. Cache Composer dependencies ───────────────────────────────────────
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ matrix.php-version }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php-version }}-
+
+      # ── 5. Install dependencies ───────────────────────────────────────────────
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      # ── 6. Prepare CodeIgniter environment ────────────────────────────────────
+      - name: Copy .env file for testing
+        run: |
+          if [ -f env ]; then
+            cp env .env
+          fi
+          # Set CI environment for CodeIgniter test runner
+          echo "CI_ENVIRONMENT=testing" >> .env
+
+      # ── 7. Lint: PHP_CodeSniffer ─────────────────────────────────────────────
+      - name: Check coding standards (PHPCS)
+        run: |
+          if [ -f phpcs.xml ] || [ -f phpcs.xml.dist ] || [ -f .phpcs.xml ]; then
+            vendor/bin/phpcs
+          else
+            echo "No PHPCS configuration found — skipping lint step."
+          fi
+
+      # ── 8. Static analysis ────────────────────────────────────────────────────
+      - name: Run PHPStan (if configured)
+        run: |
+          if [ -f phpstan.neon ] || [ -f phpstan.neon.dist ]; then
+            vendor/bin/phpstan analyse --no-progress
+          else
+            echo "No PHPStan configuration found — skipping static analysis."
+          fi
+
+      # ── 9. Unit & Feature Tests with code coverage ───────────────────────────
+      - name: Run test suite (PHPUnit)
+        run: vendor/bin/phpunit --coverage-clover=coverage.xml
+        env:
+          # Keep the test database in-memory to avoid provisioning a real DB.
+          # Override these secrets in your repository settings for integration tests.
+          DB_DRIVER: ${{ secrets.DB_DRIVER || 'sqlite3' }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE || ':memory:' }}
+
+      # ── 10. Upload coverage report ───────────────────────────────────────────
+      - name: Upload coverage report
+        if: matrix.php-version == '8.2' && matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.xml
+          retention-days: 7
