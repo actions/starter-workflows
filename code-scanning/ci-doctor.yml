@@ -1,0 +1,45 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# ci-doctor audits .github/workflows/*.yml for 14 cost,
+# security, and reliability smells specific to GitHub Actions
+# (missing concurrency, missing timeouts, unpinned action SHAs,
+# missing permissions blocks, stale cache keys, fail-fast matrices,
+# etc.) and emits SARIF 2.1.0 for GitHub Code Scanning.
+# More details at https://github.com/depmedicdev-byte/ci-doctor
+
+name: ci-doctor
+
+on:
+  push:
+    branches: [ "$default-branch" ]
+  pull_request:
+    branches: [ "$default-branch" ]
+  schedule:
+    - cron: $cron-weekly
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    name: Audit GitHub Actions workflows
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run ci-doctor (SARIF output)
+        run: npx --yes ci-doctor --sarif > ci-doctor-results.sarif
+        continue-on-error: true
+
+      - name: Upload SARIF results to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ci-doctor-results.sarif
+          category: ci-doctor
