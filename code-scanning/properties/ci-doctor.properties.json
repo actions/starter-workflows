@@ -1,0 +1,13 @@
+{
+    "name": "ci-doctor",
+    "creator": "depmedic",
+    "description": "Audits GitHub Actions workflows (.github/workflows/*.yml) for 14 cost, security, and reliability smells. Emits SARIF for the Security tab.",
+    "iconName": "octicon shield",
+    "categories": [
+        "Code Scanning",
+        "GitHub Actions",
+        "CI/CD",
+        "Security",
+        "Cost"
+    ]
+}
