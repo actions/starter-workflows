@@ -1,7 +1,7 @@
 #!/usr/bin/env npx ts-node
 import { promises as fs } from "fs";
 import { safeLoad } from "js-yaml";
-import { basename, extname, join } from "path";
+import { basename, extname, join, dirname } from "path";
 import { Validator as validator } from "jsonschema";
 import { endGroup, error, info, setFailed, startGroup } from '@actions/core';
 
@@ -14,8 +14,19 @@ interface WorkflowWithErrors {
 interface WorkflowProperties {
   name: string;
   description: string;
+  creator: string;
   iconName: string;
   categories: string[];
+}
+
+const yamlWorkflowExtensions = [".yml", ".yaml"];
+
+function getSupportedWorkflowExtensions(folder: string): string[] {
+  if (basename(folder).toLowerCase() === "agentic") {
+    return [...yamlWorkflowExtensions, ".md"];
+  }
+
+  return yamlWorkflowExtensions;
 }
 
 const propertiesSchema = {
@@ -40,16 +51,17 @@ const propertiesSchema = {
   }
 }
 
-async function checkWorkflows(folders: string[], allowed_categories: string[]): Promise<WorkflowWithErrors[]> {
+async function checkWorkflows(folders: string[], allowed_categories: object[]): Promise<WorkflowWithErrors[]> {
   const result: WorkflowWithErrors[] = []
   const workflow_template_names = new Set()
   for (const folder of folders) {
+    const supportedWorkflowExtensions = getSupportedWorkflowExtensions(folder);
     const dir = await fs.readdir(folder, {
       withFileTypes: true,
     });
 
     for (const e of dir) {
-      if (e.isFile() && [".yml", ".yaml"].includes(extname(e.name))) {
+      if (e.isFile() && supportedWorkflowExtensions.includes(extname(e.name))) {
         const fileType = basename(e.name, extname(e.name))
 
         const workflowFilePath = join(folder, e.name);
@@ -69,7 +81,33 @@ async function checkWorkflows(folders: string[], allowed_categories: string[]): 
   return result;
 }
 
-async function checkWorkflow(workflowPath: string, propertiesPath: string, allowed_categories: string[]): Promise<WorkflowWithErrors> {
+function getMarkdownFrontmatter(workflowPath: string, workflowFileContent: string): string {
+  const frontmatterMatch = workflowFileContent.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/);
+
+  if (!frontmatterMatch) {
+    throw new Error(`Markdown workflow ${workflowPath} must start with valid YAML frontmatter`);
+  }
+
+  return frontmatterMatch[1];
+}
+
+function validateWorkflowContent(workflowPath: string, workflowFileContent: string): void {
+  const extension = extname(workflowPath).toLowerCase();
+
+  if (yamlWorkflowExtensions.includes(extension)) {
+    safeLoad(workflowFileContent);
+    return;
+  }
+
+  if (extension === ".md") {
+    safeLoad(getMarkdownFrontmatter(workflowPath, workflowFileContent));
+    return;
+  }
+
+  throw new Error(`Unsupported workflow extension ${extension}`);
+}
+
+async function checkWorkflow(workflowPath: string, propertiesPath: string, allowed_categories: object[]): Promise<WorkflowWithErrors> {
   let workflowErrors: WorkflowWithErrors = {
     id: workflowPath,
     name: null,
@@ -77,7 +115,7 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
   }
   try {
     const workflowFileContent = await fs.readFile(workflowPath, "utf8");
-    safeLoad(workflowFileContent); // Validate yaml parses without error
+    validateWorkflowContent(workflowPath, workflowFileContent);
 
     const propertiesFileContent = await fs.readFile(propertiesPath, "utf8")
     const properties: WorkflowProperties = JSON.parse(propertiesFileContent)
@@ -104,9 +142,19 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
       }
       
     }
-    if (!workflowPath.endsWith("blank.yml") && (!properties.categories || 
-      !properties.categories.some(category => allowed_categories.some(ac => ac.toLowerCase() == category.toLowerCase())))) {
-      workflowErrors.errors.push(`Workflow does not contain at least one allowed category - ${allowed_categories}`)
+    var path = dirname(workflowPath)
+    var folder_categories = allowed_categories.find( category => category["path"] == path)["categories"]
+    if (!workflowPath.endsWith("blank.yml")) {
+      if(!properties.categories || properties.categories.length == 0) {
+        workflowErrors.errors.push(`Workflow categories cannot be null or empty`)
+      } 
+      else if(!folder_categories.some(category => properties.categories[0].toLowerCase() == category.toLowerCase())) {
+        workflowErrors.errors.push(`The first category in properties.json categories for workflow in ${basename(path)} folder must be one of "${folder_categories}. Either move the workflow to an appropriate directory or change the category."`)
+      }
+    }
+
+    if(basename(path).toLowerCase() == 'deployments' && !properties.creator) {
+      workflowErrors.errors.push(`The "creator" in properties.json must be present.`)
     }
   } catch (e) {
     workflowErrors.errors.push(e.toString())

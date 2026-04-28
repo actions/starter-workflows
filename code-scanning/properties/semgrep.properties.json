@@ -4,4 +4,4 @@
     "description": "Continuously run Semgrep to find bugs and enforce secure code standards. Start with 1k+ community rules or write your own in a few minutes.",
     "iconName": "semgrep",
     "categories": ["Code Scanning", "Go", "Java", "JavaScript", "JSON", "Python", "Ruby", "TypeScript", "JSX", "TSX"]
-}   
+}

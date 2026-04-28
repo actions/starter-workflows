@@ -1,7 +1,0 @@
-{
-    "name": "Scan",
-    "creator": "ShiftLeft",
-    "description": "Scan is a free open-source security tool for modern DevOps teams from ShiftLeft.",
-    "iconName": "shiftleft",
-    "categories": ["Code Scanning"]
-}

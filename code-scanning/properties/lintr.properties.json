@@ -1,0 +1,6 @@
+{
+  "name": "lintr",
+  "description": "lintr provides static code analysis for R.",
+  "iconName": "lintr",
+  "categories": [ "Code Scanning", "R" ]
+}

@@ -1,0 +1,7 @@
+{
+    "name": "Deploy container to Azure Functions App",
+    "description": "Build a container and deploy it to an Azure Functions App on Linux.",
+    "creator": "Microsoft Azure",
+    "iconName": "azure",
+    "categories": ["Deployment", "Dockerfile", "Azure Functions"]
+}
