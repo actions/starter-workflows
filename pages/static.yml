@@ -1,43 +1,311 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BlockyRush</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches: [$default-branch]
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle, #0b1220, #020617);
+    color: white;
+    overflow-x: hidden;
+}
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+/* BACKGROUND */
+body::before {
+    content: "";
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(white 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: moveBg 80s linear infinite;
+    opacity: 0.05;
+    z-index: -1;
+}
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+@keyframes moveBg {
+    from { transform: translate(0,0); }
+    to { transform: translate(-500px,-500px); }
+}
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 30px;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+    align-items: center;
+}
 
-jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # Upload entire repository
-          path: '.'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+.logo {
+    font-weight: bold;
+    font-size: 1.5rem;
+    background: linear-gradient(90deg,#3498db,#e74c3c,#2ecc71,#f1c40f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* NAV LINKS */
+.nav-links a {
+    margin-left: 15px;
+    color: white;
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    background: #3498db;
+}
+
+/* LANGUAGE */
+.lang button {
+    margin-left: 5px;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #222;
+    color: white;
+}
+
+/* PAGE SYSTEM */
+.page {
+    display: none;
+    padding: 80px 20px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 0.6s ease;
+}
+
+.page.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* TEXT */
+.subtitle {
+    color: #aaa;
+    max-width: 650px;
+    margin: auto;
+    line-height: 1.6;
+}
+
+/* BUTTON */
+.cta-btn, .download-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(270deg,#3498db,#e74c3c,#2ecc71,#f1c40f);
+    background-size: 600% 600%;
+    animation: gradientMove 8s ease infinite, glow 3s infinite;
+    transition: 0.3s;
+    font-weight: bold;
+}
+
+.cta-btn:hover, .download-btn:hover {
+    transform: scale(1.1);
+}
+
+@keyframes gradientMove {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+@keyframes glow {
+    0%{box-shadow:0 0 5px #3498db}
+    25%{box-shadow:0 0 15px #e74c3c}
+    50%{box-shadow:0 0 20px #2ecc71}
+    75%{box-shadow:0 0 25px #f1c40f}
+    100%{box-shadow:0 0 5px #3498db}
+}
+
+/* GRID */
+.platform-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: auto;
+}
+
+/* CARD */
+.platform-card {
+    padding: 20px;
+    border-radius: 12px;
+    background: linear-gradient(#111,#111) padding-box,
+                linear-gradient(90deg,#3498db,#e74c3c,#2ecc71,#f1c40f) border-box;
+    border: 1px solid transparent;
+    transition: 0.4s;
+}
+
+.platform-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 0 15px #3498db,0 0 15px #e74c3c,0 0 15px #2ecc71,0 0 15px #f1c40f;
+}
+
+/* DISCORD CARD */
+.discord-card {
+    max-width: 500px;
+    margin: auto;
+    padding: 25px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+}
+
+.discord-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    background: #5865F2;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.discord-btn:hover {
+    transform: scale(1.1);
+    background: #4752C4;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+    font-size: 0.9rem;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">BlockyRush</div>
+
+    <div class="nav-links">
+        <a href="#/home" onclick="navigate('home')">Home</a>
+        <a href="#/download" onclick="navigate('download')">Download</a>
+        <a href="#/info" onclick="navigate('info')">Info</a>
+        <a href="#/discord" onclick="navigate('discord')">Discord</a>
+    </div>
+
+    <div class="lang">
+        <button onclick="setLang('en')">EN</button>
+        <button onclick="setLang('ru')">RU</button>
+    </div>
+</nav>
+
+<!-- HOME -->
+<div id="home" class="page active">
+    <h1>BlockyRush 🚀</h1>
+    <p class="subtitle">The ultimate evolution of the Blockman GO experience.</p>
+    <a class="cta-btn" onclick="navigate('download')">im wanna downoload!!!🚀🚀🚀</a>
+</div>
+
+<!-- DOWNLOAD -->
+<div id="download" class="page">
+    <h2>Download</h2>
+    <div class="platform-grid" id="platforms"></div>
+</div>
+
+<!-- INFO -->
+<div id="info" class="page">
+    <h2>Information</h2>
+    <p class="subtitle">
+        <strong>BlockyRush:</strong> Redefining your favorite sandbox world.<br><br>
+        
+        <strong>Games:</strong> Discover a variety of custom-built games with monthly updates. Join instantly with our optimized matchmaking.<br><br>
+
+        <strong>Avatars:</strong> Express yourself with exclusive decorations and legacy items from Blockman GO history.<br><br>
+
+        <strong>Social:</strong> Build your community through clans, group chats, and private messaging.<br><br>
+
+        <strong>VIP System:</strong> Enjoy premium privileges earned through gameplay and events, no purchase necessary.
+        
+        <strong>and join discord server for active chat </strong>
+    </p>
+</div>
+
+<!-- DISCORD -->
+<div id="discord" class="page">
+    <h2>Community Discord</h2>
+
+    <div class="discord-card">
+        <h3>Join Our Community</h3>
+        <p class="subtitle">
+            Stay updated on development, report bugs, and chat with the team.
+        </p>
+
+        <a class="discord-btn" href="https://discord.gg/5K6m4rZa4" target="_blank">
+            Join Discord server
+        </a>
+    </div>
+</div>
+
+<footer>© 2024-2026 BlockyRush Community | Made by nene</footer>
+
+<script>
+/* ROUTER */
+function navigate(page){
+    document.querySelectorAll(".page").forEach(p=>{
+        p.classList.remove("active");
+    });
+
+    const target = document.getElementById(page);
+    if(target) {
+        target.classList.add("active");
+        window.location.hash = page;
+    }
+}
+
+if(location.hash){
+    navigate(location.hash.replace("#/",""));
+}
+
+/* DOWNLOAD DATA */
+const downloads = [
+    {name:"Android", icon:"https://img.icons8.com/color/48/android-os.png", url:"https://www.mediafire.com/file/uz53dr73ny0daxr/app-blockymods-vDEVEL-6272024-build-3628-engine-90001-google+2.apk/file", isDownload:true},
+    {name:"blockman go ", icon:"https://img.icons8.com/color/48/android-os.png", url:"https://www.mediafire.com/file/o3edp7f5105u439/Resource_Production_UpdetedV0.4.zip/file link", isDownload:true},
+    {name:"PC (Windows 11)", icon:"https://img.icons8.com/fluency/48/windows-11.png", url:"#", isDownload:false},
+    {name:"macOS", icon:"https://img.icons8.com/color/48/mac-os.png", url:"#", isDownload:false}
+];
+const container = document.getElementById("platforms");
+
+downloads.forEach(p=>{
+    const card=document.createElement("div");
+    card.className="platform-card";
+
+    card.innerHTML=`
+        <img src="${p.icon}" alt="${p.name} icon">
+        <p>${p.name}</p>
+        ${
+            p.isDownload
+            ? `<a class="download-btn" href="${p.url}">Download</a>`
+            : `<div class="download-btn" style="opacity:0.5; cursor:not-allowed; animation:none; background:#444;">link soon june 22</div>`
+        }
+    `;
+
+    container.appendChild(card);
+});
+</script>
+
+</body>
+</html>
