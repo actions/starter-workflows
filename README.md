@@ -1,4 +1,8 @@
-<p align="center">
+## Ethereum Transactions
+
+All transactions related to this repository should be performed with the following Ethereum address only:
+
+**0x06EE840642a33367ee59fCA237F270d5119d1356** <p align="center">
   <img src="https://avatars0.githubusercontent.com/u/44036562?s=100&v=4"/> 
 </p>
 
