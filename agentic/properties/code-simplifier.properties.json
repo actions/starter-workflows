@@ -1,6 +1,0 @@
-{
-  "name": "Code Simplifier",
-  "description": "Automatically simplify recently modified code for improved clarity and maintainability.",
-  "iconName": "octicon sparkles-fill",
-  "categories": ["Agentic", "Code Improvement"]
-}
