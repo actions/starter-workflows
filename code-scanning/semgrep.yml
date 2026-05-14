@@ -3,21 +3,30 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-# This workflow file requires a free account on Semgrep.dev to
-# manage rules, file ignores, notifications, and more.
-#
-# See https://semgrep.dev/docs
+# A sample worklow that sets a Semgrep scan to analyze your source code for security vulnerabilities.
+
+# This scan can leverage the full Semgrep platform: (Semgrep Code, Semgrep Supply Chain, and Semgrep Secrets)
+# with a single command `semgrep ci`. For more information about the Semgrep CLI tool and the ci command,
+# check out the documentation: https://semgrep.dev/docs/cli-reference#semgrep-scan-and-semgrep-ci-command-options
+
+# Use of this workflow file requires a Semgrep CI Token to pull your configured scanning policy, 
+# run the licensed products, and upload results.
+# To generate a CI token you will need a Semgrep AppSec Platform account. Login at https://semgrep.dev.
+# CI Token Documentation: https://semgrep.dev/docs/deployment/add-semgrep-to-other-ci-providers#create-a-semgrep_app_token
+
+# For more examples of using Semgrep in CI: https://semgrep.dev/docs/semgrep-ci/sample-ci-configs
 
 name: Semgrep
 
 on:
+  workflow_dispatch: 
   push:
     branches: [ $default-branch, $protected-branches ]
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ $default-branch ]
   schedule:
-    - cron: $cron-weekly
+    - cron: $cron-daily
 
 permissions:
   contents: read
@@ -28,18 +37,28 @@ jobs:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-    name: Scan
-    runs-on: ubuntu-latest
-    steps:
-      # Checkout project source
-      - uses: actions/checkout@v4
 
-      # Scan code using project's configuration on https://semgrep.dev/manage
-      - uses: returntocorp/semgrep-action@fcd5ab7459e8d91cb1777481980d1b18b4fc6735
-        with:
-          publishToken: ${{ secrets.SEMGREP_APP_TOKEN }}
-          publishDeployment: ${{ secrets.SEMGREP_DEPLOYMENT_ID }}
-          generateSarif: "1"
+    name: semgrep/ci
+    # If you are self-hosting, change the following `runs-on` value:
+    runs-on: ubuntu-latest
+
+    container: 
+      # A Docker image with the latest version of Semgrep installed. Do not change this. 
+      image: semgrep/semgrep
+    
+    # Skip any PR created by dependabot to avoid permission issues:
+    if: (github.actor != 'dependabot[bot]')
+
+    steps:
+      # Fetch project source with GitHub Actions Checkout. 
+      - uses: actions/checkout@v4
+      # Run the "semgrep ci" command on the command line of the docker image.
+      - run: semgrep ci --sarif > semgrep.sarif
+        env:
+          # Connect to Semgrep AppSec Platform through your SEMGREP_APP_TOKEN.
+          # Generate a CI token from the Tokens page in the Semgrep AppSec Platform Settings
+          # and add it to your GitHub secrets.
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
 
       # Upload SARIF file generated in previous step
       - name: Upload SARIF file
