@@ -1,0 +1,7 @@
+{
+    "name": "Checkov",
+    "creator": "Bridgecrew",
+    "description": "Scan infrastructure as code (Terraform, CloudFormation, Kubernetes, Helm, Dockerfiles, and more) for security and compliance misconfigurations.",
+    "iconName": "checkov",
+    "categories": ["Code Scanning", "terraform", "kubernetes", "dockerfile", "cloudformation", "helm"]
+}
