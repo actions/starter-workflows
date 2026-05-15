@@ -19,6 +19,16 @@ interface WorkflowProperties {
   categories: string[];
 }
 
+const yamlWorkflowExtensions = [".yml", ".yaml"];
+
+function getSupportedWorkflowExtensions(folder: string): string[] {
+  if (basename(folder).toLowerCase() === "agentic") {
+    return [...yamlWorkflowExtensions, ".md"];
+  }
+
+  return yamlWorkflowExtensions;
+}
+
 const propertiesSchema = {
   type: "object",
   properties: {
@@ -45,12 +55,13 @@ async function checkWorkflows(folders: string[], allowed_categories: object[]): 
   const result: WorkflowWithErrors[] = []
   const workflow_template_names = new Set()
   for (const folder of folders) {
+    const supportedWorkflowExtensions = getSupportedWorkflowExtensions(folder);
     const dir = await fs.readdir(folder, {
       withFileTypes: true,
     });
 
     for (const e of dir) {
-      if (e.isFile() && [".yml", ".yaml"].includes(extname(e.name))) {
+      if (e.isFile() && supportedWorkflowExtensions.includes(extname(e.name))) {
         const fileType = basename(e.name, extname(e.name))
 
         const workflowFilePath = join(folder, e.name);
@@ -70,6 +81,32 @@ async function checkWorkflows(folders: string[], allowed_categories: object[]): 
   return result;
 }
 
+function getMarkdownFrontmatter(workflowPath: string, workflowFileContent: string): string {
+  const frontmatterMatch = workflowFileContent.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/);
+
+  if (!frontmatterMatch) {
+    throw new Error(`Markdown workflow ${workflowPath} must start with valid YAML frontmatter`);
+  }
+
+  return frontmatterMatch[1];
+}
+
+function validateWorkflowContent(workflowPath: string, workflowFileContent: string): void {
+  const extension = extname(workflowPath).toLowerCase();
+
+  if (yamlWorkflowExtensions.includes(extension)) {
+    safeLoad(workflowFileContent);
+    return;
+  }
+
+  if (extension === ".md") {
+    safeLoad(getMarkdownFrontmatter(workflowPath, workflowFileContent));
+    return;
+  }
+
+  throw new Error(`Unsupported workflow extension ${extension}`);
+}
+
 async function checkWorkflow(workflowPath: string, propertiesPath: string, allowed_categories: object[]): Promise<WorkflowWithErrors> {
   let workflowErrors: WorkflowWithErrors = {
     id: workflowPath,
@@ -78,7 +115,7 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
   }
   try {
     const workflowFileContent = await fs.readFile(workflowPath, "utf8");
-    safeLoad(workflowFileContent); // Validate yaml parses without error
+    validateWorkflowContent(workflowPath, workflowFileContent);
 
     const propertiesFileContent = await fs.readFile(propertiesPath, "utf8")
     const properties: WorkflowProperties = JSON.parse(propertiesFileContent)
