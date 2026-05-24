@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Clone repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # For Terraform, Cloudrail requires the plan as input. So we generate it using
       # the Terraform core binary.
