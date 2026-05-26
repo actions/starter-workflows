@@ -1,0 +1,40 @@
+# gha-shield scans your `.github/workflows/*.yml` for 13 categorized security
+# rules (unpinned actions, `pull_request_target` + PR-ref checkout, command
+# injection via untrusted `${{ … }}`, missing `permissions:`, `curl | bash`,
+# hard-coded provider keys in `env:`, and more).
+#
+# It runs entirely in your CI — no external service, no telemetry, no logs.
+# Source: https://github.com/Fabridev444/gha-shield
+
+name: "gha-shield"
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+  schedule:
+    - cron: $cron-weekly
+
+permissions:
+  contents: read
+
+jobs:
+  workflow-security-scan:
+    name: Scan .github/workflows/
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@$actions-checkout-ref
+
+      - name: Run gha-shield
+        uses: Fabridev444/gha-shield@v1.0.1
+        with:
+          # Directory or glob to scan. Defaults to `.github/workflows`.
+          path: .github/workflows
+          # Severity threshold at which the job fails.
+          # One of: never, low, med, high, crit. Defaults to `high`.
+          fail-on: high
+          # Output format: github (annotations), text, json. Defaults to `github`.
+          format: github

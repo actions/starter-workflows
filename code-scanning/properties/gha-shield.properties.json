@@ -1,0 +1,7 @@
+{
+  "name": "gha-shield",
+  "creator": "Fabridev444",
+  "description": "Scan your .github/workflows/ YAMLs for 13 security rules (unpinned actions, command injection, hardcoded secrets, missing permissions, untrusted checkout, and more). Pure Node, no external service, no telemetry.",
+  "iconName": "gha-shield",
+  "categories": ["Code Scanning"]
+}
