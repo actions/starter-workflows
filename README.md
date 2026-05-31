@@ -30,7 +30,7 @@ You are welcome to still raise bugs in this repo.
 
 ### Directory structure
 
-* [agentic](agentic): solutions for Agentic starter workflows
+* [agentic](agentic): AI-powered starter workflows ([detailed guide →](AGENTIC_WORKFLOWS.md))
 * [ci](ci): solutions for Continuous Integration workflows
 * [deployments](deployments): solutions for Deployment workflows
 * [automation](automation): solutions for automating workflows
@@ -38,9 +38,20 @@ You are welcome to still raise bugs in this repo.
 * [pages](pages): solutions for Pages workflows
 * [icons](icons): svg icons for the relevant template
 
-Each workflow must be written in YAML and have a `.yml` extension. They also need a corresponding `.properties.json` file that contains extra metadata about the workflow (this is displayed in the GitHub.com UI).
+#### File Format & Metadata
 
-For example: `ci/django.yml` and `ci/properties/django.properties.json`.
+**Traditional workflows** (CI, deployments, automation, code-scanning, pages):
+- Written in YAML with `.yml` extension
+- Include a corresponding `.properties.json` file for metadata
+- Example: `ci/django.yml` and `ci/properties/django.properties.json`
+
+**Agentic workflows** (AI-powered):
+- Written in Markdown (`.md`) with YAML frontmatter
+- Include a corresponding `.properties.json` file for metadata
+- Example: `agentic/ci-doctor.md` and `agentic/properties/ci-doctor.properties.json`
+- See [AGENTIC_WORKFLOWS.md](AGENTIC_WORKFLOWS.md) for comprehensive documentation
+
+All workflows have a corresponding `.properties.json` file that contains metadata (displayed in the GitHub.com UI).
 
 ### Valid properties
 
