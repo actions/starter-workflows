@@ -1,0 +1,2 @@
+- name: DevOpsApp84 Chart Releaser
+  uses: devopsapp84/chart-releaser@v0.0.3
