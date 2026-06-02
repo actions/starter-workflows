@@ -26,7 +26,12 @@ on:
     - cron: $cron-weekly
 
 permissions:
-  contents: read
+      # required for all workflows
+      security-events: write
+
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
 
 jobs:
   security-scan:
