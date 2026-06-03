@@ -40,7 +40,7 @@ jobs:
     environment: dev
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
