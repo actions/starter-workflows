@@ -1,0 +1,33 @@
+name: AI Python Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip install openai requests tenacity
+
+      - name: Get PR diff (Python only)
+        run: |
+          gh pr diff ${{ github.event.pull_request.number }} \
+            | awk '/\.py/ {flag=1} flag' > diff.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run AI Review
+        run: python ai_review.py
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Post PR Comment
+        run: python post_comments.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
