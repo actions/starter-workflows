@@ -1,6 +1,0 @@
-{
-  "name": "Repo Assist",
-  "description": "A regular, pervasive all-tools repository assistant that triages issues, investigates issues, replies with comments, fixes bugs, proposes engineering improvements, and maintains activity summaries.",
-  "iconName": "octicon dependabot",
-  "categories": ["Agentic", "Maintainer"]
-}
