@@ -1,0 +1,58 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# Checkov is a static code analysis tool for infrastructure as code (IaC).
+# It scans Terraform, CloudFormation, Kubernetes, Helm, ARM templates,
+# Bicep, Dockerfiles, and more for security and compliance misconfigurations.
+#
+# Documentation:    https://www.checkov.io/
+# Getting started:  https://www.checkov.io/1.Welcome/Quick%20Start.html
+
+name: Checkov
+
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ $default-branch ]
+  schedule:
+    - cron: $cron-weekly
+
+permissions:
+  contents: read
+
+jobs:
+  checkov:
+    name: Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read         # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read          # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@4048c972aae68d0b983a48bb3479aab2d877b898
+        with:
+          # Scan the entire repository. Narrow this down to a specific
+          # directory if your IaC files live in a subdirectory, e.g.:
+          #   directory: terraform/
+          directory: .
+          # Emit results in SARIF format for upload to the Security tab.
+          output_format: sarif
+          output_file_path: checkov-results.sarif
+          # Prevent the step from failing the workflow so that SARIF results
+          # are always uploaded, even when issues are found.
+          soft_fail: true
+
+      - name: Upload Checkov scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: checkov-results.sarif
