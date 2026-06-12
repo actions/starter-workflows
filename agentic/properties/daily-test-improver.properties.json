@@ -1,0 +1,6 @@
+{
+  "name": "Daily Test Improver",
+  "description": "Improve test coverage by adding meaningful tests to under-tested areas.",
+  "iconName": "octicon beaker",
+  "categories": ["Agentic", "Code Improvement"]
+}

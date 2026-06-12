@@ -30,6 +30,7 @@ You are welcome to still raise bugs in this repo.
 
 ### Directory structure
 
+* [agentic](agentic): solutions for Agentic starter workflows
 * [ci](ci): solutions for Continuous Integration workflows
 * [deployments](deployments): solutions for Deployment workflows
 * [automation](automation): solutions for automating workflows
@@ -50,6 +51,7 @@ For example: `ci/django.yml` and `ci/properties/django.properties.json`.
 * `categories`: the categories that it will be shown under. Choose at least one category from the list [here](#categories). Further, choose the categories from the list of languages available [here](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml) and the list of tech stacks available [here](https://github.com/github-starter-workflows/repo-analysis-partner/blob/main/tech_stacks.yml). When a user views the available templates, those templates that match the language and tech stacks will feature more prominently.
 
 ### Categories
+* Agentic
 * continuous-integration
 * deployment
 * testing
