@@ -1,0 +1,60 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+#
+# ******** NOTE ********
+# If you do not commit composer.lock or require package installations before auditing:
+#
+#   1. Set up appropriate `php-version`
+#   2. Run `$ composer install` (with `COMPOSER_AUTH` if applicable)
+#   3. Run `$ composer audit` without the `--locked` flag
+#
+# See: https://github.com/typisttech/composer-audit-to-sarif-action#audit-based-on-installed-packages
+
+name: Composer audit
+
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ $default-branch ]
+  schedule:
+    - cron: $cron-weekly
+
+permissions:
+  contents: read # for actions/checkout to fetch code
+  security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+  actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+
+jobs:
+  composer-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            composer.json
+            composer.lock
+          sparse-checkout-cone-mode: false
+
+      - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2.37.2
+        with:
+          php-version: latest
+          coverage: none
+
+      - run: composer audit --locked --format json > audit.json
+        continue-on-error: true
+        # env:
+        #  COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }} # if applicable
+
+      - uses: typisttech/composer-audit-to-sarif-action@b92b7e7b6e54c84918cf6a5e8ffe8058d6749f9e #v0.1.4
+        id: comsarif
+        with:
+          audit: audit.json
+
+      - uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: ${{ steps.comsarif.outputs.sarif }}

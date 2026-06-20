@@ -1,0 +1,11 @@
+{
+    "name": "Composer audit",
+    "description": "Upload Composer audit reports as code scanning alerts",
+    "iconName": "php",
+    "creator": "Typist Tech Limited",
+    "categories": [
+        "Code Scanning",
+        "PHP",
+        "Composer"
+    ]
+}
