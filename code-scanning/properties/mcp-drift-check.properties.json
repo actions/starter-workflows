@@ -1,0 +1,7 @@
+{
+  "name": "MCP Drift Check",
+  "creator": "Tom Elias",
+  "description": "Statically detect mutable npm/npx package references in MCP configs before AI agents run them.",
+  "iconName": "code",
+  "categories": ["Code Scanning"]
+}

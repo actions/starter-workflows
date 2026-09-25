@@ -1,0 +1,46 @@
+# This workflow uses an action that is not certified by GitHub.
+# It is provided by a third party and is governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# MCP Drift Check statically reviews Model Context Protocol configuration files
+# for mutable npm/npx package references. It does not execute discovered MCP
+# servers, download discovered packages, require an API token, or upload configs.
+
+name: MCP Drift Check
+
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    branches: [ $default-branch ]
+
+permissions:
+  contents: read
+
+jobs:
+  mcp-drift-check:
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Scan MCP configuration
+        id: mcp
+        uses: tomelias10/mcp-drift-check@154b8f0897022d720bbe03e2bc882f82c761c1fb # v0.2.3
+        with:
+          fail-on-high: 'false'
+
+      - name: Upload MCP Drift Check results to GitHub Code Scanning
+        if: always()
+        uses: github/codeql-action/upload-sarif@1190a975f95ce23525efb6a3fc21ea29567c1b52 # v3
+        with:
+          sarif_file: ${{ steps.mcp.outputs.sarif-file }}
+
+      - name: Fail on mutable MCP package references
+        if: steps.mcp.outputs.exit-code == '1'
+        run: exit 1
