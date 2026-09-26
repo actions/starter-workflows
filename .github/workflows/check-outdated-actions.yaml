@@ -1,0 +1,35 @@
+# Fails when a workflow depends on an older stable release of an action in the
+# actions organization. The version rule is documented in
+# script/check-outdated-actions/README.md.
+
+name: Check for outdated actions
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check-outdated-actions:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: script/check-outdated-actions/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./script/check-outdated-actions
+        run: npm ci
+
+      # GITHUB_TOKEN stays off the install step. A pull request can change
+      # package.json, and npm runs lifecycle scripts from that file during npm ci.
+      - name: Check action versions
+        working-directory: ./script/check-outdated-actions
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: npx ts-node ./index.ts

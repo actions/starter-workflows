@@ -1,0 +1,16 @@
+{
+  "name": "check-outdated-actions",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.ts",
+  "scripts": {
+    "check": "ts-node ./index.ts"
+  },
+  "author": "github/c2c-actions-experience",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.19.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}
