@@ -1,1 +1,3 @@
 script/**/node_modules
+hello
+*.exe
