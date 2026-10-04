@@ -1,0 +1,24 @@
+name: CI Demo
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Check repository
+        run: |
+          echo "Checking repository..."
+          ls -la
+
+      - name: Run basic test
+        run: |
+          test -f README.md
+          echo "Test passed!"
+
