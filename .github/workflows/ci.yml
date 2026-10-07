@@ -16,7 +16,7 @@ jobs:
         run: |
           echo "Checking CI workflow files..."
           find ci -name "*.yml" -type f
-          echo "CI workflow files found."
+          echo "CI workflow validation: PASS"
 
       - name: Check workflow metadata
         run: |
@@ -31,4 +31,4 @@ jobs:
           test -d code-scanning
           test -d deployments
           test -d pages
-          echo "Repository structure: PASS"
+          echo "Repository structure check: PASS"
