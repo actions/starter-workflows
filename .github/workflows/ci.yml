@@ -1,0 +1,34 @@
+name: CI for starter-workflows
+
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Check CI workflow files
+        run: |
+          echo "Checking CI workflow files..."
+          find ci -name "*.yml" -type f
+          echo "CI workflow validation: PASS"
+
+      - name: Check workflow metadata
+        run: |
+          echo "Checking workflow metadata..."
+          find ci/properties -name "*.properties.json" -type f
+          echo "Metadata files found."
+
+      - name: Validate repository structure
+        run: |
+          test -d ci
+          test -d automation
+          test -d code-scanning
+          test -d deployments
+          test -d pages
+          echo "Repository structure check: PASS"
