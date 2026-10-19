@@ -1,6 +1,6 @@
 #!/usr/bin/env npx ts-node
 import { promises as fs } from "fs";
-import { safeLoad } from "js-yaml";
+import { load } from "js-yaml";
 import { basename, extname, join } from "path";
 import { exec } from "./exec";
 
@@ -98,7 +98,7 @@ async function checkWorkflow(
   const enabledActionsSet = new Set(enabledActions.map((x) => x.toLowerCase()));
   try {
     const workflowFileContent = await fs.readFile(workflowPath, "utf8");
-    const workflow = safeLoad(workflowFileContent);
+    const workflow = load(workflowFileContent);
 
     for (const job of Object.keys(workflow.jobs || {}).map(
       (k) => workflow.jobs[k]

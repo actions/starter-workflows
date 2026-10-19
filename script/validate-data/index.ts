@@ -1,6 +1,6 @@
 #!/usr/bin/env npx ts-node
 import { promises as fs } from "fs";
-import { safeLoad } from "js-yaml";
+import { load } from "js-yaml";
 import { basename, extname, join, dirname } from "path";
 import { Validator as validator } from "jsonschema";
 import { endGroup, error, info, setFailed, startGroup } from '@actions/core';
@@ -78,7 +78,7 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
   }
   try {
     const workflowFileContent = await fs.readFile(workflowPath, "utf8");
-    safeLoad(workflowFileContent); // Validate yaml parses without error
+    load(workflowFileContent); // Validate yaml parses without error
 
     const propertiesFileContent = await fs.readFile(propertiesPath, "utf8")
     const properties: WorkflowProperties = JSON.parse(propertiesFileContent)
@@ -112,12 +112,12 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
         workflowErrors.errors.push(`Workflow categories cannot be null or empty`)
       } 
       else if(!folder_categories.some(category => properties.categories[0].toLowerCase() == category.toLowerCase())) {
-        workflowErrors.errors.push(`The first category in properties.json categories for workflow in ${basename(path)} folder must be one of "${folder_categories}. Either move the workflow to an appropriate directory or change the category."`)
+        workflowErrors.errors.push(`The first category in properties.json categories for workflow in ${basename(path)} folder must be one of "${folder_categories}". Either move the workflow to an appropriate folder or update the first category in its properties.json.`)
       }
     }
 
     if(basename(path).toLowerCase() == 'deployments' && !properties.creator) {
-      workflowErrors.errors.push(`The "creator" in properties.json must be present.`)
+      workflowErrors.errors.push(`The "creator" property in properties.json must be present.`)
     }
   } catch (e) {
     workflowErrors.errors.push(e.toString())
@@ -133,14 +133,14 @@ async function checkWorkflow(workflowPath: string, propertiesPath: string, allow
     )
 
     if (erroredWorkflows.length > 0) {
-      startGroup(`😟 - Found ${erroredWorkflows.length} workflows with errors:`);
+      startGroup(`😟 Found ${erroredWorkflows.length} workflows with errors`);
       erroredWorkflows.forEach(erroredWorkflow => {
-        error(`Errors in ${erroredWorkflow.id} - ${erroredWorkflow.errors.map(e => e.toString()).join(", ")}`)
+        error(`Errors in ${erroredWorkflow.id}: ${erroredWorkflow.errors.map(e => e.toString()).join(", ")}`)
       })
       endGroup();
       setFailed(`Found ${erroredWorkflows.length} workflows with errors`);
     } else {
-      info("🎉🤘 - Found no workflows with errors!")
+      info("🎉🤘 Found no workflows with errors!")
     }
   } catch (e) {
     error(`Unhandled error while syncing workflows: ${e}`);
