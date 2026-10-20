@@ -1,0 +1,6 @@
+{
+  "name": "CI Doctor",
+  "description": "Monitor CI workflows and investigate failures automatically.",
+  "iconName": "octicon pulse",
+  "categories": ["Agentic", "Fault Analysis"]
+}

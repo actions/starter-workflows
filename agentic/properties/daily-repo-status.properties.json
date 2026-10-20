@@ -1,0 +1,6 @@
+{
+  "name": "Daily Repo Status",
+  "description": "Assess repository activity and create status reports.",
+  "iconName": "octicon people",
+  "categories": ["Agentic", "Research & Planning"]
+}
