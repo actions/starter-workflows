@@ -1,0 +1,32 @@
+name: Monitoramento Semanal Leilões RF
+
+on:
+  schedule:
+    - cron: '0 9 * * 6'
+  workflow_dispatch:
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v5
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Instalar Google Chrome e dependências
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget unzip
+          pip install -r requirements.txt
+
+      - name: Executar Agente de Leilão
+        env:
+          EMAIL_ORIGEM: ${{ secrets.EMAIL_ORIGEM }}
+          SENHA_APP: ${{ secrets.SENHA_APP }}
+          EMAIL_DESTINO: ${{ secrets.EMAIL_DESTINO }}
+        run: python agente.py

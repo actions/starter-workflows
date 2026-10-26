@@ -1,0 +1,3 @@
+selenium
+beautifulsoup4
+webdriver-manager
