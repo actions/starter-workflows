@@ -1,0 +1,43 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+#
+# Evergreen scans the checked-out repository locally for end-of-life runtimes,
+# deprecated dependencies, and retired GitHub Actions. It makes no network
+# requests and sends no repository data to a third-party service.
+# See https://github.com/arminazimi/evergreen/blob/main/docs/GITHUB_ACTION.md
+name: Evergreen
+
+on:
+  push:
+    branches: [ $default-branch, $protected-branches ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ $default-branch ]
+  schedule:
+    - cron: $cron-weekly
+
+permissions:
+  contents: read
+
+jobs:
+  evergreen:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for Evergreen to upload SARIF results to code scanning
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Evergreen
+        # Pin third-party actions to a full commit SHA (starter-workflows rule).
+        # v0.7.1 is the current release on the v0 major line.
+        uses: arminazimi/evergreen@a0225978d6fae230468cf7efd47d4b1b3a4cbc33 # v0.7.1
+        with:
+          # A pull request from a fork has a read-only token, which cannot upload SARIF.
+          upload-sarif: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+          # Report findings in code scanning without failing the job.
+          fail-on-severity: none

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Evergreen</title>
+  <desc id="desc">Three lifecycle rings with staggered version notches.</desc>
+  <style>
+    .outer { stroke: #23423A; }
+    .middle { stroke: #4C7C6D; }
+    .inner { stroke: #9AC7B6; }
+    @media (prefers-color-scheme: dark) {
+      .outer { stroke: #23423A; }
+      .middle { stroke: #4C7C6D; }
+      .inner { stroke: #9AC7B6; }
+    }
+  </style>
+  <defs>
+    <mask id="outer-notch"><rect width="256" height="256" fill="white"/><rect x="119" y="18" width="18" height="28" fill="black"/></mask>
+    <mask id="middle-notch"><rect width="256" height="256" fill="white"/><rect x="186" y="119" width="30" height="18" fill="black"/></mask>
+    <mask id="inner-notch"><rect width="256" height="256" fill="white"/><rect x="119" y="160" width="18" height="30" fill="black"/></mask>
+  </defs>
+  <g fill="none" stroke-width="18">
+    <circle class="outer" cx="128" cy="128" r="96" mask="url(#outer-notch)"/>
+    <circle class="middle" cx="128" cy="128" r="70" mask="url(#middle-notch)"/>
+    <circle class="inner" cx="128" cy="128" r="44" mask="url(#inner-notch)"/>
+  </g>
+</svg>
+

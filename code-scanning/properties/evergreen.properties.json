@@ -1,0 +1,17 @@
+{
+  "name": "Evergreen",
+  "creator": "Evergreen",
+  "description": "Find end-of-life runtimes, deprecated dependencies, and retired GitHub Actions in your repository, with evidence and exact locations. Scans run locally and make no network requests.",
+  "iconName": "evergreen",
+  "categories": [
+    "Code Scanning",
+    "JavaScript",
+    "TypeScript",
+    "Python",
+    "Java",
+    "Go",
+    "Ruby",
+    "PHP",
+    "Dockerfile"
+  ]
+}
