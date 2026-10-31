@@ -32,10 +32,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - id: run-action
-        uses: sobelow/action@1afd6d2cae70ae8bd900b58506f54487ed863912
+        uses: sobelow/action@4c2cc216597acef2c5f8b4b2e49ad591be36ce36
       - name: Upload report
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: results.sarif

@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -40,7 +40,7 @@ jobs:
         run: ./gradlew build                                         # Update this to build your Android or iOS application
 
       - name: Appknox GitHub action
-        uses: appknox/appknox-github-action@b7d2bfb2321d5544e97bffcba48557234ab953a4
+        uses: appknox/appknox-github-action@13f49a986fc0f12e103650ab36a35334f02969af
         with:
           appknox_access_token: ${{ secrets.APPKNOX_ACCESS_TOKEN }}
           file_path: app/build/outputs/apk/debug/app-debug.apk        # Specify the path to your .ipa or .apk here
@@ -49,6 +49,6 @@ jobs:
 
       - name: Upload SARIF to GHAS
         if: always()
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: report.sarif

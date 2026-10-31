@@ -42,13 +42,13 @@ jobs:
       contents: read
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Build your application
         run: ./gradlew assembleDebug              # Update this to build your Android or iOS application
 
       - name: NowSecure upload app
-        uses: nowsecure/nowsecure-sbom-action@ecb731b6f17a83fa53f756f9dae2ec7034c5ed7c
+        uses: nowsecure/nowsecure-sbom-action@e64cb6d8d39d4cb6c58b4491fa4817b7a8ef3c14
         with:
           token: ${{ secrets.NS_TOKEN }}
           app_file: app-debug.apk                 # Update this to a path to your .ipa or .apk

@@ -33,10 +33,10 @@ jobs:
       security-events: write
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     - name: Setup Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v7
 
     - name: Install and configure JFrog CLI
       run: |
@@ -49,6 +49,6 @@ jobs:
 
 
     - name: Upload output to generate autofix
-      uses: github/codeql-action/upload-sarif@v3
+      uses: github/codeql-action/upload-sarif@v4
       with:
         sarif_file: jfrog_sast.sarif
