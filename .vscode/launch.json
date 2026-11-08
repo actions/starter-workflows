@@ -5,6 +5,86 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Embedded Debug",
+      "type": "embedded-debug",
+      "request": "launch",
+      "serialNumber": "<serial number of your device>",
+      "program": "${command:embedded-debug.getApplicationFile}",
+      "cmsisPack": "<path or URL of CMSIS Pack for your device>"
+    },
+    {
+      "name": "Embedded Debug",
+      "type": "embedded-debug",
+      "request": "launch",
+      "serialNumber": "${command:device-manager.getSerialNumber}",
+      "program": "${command:embedded-debug.getApplicationFile}",
+      "cmsisPack": "${command:device-manager.getDevicePack}"
+    },
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "Invoke Lambda with API Gateway",
+      "invokeTarget": {
+        "target": "api",
+        "templatePath": "Template Location",
+        "logicalId": "Function Logical ID"
+      },
+      "api": {
+        "path": "Path",
+        "httpMethod": "Method",
+        "payload": {
+          "json": {}
+        }
+      }
+    },
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "Invoke Lambda",
+      "invokeTarget": {
+        "target": "template",
+        "templatePath": "Template Location",
+        "logicalId": "Function Logical ID"
+      },
+      "lambda": {
+        "payload": {
+          "json": {}
+        }
+      }
+    },
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "Invoke Lambda with API Gateway",
+      "invokeTarget": {
+        "target": "api",
+        "templatePath": "Template Location",
+        "logicalId": "Function Logical ID"
+      },
+      "api": {
+        "path": "Path",
+        "httpMethod": "Method",
+        "payload": {
+          "json": {}
+        }
+      }
+    },
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "Invoke Lambda",
+      "invokeTarget": {
+        "target": "template",
+        "templatePath": "Template Location",
+        "logicalId": "Function Logical ID"
+      },
+      "lambda": {
+        "payload": {
+          "json": {}
+        }
+      }
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
