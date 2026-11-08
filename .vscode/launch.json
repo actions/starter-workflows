@@ -8,6 +8,14 @@
       "name": "Embedded Debug",
       "type": "embedded-debug",
       "request": "launch",
+      "serialNumber": "<serial number of your device>",
+      "program": "${command:embedded-debug.getApplicationFile}",
+      "cmsisPack": "<path or URL of CMSIS Pack for your device>"
+    },
+    {
+      "name": "Embedded Debug",
+      "type": "embedded-debug",
+      "request": "launch",
       "serialNumber": "${command:device-manager.getSerialNumber}",
       "program": "${command:embedded-debug.getApplicationFile}",
       "cmsisPack": "${command:device-manager.getDevicePack}"
