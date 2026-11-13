@@ -32,7 +32,7 @@ jobs:
   composer-audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
           sparse-checkout: |
@@ -40,7 +40,7 @@ jobs:
             composer.lock
           sparse-checkout-cone-mode: false
 
-      - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2.37.2
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2.40.0
         with:
           php-version: latest
           coverage: none
@@ -50,7 +50,7 @@ jobs:
         # env:
         #  COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }} # if applicable
 
-      - uses: typisttech/composer-audit-to-sarif-action@b92b7e7b6e54c84918cf6a5e8ffe8058d6749f9e #v0.1.4
+      - uses: typisttech/composer-audit-to-sarif-action@ea2d9b661995ad0aea09e80d61d1dc610a83c0d1 #v0.1.5
         id: comsarif
         with:
           audit: audit.json
