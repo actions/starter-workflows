@@ -1,0 +1,24 @@
+{
+  "name": "EthicalCheck",
+  "creator": "APIsec",
+  "description": "EthicalCheck provides the industry’s only free & automated API security testing service that uncovers security vulnerabilities using OWASP API list.",
+  "iconName": "apisec",
+  "categories": [
+    "Code Scanning",
+    "C",
+    "C#",
+    "C++",
+    "Go",
+    "Java",
+    "JavaScript",
+    "Kotlin",
+    "Objective C",
+    "PHP",
+    "Python",
+    "Ruby",
+    "Rust",
+    "Scala",
+    "Swift",
+    "TypeScript"
+  ]
+}

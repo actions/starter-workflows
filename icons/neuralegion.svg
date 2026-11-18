@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Layer_1" data-name="Layer 1" viewBox="0 0 32 32">
+  <defs>
+    <style>.cls-1{fill:none;}.cls-2{fill:#00a8b7;}.cls-3{clip-path:url(#clip-path);}.cls-4{fill:#fff;}.cls-5{fill:#ee4036;}</style>
+    <clipPath id="clip-path">
+      <rect class="cls-1" x="2.69" y="1" width="26.62" height="30" />
+    </clipPath>
+  </defs>
+  <title>NeuraLegion Logo</title>
+  <rect class="cls-2" x="10.08" y="1.86" width="0.47" height="11.32" transform="translate(-2.29 9.54) rotate(-45.22)" />
+  <rect class="cls-2" x="10.22" y="1.74" width="0.47" height="18.7" transform="translate(-4.05 6.41) rotate(-28.8)" />
+  <rect class="cls-2" x="9.82" y="2.43" width="0.47" height="26.34" transform="translate(-4.99 4.72) rotate(-21.33)" />
+  <rect class="cls-2" x="6.07" y="2.68" width="8.37" height="0.47" />
+  <rect class="cls-2" x="5.95" y="11.82" width="8.37" height="0.47" />
+  <rect class="cls-2" x="5.95" y="20.17" width="8.37" height="0.47" />
+  <polygon class="cls-2" points="14.16 20.35 5.79 12.62 6.11 12.28 14.48 20.01 14.16 20.35" />
+  <rect class="cls-2" x="9.9" y="19.68" width="0.47" height="11.39" transform="translate(-15.38 15.6) rotate(-47.27)" />
+  <rect class="cls-2" x="4.91" y="7.41" width="11.06" height="0.47" transform="translate(-2.43 9.01) rotate(-42.26)" />
+  <rect class="cls-2" x="5.02" y="16.06" width="11" height="0.47" transform="translate(-8.09 10.82) rotate(-40.75)" />
+  <rect class="cls-2" x="1.74" y="11.57" width="17.39" height="0.47" transform="translate(-5.2 13.79) rotate(-55.76)" />
+  <rect class="cls-2" x="16.03" y="7.3" width="11.32" height="0.47" transform="translate(0.99 17.47) rotate(-44.79)" />
+  <rect class="cls-2" x="12.32" y="10.79" width="18.53" height="0.47" transform="translate(1.53 24.64) rotate(-61.23)" />
+  <rect class="cls-2" x="8.78" y="15.38" width="26.34" height="0.47" transform="translate(-0.58 30.37) rotate(-68.65)" />
+  <rect class="cls-2" x="17.56" y="2.7" width="8.37" height="0.47" />
+  <rect class="cls-2" x="17.68" y="11.83" width="8.37" height="0.47" />
+  <rect class="cls-2" x="17.68" y="20.18" width="8.37" height="0.47" />
+  <rect class="cls-2" x="16.17" y="16.09" width="11.39" height="0.47" transform="translate(-5.27 19.2) rotate(-42.8)" />
+  <polygon class="cls-2" points="17.84 29.43 17.52 29.09 25.89 21.36 26.2 21.7 17.84 29.43" />
+  <rect class="cls-2" x="21.32" y="2.13" width="0.47" height="11.06" transform="translate(1.39 18.47) rotate(-47.75)" />
+  <rect class="cls-2" x="21.25" y="10.81" width="0.47" height="11" transform="translate(-4.9 21.93) rotate(-49.23)" />
+  <rect class="cls-2" x="21.15" y="2.79" width="0.47" height="17.81" transform="translate(-2.86 14.26) rotate(-34.73)" />
+  <rect class="cls-2" x="4.37" y="2.82" width="0.47" height="16.94" />
+  <rect class="cls-2" x="27.16" y="2.82" width="0.47" height="16.94" />
+  <g class="cls-3">
+    <path class="cls-4" d="M17.69,2.92A1.69,1.69,0,1,1,16,1.22a1.69,1.69,0,0,1,1.69,1.7" />
+    <path class="cls-4" d="M17.69,11.66A1.69,1.69,0,1,1,16,10a1.68,1.68,0,0,1,1.69,1.69h0" />
+    <path class="cls-4" d="M17.69,20.4A1.69,1.69,0,1,1,16,18.71h0a1.69,1.69,0,0,1,1.69,1.69" />
+    <path class="cls-4" d="M17.69,29.08A1.69,1.69,0,1,1,16,27.39h0a1.69,1.69,0,0,1,1.69,1.69" />
+    <path class="cls-5" d="M16,1.48a1.45,1.45,0,1,0,1.45,1.45A1.45,1.45,0,0,0,16,1.48m0,3.37a1.92,1.92,0,1,1,1.94-1.93A1.92,1.92,0,0,1,16,4.85h0" />
+    <path class="cls-5" d="M16,10.21a1.45,1.45,0,1,0,1.45,1.45A1.45,1.45,0,0,0,16,10.21m0,3.37a1.92,1.92,0,1,1,1.94-1.92A1.92,1.92,0,0,1,16,13.58h0" />
+    <path class="cls-5" d="M16,19a1.46,1.46,0,1,0,1.45,1.45A1.45,1.45,0,0,0,16,19m0,3.37a1.92,1.92,0,1,1,1.94-1.92A1.92,1.92,0,0,1,16,22.32h0" />
+    <path class="cls-5" d="M16,27.63a1.45,1.45,0,1,0,1.45,1.45A1.45,1.45,0,0,0,16,27.63M16,31a1.92,1.92,0,0,1,0-3.84A1.92,1.92,0,0,1,16,31h0" />
+    <path class="cls-4" d="M6.29,2.92A1.7,1.7,0,1,1,4.6,1.22a1.69,1.69,0,0,1,1.69,1.7" />
+    <path class="cls-5" d="M4.61,1.48A1.45,1.45,0,1,0,6.06,2.93,1.46,1.46,0,0,0,4.61,1.48m0,3.37A1.92,1.92,0,1,1,6.53,2.93,1.92,1.92,0,0,1,4.61,4.85" />
+    <path class="cls-4" d="M6.29,11.66A1.7,1.7,0,1,1,4.6,10a1.69,1.69,0,0,1,1.69,1.69h0" />
+    <path class="cls-5" d="M4.61,10.21a1.45,1.45,0,1,0,1.45,1.45,1.46,1.46,0,0,0-1.45-1.45m0,3.37a1.92,1.92,0,1,1,1.92-1.92h0a1.93,1.93,0,0,1-1.92,1.92" />
+    <path class="cls-4" d="M6.29,20.4A1.7,1.7,0,1,1,4.6,18.71h0A1.69,1.69,0,0,1,6.29,20.4" />
+    <path class="cls-5" d="M4.61,19A1.46,1.46,0,1,0,6.06,20.4,1.46,1.46,0,0,0,4.61,19m0,3.37A1.92,1.92,0,1,1,6.53,20.4h0a1.93,1.93,0,0,1-1.92,1.92" />
+    <path class="cls-4" d="M25.71,2.93A1.7,1.7,0,1,0,27.4,1.24a1.7,1.7,0,0,0-1.69,1.69" />
+    <path class="cls-5" d="M27.39,1.48a1.45,1.45,0,1,0,1.46,1.45,1.45,1.45,0,0,0-1.46-1.45m0,3.37a1.92,1.92,0,1,1,1.92-1.92h0a1.92,1.92,0,0,1-1.92,1.92" />
+    <path class="cls-4" d="M25.71,11.67A1.7,1.7,0,1,0,27.4,10h0a1.69,1.69,0,0,0-1.69,1.69" />
+    <path class="cls-5" d="M27.39,10.22a1.46,1.46,0,1,0,1.46,1.45,1.45,1.45,0,0,0-1.46-1.45m0,3.37a1.92,1.92,0,1,1,1.92-1.92h0a1.92,1.92,0,0,1-1.92,1.92" />
+    <path class="cls-4" d="M25.71,20.42a1.7,1.7,0,1,0,1.69-1.7,1.69,1.69,0,0,0-1.69,1.7" />
+    <path class="cls-5" d="M27.39,19a1.45,1.45,0,1,0,1.46,1.45A1.45,1.45,0,0,0,27.39,19m0,3.36a1.92,1.92,0,1,1,1.92-1.92h0a1.92,1.92,0,0,1-1.92,1.91" />
+  </g>
+</svg>
+

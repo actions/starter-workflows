@@ -1,0 +1,6 @@
+{
+    "name": "Haskell Dockerfile Linter",
+    "description": "A smarter Dockerfile linter that helps you build best practice Docker images.",
+    "iconName": "hadolint",
+    "categories": ["Code Scanning", "Dockerfile"]
+}

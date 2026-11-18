@@ -1,0 +1,7 @@
+{
+    "name": "Jscrambler Code Integrity",
+    "description": "Protect your JavaScript Application with polymorphic obfuscation, code locks, and self-defensive techniques",
+    "creator": "Jscrambler",
+    "iconName": "jscrambler",
+    "categories": ["Code Scanning", "JavaScript", "HTML"]
+}

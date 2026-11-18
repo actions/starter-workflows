@@ -1,0 +1,7 @@
+{
+  "name": "Policy Validator for CloudFormation",
+  "creator": "Amazon Web Services",
+  "description": "Validate AWS IAM Policies in CloudFormation Templates powered IAM Access Analyzer",
+  "iconName": "aws",
+  "categories": ["Code Scanning", "AWS", "Python"]
+}

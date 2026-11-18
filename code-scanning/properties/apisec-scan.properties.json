@@ -1,0 +1,24 @@
+{
+  "name": "APIsec Scan",
+  "creator": "APIsec",
+  "description": "APIsec provides the industry’s only automated and continuous API testing platform that uncovers security vulnerabilities and logic flaws in APIs.",
+  "iconName": "apisec",
+  "categories": [
+    "Code Scanning",
+    "C",
+    "C#",
+    "C++",
+    "Go",
+    "Java",
+    "JavaScript",
+    "Kotlin",
+    "Objective C",
+    "PHP",
+    "Python",
+    "Ruby",
+    "Rust",
+    "Scala",
+    "Swift",
+    "TypeScript"
+  ]
+}

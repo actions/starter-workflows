@@ -26,6 +26,7 @@ It is not:
 - [ ] Should use sentence case for the names of workflows and steps (for example, "Run tests").
 - [ ] Should be named _only_ by the name of the language or platform (for example, "Go", not "Go CI" or "Go Build").
 - [ ] Should include comments in the workflow for any parts that are not obvious or could use clarification.
+- [ ] Should specify least privileged [permissions](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token) for `GITHUB_TOKEN` so that the workflow runs successfully.
 
 **For _CI_ workflows, the workflow:**
 
@@ -37,10 +38,10 @@ It is not:
 
 **For _Code Scanning_ workflows, the workflow:**
 
-- [ ] Should be preserved under [the `code-scanning` directory](https://github.com/actions/starter-workflows/tree/main/ci).
+- [ ] Should be preserved under [the `code-scanning` directory](https://github.com/actions/starter-workflows/tree/main/code-scanning).
 - [ ] Should include a matching `code-scanning/properties/*.properties.json` file (for example, [`code-scanning/properties/codeql.properties.json`](https://github.com/actions/starter-workflows/blob/main/code-scanning/properties/codeql.properties.json)), with properties set as follows:
   - [ ] `name`: Name of the Code Scanning integration.
-  - [ ] `organization`: Name of the organization producing the Code Scanning integration.
+  - [ ] `creator`: Name of the organization/user producing the Code Scanning integration.
   - [ ] `description`: Short description of the Code Scanning integration.
   - [ ] `categories`: Array of languages supported by the Code Scanning integration.
   - [ ] `iconName`: Name of the SVG logo representing the Code Scanning integration. This SVG logo must be present in [the `icons` directory](https://github.com/actions/starter-workflows/tree/main/icons).

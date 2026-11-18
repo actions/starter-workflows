@@ -1,0 +1,6 @@
+{
+    "name": "Static HTML",
+    "description": "Deploy static files in a repository without a build.",
+    "iconName": "html",
+    "categories": ["Pages", "HTML", "JavaScript", "CSS"]
+}

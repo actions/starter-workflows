@@ -1,0 +1,7 @@
+{
+    "name": "Contrast Scan",
+    "creator": "Contrast Security Inc",
+    "description": "Scans Pull Requests on each push for the introduction and/or resolution of vulnerabilities to the repository.",
+    "iconName": "contrast",
+    "categories": ["Code Scanning", "java", "javascript", "dotnet"]
+}

@@ -1,3 +1,8 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
 name: Symfony
 
 on:
@@ -5,6 +10,9 @@ on:
     branches: [ $default-branch ]
   pull_request:
     branches: [ $default-branch ]
+
+permissions:
+  contents: read
 
 jobs:
   symfony-tests:
@@ -16,12 +24,12 @@ jobs:
     - uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
       with:
         php-version: '8.0'
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Copy .env.test.local
       run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
     - name: Cache Composer packages
       id: composer-cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: vendor
         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}

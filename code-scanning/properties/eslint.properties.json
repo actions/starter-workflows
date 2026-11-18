@@ -1,0 +1,12 @@
+{
+    "name": "ESLint",
+    "description": "A tool for identifying and reporting the problems found in ECMAScript/JavaScript code.",
+    "iconName": "eslint",
+    "enterprise": false,
+    "categories": [
+        "Code Scanning",
+        "JavaScript",
+        "EcmaScript",
+        "TypeScript"
+    ]
+}

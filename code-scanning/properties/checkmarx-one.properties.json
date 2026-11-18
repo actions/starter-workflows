@@ -1,0 +1,7 @@
+{
+    "name": "Checkmarx",
+    "creator": "Checkmarx",
+    "description": "Beat vulnerabilities with more secure code.Scan your code with Checkmarx One and see results in the GitHub code scanning.",
+    "iconName": "checkmarx",
+    "categories": ["Code Scanning", "javascript", "python", "java", "php", "c#", "c", "c++", "ruby", "swift", "go", "json", "kotlin", "apex", "scala", "perl"]
+}

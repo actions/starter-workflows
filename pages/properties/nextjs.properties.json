@@ -1,0 +1,6 @@
+{
+    "name": "Next.js",
+    "description": "Package a Next.js site.",
+    "iconName": "nextjs",
+    "categories": ["Pages", "Next"]
+}
